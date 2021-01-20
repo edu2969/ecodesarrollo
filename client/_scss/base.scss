@@ -1,0 +1,91 @@
+@font-face {
+  font-family: BebasNeue Regular;
+  font-weigth: normal;
+  src: url('fonts/BabasNeue/BebasNeue-Regular.woff');
+}
+
+@font-face {
+  font-family: BebasNeue Bold;
+  font-weigth: bold;
+  src: url('fonts/BabasNeue/BebasNeue-Bold.woff');
+}
+
+body {
+  padding: 0px;
+  margin: 0px;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: BebasNeue Regular, sans-serif;
+  color: darkslategrey;
+}
+
+input[type="password"],
+input[type="text"],
+textarea {
+  border: 2px solid #ccc;
+  border-radius: 2em;  
+  font-size: 12px;
+  background: transparent;
+  background-color: rgba(255, 255, 255, 0.8);
+  color: black;
+}
+
+input[type="text"],
+input[type="password"],
+textarea {
+  padding: 12px 16px 12px 16px;
+	width: 100%;
+}
+
+small {
+  font-size: 55%;
+  color: darkgray;
+}
+
+button.btn-juegas {
+  color: white;
+  border-radius: 1.6em;
+  background: #05BCC6;
+  padding: .8em 1.5em;
+  border: 0px;
+  background: linear-gradient(180deg, "#05BCC6" 0%, "#3CCC91" 100%);
+  font-size: 12px;
+  -webkit-box-shadow: 0px 0px 11px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 0px 11px 0px rgba(0,0,0,0.75);
+  box-shadow: 0px 0px 11px 0px rgba(0,0,0,0.75);
+}
+
+select {
+  border: 2px solid #ccc;
+  border-radius: 2em;  
+  font-size: 12px;
+  padding: 12px 16px;
+  background: transparent;
+  background-color: rgba(255, 255, 255, 0.8);
+  color: black;
+}
+
+button {
+	position: relative;
+	&.btn-juegas {
+		span {
+			position: relative;
+			top: -5px;
+		}
+		
+		.material-icons {
+  		font-size: 24px;
+			margin: 0px;
+		}
+	}
+}
+
+h4 {
+  font-weight: lighter;
+}
+
+.errores {
+	color: orangered;
+	font-size: 12px;
+}

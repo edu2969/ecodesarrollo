@@ -1,0 +1,82 @@
+<template name="tarea">
+	<div class="contenedor-tarea">
+		<div class="cruz">
+			<i class="material-icons">clear</i>
+		</div>
+		<div class="detalle">
+			<h1>
+				{{#if tarea.descripcion}}
+					<span class="material-icons">create</span> Editar Desafío
+				{{else}}
+					<span class="material-icons">add_task</span> Nuevo Desafío
+				{{/if}}
+			</h1>
+			<div class="campo-formulario">
+				<div class="label">Título</div>
+				<input type="text" id="input-titulo" class="campo" value="{{tarea.titulo}}">
+			</div>
+			<div class="campo-descripcion">
+				{{> htmleditor}}
+			</div>			
+			<div class="campo-formulario">
+				<input id="radio-video" type="radio" name="tipo-capsula" value="video"> Video MP4
+				<input id="radio-youtube" type="radio" name="tipo-capsula" value="youtube"> Youtube
+				<input id="radio-url" type="radio" name="tipo-capsula" value="url"> URL
+			</div>
+			<div class="campo-formulario cuadro-capsula" id="tipo-video">
+				<div class="label">Arrastre su video</div>
+				<div class="marco-video-upload">
+					<div class="video">
+						<i class="material-icons">videocam</i><br />
+						<p>Subir / Arrastrar<br />video MP4</p>
+						<div class="drop-video"></div>
+						{{#with currentUpload}}
+						<div class="uploading-video">
+							<progress id="video-upload" value="0" max="100"> {{progress.get}}% </progress>
+						</div>
+						{{/with}}
+						<input type="file" id="upload-video">
+					</div>
+					<div class="nombre-archivo {{#unless capsula}}rojo{{/unless}}">
+						{{#if capsula}}
+							<i class="material-icons">attach_file</i><a link="{{capsula}}"> capsula.mp4</a>
+						{{else}}
+							<i class="material-icons">videocam_off</i><span> Sin video</span>
+						{{/if}}
+					</div>
+				</div>
+			</div>
+			<div class="campo-formulario cuadro-capsula" id="tipo-youtube">
+				<div class="label">URL Cápsula</div>
+				<input type="text" id="input-youtube" class="campo" value="{{tarea.youtube}}">				
+			</div>
+			<div class="campo-formulario cuadro-capsula" id="tipo-url">
+				<div class="label">URL Cápsula</div>
+				<input type="text" id="input-url" class="campo" value="{{tarea.url}}">				
+			</div>
+			<div class="campo-formulario addonleft">
+				<div class="label">Fecha Inicio</div>
+				<input type="text" id="input-desde" class="datetimepicker-component campo" 
+							 value="{{formatoFecha tarea.desde 'DD/MM/YYYY HH:mm'}}">
+				<i class="material-icons">calendar_today</i>				
+			</div>
+			<div class="campo-formulario addonleft">
+				<div class="label">Fecha Término</div>
+				<input type="text" id="input-hasta" class="datetimepicker-component campo" 
+							 value="{{formatoFecha tarea.hasta 'DD/MM/YYYY HH:mm'}}">
+				<i class="material-icons">calendar_today</i>				
+			</div>
+
+			<button class="btn-juegas btn-guardar-tarea">
+				<i class="material-icons">save</i>
+				<span>Guardar TAREA</span>
+			</button>
+			
+			<button class="btn-juegas btn-eliminar-tarea">
+				<i class="material-icons">delete_forever</i>
+				<span>ELIMINAR</span>
+			</button>
+
+		</div>
+	</div>
+</template>

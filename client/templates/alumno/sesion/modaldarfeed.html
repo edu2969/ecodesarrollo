@@ -1,0 +1,35 @@
+<template name="modaldarfeed">
+  <div class="modal" id="modaldarfeed">
+    <div class="overlay"></div>
+    <div class="contenido">
+      <div class="cruz">
+        <i class="material-icons">close</i>
+      </div>
+      <div class="titulo">
+        <h3>Cómo te fue!</h3>
+        <div class="tip">
+          <i class="material-icons">info</i>
+          <span>Tu feedback nos ayuda a entregarte el mejor programa</span>
+        </div>
+      </div>      
+      <div class="evaluacion">
+        <div class="ejercicio">100 mts. running</div>
+        <div class="nota" numero="1">
+          {{> estrellas valor="1" }}
+        </div>
+      </div>
+      <div class="evaluacion">
+        <div class="ejercicio">100 mts. running</div>
+        <div class="nota" numero="1">
+          {{> estrellas valor="3" }}
+        </div>
+      </div>
+      <div class="evaluacion">
+        <div class="ejercicio">100 mts. running</div>
+        <div class="nota" numero="1">
+          {{> estrellas valor="5" }}
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

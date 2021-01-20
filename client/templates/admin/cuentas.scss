@@ -1,0 +1,48 @@
+.selector {
+	display: flex;
+	justify-content: center;
+	
+	div {
+		margin-right: 1em;
+		
+		&.curso {
+			visibility: hidden;
+			
+			&.activo {
+				visibility: visible;
+			}
+		}
+	}
+}
+
+.contenedor-cuentas {
+	display: flex;
+	flex-wrap: wrap;
+	overflow-y: scroll;
+	height: calc(100vh - 180px);
+				
+	.contenedor-cuenta {
+		padding: 1em;
+		margin: 1em;
+		text-align: left;
+		background-color: #000000AA;
+		border: 2px solid gray;
+		border-radius: 8px;
+		color: white;
+		max-height: 116px;
+		
+		.nombres {
+			font-size: 20px;
+			font-weight: bold;
+		}
+		
+		.btn-juegas {
+			padding: 4px 8px;
+			margin-right: 4px;
+			border-radius: 4px;
+			&.peligroso {
+				background-color: salmon;
+			}
+		}
+	}
+}

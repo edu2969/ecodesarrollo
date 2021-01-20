@@ -1,0 +1,11 @@
+{
+  "dimitrk.exclude-indexing-filetree.excludeList": [
+        ".git(?!ignore)",
+        ".meteor",
+        ".idea",
+        "cordova-build-override",
+        "dist",
+        "bower_components",
+        "node_modules"
+    ]
+}

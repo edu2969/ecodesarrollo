@@ -1,0 +1,118 @@
+<template name="modalconsultarprofesor">
+	<div class="modal" id="modalconsultarprofesor">
+		<div class="overlay"></div>
+		<div class="contenido">
+			<div class="cruz">
+				<i class="material-icons">close</i>
+			</div>
+			<div class="titulo">
+				{{#unless profesor}}
+				<h3>Consulta a un profesor</h3>
+				<span>Selecciona al profesor y tu medio de contacto</span>
+				{{else}}
+				<h3>Escribe tu duda</h3>
+				<span>Detalla tu duda y envíasela al profesor</span>
+				{{/unless}}
+			</div>
+
+			<div class="seleccion asignaturas">
+				<div class="asignatura">
+					{{#each profesores}}
+					<div class="opcion" id="{{_id}}" numero="1">
+						<div class="avatar">
+							<img src="{{avatar}}"><br />
+							<span class="material-icons">{{asignatura.icon}}</span>
+							<p style="font-size: 11px;">{{asignatura.label}}</p>
+						</div>
+					</div>
+					{{/each}}
+					<!--div class="opcion" numero="2">
+						<div class="avatar">
+							<img src="/img/profesores/profe2.jpg"><br />
+							<span class="material-icons">calculate</span>
+							<p style="font-size: 11px;">Matemáticas</p>
+						</div>
+					</div>
+					<div class="opcion" numero="3">
+						<div class="avatar">
+							<img src="/img/profesores/profe3.jpg"><br />
+							<span class="material-icons">closed_caption</span>
+							<p style="font-size: 11px;">Inglés</p>
+						</div>
+					</div>
+				</div>
+
+				<div class="asignatura">
+					<div class="opcion" numero="1">
+						<div class="avatar">
+							<img src="/img/profesores/profe4.jpg"><br />
+							<span class="material-icons">language</span>
+							<p style="font-size: 11px;">Lenguaje</p>
+						</div>
+					</div>
+					<div class="opcion" numero="2">
+						<div class="avatar">
+							<img src="/img/profesores/profe5.jpg"><br />
+							<span class="material-icons">science</span>
+							<p style="font-size: 11px;">Ciencias</p>
+						</div>
+					</div>
+					<div class="opcion" numero="3">
+						<div class="avatar">
+							<img src="/img/profesores/profe6.jpg"><br />
+							<span class="material-icons">explore</span>
+							<p style="font-size: 11px;">Orientación</p>
+						</div>
+					</div>
+				</div>
+
+				<div class="asignatura">
+					<div class="opcion" numero="1">
+						<div class="avatar">
+							<img src="/img/profesores/profe7.jpg"><br />
+							<span class="material-icons">music_note</span>
+							<p style="font-size: 11px;">Música</p>
+						</div>
+					</div>
+					<div class="opcion" numero="2">
+						<div class="avatar">
+							<img src="/img/profesores/profe8.jpg"><br />
+							<span class="material-icons">add_location</span>
+							<p style="font-size: 11px;">Religión</p>
+						</div>
+					</div>
+					<div class="opcion" numero="3">
+						<div class="avatar">
+							<img src="/img/profesores/profe9.jpg"><br />
+							<span class="material-icons">memory</span>
+							<p style="font-size: 11px;">Tecnología</p>
+						</div>
+					</div-->
+				</div>
+
+			</div>
+
+			<div class="seleccion mensaje">
+				{{#if profesor}}
+				<div class="opcion">
+					<div class="avatar">
+						<img src="{{profesor.avatar}}"><br />
+						<span class="material-icons">{{profesor.asignatura.icon}}</span>
+						<p style="font-size: 11px;">{{profesor.asignatura.label}}</p>
+					</div>
+				</div>
+				{{/if}}
+				<textarea rows="4" placeholder="Pregunte aquí"></textarea><br />
+				<button class="btn-juegas btn-enviar-consulta">
+					<i class="material-icons">send</i> 
+					<span> Enviar</span>
+				</button>
+			</div>
+
+			<div class="tip">
+				<i class="material-icons">info</i>
+				<span> El profesor contestará dentro de 48 hrs.</span>
+			</div>
+		</div>
+	</div>
+</template>

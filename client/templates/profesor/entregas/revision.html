@@ -1,0 +1,48 @@
+<template name="revision">
+	<div class="contenedor-revision">
+		<div class="cruz">
+			<i class="material-icons">clear</i>
+		</div>
+		<div class="detalle">
+			<h1><span class="material-icons">rule</span> Revisión <small>{{revision.tarea.titulo}}</small></h1>
+			<div class="descripcion">
+				<div class="encabezado">
+					<i class="material-icons">keyboard_arrow_down</i>
+					&nbsp;<span>EL DESAFÍO</span>
+				</div>
+				<p>{{revision.tarea.descripcion}}</p>
+			</div>
+
+			<div class="fotos">
+				{{#each fotos}}
+				<div class="foto" id="{{_id}}">
+					<img src="{{imagen}}">
+					<p class="nombre">Página {{indice}}</p>
+				</div>
+				{{/each}}
+			</div>
+			
+			<h4>{{#if revision.entrega.evaluacion}}Ésta fue tu evaluación{{else}}¿Cómo calificas ésta entrega?{{/if}}</h4>
+			<div class="marco-evaluaciones">				
+				{{#each evaluaciones}}
+				<div class="evaluacion{{#if seleccionado}} seleccionado{{/if}}" style="background-color: {{color}}" id="{{llave}}">
+					<span class="material-icons">{{icono}}</span>
+					<p>{{etiqueta}}</p>
+				</div>
+				{{/each}}
+			</div>
+			
+			<div class="cuadro-comentario">
+				<p>{{#if revision.entrega.evalacion}}Esta fue la evaluación{{else}}¿Algún comentario?{{/if}}</p>
+				<textarea rows="5" id="input-comentarios" style="width: 320px">{{revision.entrega.comentario}}</textarea>
+			</div>
+			
+			<button class="btn-juegas btn-guardar-revision">
+				<i class="material-icons">save</i>
+				<span>Guardar evaluación</span>
+			</button>
+
+		</div>
+	</div>
+	{{> foto}}
+</template>

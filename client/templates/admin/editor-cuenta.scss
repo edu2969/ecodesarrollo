@@ -1,0 +1,78 @@
+.contenedor-editor-cuenta {
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  display: block;
+  top: 0;
+  transform: translate(100%, 0); 
+  transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
+	padding-top: 42px;
+	color: white;
+	
+	.titulo {
+		margin-top: -40px;
+	}
+	
+	&.activo {
+		transform: translate(0%, 0); 
+		transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
+	}
+	
+	.cruz {
+		position: absolute;
+		right: 10px;
+		top: 10px;
+		font-size: 18px;
+	}
+	
+	.formulario {
+		max-width: 420px;
+		text-align: justify;
+		margin: 1em auto;
+		
+		.contenedor-extras {
+			display: none;
+			
+			&.activo {
+				display: block;
+			}
+		}
+		
+		.campo {
+			margin-top: 0.5em;
+			
+			ul {
+				columns: 3;
+				-webkit-columns: 3;
+				-moz-columns: 3;
+				
+				li {
+					list-style-type: none;
+				}
+			}
+			
+			input.is-invalid {
+				border: 2px solid salmon;
+			}
+		}
+		
+		.error {
+			color: salmon;
+			background-color: white;
+			border-radius: 4px;
+			text-align: center;
+			margin-top: 1em;
+			
+			span {
+				position: relative;
+    		top: -6px;
+			}
+		}
+		
+		#btn-guardar {
+			margin-top: 2em;
+		}
+	}
+}
+
+

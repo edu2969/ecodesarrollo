@@ -1,0 +1,101 @@
+<template name="panel">
+  <div id="contenedor-panel" class="contenedor capa-gradiante blanca" style="{{#if esAlumno}}background-image: url(img/parque.png);
+	background-size: cover;{{/if}}">
+    <div class="menu"><i class="material-icons">menu</i></div>
+    <section name="contenido">
+      {{#if esAlumno}}
+        <div class="area agenda">
+          {{> desafios}}
+        </div>
+        <div class="area sesion">
+          {{> sesion}}
+        </div>
+        <div class="area logros">
+          {{> logros}}
+        </div>
+      {{/if}}
+      {{#if esProfesor}}
+        <div class="area home">
+          {{> home}}
+        </div>
+        <div class="area entregas">
+          {{> entregas}}
+        </div>
+        <div class="area dudas">
+          {{> dudas}}
+        </div>
+        <div class="area historia">
+          {{> historia}}
+        </div>
+      {{/if}}
+      {{#if esAdmin}}
+				<div class="area importar">
+					{{> importarcurso}}
+				</div>
+			
+				<div class="area cuentas">
+					{{> cuentas}}
+				</div>
+			
+				<div class="area config">
+					{{> configuraciones}}
+				</div>  
+      {{/if}}
+    </section>
+    <section name="pie">
+			
+      {{#if esAlumno}}
+        <!--div class="accion agenda activo">
+        <i class="material-icons">schedule</i>
+        <p>Desafíos</p>
+      </div>
+      <div class="accion sesion">
+        <i class="material-icons">feedback</i>
+        <p>Comentarios</p>
+      </div>
+      <div class="accion logros">
+        <i class="material-icons">emoji_events</i>
+        <p>Logros</p>
+      </div-->
+      {{/if}}
+			
+      {{#if esProfesor}}
+        <!--div class="accion home">
+        <i class="material-icons">home</i>
+        <p>Principal</p>
+      </div>
+      <div class="accion entregas activo">
+        <i class="material-icons">rule</i>
+        <p>Entregas</p>
+      </div>
+      <div class="accion dudas">
+        <i class="material-icons">live_help</i>
+        <p>Dudas</p>
+      </div>
+			<div class="accion historia">
+        <i class="material-icons">bar_chart</i>
+        <p>Historia</p>
+      </div-->
+      {{/if}}
+			
+      {{#if esAdmin}}
+			<div class="accion importar activo">
+        <i class="material-icons">attachment</i>
+        <p>Cursos</p>
+      </div>
+      <div class="accion cuentas">
+        <i class="material-icons">people_alt</i>
+        <p>Cuentas</p>
+      </div>
+      <div class="accion config">
+        <i class="material-icons">settings</i>
+        <p>Config</p>
+      </div>
+      {{/if}}
+			
+    </section>
+    {{> menu}}
+    {{> modalconsultarprofesor}}
+    {{> modaldarfeed}}
+  </div>
+</template>

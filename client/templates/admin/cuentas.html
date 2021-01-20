@@ -1,0 +1,48 @@
+<template name="cuentas">
+	<h3><i class="material-icons">people_alt</i> Cuentas</h3>
+	<div class="selector">
+		<div class="tipo">
+			<p>Perfil</p>
+			<select class="selector-perfil">
+				<option value="1">Admin</option>
+				<option value="2">Alumno</option>
+				<option value="3">Profesor</option>
+				<option value="4">Director</option>
+			</select>
+		</div>
+		<div class="curso{{#if perfilAlumno}} activo{{/if}}">
+			<p>Curso</p>
+			<select class="selector-curso">
+				{{#each cursos}}
+				<option value="1">Admin</option>				
+				{{/each}}
+			</select>
+		</div>
+		<button class="btn-juegas" id="btn-nuevo">
+			<i class="material-icons">person_add</i>
+			<span> Nuevo</span>
+		</button>
+	</div>
+	
+	<div class="contenedor-cuentas">
+		{{#each cuentas}}
+		<div class="contenedor-cuenta">
+			<div class="nombres">
+				{{#if esAdmin}}<i class="material-icons">star_rate</i>{{/if}} {{nombres}}
+			</div>
+			<div class="username">{{username}}</div>
+			<div class="botones">
+				<button class="btn-juegas primario" id={{_id}}>
+					<i class="material-icons">create</i>
+					<span> Editar</span>
+				</button>
+				<button class="btn-juegas peligroso" id={{_id}}>
+					<i class="material-icons">delete_forever</i>
+					<span> Eliminar</span>
+				</button>
+			</div>
+		</div>
+		{{/each}}
+	</div>
+	{{> editorCuenta}}
+</template>

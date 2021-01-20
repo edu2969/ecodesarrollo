@@ -1,0 +1,56 @@
+<template name="editorCuenta">
+	<div class="contenedor-editor-cuenta capa-gradiante azul">
+		<div class="cruz">
+			<i class="material-icons">clear</i>
+		</div>
+		<div class="titulo">
+			<h3><i class="material-icons">create</i> Editor de cuenta</h3>
+		</div>
+		{{#with cuenta}}
+		<div class="formulario">
+			<div class="campo">
+				<span>Perfil</span>
+				<select id="select-tipo">
+					<option value="1" {{selectValor profile.rol '1'}}>Admin</option>
+					<option value="2" {{selectValor profile.rol '2'}}>Alumno</option>
+					<option value="3" {{selectValor profile.rol '3'}}>Profesor</option>
+					<option value="4" {{selectValor profile.rol '4'}}>Director</option>
+				</select>
+			</div>
+			<div class="campo">
+				<span>Nombres</span>
+				<input type="text" id="input-nombres" value="{{profile.nombres}}">
+			</div>
+			<div class="campo">
+				<span>Apellidos</span>
+				<input type="text" id="input-apellidos" value="{{profile.apellidos}}">
+			</div>
+			<div class="campo">
+				<span>Username</span>
+				<input type="text" id="input-username" value="{{username}}">
+			</div>
+			<div class="campo">
+				<span>Password</span>
+				<input type="password" id="input-password">
+			</div>
+			<div class="contenedor-extras {{#if esProfesor}}activo{{/if}}">
+				<div class="campo">
+					<span>ASIGNATURAS</span>
+					<ul>
+						{{#each asignaturas}}
+						<li><input type="checkbox" value="{{llave}}" checked="{{#if checked}}checked{{/if}}">  {{etiqueta}}</li>
+						{{/each}}
+					</ul>
+				</div>
+			</div>
+			{{#if error}}
+			<div class="error">{{{error}}}</div>
+			{{/if}}
+			<button class="btn-juegas" id="btn-guardar">
+				<i class="material-icons">save</i>
+				<span> Guardar</span>
+			</button>
+		</div>
+		{{/with}}
+	</div>
+</template>

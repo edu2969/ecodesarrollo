@@ -1,0 +1,86 @@
+<template name="desafio">
+	<div class="contenedor-desafio">
+		<div class="cruz">
+			<i class="material-icons">clear</i>
+		</div>
+		<div class="detalle">
+			<h1><span class="material-icons">{{desafio.asignaturaObj.icon}}</span> Desafío <small> en {{desafio.asignaturaObj.label}}</small></h1>
+			<div class="video">
+				{{#if capsula}}
+				<video src="{{capsula}}" controls></video>
+				{{else}}
+					{{#if desafio.url}}
+					<iframe width="400" height="315" src="{{desafio.url}}">
+					</iframe>
+					{{/if}}
+					{{#if desafio.video}}
+					<video controls>
+						<source src="{{desafio.video}}" type="video/mp4">					
+						Your browser does not support the video tag.
+					</video>
+					{{/if}}
+				{{/if}}
+
+			</div>
+			<div class="descripcion">
+				<div class="encabezado">
+					<i class="material-icons">keyboard_arrow_down</i>
+					&nbsp;<span>EL DESAFÍO</span>
+				</div>
+				<p>{{{desafio.descripcion}}}</p>
+			</div>
+
+			<div class="marco-fotografias">
+				{{#if entrega.abierta}}
+				<div class="camara">
+					<i class="material-icons">photo_camera</i><br />
+					<p>Tomar / Arrastrar<br />fotografía</p>
+					<div class="drop-texto"></div>					
+				</div>
+				{{/if}}
+				<div class="fotos">
+					{{#each fotos}}
+					<div class="foto" id={{_id}}>
+						<div class="marco-desafio">
+							<img src="{{imagen}}">
+							<p class="nombre" id="{{_id}}">Página {{indice}}</p>
+							{{#unless entrega}}
+							<div class="eliminar" id="{{_id}}">
+								<i class="material-icons">clear</i>
+								<span>Eliminar</span>
+							</div>
+							{{/unless}}
+						</div>
+					</div>
+					{{else}}
+					<h2>Falta que subas fotos</h2>
+					{{/each}}
+				</div>
+				<input type="file" id="upload-image" style="display: none;">
+			</div>
+			
+			{{#if entrega.abierta}}
+			<button class="btn-juegas btn-enviar-desafio" disabled="{{#unless tieneFotos}}disabled{{/unless}}">
+				<i class="material-icons">send</i>
+				<span>Enviar desafío a revisión</span>
+			</button>
+			{{/if}}
+			
+			{{#if entrega.calificacion}}
+			<div class="marco-calificacion">
+				<h4>Has sido calificado con un:</h4>
+				<div class="calificacion" style="background-color: {{entrega.calificacion.color}}">
+					<i class="material-icons">{{entrega.calificacion.icono}}</i>
+					<p>{{entrega.calificacion.etiqueta}}</p>
+				</div>
+			</div>
+			<div class="marco-comentarios-profesor">
+				<h3><i class="material-icons">record_voice_over</i> Comentarios <small>del profesor</small></h3>
+				<p>{{entrega.comentario}}</p>
+			</div>
+			{{/if}}
+
+		</div>
+	</div>
+	{{> foto}}
+</template>

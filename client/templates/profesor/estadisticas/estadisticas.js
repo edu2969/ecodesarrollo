@@ -1,0 +1,3 @@
+Template.estadisticas.rendered = function() {
+
+}

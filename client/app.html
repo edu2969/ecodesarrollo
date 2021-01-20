@@ -1,0 +1,23 @@
+<head>
+  <title>Ecopasaporte - Hacia el futuro, adelántate</title>
+  <meta name="viewport" content="width = device-width, initial-scale=1, user-scalable = no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <style>
+    html {
+      -webkit-text-size-adjust: 100%;
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="icon" href="/favicons/favicon-32x32.jpg" sizes="32x32">
+	<link rel="icon" href="/favicons/favicon-192x192.jpg" sizes="192x192">
+	<link rel="apple-touch-icon" href="/favicons/faicon-180x180.jpg" sizes="180x180">
+	<meta name="msapplication-TileImage" content="/favicons/favicon-270x270.jpg">
+</head>
+
+<body>
+  {{#if enLogin}}
+    {{> panel}}
+  {{else}}
+    {{> login}}
+  {{/if}}
+</body>

@@ -1,0 +1,46 @@
+<template name="desafios">
+  <div class="info">
+    <h3 style="margin-top: 6px;">
+      <i class="material-icons" 
+         style="position: relative; top: 5px;">schedule</i> 
+      Habitación de desafíos!!! HOLA MUNDO!
+    </h3>
+    <div class="creditos">
+      <div class="resumen">
+        <p class="titulo">Llevas</p>
+        <p class="contador">{{stats.entregas}}/{{stats.total}}</p>
+        <p class="pie">Desafíos</p>  
+      </div>      
+    </div>
+  </div>
+  
+  <div class="contenedor-horarios">
+    <div class="barra-dia">
+			
+			{{#each desafios}}
+      <div class="barra {{color}}" id="{{_id}}">
+        <div class="tipo">
+					<i class="material-icons">history_edu</i>
+				</div>      
+        <div class="descripcion-tarea">
+					<div class="titulo">{{titulo}}</div>
+					<div class="plazo">
+						<i class="material-icons">flag</i>{{formatoFecha desde 'dd D/MMM HH:mm'}} - 
+						<i class="material-icons">alarm_on</i>{{formatoFecha hasta 'dd D/MMM HH:mm'}}
+					</div>
+				</div>
+				<div class="marco-iconos">
+					<div class="contenedor-iconos">						
+						{{#if comentario}}
+							<i class="material-icons">record_voice_over</i>
+						{{/if}}
+						<i class="material-icons">{{icono}}</i>
+					</div>
+				</div>
+      </div>
+			{{/each}}
+    </div>
+  </div>
+	
+	{{> desafio}}
+</template>

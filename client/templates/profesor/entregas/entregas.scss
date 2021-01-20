@@ -1,0 +1,90 @@
+.tabla {
+	display: flex;
+	width: 100hw;
+	height: calc(100vh - 42px);
+
+	.celda {
+		border: 1px solid #ccc;
+		padding-left: 0.4em;
+	}
+	
+	.entregas {
+		overflow-x: scroll;
+		width: 100%;
+		margin-bottom: 64px;
+		
+		table {
+			border-spacing: 0px;
+			
+			th.cabecera {
+				p {
+					width: 140px;
+					text-align: center;
+					margin-top: 48px;
+				}
+			}
+			
+			th.rotated {
+				height: 80px;
+				padding-bottom: 16px;
+
+				.periodo {
+					width: 96px;
+					transform: translate(5px, 4px)
+						rotate(315deg);
+
+					.numero {
+						border-bottom: 2px solid #ccc;
+						padding: 5px 10px;
+						
+						&:hover {
+							background-color: darkcyan;
+							cursor: pointer;
+							color: white;
+							border: 1px solid white;
+							border-radius: 6px;
+						}
+					}
+
+					.fecha {
+						font-size: 12px;
+						color: black;
+						margin-left: 4px;
+						margin-top: 4px;
+					}
+				}
+			}
+
+			th.estatica {
+				width: 140px;
+
+				.celda.alumno {
+					height: 48px;
+				}
+
+				.nombres, .apellidos {
+					text-align: left;
+					display: inline-block;
+					width: 120px;
+					white-space: nowrap;
+					overflow: hidden !important;
+					text-overflow: ellipsis;
+				}
+			}
+			
+			tr {
+				td {
+					border: 1px solid #ccc;
+					padding: 0px;
+					height: 48px;
+
+					&:hover {
+						background-color: darkseagreen;
+						cursor: pointer;
+						color: white;
+					}
+				}				
+			}
+		}
+	}
+}
