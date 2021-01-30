@@ -1,0 +1,42 @@
+.contenedor-login {
+	display: flex;
+	align-content: flex-start;
+	padding: 20px 120px;
+	
+	&.oculto {
+		display: none;
+	}
+	
+	.formulario {	
+		.campo {
+			position: relative;
+			height: 6em;
+			
+			p {
+				margin-bottom: -1px;
+				margin-left: 21px;
+			}
+
+			i.material-icons {
+				position: absolute;
+				color: darkgrey;
+				top: 30px;
+				font-size: 32px;
+				padding-left: 12px;
+			}
+			
+			input {
+				width: -webkit-fill-available;
+				width: 320px;
+				padding-left: 42px;
+			}
+		}
+	}
+
+	#btn-login {
+		width: 80px;
+		margin-top: 46px;
+		margin-left: 30px;
+	}
+}
+

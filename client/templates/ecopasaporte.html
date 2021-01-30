@@ -1,0 +1,44 @@
+<template name="ecopasaporte">
+  <div class="mundo">		
+	
+		<section id="ecopasaporte" name="eco-actividades" class="ecopasaporte flotalatombola">
+			<div class="logo">
+				<img src="/img/logo_panel.png">
+			</div>
+			<div class="tombola flotalatombola">
+				{{#each ecoactividades}}
+				<div class="actividad {{nombre}} {{activo}}">
+					<i class="material-icons">{{icono}}</i>
+					<p>{{{accion}}}</p>
+				</div>
+				{{/each}}
+			</div>
+		</section>
+	
+		<!-- CORAZON VERDE -->
+		<div class="marco-agente">
+			<div class="corazon cuerpo">
+				<img src="/img/corazon/corazon_verde.png">
+			</div>
+			<div class="expresion">
+				<img src="/img/corazon/corazon_verde_cara_01.png">
+			</div>
+			<div class="brazo-izq">
+				<img src="/img/corazon/corazon_verde_brazo_izq.png">
+			</div>
+			<div class="brazo-der">
+				<img src="/img/corazon/corazon_verde_brazo_der.png">
+			</div>
+			<div class="piernas">
+				<img src="/img/corazon/corazon_verde_piernas.png">
+			</div>
+		</div>
+		<!-- FIN CORAZON VERDE -->
+  </div>
+	
+	<div class="eco-panel identificate">
+		{{> identificate}}
+	</div>
+
+
+</template>

@@ -1,3 +1,0 @@
-Template.logros.rendered = function() {
-
-}
