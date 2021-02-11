@@ -2,6 +2,7 @@
 	<div class="cruz">
 		<i class="material-icons">clear</i>
 	</div>
+	
 	<h1>Nivelación de identificación</h1>
 	<div class="tipo-identificacion">
 
@@ -70,25 +71,35 @@
 		</div>
 	</div>
 	
-	<div class="contenedor-login oculto">
-		<div class="formulario">
-			<div class="campo">
-				<p>email</p>
-				<i class="material-icons">email</i>
-				<input type="text" id="input-email" placeholder="ejemplo@email.cl">
+	<div class="contendor-identificate oculto">
+		<div class="contenedor-login neuromorph verde">
+			<div class="formulario">
+				<div class="campo">
+					<p>email</p>
+					<i class="material-icons">email</i>
+					<input type="text" id="input-email" placeholder="ejemplo@email.cl">
+				</div>
+				<div class="campo">
+					<p>password</p>
+					<i class="material-icons">lock</i>
+					<input id="input-password" type="password">
+				</div>
+				<p class="errores">{{errores}}</p>
 			</div>
-			<div class="campo">
-				<p>password</p>
-				<i class="material-icons">lock</i>
-				<input id="input-password" type="password">
-			</div>
-			<p class="errores">{{errores}}</p>
+			<div id="btn-login" class="neuromorph boton verde redondo">
+				<i class="material-icons">
+					launch
+				</i>			
+			</div>		
 		</div>
-		<div id="btn-login" class="neuromorph boton verde redondo">
-			<i class="material-icons">
-				launch
-			</i>			
-		</div>		
+		<div class="contenedor-registrame neuromorph verde">
+			<div class="icono-soynuevo">
+				<i class="material-icons">loyalty</i>
+			</div>
+			<p>Quiero registrarme</p>
+		</div>	
 	</div>
+	
+	{{>registrame}}	
 	
 </template>

@@ -1,0 +1,17 @@
+<template name="eco_organizaciones">
+	<div class="grilla">
+		{{#each eco_organizaciones}}
+		<div class="marco-organizacion" style="background-image: url({{url}})">
+			<div class="titulo">
+				{{titulo}}
+			</div>
+			<div class="banda">
+				<div class="fecha">
+					{{formatoFecha fecha 'DD/MM/YYYY'}}
+				</div>
+				<div class="descripcion">{{descripcion}}</div>
+			</div>
+		</div>
+		{{/each}}
+	</div>
+</template>

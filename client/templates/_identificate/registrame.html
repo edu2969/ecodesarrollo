@@ -1,0 +1,118 @@
+<template name="registrame">
+	<div class="wizzard">
+		<div class="barra-estado neuromorph verde">
+			<div class="paso">
+				<div class="numero">1</div>
+				<div class="titulo">Quién eres</div>
+				<div class="trazo"></div>
+			</div>
+			<div class="paso">
+				<div class="numero">2</div>
+				<div class="titulo">Dónde vives</div>
+				<div class="trazo"></div>
+			</div>
+			<div class="paso">
+				<div class="numero">3</div>
+				<div class="titulo">Tu e-correo</div>
+				<div class="trazo"></div>
+			</div>
+			<div class="paso">
+				<div class="numero">4</div>
+				<div class="titulo">Código secreto</div>
+			</div>
+		</div>
+
+		<div class="navegador">
+			<div class="neuromorph boton redondo verde deshabilitada">
+				<i class="material-icons">arrow_back_ios</i>
+			</div>
+			<div class="neuromorph boton redondo verde">
+				<i class="material-icons">arrow_forward_ios</i>
+			</div>
+		</div>
+
+		<div class="contenedor-pasos">
+
+			<div class="carrousel">
+
+				<div class="paso">
+					<div class="estado">
+						<i class="material-icons">check_circle_outline</i>
+					</div>
+					<span class="titulo">1. Quién eres</span>
+					<div class="formulario">
+						<div class="entrada">
+							<span>Nombre completo</span>
+							<input type="text">
+						</div>
+						<div class="entrada">
+							<span>Algún pseudónimo?</span>
+							<input type="text">
+						</div>
+					</div>
+				</div>
+
+				<div class="paso">
+					<div class="estado">
+						<i class="material-icons">check_circle_outline</i>
+					</div>
+					<span class="titulo">2. Dónde vives</span>
+					<div class="formulario flex">
+						<div class="entrada geo neuromorph verde">
+							<div class="icono">
+								<i class="material-icons">share_location</i>
+								<p class="share-location">Permitir acceso</p>
+							</div>
+						</div>
+						<div class="entrada">
+							<span>Tu dirección descrita</span>
+							<input type="text" placeholder="Calle #, Ciudad">
+						</div>
+					</div>
+				</div>
+
+				<div class="paso">
+					<div class="estado">
+						<i class="material-icons">check_circle_outline</i>
+					</div>
+					<span class="titulo">3. Tu e-correo</span>
+					<div class="formulario">
+						<div class="entrada">
+							<input type="email" placeholder="algo@dominio.cl">
+						</div>
+						<div class="flex">
+							<div class="entrada password">
+								<span>password</span>
+								<input type="password">
+								<div class="barra-seguridad insegura">
+									<span>0% Insegura</span>
+									<div></div>
+									<div></div>
+									<div></div>
+									<div></div>
+								</div>
+							</div>
+							<div class="entrada">
+								<span>re-password</span>
+								<input type="password">
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="paso">
+					<div class="estado">
+						<i class="material-icons">check_circle_outline</i>
+					</div>
+					<span class="titulo">4. Tu código secreto</span>
+					<span class="detalle">Debes esperar un código en tu email. Esto tarda 3 días o menos.</span>
+					<input type="password">
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+</template>

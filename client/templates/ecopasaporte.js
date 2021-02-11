@@ -1,5 +1,6 @@
 Template.ecopasaporte.onCreated(function() {
-	this.ecoactividades = new ReactiveVar();	
+	this.ecoactividades = new ReactiveVar();
+	this.panel = new ReactiveVar(false);
 });
 
 Template.ecopasaporte.rendered = function() {		
@@ -35,40 +36,92 @@ Template.ecopasaporte.rendered = function() {
 		nombre: "sabermas",
 		icono: "contact_support",
 		accion: "Quiero saber"
-	} /*, {
-				nombre: "eco_organizaciones",
-				icono: "share",
-				activo: true,
-				accion: "ECO Organizaciones"
-			}, {
-				nombre: "eco_voluntariado",
-				icono: "pan_tool",
-				accion: "ECO Voluntariado"
-			}*/]);
+	}]);
 }
 
 Template.ecopasaporte.helpers({
 	ecoactividades() {
 		return Template.instance().ecoactividades.get();
+	},
+	panel() {
+		return Template.instance().panel.get();
 	}
 })
 
 Template.ecopasaporte.events({
 	"click .actividad"(e, template) {
-		UIUtils.toggle("ecopasaporte", "desaparece");
-		UIUtils.toggle("eco-panel", "activo");
+		let actividad = e.currentTarget.classList.value;
+		
+		if(actividad.indexOf("sabermas")!=-1) {
+			UIUtils.toggle("tombola", "desaparece");
+			UIUtils.toggle("tombola", "flotalatombola2x");
+			setTimeout(function() {
+				UIUtils.toggle("tombola", "flotalatombola4x");
+				template.ecoactividades.set([{
+					nombre: "eco_organizaciones",
+					icono: "share",
+					activo: true,
+					accion: "ECO Organizaciones"
+				}, {
+					nombre: "eco_campanas",
+					icono: "campaign",
+					accion: "ECO Campañas"
+				}, {
+					nombre: "eco_voluntariado",
+					icono: "pan_tool",
+					accion: "ECO Voluntariado"
+				}, {
+					nombre: "eco_sos",
+					icono: "support",
+					accion: "ECO S.O.S."
+				}]);
+				UIUtils.toggle("tombola", "reaparece");
+				UIUtils.toggle("tombola", "desaparece");
+				setTimeout(function() {
+					UIUtils.toggle("tombola", "reaparece");
+				}, 500);
+			}, 500);
+		} else if(actividad.indexOf("identificate")!=-1) {
+			template.panel.set({
+				clase: "identificate",
+				esIdentificate: true
+			});
+			UIUtils.toggle("eco-panel", "activo");
+		} else if(actividad.indexOf("eco_organizaciones")!=-1) {
+			template.panel.set({
+				clase: "eco_organizaciones",
+				esECOOrganizaciones: true
+			});
+			UIUtils.toggle("eco-panel", "activo");
+		}
 	},
 	"click .cruz"() {
-		UIUtils.toggle("ecopasaporte", "desaparece");
-		UIUtils.toggle("ecopasaporte", "reaparece");
-		setTimeout(function() {
-			UIUtils.toggle("ecopasaporte", "reaparece");		
-		}, 500);
 		UIUtils.toggle("eco-panel", "activo");
+		template.panel.set(false);
 	},
 	"click .marco-tipo"() {
 		UIUtils.toggle("tipo-identificacion", "oculto");
-		UIUtils.toggle("contenedor-login", "oculto");
+		UIUtils.toggle("contendor-identificate", "oculto");
+	},
+	"click .logo"() {
+		UIUtils.toggle("tombola", "desaparece");
+		setTimeout(function() {
+			template.ecoactividades.set([{
+				nombre: "identificate",
+				icono: "fingerprint",
+				activo: true,
+				accion: "Soy <b>&hearts;</b> verde"
+			}, {
+				nombre: "sabermas",
+				icono: "contact_support",
+				accion: "Quiero saber"
+			}]);
+			UIUtils.toggle("tombola", "reaparece");
+			UIUtils.toggle("tombola", "desaparece");
+			setTimeout(function() {
+				UIUtils.toggle("tombola", "reaparece");
+			}, 500);
+		}, 500);
 	}
 });
 

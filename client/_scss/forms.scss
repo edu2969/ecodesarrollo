@@ -1,0 +1,28 @@
+.formulario {
+	&.flex {
+		display: flex;
+	}
+	.entrada {
+		padding: 10px;
+		border-radius: 10px;
+		&.geo {
+			width: 180px;
+			height: 140px;
+			.icono {
+				.material-icons {
+					font-size: 50px;
+				}
+				.share-location {
+					position: relative;
+					top: -10px;
+					font-size: 18px;
+				}
+				.detalle {
+					position: relative;
+					top: -18px;
+				}
+			}
+		}
+	}
+}
+

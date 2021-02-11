@@ -1,13 +1,13 @@
 <template name="ecopasaporte">
   <div class="mundo">		
 	
-		<section id="ecopasaporte" name="eco-actividades" class="ecopasaporte flotalatombola">
+		<section id="ecopasaporte" name="eco-actividades" class="ecopasaporte">
 			<div class="logo">
 				<img src="/img/logo_panel.png">
 			</div>
-			<div class="tombola flotalatombola">
+			<div class="tombola flotalatombola2x">
 				{{#each ecoactividades}}
-				<div class="actividad {{nombre}} {{activo}}">
+				<div class="actividad {{nombre}}">
 					<i class="material-icons">{{icono}}</i>
 					<p>{{{accion}}}</p>
 				</div>
@@ -34,11 +34,40 @@
 			</div>
 		</div>
 		<!-- FIN CORAZON VERDE -->
+		
+		<div class="puntaje">
+			<p>NIVEL 01</p>
+			<ul>
+				<li class="vacio"></li>
+				<li class="vacio"></li>
+				<li class="vacio"></li>
+				<li class="vacio"></li>
+				<li class="vacio"></li>
+				<li class="vacio"></li>
+				<li class="vacio"></li>
+				<li class="vacio"></li>
+				<li class="lleno"></li>
+				<li class="lleno"></li>
+			</ul>
+		</div>
   </div>
 	
-	<div class="eco-panel identificate">
-		{{> identificate}}
+	<div class="eco-panel {{panel.clase}} inactivo">
+		{{#if panel.esIdentificate}}
+			{{> identificate}}
+		{{/if}}
+		{{#if panel.esECOOrganizaciones}}
+			{{> eco_organizaciones}}
+		{{/if}}
+		{{#if panel.esECOCampanas}}
+			{{> esECOCapanas}}
+		{{/if}}
+		{{#if panel.esECOVoluntariado}}
+			{{> esECOVoluntariado}}
+		{{/if}}
+		{{#if panel.esECOSOS}}
+			{{> esECOSOS}}
+		{{/if}}
 	</div>
-
-
+	
 </template>

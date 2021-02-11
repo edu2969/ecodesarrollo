@@ -22,7 +22,7 @@ Template.identificate.events({
     }, password, function (err, resp) {
       if (!err) {
 				UIUtils.toggle("tipo-identificacion", "oculto");
-				UIUtils.toggle("contenedor-login", "oculto");
+				UIUtils.toggle("contendor-identificate", "oculto");
         let estado = {
           enLogin: true
         };
@@ -36,5 +36,8 @@ Template.identificate.events({
         template.errores.set("Ups!, no pareces corazón verde :(");
       }
     });
-  }
+  },
+	"click .contenedor-registrame"() {
+		
+	}
 });
