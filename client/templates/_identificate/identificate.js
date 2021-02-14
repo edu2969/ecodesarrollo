@@ -38,6 +38,7 @@ Template.identificate.events({
     });
   },
 	"click .contenedor-registrame"() {
-		
+		UIUtils.toggle("contendor-identificate", "oculto");
+		UIUtils.toggle("wizzard", "oculto");
 	}
 });

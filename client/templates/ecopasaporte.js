@@ -77,6 +77,7 @@ Template.ecopasaporte.events({
 				}]);
 				UIUtils.toggle("tombola", "reaparece");
 				UIUtils.toggle("tombola", "desaparece");
+				UIUtils.toggle("cruz-principal", "oculto");
 				setTimeout(function() {
 					UIUtils.toggle("tombola", "reaparece");
 				}, 500);
@@ -84,18 +85,20 @@ Template.ecopasaporte.events({
 		} else if(actividad.indexOf("identificate")!=-1) {
 			template.panel.set({
 				clase: "identificate",
+				color: "verde",
 				esIdentificate: true
 			});
 			UIUtils.toggle("eco-panel", "activo");
 		} else if(actividad.indexOf("eco_organizaciones")!=-1) {
 			template.panel.set({
 				clase: "eco_organizaciones",
-				esECOOrganizaciones: true
+				esECOOrganizaciones: true,
+				color: "purpura"
 			});
 			UIUtils.toggle("eco-panel", "activo");
 		}
 	},
-	"click .cruz"() {
+	"click .cruz-panel"(e, template) {
 		UIUtils.toggle("eco-panel", "activo");
 		template.panel.set(false);
 	},
@@ -103,7 +106,10 @@ Template.ecopasaporte.events({
 		UIUtils.toggle("tipo-identificacion", "oculto");
 		UIUtils.toggle("contendor-identificate", "oculto");
 	},
-	"click .logo"() {
+	"click .cruz-principal"(e, template) {
+		UIUtils.toggle("cruz-principal", "oculto");
+		UIUtils.toggle("tombola", "flotalatombola4x");
+		UIUtils.toggle("tombola", "flotalatombola2x");
 		UIUtils.toggle("tombola", "desaparece");
 		setTimeout(function() {
 			template.ecoactividades.set([{

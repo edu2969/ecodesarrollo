@@ -1,5 +1,67 @@
+.tipo-identificacion {
+	display: block;
+	width: 100%;
+	
+	.titulo {
+		margin: 20px auto;
+		width: 100%;
+		text-align: center;
+		font-size: 28px;
+		color: white;
+	}
+	
+	.desafios {
+		display: flex;
+	}
+		
+	&.oculto {
+		display: none;
+	}
+
+	.marco-tipo {
+			display: block;
+			border-radius: 10px;
+
+			padding: 10px;
+			margin: 10px;
+			text-align: center;
+			border-radius: 10px;
+			width:200px;
+			
+			&.deshabilitado {
+				background-color: rgba(110, 110, 110, 0.6);
+				color: black;				
+				opacity: 0.2;
+			}
+			
+			.pendiente {
+				color: gainsboro;
+			}
+			
+			.simbolo {
+				i {
+					position: relative;
+					margin-top: -40px;
+					margin-left: -40px;
+					font-size: 79px;
+				}				
+			}
+
+			.estado {
+				position: relative;
+				width: 40px;
+				left: 100px;
+				top: 0px;
+				
+				i {
+					font-size: 40px;
+				}
+			}
+		}
+}
+
 .contendor-identificate {
-	display: flex;
+	display: flex;	
 	
 	&.oculto {
 		display: none;
@@ -11,6 +73,8 @@
 		padding: 20px 20px;
 		border-radius: 20px;
 		width: 480px;
+		margin-left: 35px;
+		margin-top: 60px;
 
 		.formulario {	
 			.campo {
@@ -51,6 +115,7 @@
 		width: 135px;
 		height: 135px;
 		margin-left: 20px;
+		margin-top: 100px;
 		
 		i {
 			font-size: 80px;

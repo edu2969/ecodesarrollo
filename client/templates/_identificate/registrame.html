@@ -1,5 +1,5 @@
 <template name="registrame">
-	<div class="wizzard">
+	<div class="wizzard oculto">
 		<div class="barra-estado neuromorph verde">
 			<div class="paso">
 				<div class="numero">1</div>
@@ -23,23 +23,23 @@
 		</div>
 
 		<div class="navegador">
-			<div class="neuromorph boton redondo verde deshabilitada">
+			<div class="neuromorph boton izquierda redondo verde deshabilitado">
 				<i class="material-icons">arrow_back_ios</i>
 			</div>
-			<div class="neuromorph boton redondo verde">
+			<div class="neuromorph boton derecha redondo verde">
 				<i class="material-icons">arrow_forward_ios</i>
 			</div>
 		</div>
 
 		<div class="contenedor-pasos">
 
-			<div class="carrousel">
+			<div class="carrousel paso1">
 
 				<div class="paso">
 					<div class="estado">
 						<i class="material-icons">check_circle_outline</i>
+						<span class="titulo">1. Quién eres</span>
 					</div>
-					<span class="titulo">1. Quién eres</span>
 					<div class="formulario">
 						<div class="entrada">
 							<span>Nombre completo</span>
@@ -55,8 +55,8 @@
 				<div class="paso">
 					<div class="estado">
 						<i class="material-icons">check_circle_outline</i>
+						<span class="titulo">2. Dónde vives</span>
 					</div>
-					<span class="titulo">2. Dónde vives</span>
 					<div class="formulario flex">
 						<div class="entrada geo neuromorph verde">
 							<div class="icono">
@@ -74,8 +74,8 @@
 				<div class="paso">
 					<div class="estado">
 						<i class="material-icons">check_circle_outline</i>
+						<span class="titulo">3. Tu e-correo</span>
 					</div>
-					<span class="titulo">3. Tu e-correo</span>
 					<div class="formulario">
 						<div class="entrada">
 							<input type="email" placeholder="algo@dominio.cl">
@@ -85,11 +85,12 @@
 								<span>password</span>
 								<input type="password">
 								<div class="barra-seguridad insegura">
+									<div class="segmento"></div>
+									<div class="segmento"></div>
+									<div class="segmento"></div>
+									<div class="segmento"></div>
+									<div class="segmento"></div>
 									<span>0% Insegura</span>
-									<div></div>
-									<div></div>
-									<div></div>
-									<div></div>
 								</div>
 							</div>
 							<div class="entrada">
@@ -103,8 +104,8 @@
 				<div class="paso">
 					<div class="estado">
 						<i class="material-icons">check_circle_outline</i>
+						<span class="titulo">4. Tu código secreto</span>
 					</div>
-					<span class="titulo">4. Tu código secreto</span>
 					<span class="detalle">Debes esperar un código en tu email. Esto tarda 3 días o menos.</span>
 					<input type="password">
 				</div>

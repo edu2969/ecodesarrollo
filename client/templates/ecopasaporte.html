@@ -52,7 +52,15 @@
 		</div>
   </div>
 	
-	<div class="eco-panel {{panel.clase}} inactivo">
+	<div class="cruz cruz-principal oculto">
+		<i class="material-icons">clear</i>
+	</div>
+	
+	<div class="eco-panel {{panel.clase}} {{panel.color}} inactivo">
+		<div class="cruz cruz-panel">
+			<i class="material-icons">clear</i>
+		</div>
+
 		{{#if panel.esIdentificate}}
 			{{> identificate}}
 		{{/if}}
@@ -60,13 +68,13 @@
 			{{> eco_organizaciones}}
 		{{/if}}
 		{{#if panel.esECOCampanas}}
-			{{> esECOCapanas}}
+			{{> eco_campanas}}
 		{{/if}}
 		{{#if panel.esECOVoluntariado}}
-			{{> esECOVoluntariado}}
+			{{> eco_voluntariado}}
 		{{/if}}
 		{{#if panel.esECOSOS}}
-			{{> esECOSOS}}
+			{{> eco_sos}}
 		{{/if}}
 	</div>
 	

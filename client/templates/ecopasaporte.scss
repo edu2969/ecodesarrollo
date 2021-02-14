@@ -43,7 +43,7 @@
 		position: absolute;
 		display: block;
 		bottom: 20px;
-		right: 0px;
+		right: -40px;
 		transform: scale(0.4);
 		filter: grayscale(0.9);
 		
@@ -295,78 +295,57 @@
 .eco-panel {
 	position: absolute;
 	width: calc(100% - 20px);
-	padding: 10px 40px;
+	padding: 10px 20px;
 	height: calc(100vh - 20px);
 	overflow-y: scroll;
 	background-color: #7bcc71;
 	color: white;
 	border-radius: 1em;
+	overflow-x: hidden;
 
 	transform: translate(10px, calc(100% + 20px)); 
 	transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0);
 	
+	&.verde {
+		background: #7bcc71;
+	}
+	
+	&.purpura {
+		background: #51419f;
+	}
+	
+	&.amarillo {
+		background: #f8d12f;
+	}
+	
+	&.rojo {
+		background: #f8512c;
+	}
+	
 	&.activo {
 		transform: translate(10px, 10px); 
 		transition: transform 0.5s cubic-bezier(0.52, 1.64, 0.37, 0.66);
+	}	
+}
+
+.cruz {
+	display: block;
+	visibility: visible;
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	transition: all 0.5 ease;
+	
+	&.oculto {
+		visibility: hidden;
+	}
+
+	i {
+		font-size: 40px;
 	}
 	
-	.cruz {
-		display: block;
-		position: absolute;
+	&.verde i {
 		right: 10px;
-
-		i {
-			font-size: 40px;
-		}
-	}
-
-	.tipo-identificacion {
-		display: flex;
-		width: 100%;
-		
-		&.oculto {
-			display: none;
-		}
-
-		.marco-tipo {
-			display: block;
-			border-radius: 10px;
-
-			padding: 10px;
-			margin: 10px;
-			text-align: center;
-			border-radius: 10px;
-			width:200px;
-			
-			&.deshabilitado {
-				background-color: rgba(110, 110, 110, 0.6);
-				color: black;				
-				opacity: 0.2;
-			}
-			
-			.pendiente {
-				color: gainsboro;
-			}
-			
-			.simbolo {
-				i {
-					position: relative;
-					margin-top: -40px;
-					margin-left: -40px;
-					font-size: 79px;
-				}				
-			}
-
-			.estado {
-				position: relative;
-				width: 40px;
-				left: 100px;
-				top: 0px;
-				
-				i {
-					font-size: 40px;
-				}
-			}
-		}
+		color: limegreen;
 	}
 }

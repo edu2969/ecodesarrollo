@@ -1,11 +1,21 @@
 .formulario {
 	&.flex {
 		display: flex;
+		.entrada:nth-child(2) {
+			margin-left: 10px;
+		}
+	}
+	
+	.flex {
+		display: flex;
+		.entrada:nth-child(1) {
+			margin-right: 20px;
+		}
 	}
 	.entrada {
-		padding: 10px;
 		border-radius: 10px;
 		&.geo {
+			padding: 10px;
 			width: 180px;
 			height: 140px;
 			.icono {
@@ -23,6 +33,52 @@
 				}
 			}
 		}
+			
+		&.password {
+			.barra-seguridad {
+				display: flex;
+				span {
+					margin-left: 8px;
+				}
+
+				.segmento {
+					display: block;
+					width: 23px;
+					height: 12px;
+					margin-right: 2px;
+					margin-top: 4px;
+					border: 2px solid white;
+					border-radius: 3px;
+				}
+			}
+		}
+		
+		&.avatar {
+			.marco-upload {
+				border: 2px solid white;
+				border-radius: 8px;
+				width: 180px;
+				height: 140px;
+				text-align: center;
+				padding-top: 20px;
+				
+				.material-icons {
+					font-size: 72px;
+				}
+				
+				&.upload {
+					.marco-drag {
+						display: none;
+					}
+				}
+				&.foto {
+					.marco-foto {
+						display: none;
+					}
+				}
+			}
+		}
+		
 	}
 }
 

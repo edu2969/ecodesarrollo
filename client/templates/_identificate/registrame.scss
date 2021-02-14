@@ -2,6 +2,10 @@
 	width: 550px;
 	margin: auto;
 	
+	&.oculto {
+		display: none;
+	}
+	
 	.barra-estado {
 		display: flex;
 		border-radius: 40px;
@@ -9,6 +13,7 @@
 		height: 66px;
 		overflow: hidden;
 		padding-left: 63px;
+		margin-top: 10px;
 		
 		.paso {
 			position: relative;
@@ -66,15 +71,15 @@
 .navegador {
 	.boton {
 		position: absolute;
-		top: calc(50% - 80px);
+		top: calc(50% - 55px);
 		z-index: 20;
 		
 		&:nth-child(1) {
-			left: 40px;
+			left: 20px;
 		}
 		
 		&:nth-child(2) {
-			right: 40px;
+			right: 20px;
 		}
 		
 		i {
@@ -100,17 +105,42 @@
 		display: inline-flex;
 		left: 0px;
 		transition: all 0.5s ease;
-		left: -200%;
+		
+		&.paso1 {
+			left: 0%;
+		}
+		
+		&.paso2 {
+			left: -100%;
+		}
+		
+		&.paso3 {
+			left: -200%;
+		}
+		
+		&.paso4 {
+			left: -300%;
+		}
 		
 		.paso {
 			width: 100%;
+			text-align: left;
 			margin: 0 40px 0 40px;
 			
 			.estado {
 				position: relative;
+				display: flex;
 				top: 12px;
-				left: -86px;
-				color: darkgray;
+				left: -6px;
+				color: white;
+				margin-bottom: 20px;
+				
+				.titulo {
+					position: relative;
+					top: 7px;
+					left: 8px;
+					font-size: 20px;
+				}
 
 				&.completo {
 					color: deepskyblue;
@@ -120,18 +150,6 @@
 					font-size: 42px;
 				}
 			}
-			
-			.titulo {
-				position: relative;
-				top: -18px;
-				left: 8px;
-				font-size: 20px;
-			}
-			
-			:nth-child(1) {  }
-			:nth-child(2) {  }
-			:nth-child(3) {  }
-			:nth-child(4) {  }
 		}
 	}
 }

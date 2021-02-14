@@ -1,74 +1,71 @@
-<template name="identificate">
-	<div class="cruz">
-		<i class="material-icons">clear</i>
-	</div>
-	
-	<h1>Nivelación de identificación</h1>
+<template name="identificate">	
 	<div class="tipo-identificacion">
-
-		<div class="marco-tipo neuromorph verde">
-			<div class="estado">
-				<i class="material-icons">check_circle_outline</i>
-			</div>
-			<div class="simbolo">
-				<i class="material-icons">how_to_reg</i>
-				<p>Información Básica</p>
-			</div>
-			<div class="progreso">
-				<div class="progress">
-					<div class="progress-bar" role="progressbar" 
-							 aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+		<div class="titulo">ECO_desafío - IDENTIFÍCATE</div>
+		<div class="desafios">
+			<div class="marco-tipo neuromorph verde">
+				<div class="estado">
+					<i class="material-icons">check_circle_outline</i>
+				</div>
+				<div class="simbolo">
+					<i class="material-icons">how_to_reg</i>
+					<p>Información Básica</p>
+				</div>
+				<div class="progreso">
+					<div class="progress">
+						<div class="progress-bar" role="progressbar" 
+								 aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+					</div>
 				</div>
 			</div>
-		</div>
 
-		<div class="marco-tipo neuromorph verde">
-			<div class="estado pendiente">
-				<i class="material-icons">check_circle_outline</i>
-			</div>
-			<div class="simbolo">
-				<i class="material-icons">portrait</i>
-				<p>Fotografía perfil</p>
-			</div>
-			<div class="progreso">
-				<div class="progress">
-					<div class="progress-bar" role="progressbar" 
-							 aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+			<div class="marco-tipo neuromorph verde">
+				<div class="estado pendiente">
+					<i class="material-icons">check_circle_outline</i>
+				</div>
+				<div class="simbolo">
+					<i class="material-icons">portrait</i>
+					<p>Fotografía perfil</p>
+				</div>
+				<div class="progreso">
+					<div class="progress">
+						<div class="progress-bar" role="progressbar" 
+								 aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+					</div>
 				</div>
 			</div>
-		</div>
 
-		<div class="marco-tipo neuromorph verde deshabilitado">
-			<div class="estado pendiente">
-				<i class="material-icons">check_circle_outline</i>
-			</div>
-			<div class="simbolo">
-				<i class="material-icons">fingerprint</i>
-				<p>Huella Digitital</p>
-			</div>
-			<div class="progreso">
-				<div class="progress">
-					<div class="progress-bar" role="progressbar" 
-							 aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+			<div class="marco-tipo neuromorph verde deshabilitado">
+				<div class="estado pendiente">
+					<i class="material-icons">check_circle_outline</i>
+				</div>
+				<div class="simbolo">
+					<i class="material-icons">fingerprint</i>
+					<p>Huella Digitital</p>
+				</div>
+				<div class="progreso">
+					<div class="progress">
+						<div class="progress-bar" role="progressbar" 
+								 aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+					</div>
 				</div>
 			</div>
-		</div>
 
-		<div class="marco-tipo neuromorph verde deshabilitado">
-			<div class="estado pendiente">
-				<i class="material-icons">check_circle_outline</i>
-			</div>
-			<div class="simbolo">
-				<i class="material-icons">money_off</i>
-				<p>Invesión inicial</p>
-			</div>
-			<div class="progreso">
-				<div class="progress">
-					<div class="progress-bar" role="progressbar" 
-							 aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+			<div class="marco-tipo neuromorph verde deshabilitado">
+				<div class="estado pendiente">
+					<i class="material-icons">check_circle_outline</i>
+				</div>
+				<div class="simbolo">
+					<i class="material-icons">money_off</i>
+					<p>Donación inicial</p>
+				</div>
+				<div class="progreso">
+					<div class="progress">
+						<div class="progress-bar" role="progressbar" 
+								 aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+					</div>
 				</div>
 			</div>
-		</div>
+		</div>		
 	</div>
 	
 	<div class="contendor-identificate oculto">
@@ -99,6 +96,7 @@
 			<p>Quiero registrarme</p>
 		</div>	
 	</div>
+	
 	
 	{{>registrame}}	
 	

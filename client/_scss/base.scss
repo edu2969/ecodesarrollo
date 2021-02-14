@@ -37,7 +37,6 @@ textarea {
 
 small {
   font-size: 55%;
-  color: darkgray;
 }
 
 a {
@@ -72,9 +71,13 @@ h4 {
 		padding: 20px;
 		margin: 1em auto;
 		border-radius: 50%;
-
+		
 		i {
 			font-size: 38px;
 		}
+	}
+	
+	&.deshabilitado {
+		color: darkgrey;
 	}
 }
