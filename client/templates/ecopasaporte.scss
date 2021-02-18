@@ -325,7 +325,22 @@
 	&.activo {
 		transform: translate(10px, 10px); 
 		transition: transform 0.5s cubic-bezier(0.52, 1.64, 0.37, 0.66);
-	}	
+	}
+	
+	.navegacion-atras {
+		display: none;
+		position: absolute;
+		left: 16px;
+		top: 10px;
+		
+		i {
+			font-size: 32px;
+		}
+
+		&.activo {
+			display: block;
+		}
+	}
 }
 
 .cruz {

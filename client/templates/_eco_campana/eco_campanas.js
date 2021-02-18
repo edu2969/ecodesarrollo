@@ -1,0 +1,19 @@
+Template.eco_campanas.helpers({
+	eco_campanas() {
+		return [{
+			titulo: "Paraíso Penco limpio",
+			tipo: "ECO",
+			ultimaActividad: new Date(),
+			donaciones: 4.3,
+			impacto: 73,
+			imagen: '/img/campanas/campana01.jpg'
+		}, {
+			titulo: "Ollazo Cerro Alegre",
+			tipo: "SOC",
+			ultimaActividad: new Date(),
+			donaciones: 0.13,
+			impacto: 7,
+			imagen: '/img/campanas/campana02.jpg'
+		}]
+	}
+})

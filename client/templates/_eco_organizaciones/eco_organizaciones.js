@@ -42,5 +42,6 @@ Template.eco_organizaciones.events({
 	"click .marco-organizacion"(e) {
 		UIUtils.toggle("carrousel", "grilla");
 		UIUtils.toggle("carrousel", "detalle");
+		UIUtils.toggle("navegacion-atras", "activo");
 	}
 })

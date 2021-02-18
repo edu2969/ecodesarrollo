@@ -96,11 +96,20 @@ Template.ecopasaporte.events({
 				color: "purpura"
 			});
 			UIUtils.toggle("eco-panel", "activo");
+		} else if(actividad.indexOf("eco_campanas")!=-1) {
+			template.panel.set({
+				clase: "eco_campanas",
+				esECOCampanas: true,
+				color: "verde"
+			});
+			UIUtils.toggle("eco-panel", "activo");
 		}
 	},
 	"click .cruz-panel"(e, template) {
 		UIUtils.toggle("eco-panel", "activo");
-		template.panel.set(false);
+		setTimeout(function() {
+			template.panel.set(false);	
+		}, 1000);
 	},
 	"click .marco-tipo"() {
 		UIUtils.toggle("tipo-identificacion", "oculto");
@@ -128,6 +137,11 @@ Template.ecopasaporte.events({
 				UIUtils.toggle("tombola", "reaparece");
 			}, 500);
 		}, 500);
+	},
+	"click .navegacion-atras"(e, template) {
+		UIUtils.toggle("carrousel", "grilla");
+		UIUtils.toggle("carrousel", "detalle");
+		UIUtils.toggle("navegacion-atras", "activo");		
 	}
 });
 
