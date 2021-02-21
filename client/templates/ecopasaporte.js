@@ -28,6 +28,10 @@ Template.ecopasaporte.rendered = function() {
 	
 	const instance = Template.instance();
 	instance.ecoactividades.set([{
+		espacio: true
+	}, {
+		espacio: true
+	}, {
 		nombre: "identificate",
 		icono: "fingerprint",
 		activo: true,
@@ -56,7 +60,7 @@ Template.ecopasaporte.events({
 			UIUtils.toggle("tombola", "desaparece");
 			UIUtils.toggle("tombola", "flotalatombola2x");
 			setTimeout(function() {
-				UIUtils.toggle("tombola", "flotalatombola4x");
+				UIUtils.toggle("tombola", "flotalatombola5x");
 				template.ecoactividades.set([{
 					nombre: "eco_organizaciones",
 					icono: "share",
@@ -66,6 +70,10 @@ Template.ecopasaporte.events({
 					nombre: "eco_campanas",
 					icono: "campaign",
 					accion: "ECO Campañas"
+				}, {
+					nombre: "eco_desarrollos",
+					icono: "architecture",
+					accion: "ECO Desarrollos"
 				}, {
 					nombre: "eco_voluntariado",
 					icono: "pan_tool",
@@ -100,7 +108,21 @@ Template.ecopasaporte.events({
 			template.panel.set({
 				clase: "eco_campanas",
 				esECOCampanas: true,
+				color: "azul"
+			});
+			UIUtils.toggle("eco-panel", "activo");
+		} else if(actividad.indexOf("eco_desarrollos")!=-1) {
+			template.panel.set({
+				clase: "eco_desarrollos",
+				esECODesarrollos: true,
 				color: "verde"
+			});
+			UIUtils.toggle("eco-panel", "activo");
+		} else if(actividad.indexOf("eco_voluntariado")!=-1) {
+			template.panel.set({
+				clase: "eco_voluntariado",
+				esECOVoluntariado: true,
+				color: "amarillo"
 			});
 			UIUtils.toggle("eco-panel", "activo");
 		}
@@ -117,11 +139,15 @@ Template.ecopasaporte.events({
 	},
 	"click .cruz-principal"(e, template) {
 		UIUtils.toggle("cruz-principal", "oculto");
-		UIUtils.toggle("tombola", "flotalatombola4x");
+		UIUtils.toggle("tombola", "flotalatombola5x");
 		UIUtils.toggle("tombola", "flotalatombola2x");
 		UIUtils.toggle("tombola", "desaparece");
 		setTimeout(function() {
 			template.ecoactividades.set([{
+				espacio: true 
+			}, {
+				espacio: true
+			}, {
 				nombre: "identificate",
 				icono: "fingerprint",
 				activo: true,

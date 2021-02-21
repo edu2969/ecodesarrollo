@@ -35,13 +35,13 @@
 		width: 768px;
 		height: 280px;
 
-		.contenedor-campanas {
+		.contenedor-voluntario {
 			display: flex;
 			flex-wrap: wrap;
 			padding-left: 10px;
 			width: 100%;
 
-			.marco-campana {
+			.marco-voluntario {
 				position: relative;
 				width: 222px;
 				height: 222px;
@@ -54,7 +54,7 @@
 					display: block;
 					widows: 222px;
 					height: 222px;
-					background-color: rgba(0, 0, 0, 0.2);
+					background-color: rgba(0, 0, 0, 0.4);
 					border-radius: 8px;
 				}
 
@@ -81,36 +81,26 @@
 					color: white;
 
 					.categoria {
-						.material-icons {
-							font-size: 32px;
-							margin-left: 12px;
-						}
+						padding: 4px 8px;
 						.tipo {
-							span {
-								position: relative;
-								width: 220px;
-								text-align: center;
-								font-weight: lighter;
-								font-size: 10px;
-								top: 4px;
-								left: -40px;
-							}
+							font-weight: bolder;
+						}
+
+						.subtipo {
+							font-size: 9px;
 						}
 					}
 
-					.impacto {
+					.integrantes {
 						position: relative;
-						top: -102px;
+						top: -96px;
 						right: -150px;
 						.cantidad {
-							width: 50px;
-							text-align: center;
-							font-size: 36px;
+							font-size: 26px;
 						}
 						small {
 							position: relative;
-							font-size: 12px;
-							top: -40px;
+							top: -20px;
 							left: -8px;
 						}
 					}

@@ -4,14 +4,31 @@
 		<div class="grilla">
 			<div class="contenedor-campanas">
 				{{#each eco_campanas}}
-					<div class="marco-camapana neuromorph verde" style="background-image: url({{imagen}})">
+					<div class="marco-campana neuromorph azul" style="background-image: url({{imagen}})">
 						<div class="overlay"></div>
 						<div class="titulo">
 							{{titulo}}
 						</div>
 						<div class="banda">
 							<div class="categoria">
-								<div class="tipo">{{tipo}}</div>
+								{{#if esECO}}
+								<div class="tipo">
+									<i class="material-icons">eco</i>
+									<span> Ecológica</span>
+								</div>
+								{{/if}}
+								{{#if esSOC}}
+								<div class="tipo">
+									<i class="material-icons">groups</i>
+									<span> Social</span>
+								</div>
+								{{/if}}
+								{{#if esMIX}}
+								<div class="tipo">
+									<i class="material-icons">nature_people</i>
+									<span> Mixta</span>
+								</div>
+								{{/if}}
 							</div>
 							<div class="fecha">
 								<span>Ultima actividad</span>
@@ -32,17 +49,19 @@
 		</div>
 		<div class="detalle">
 			<div class="formulario">
-				<div class="entrada">
-					<span>Tipo de campaña</span>
-					<select>
-						<option value="ECO">Ecológica</option>
-						<option value="SOC">Social</option>
-						<option value="MIX">Mixta</option>
-					</select>
-				</div>
-				<div class="entrada">
-					<span>Describe tu campaña</span>
-					<textarea rows="4"></textarea>
+				<div class="flex">
+					<div class="entrada">
+						<span>Tipo de campaña</span><br/>
+						<select>
+							<option value="ECO">Ecológica</option>
+							<option value="SOC">Social</option>
+							<option value="MIX">Mixta</option>
+						</select>
+					</div>
+					<div class="entrada">
+						<span>Describe tu campaña</span>
+						<textarea rows="4"></textarea>
+					</div>
 				</div>
 				<div class="entrada">
 					<span>Dirección</span>
@@ -52,22 +71,24 @@
 					<span>Comuna</span>
 					<input type="text" class="autocomplete" placeholder="Comuna">
 				</div>
-				<div class="entrada">
-					<span>Descripción del lugar</span>
-					<textarea rows="4"></textarea>
-				</div>
-				<div class="entrada avatar">
-					<span>Imágen del lugar</span>
-					<div class="marco-upload upload">
-						<div class="marco-foto">
-							<i class="material-icons">insert_photo</i>
-							<p>Arrastra / Click</p>
+				<div class="flex">
+					<div class="entrada">
+						<span>Descripción del lugar</span>
+						<textarea rows="4"></textarea>
+					</div>
+					<div class="entrada avatar">
+						<span>Imágen del lugar</span>
+						<div class="marco-upload upload">
+							<div class="marco-foto">
+								<i class="material-icons">insert_photo</i>
+								<p>Arrastra / Click</p>
+							</div>
+							<div class="marco-drag">
+								<i class="material-icons">file_upload</i>
+								<p>Suelta</p>
+							</div>
+							<input type="file" style="display: none">
 						</div>
-						<div class="marco-drag">
-							<i class="material-icons">file_upload</i>
-							<p>Suelta</p>
-						</div>
-						<input type="file" style="display: none">
 					</div>
 				</div>
 				<div class="flex">
@@ -81,53 +102,51 @@
 					</div>
 				</div>
 				<div class="entrada usuario-picker">
-					<span>Organizador</span>
 					<div class="campo">
+						<span>Organizador</span><br/>
 						<input type="text" class="autocomplete" id="input-organizador">
 					</div>
 					<div class="avatar">
-						<img src="/img/avatares/avatar01.png">
+						<img src="/img/avatares/avatar01.png"><br/>
 						<span>EdUTroN</span>
 					</div>
 				</div>
 				<div class="entrada usuario-picker">
-					<span>Coordinador</span>
 					<div class="campo">
+						<span>Coordinador</span><br/>
 						<input type="text" class="autocomplete" id="input-coordinador">
 					</div>
 					<div class="avatar">
-						<img src="/img/avatares/avatar02.jpg">
+						<img src="/img/avatares/avatar02.jpg"><br/>
 						<span>Oleska</span>
 					</div>
 				</div>
-				<div class="entrada usuario-picker">
-					<span>Organizador</span>
-					<div class="campo">
-						<input type="text" class="autocomplete" id="input-organizador">
-					</div>
-					<div class="avatar">
-						<img src="/public/img/avatares/avatar01.png">
-						<span>EdUTroN</span>
-					</div>
-				</div>
 				<div class="entrada cuadrilla-picker">
-					<span>Cuadrillas relacionadas</span>
 					<div class="campo">
+						<span>Cuadrillas relacionadas</span><br/>
 						<input type="text" class="autocomplete" id="input-cuadrillas">
 					</div>
 					<div class="avatares">
 						<div class="avatar">
-							<img src="/public/img/avatares/team01.png">
+							<img src="/img/avatares/team01.png"><br/>
 							<span>Los Galgos</span>
 						</div>
 						<div class="avatar">
-							<img src="/public/img/avatares/team02.png">
+							<img src="/img/avatares/team02.png"><br/>
 							<span>Clerigos</span>
 						</div>
 						<div class="avatar">
-							<img src="/public/img/avatares/team03.png">
+							<img src="/img/avatares/team03.png"><br/>
 							<span>Colegio San Bernardo</span>
 						</div>
+					</div>
+				</div>
+				<div class="flex">
+					<div class="neuromorph boton redondo azul">
+						<i class="material-icons">clear</i>
+					</div>
+					<div class="neuromorph boton redondo azul">
+						<i class="material-icons">save</i>
 					</div>
 				</div>
 			</div>

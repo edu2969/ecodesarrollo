@@ -1,42 +1,50 @@
 .formulario {
 	&.flex {
 		display: flex;
+
 		.entrada:nth-child(2) {
 			margin-left: 10px;
 		}
 	}
-	
+
 	.flex {
 		display: flex;
+
 		.entrada:nth-child(1) {
 			margin-right: 20px;
 		}
 	}
+
 	.entrada {
 		border-radius: 10px;
+
 		&.geo {
 			padding: 10px;
 			width: 180px;
 			height: 140px;
+
 			.icono {
 				.material-icons {
 					font-size: 50px;
 				}
+
 				.share-location {
 					position: relative;
 					top: -10px;
 					font-size: 18px;
 				}
+
 				.detalle {
 					position: relative;
 					top: -18px;
 				}
 			}
 		}
-			
+
 		&.password {
 			.barra-seguridad {
 				display: flex;
+
 				span {
 					margin-left: 8px;
 				}
@@ -52,7 +60,7 @@
 				}
 			}
 		}
-		
+
 		&.avatar {
 			.marco-upload {
 				border: 2px solid white;
@@ -61,16 +69,17 @@
 				height: 140px;
 				text-align: center;
 				padding-top: 20px;
-				
+
 				.material-icons {
 					font-size: 72px;
 				}
-				
+
 				&.upload {
 					.marco-drag {
 						display: none;
 					}
 				}
+
 				&.foto {
 					.marco-foto {
 						display: none;
@@ -78,7 +87,161 @@
 				}
 			}
 		}
+
+		&.usuario-picker {
+			display: inline-flex;
+			width: 100%;
+
+			.campo {
+				width: 50%;
+			}
+
+			.avatar {
+				width: 80px;
+				padding-top: 20px;
+				padding-left: 20px;
+
+				span {
+					display: inline-block;
+					width: 100%;
+					white-space: nowrap;
+					overflow: hidden !important;
+					text-overflow: ellipsis;
+				}
+
+				img {
+					width: 40px;
+					height: 40px;
+					border-radius: 50%;
+				}
+			}
+		}
+
+		&.cuadrilla-picker {
+			display: inline-flex;
+			width: 100%;
+
+			.campo {
+				width: 50%;
+			}
+
+			.avatares {
+				width: 100%;
+				height: auto;
+				display: flex;
+				flex-wrap: wrap;
+
+				.avatar {
+					width: 80px;
+					padding-top: 20px;
+					padding-left: 20px;
+
+					span {
+						display: inline-block;
+						width: 100%;
+						white-space: nowrap;
+						overflow: hidden !important;
+						text-overflow: ellipsis;
+					}
+
+					img {
+						width: 40px;
+						height: 40px;
+						border-radius: 50%;
+					}
+				}
+			}
+		}
+
+		&.documentos-picker {
+			display: inline-flex;
+			width: 100%;
+			margin-bottom: 12px;
+
+			.documento {
+				width: 120px;
+				height: 120px;
+				border: 2px solid white;
+				border-radius: 8px;
+				text-align: center;
+				margin-right: 12px;
+				
+				.material-icons {
+					font-size: 42px;
+					margin-top: 8px;
+				}
+			}
+
+			.documentos {
+				display: flex;
+				flex-wrap: wrap;
+				
+				.documento {
+					width: 80px;
+					padding-top: 20px;
+					padding-left: 20px;
+
+					span {
+						display: inline-block;
+						width: 100%;
+						white-space: nowrap;
+						overflow: hidden !important;
+						text-overflow: ellipsis;
+					}
+
+					img {
+						width: 40px;
+						height: 40px;
+						border-radius: 50%;
+					}
+				}
+			}
+		}
+		
+		&.imagenes-picker {
+			display: inline-flex;
+			width: 100%;
+			margin-bottom: 12px;
+
+			.camara {
+				width: 120px;
+				height: 120px;
+				border: 2px solid white;
+				border-radius: 8px;
+				text-align: center;
+				margin-right: 12px;
+				
+				.material-icons {
+					font-size: 42px;
+					margin-top: 8px;
+				}
+			}
+
+			.imagenes {
+				display: flex;
+				flex-wrap: wrap;
+				
+				.imagen {
+					width: 80px;
+					padding-top: 20px;
+					padding-left: 20px;
+
+					span {
+						display: inline-block;
+						width: 100%;
+						white-space: nowrap;
+						overflow: hidden !important;
+						text-overflow: ellipsis;
+					}
+
+					img {
+						width: 40px;
+						height: 40px;
+						border-radius: 50%;
+					}
+				}
+			}
+		}
 		
 	}
 }
-

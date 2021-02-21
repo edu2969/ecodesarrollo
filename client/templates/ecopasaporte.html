@@ -6,11 +6,18 @@
 				<img src="/img/logo_panel.png">
 			</div>
 			<div class="tombola flotalatombola2x">
+				<div class="imagen">
+					<img src="/img/tombola.gif">
+				</div>
 				{{#each ecoactividades}}
+				{{#if espacio}}
+				<div class="actividad"></div>
+				{{else}}
 				<div class="actividad {{nombre}}">
 					<i class="material-icons">{{icono}}</i>
 					<p>{{{accion}}}</p>
 				</div>
+				{{/if}}
 				{{/each}}
 			</div>
 		</section>
@@ -73,6 +80,9 @@
 		{{/if}}
 		{{#if panel.esECOCampanas}}
 			{{> eco_campanas}}
+		{{/if}}
+		{{#if panel.esECODesarrollos}}
+			{{> eco_desarrollos}}
 		{{/if}}
 		{{#if panel.esECOVoluntariado}}
 			{{> eco_voluntariado}}
