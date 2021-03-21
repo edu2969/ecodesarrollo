@@ -35,13 +35,13 @@
 		width: 768px;
 		height: 280px;
 
-		.contenedor-voluntarios {
+		.contenedor-sos {
 			display: flex;
 			flex-wrap: wrap;
 			padding-left: 10px;
 			width: 100%;
 
-			.marco-voluntario {
+			.marco-ayuda {
 				position: relative;
 				width: 222px;
 				height: 222px;
@@ -54,11 +54,11 @@
 					display: block;
 					widows: 222px;
 					height: 222px;
-					background-color: rgba(0, 0, 0, 0.4);
+					background-color: rgba(0, 0, 0, 0.2);
 					border-radius: 8px;
 				}
 
-				.titulo {
+				.tipo {
 					position: relative;
 					top: -210px;
 					left: 10px;
@@ -81,26 +81,36 @@
 					color: white;
 
 					.categoria {
-						padding: 4px 8px;
-						.tipo {
-							font-weight: bolder;
+						.material-icons {
+							font-size: 32px;
+							margin-left: 12px;
 						}
-
-						.subtipo {
-							font-size: 9px;
+						.tipo {
+							span {
+								position: relative;
+								width: 220px;
+								text-align: center;
+								font-weight: lighter;
+								font-size: 10px;
+								top: 4px;
+								left: -40px;
+							}
 						}
 					}
 
-					.integrantes {
+					.impacto {
 						position: relative;
-						top: -96px;
+						top: -102px;
 						right: -150px;
 						.cantidad {
-							font-size: 26px;
+							width: 50px;
+							text-align: center;
+							font-size: 36px;
 						}
 						small {
 							position: relative;
-							top: -20px;
+							font-size: 12px;
+							top: -40px;
 							left: -8px;
 						}
 					}

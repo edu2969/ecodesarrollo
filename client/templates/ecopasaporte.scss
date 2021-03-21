@@ -133,7 +133,7 @@
 		}
 		
 		50% {
-			transform: rotate(20deg);
+			transform: rotate(50deg);
 		}
 		
 		100% {
@@ -271,12 +271,12 @@
 		}
 		
 		.actividad:nth-child(2) {
-			color: rgb(88, 78, 168);
+			color: rgb(194, 175, 223);
 			transform: translate(100px, -316px) rotate(-80deg);
 		}
 		
 		.actividad:nth-child(3) {
-			color: rgb(40, 72, 148);
+			color: rgb(109, 161, 216);
 			transform: translate(180px, -240px) rotate(-40deg);			
 		}
 		
@@ -287,7 +287,7 @@
 		
 		.actividad:nth-child(5) {
 			color: rgb(248, 216, 56);
-			transform: translate(200px, 0px) rotate(30deg);
+			transform: translate(200px, 0px) rotate(5deg);
 		}
 		
 		.actividad:nth-child(6) {

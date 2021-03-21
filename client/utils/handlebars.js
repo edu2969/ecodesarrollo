@@ -1,3 +1,5 @@
+const { ECO_SOS } = require("../../lib/constantes");
+
 Handlebars.registerHelper("formatoFecha", function (date, mask) {
   if(!date) return '--/--';
   var m = moment(date);
@@ -12,4 +14,16 @@ Handlebars.registerHelper("selectValor", (valor1, valor2) => {
 
 Handlebars.registerHelper("version", () => {
 	return VERSION;
+});
+
+Handlebars.registerHelper("traductorSOSTipos", (codigo)=>{
+	return ECO_SOS.TIPOS[codigo];
+});
+
+Handlebars.registerHelper("traductorSOSAfectados", (codigo)=>{
+	return ECO_SOS.AFECTADO[codigo];
+});
+
+Handlebars.registerHelper("traductorSOSProblemas", (codigo)=>{
+	return ECO_SOS.PROBLEMA[codigo];
 });

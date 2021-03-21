@@ -75,10 +75,6 @@ Template.ecopasaporte.events({
 					icono: "architecture",
 					accion: "ECO Desarrollos"
 				}, {
-					nombre: "eco_voluntariado",
-					icono: "pan_tool",
-					accion: "ECO Voluntariado"
-				}, {
 					nombre: "eco_sos",
 					icono: "support",
 					accion: "ECO S.O.S."
@@ -118,10 +114,10 @@ Template.ecopasaporte.events({
 				color: "verde"
 			});
 			UIUtils.toggle("eco-panel", "activo");
-		} else if(actividad.indexOf("eco_voluntariado")!=-1) {
+		} else if(actividad.indexOf("eco_sos")!=-1) {
 			template.panel.set({
-				clase: "eco_voluntariado",
-				esECOVoluntariado: true,
+				clase: "eco_sos",
+				esECOSOS: true,
 				color: "amarillo"
 			});
 			UIUtils.toggle("eco-panel", "activo");

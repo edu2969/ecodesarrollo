@@ -1,5 +1,3 @@
-var XLSX = Npm.require('xlsx');
-
 Meteor.methods({
 	// Core
 	ActualizarCuenta(doc) {
@@ -40,20 +38,12 @@ Meteor.methods({
 			Accounts.createUser(docNew);
 		}
   },
+
+	// ECOOrganizaciones
+	CrearECOOrganizacion(doc) {
+		ECOOrganizaciones.insert(doc);
+	},
 	
-	// MISCELANEOS
-	uploadS: (bstr, name) => {
-		return XLSX.read(bstr, {
-			type: 'binary'
-		});
-	},
-	uploadU: (ab, name) => {
-		return XLSX.read(ab, {
-			type: 'array'
-		});
-	},
-
-
 	// TEST
 	_DatosIniciales() {
 		Meteor.users.find().forEach(function(usuario) {
