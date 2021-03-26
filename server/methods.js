@@ -43,6 +43,10 @@ Meteor.methods({
 	CrearECOOrganizacion(doc) {
 		ECOOrganizaciones.insert(doc);
 	},
+	CrearECOCampana(doc) {
+		ECOCampanas.insert(doc);
+	},
+	
 	
 	// TEST
 	_DatosIniciales() {

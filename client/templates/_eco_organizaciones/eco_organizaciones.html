@@ -1,5 +1,8 @@
 <template name="eco_organizaciones">
-	<div class="titulo-grilla">ECO_Organizaciones <small>x112</small></div>
+	<div class="titulo-grilla">
+		ECO_Organizaciones <small>({{cantidad}})</small>
+		<button class="btn" id="btn-nuevo">Nuevo</button>
+	</div>
 	<div class="carrousel grilla">
 		<div class="grilla">
 			<div class="contenedor-organizaciones">
@@ -35,26 +38,26 @@
 			<div class="formulario">
 				<div class="entrada">
 					<span>Nombre</span>
-					<input type="text" placeholder="e.j: Corazones service">					
+					<input class="campo" id="input-nombre" type="text" placeholder="e.j: Corazones service">					
 				</div>
 				<div class="flex">
 					<div class="entrada">
 						<span>Tipo</span>
-						<input type="text" class="autocomplete" placeholder="e.j: Familia">				
+						<input class="campo autocomplete" id="input-tipo" type="text" placeholder="e.j: Familia">				
 					</div>
 					<div class="entrada">
 						<span>Sub-tipo</span>
-						<input type="text" class="autocomplete" placeholder="e.j: Varias familias">
+						<input class="campo autocomplete" id="input-subtipo" type="text" placeholder="e.j: Varias familias">
 					</div>
 				</div>
 				<div class="flex">
 					<div class="entrada">
 						<span>Teléfono</span>
-						<input type="text" placeholder="+56 9 1234 5678">					
+						<input class="campo" id="input-telefono" type="text" placeholder="+56 9 1234 5678">					
 					</div>
 					<div class="entrada">
 						<span>e-mail contacto</span>
-						<input type="email" placeholder="contacto@dominio.cl">
+						<input class="campo" id="input-email" type="email" placeholder="contacto@dominio.cl">
 					</div>
 				</div>
 				<div class="flex">				
@@ -74,14 +77,14 @@
 					</div>
 					<div class="entrada">
 						<span>Reseña</span>
-						<textarea rows="4"></textarea>
+						<textarea class="campo" id="input-resena" rows="4"></textarea>
 					</div>
 				</div>
 				<div class="flex">
 					<div class="neuromorph boton redondo purpura">
 						<i class="material-icons">clear</i>
 					</div>
-					<div class="neuromorph boton redondo purpura">
+					<div class="neuromorph boton redondo purpura" id="btn-guardar">
 						<i class="material-icons">save</i>
 					</div>
 				</div>

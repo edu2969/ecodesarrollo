@@ -34,3 +34,15 @@ UIUtils = {
     }
 	}
 }
+
+FormUtils = {
+	getFields: () => {
+		let doc = {};
+		$(".formulario .campo").each((indice, campo)=> {
+			const id = campo.id;
+			const nombreCampo = id.split("-")[1];
+			doc[nombreCampo] = campo.value;
+		});
+		return doc;
+	}
+}

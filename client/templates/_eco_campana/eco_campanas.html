@@ -1,5 +1,8 @@
 <template name="eco_campanas">
-	<div class="titulo-grilla">ECO_Camapaña <small>x112</small></div>
+	<div class="titulo-grilla">
+		ECO_Campaña <small>({{cantidad}})</small>
+		<button class="btn" id="btn-nuevo">Nuevo</button>
+	</div>
 	<div class="carrousel grilla">
 		<div class="grilla">
 			<div class="contenedor-campanas">
@@ -52,7 +55,7 @@
 				<div class="flex">
 					<div class="entrada">
 						<span>Tipo de campaña</span><br/>
-						<select>
+						<select class="campo" id="input-tipo">
 							<option value="ECO">Ecológica</option>
 							<option value="SOC">Social</option>
 							<option value="MIX">Mixta</option>
@@ -60,21 +63,21 @@
 					</div>
 					<div class="entrada">
 						<span>Describe tu campaña</span>
-						<textarea rows="4"></textarea>
+						<textarea class="campo" id="input-descripcion" rows="4"></textarea>
 					</div>
 				</div>
 				<div class="entrada">
 					<span>Dirección</span>
-					<input type="text" placeholder="Dirección">
+					<input type="text" class="campo" id="input-direccion" placeholder="Dirección">
 				</div>
 				<div class="entrada">
 					<span>Comuna</span>
-					<input type="text" class="autocomplete" placeholder="Comuna">
+					<input type="text" class="campo autocomplete" id="input-comuna" placeholder="Comuna">
 				</div>
 				<div class="flex">
 					<div class="entrada">
 						<span>Descripción del lugar</span>
-						<textarea rows="4"></textarea>
+						<textarea class="campo" id="input-descripcionLugar" rows="4"></textarea>
 					</div>
 					<div class="entrada avatar">
 						<span>Imágen del lugar</span>
@@ -94,17 +97,17 @@
 				<div class="flex">
 					<div class="entrada">
 						<span>Fecha de inicio</span>
-						<input type="text" class="datetime-componente" id="input-fechaDesde">
+						<input type="text" class="campo datetime-componente" id="input-fechaInicio">
 					</div>
 					<div class="entrada">
 						<span>Fecha de fin</span>
-						<input type="text" class="datetime-componente" id="input-fechaHasta">
+						<input type="text" class="campo datetime-componente" id="input-fechaFin">
 					</div>
 				</div>
 				<div class="entrada usuario-picker">
-					<div class="campo">
+					<div class="campo-entrada">
 						<span>Organizador</span><br/>
-						<input type="text" class="autocomplete" id="input-organizador">
+						<input type="text" class="campo autocomplete" id="input-organizador">
 					</div>
 					<div class="avatar">
 						<img src="/img/avatares/avatar01.png"><br/>
@@ -112,7 +115,7 @@
 					</div>
 				</div>
 				<div class="entrada usuario-picker">
-					<div class="campo">
+					<div class="campo-entrada">
 						<span>Coordinador</span><br/>
 						<input type="text" class="autocomplete" id="input-coordinador">
 					</div>
@@ -122,7 +125,7 @@
 					</div>
 				</div>
 				<div class="entrada cuadrilla-picker">
-					<div class="campo">
+					<div class="campo-entrada">
 						<span>Cuadrillas relacionadas</span><br/>
 						<input type="text" class="autocomplete" id="input-cuadrillas">
 					</div>
@@ -145,7 +148,7 @@
 					<div class="neuromorph boton redondo azul">
 						<i class="material-icons">clear</i>
 					</div>
-					<div class="neuromorph boton redondo azul">
+					<div class="neuromorph boton redondo azul" id="btn-guardar">
 						<i class="material-icons">save</i>
 					</div>
 				</div>

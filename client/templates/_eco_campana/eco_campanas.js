@@ -1,22 +1,15 @@
+Template.eco_campanas.rendered = () => {
+	Tracker.autorun(() => {
+		Meteor.subscribe('eco_campanas');
+	});
+}
+
 Template.eco_campanas.helpers({
 	eco_campanas() {
-		return [{
-			titulo: "Paraíso Penco limpio",
-			tipo: "ECO",
-			esECO: true,
-			ultimaActividad: new Date(),
-			donaciones: 4.3,
-			impacto: 73,
-			imagen: '/img/campanas/campana01.jpg'
-		}, {
-			titulo: "Ollazo Cerro Alegre",
-			tipo: "SOC",
-			esSOC: true,
-			ultimaActividad: new Date(),
-			donaciones: 0.13,
-			impacto: 7,
-			imagen: '/img/campanas/campana02.jpg'
-		}]
+		return ECOCampanas.find();
+	},
+	cantidad() {
+		return ECOCampanas.find().count();
 	}
 })
 
@@ -25,5 +18,21 @@ Template.eco_campanas.events({
 		UIUtils.toggle("carrousel", "grilla");
 		UIUtils.toggle("carrousel", "detalle");
 		UIUtils.toggle("navegacion-atras", "activo");
+	},
+	"click #btn-nuevo"() {
+		Session.set("ECOCampanaSeleccionada", {});
+		UIUtils.toggle("carrousel", "grilla");
+		UIUtils.toggle("carrousel", "detalle");
+		UIUtils.toggle("navegacion-atras", "activo");
+	},
+	"click #btn-guardar"() {
+		const doc = FormUtils.getFields();
+		Meteor.call("CrearECOCampana", doc, function(err, resp) {
+			if(!err) {
+				UIUtils.toggle("carrousel", "grilla");
+				UIUtils.toggle("carrousel", "detalle");
+				UIUtils.toggle("navegacion-atras", "activo");		
+			}
+		})
 	}
 })
