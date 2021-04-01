@@ -1,5 +1,8 @@
 <template name="eco_sos">
-	<div class="titulo-grilla">ECO_S.O.S <small>x4</small></div>
+	<div class="titulo-grilla">
+		ECO SOS <small>({{cantidad}})</small>
+		<button class="btn" id="btn-nuevo">Nuevo</button>
+	</div>
 	<div class="carrousel grilla">
 		<div class="grilla">
 			<div class="contenedor-sos">
@@ -20,6 +23,7 @@
 								<p>{{comuna}}</p>
 							</div>
 						</div>
+							
 					</div>
 				{{/each}}
 			</div>
@@ -28,14 +32,14 @@
 			<div class="formulario">
 				<div class="entrada">
 					<span>Tipo</span><br/>
-					<select id="input-tipo">
+					<select id="input-tipo" class="campo">
 						<option value="P">Propio</option>
 						<option value="T">Tercero</option>
 					</select>
 				</div>
 				<div class="entrada">
 					<span>afectado</span>
-					<select id="input-afectado">
+					<select id="input-afectado" class="campo">
 						<option value="LA">Lactante</option>
 						<option value="NI">Niño</option>
 						<option value="JO">Jóven</option>
@@ -45,7 +49,7 @@
 				</div>
 				<div class="entrada">
 					<span>Problema</span>
-					<select id="input-problema">
+					<select id="input-problema" class="campo">
 						<option value="SC">Situación de calle</option>
 						<option value="DE">Delincuencia</option>
 						<option value="EN">Enfermedad</option>
@@ -58,7 +62,7 @@
 				</div>
 				<div class="entrada">
 					<span>Comuna</span>
-					<input type="text" class="autocomplete" placeholder="Comuna">
+					<input id="input-comuna" type="text" class="input-comuna autocomplete" placeholder="Comuna">
 				</div>
 				<div class="entrada imagenes-picker">
 					<div class="camara">
@@ -88,7 +92,7 @@
 					<div class="neuromorph boton redondo amarillo">
 						<i class="material-icons">clear</i>
 					</div>
-					<div class="neuromorph boton redondo amarillo">
+					<div class="neuromorph boton redondo amarillo" id="btn-guardar">
 						<i class="material-icons">save</i>
 					</div>
 				</div>

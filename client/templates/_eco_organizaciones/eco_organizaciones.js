@@ -10,7 +10,8 @@ Template.eco_organizaciones.helpers({
 	},
 	cantidad() {
 		return ECOOrganizaciones.find().count();
-	}
+	},
+	
 });
 
 Template.eco_organizaciones.events({

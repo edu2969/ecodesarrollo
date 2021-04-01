@@ -46,6 +46,12 @@ Meteor.methods({
 	CrearECOCampana(doc) {
 		ECOCampanas.insert(doc);
 	},
+	CrearECOSos(doc) {
+		ECOSos.insert(doc);
+	},
+	ModificarECOSos(doc) {
+		ECOSos.update(_id,doc);
+	},
 	
 	
 	// TEST

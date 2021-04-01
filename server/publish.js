@@ -5,4 +5,7 @@ Meteor.publish('eco_organizaciones', function() {
 Meteor.publish('eco_campanas', function() {
 	return ECOCampanas.find();
 });
+Meteor.publish('eco_sos', function() {
+	return ECOSos.find();
+});
 

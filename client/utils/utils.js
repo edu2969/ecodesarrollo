@@ -34,7 +34,7 @@ UIUtils = {
     }
 	}
 }
-
+// este ulilitario recibe y recorre el formulario ,luego  lo deja en un arreglo Json doc.
 FormUtils = {
 	getFields: () => {
 		let doc = {};
