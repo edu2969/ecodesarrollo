@@ -5,25 +5,29 @@
 	</div>
 	<div class="carrousel grilla">
 		<div class="grilla">
-			<div class="contenedor-sos">
-				{{#each eco_sos}}
-					<div class="marco-ayuda neuromorph amarillo" style="background-image: url({{imagen}})">
+			<div class="contenedor-soss">
+				{{#each eco_soss}}
+					<div class="marco-sos neuromorph amarillo" 
+							 style="background-image: url({{imagen}})"
+							  id="{{_id}}">
 						<div class="overlay"></div>
 						<div class="tipo">
 							{{traductorSOSTipos tipo}}
 						</div>
-						<div class="afectado">
-							{{traductorSOSAfectados afectado}}
-						</div>
-						<div class="problema">
-							{{traductorSOSProblemas problema}}
-						</div>						
 						<div class="banda">
 							<div class="comuna">
-								<p>{{comuna}}</p>
+								<i class="material-icons">room</i>
+								<span>{{comuna}}</span>
+							</div>
+							<div class="afectado">
+								<p>Afectado:</p>
+								<span>{{traductorSOSAfectados afectado}}</span>
+							</div>
+							<div class="problema">
+								<span>{{traductorSOSProblemas problema}}</span>
+								<i class="material-icons">{{icono}}</i>
 							</div>
 						</div>
-							
 					</div>
 				{{/each}}
 			</div>
@@ -33,36 +37,38 @@
 				<div class="entrada">
 					<span>Tipo</span><br/>
 					<select id="input-tipo" class="campo">
-						<option value="P">Propio</option>
-						<option value="T">Tercero</option>
+						{{#each tipos}}
+						<option value="{{id}}" {{selectValor id eco_sos.tipo}}>{{etiqueta}}</option>
+						{{/each}}						
 					</select>
 				</div>
 				<div class="entrada">
 					<span>afectado</span>
 					<select id="input-afectado" class="campo">
-						<option value="LA">Lactante</option>
-						<option value="NI">Niño</option>
-						<option value="JO">Jóven</option>
-						<option value="AD">Adulto</option>
-						<option value="AM">Adulto Mayor</option>
+						{{#each afectados}}
+						<option value="{{id}}" {{selectValor id eco_sos.afectado}}>{{etiqueta}}</option>
+						{{/each}}
 					</select>
 				</div>
 				<div class="entrada">
 					<span>Problema</span>
 					<select id="input-problema" class="campo">
-						<option value="SC">Situación de calle</option>
-						<option value="DE">Delincuencia</option>
-						<option value="EN">Enfermedad</option>
-						<option value="OT">Otro</option>
+						{{#each problemas}}
+						<option value="{{id}}" {{selectValor id eco_sos.problema}}>{{etiqueta}}</option>
+						{{/each}}
 					</select>
 				</div>
 				<div class="entrada">
 					<span>Dirección</span>
-					<input type="text" placeholder="Dirección">
+					<input id="input-direccion" class="campo" 
+								 type="text" placeholder="Dirección"
+								 value="{{eco_sos.direccion}}">
 				</div>
 				<div class="entrada">
 					<span>Comuna</span>
-					<input id="input-comuna" type="text" class="input-comuna autocomplete" placeholder="Comuna">
+					<input id="input-comuna" type="text" 
+								 class="campo autocomplete" placeholder="Comuna"
+								 value="{{eco_sos.comuna}}">
 				</div>
 				<div class="entrada imagenes-picker">
 					<div class="camara">

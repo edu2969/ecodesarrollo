@@ -40,17 +40,32 @@ Meteor.methods({
   },
 
 	// ECOOrganizaciones
-	CrearECOOrganizacion(doc) {
-		ECOOrganizaciones.insert(doc);
+	ActualizarECOOrganizacion(doc) {
+		if(doc._id) {
+			const id = doc._id;
+			delete doc._id;
+			ECOOrganizaciones.update({ _id: id }, { $set: doc });
+		} else {
+			ECOOrganizaciones.insert(doc);	
+		}		
 	},
-	CrearECOCampana(doc) {
-		ECOCampanas.insert(doc);
+	ActualizarECOCampana(doc) {
+		if(doc._id) {
+			const id = doc._id;
+			delete doc._id;
+			ECOCampanas.update({ _id: id }, { $set: doc });
+		} else {
+			ECOCampanas.insert(doc);	
+		}		
 	},
-	CrearECOSos(doc) {
-		ECOSos.insert(doc);
-	},
-	ModificarECOSos(doc) {
-		ECOSos.update(_id,doc);
+	ActualizarECOSos(doc) {
+		if(doc._id) {
+			const id = doc._id;
+			delete doc._id;
+			ECOSos.update({ _id: id }, { $set: doc });
+		} else {
+			ECOSos.insert(doc);	
+		}		
 	},
 	
 	

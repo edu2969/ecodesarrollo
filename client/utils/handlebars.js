@@ -16,7 +16,7 @@ Handlebars.registerHelper("version", () => {
 	return VERSION;
 });
 
-Handlebars.registerHelper("traductorSOSTipos", (codigo)=>{
+Handlebars.registerHelper("traductorSOSTipos", (codigo) => {
 	return ECO_SOS.TIPOS[codigo];
 });
 
@@ -25,5 +25,5 @@ Handlebars.registerHelper("traductorSOSAfectados", (codigo)=>{
 });
 
 Handlebars.registerHelper("traductorSOSProblemas", (codigo)=>{
-	return ECO_SOS.PROBLEMA[codigo];
+	return ECO_SOS.PROBLEMA[codigo].etiqueta;
 });

@@ -35,13 +35,13 @@
 		width: 768px;
 		height: 280px;
 
-		.contenedor-sos {
+		.contenedor-soss {
 			display: flex;
 			flex-wrap: wrap;
 			padding-left: 10px;
 			width: 100%;
 
-			.marco-ayuda {
+			.marco-sos {
 				position: relative;
 				width: 222px;
 				height: 222px;
@@ -80,73 +80,44 @@
 					background-color: rgba(0, 0, 0, 0.7);
 					color: white;
 
-					.categoria {
-						.material-icons {
-							font-size: 32px;
-							margin-left: 12px;
-						}
-						.tipo {
-							span {
-								position: relative;
-								width: 220px;
-								text-align: center;
-								font-weight: lighter;
-								font-size: 10px;
-								top: 4px;
-								left: -40px;
-							}
-						}
-					}
-
-					.impacto {
+					.afectado {
 						position: relative;
-						top: -102px;
-						right: -150px;
-						.cantidad {
-							width: 50px;
-							text-align: center;
-							font-size: 36px;
-						}
-						small {
-							position: relative;
-							font-size: 12px;
-							top: -40px;
-							left: -8px;
-						}
-					}
-
-					.fecha {
-						position: relative;
-						top: -40px;
-						right: -144px;
-
-						span {
-							padding-left: 4px;
-							font-size: 9px;
-						}
-
+						top: 30px;
+						left: 10px;
+						
 						p {
-							margin-top: -6px;
 							font-size: 14px;
+							font-weight: bolder;
+							margin-bottom: 0px;
+						}
+						
+						span {
+							font-size: 16px;
 						}
 					}
 
-					.donaciones {
+					.problema {
 						position: relative;
-						top: 6px;
-
-						.material-icons {
+						top: 5px;
+						right: 8px;
+						text-align: right;
+						
+						span {
 							position: relative;
-							left: 2px;
-							top: -40px;
-							font-size: 38px;
+							top: -6px;
 						}
+					}
 
-						.cantidad {
-							position: relative;
-							top: -50px;
-							left: 8px;
-							font-size: 18px;
+					.comuna {
+						display: inline-flex;
+						position: relative;
+						top: 5px;
+						left: 4px;
+						
+						span {
+							padding-left: 0px;
+							padding-top: 8px;
+							font-size: 12px;
 						}
 					}
 				}

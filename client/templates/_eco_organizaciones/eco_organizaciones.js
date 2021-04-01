@@ -28,7 +28,11 @@ Template.eco_organizaciones.events({
 	},
 	"click #btn-guardar"() {
 		const doc = FormUtils.getFields();
-		Meteor.call("CrearECOOrganizacion", doc, function(err, resp) {
+		const ecoorganizacion = Session.get("ECOOrganizacionSeleccionada");
+		if(ecoorganizacion._id) {
+			doc._id = ecoorganizacion._id;
+		}
+		Meteor.call("ActualizarECOOrganizacion", doc, function(err, resp) {
 			if(!err) {
 				UIUtils.toggle("carrousel", "grilla");
 				UIUtils.toggle("carrousel", "detalle");
