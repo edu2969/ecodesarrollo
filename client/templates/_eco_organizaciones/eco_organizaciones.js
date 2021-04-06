@@ -1,3 +1,11 @@
+export { Images };
+
+Template.eco_organizaciones.onCreated(function() {
+	this.currentUpload = new ReactiveVar();
+	this.ecoOrganizacionSeleccionada = new ReactiveVar(false);
+	this.editando = ReactiveVar(false);
+});
+
 Template.eco_organizaciones.rendered = () => {
 	Tracker.autorun(() => {
 		Meteor.subscribe('eco_organizaciones');
@@ -5,39 +13,189 @@ Template.eco_organizaciones.rendered = () => {
 }
 
 Template.eco_organizaciones.helpers({
-	eco_organizaciones() {
-		return ECOOrganizaciones.find();
+	editando() {
+		const template = Template.instance();
+		return template.editando.get();
+	},
+	ecoOrganizaciones() {
+		return ECOOrganizaciones.find().map(ecoOrganizacion => {
+			ecoOrganizacion.ultimaActividad = ecoOrganizacion.ultimaActualizacion;
+			const img = Images.findOne({ "meta.ecoOrganizacionId": ecoOrganizacion._id });
+			ecoOrganizacion.avatar = img ? img.link() : '/img/no_image_available.jpg';
+			ecoOrganizacion.integrantes = 0;
+			ecoOrganizacion.donaciones = 0;
+			return ecoOrganizacion;
+		});
+	},
+	ecoOrganizacion() {
+		const template = Template.instance();
+		let ecoOrganizacion = template.ecoOrganizacionSeleccionada.get();
+		const userId = Meteor.userId();
+		if(userId==ecoOrganizacion.userId) {
+			ecoOrganizacion.esPropia = true;
+		}
+		const img = Images.findOne({ "meta.ecoOrganizacionId": ecoOrganizacion._id });
+		ecoOrganizacion.ultimaActividad = ecoOrganizacion.ultimaActualizacion;
+		ecoOrganizacion.avatar = img ? img.link() : '/img/no_image_available.jpg';
+		ecoOrganizacion.integrantes = 0;
+		ecoOrganizacion.donaciones = 0;
+		return ecoOrganizacion;
 	},
 	cantidad() {
 		return ECOOrganizaciones.find().count();
 	},
-	
+	currentUpload() {
+		return Template.instance().currentUpload();
+	}
 });
 
 Template.eco_organizaciones.events({
-	"click .marco-organizacion"(e) {
+	"click .marco-organizacion"(e, template) {
+		const id = e.currentTarget.id;
+		const entidad = ECOOrganizaciones.findOne({ _id: id });
+		template.ecoOrganizacionSeleccionada.set(entidad);
 		UIUtils.toggle("carrousel", "grilla");
 		UIUtils.toggle("carrousel", "detalle");
 		UIUtils.toggle("navegacion-atras", "activo");
 	},
-	"click #btn-nuevo"() {
-		Session.set("ECOOrganizacionSeleccionada", {});
+	"click #btn-nuevo"(e, template) {
+		template.ecoOrganizacionSeleccionada.set(false);
+		template.editando.set(true);
 		UIUtils.toggle("carrousel", "grilla");
 		UIUtils.toggle("carrousel", "detalle");
 		UIUtils.toggle("navegacion-atras", "activo");
 	},
-	"click #btn-guardar"() {
+	"click #btn-guardar"(e, template) {
 		const doc = FormUtils.getFields();
-		const ecoorganizacion = Session.get("ECOOrganizacionSeleccionada");
-		if(ecoorganizacion._id) {
-			doc._id = ecoorganizacion._id;
+		const ecoOrganizacion = template.ecoOrganizacionSeleccionada.get();
+		if(ecoOrganizacion._id) {
+			doc._id = ecoOrganizacion._id;
+		} else {
+			doc.userId = Meteor.userId();
+			doc.ultimaActualizacion = new Date();
 		}
 		Meteor.call("ActualizarECOOrganizacion", doc, function(err, resp) {
 			if(!err) {
 				UIUtils.toggle("carrousel", "grilla");
 				UIUtils.toggle("carrousel", "detalle");
 				UIUtils.toggle("navegacion-atras", "activo");		
+				template.ecoOrganizacionSeleccionada.set(false);
 			}
 		})
-	}
+	},
+	"click #btn-editar"(e, template) {
+		const editando = template.editando.get();
+		template.editando.set(!editando);
+	},
+	"click .navegacion-atras"(e, template) {
+		UIUtils.toggle("carrousel", "grilla");
+		UIUtils.toggle("carrousel", "detalle");
+		UIUtils.toggle("navegacion-atras", "activo");		
+		template.ecoOrganizacionSeleccionada.set(false);
+	},
+	
+	
+	
+	
+	
+	"dragover .marco-upload": function (e, t) {
+    e.stopPropagation();
+    e.preventDefault();
+    t.$(".marco-drop").addClass("activo");
+  },
+  "dragleave .marco-upload": function (e, t) {
+    e.stopPropagation();
+    e.preventDefault();
+    t.$(".marco-drop").removeClass("activo");
+  },
+  "dragenter .marco-upload": function (e, t) {
+    e.preventDefault();
+    e.stopPropagation();
+  },
+  "drop .marco-upload": function (e, template) {
+    e.stopPropagation();
+    e.preventDefault();
+    var ecoOrganizacion = template.ecoOrganizacionSeleccionada.get();
+    if (e.originalEvent.dataTransfer.files && e.originalEvent.dataTransfer.files[0]) {
+			let meta = {};
+			var img;
+			if(!ecoOrganizacion._id) {
+				img = Images.findOne({
+					userId: Meteor.userId(),
+					"meta.pendiente": true
+				});
+				meta = { pendiente: true };
+			} else {
+				img = Images.findOne({
+					userId: Meteor.userId(),
+					"meta.ecoOrganizacion": ecoOrganizacion._id
+				});
+				meta = { ecoOrganizacionId: ecoOrganizacion._id };
+			}
+			if(img) {
+				Images.remove({ _id: img._id });
+			}
+      const upload = Images.insert({
+        file: e.originalEvent.dataTransfer.files[0],
+        streams: 'dynamic',
+        chunkSize: 'dynamic',
+        meta: meta
+      }, false);
+
+      upload.on('start', function () {
+        template.currentUpload.set(this);
+      });
+			
+      upload.on('end', function (error, fileObj) {
+        if (error) {
+          alert('Error during upload: ' + error);
+        } else {
+          //console.log("FileImage", fileObj);
+        }
+        template.currentUpload.set(false);
+        template.$(".marco-drop").addClass("activo");
+      });
+      upload.start();
+    }
+  },
+  "click .marco-drag"(e) {
+    $("#upload-image").click();
+  },
+  "change #upload-image"(e, template) {
+    var ecoOranizacion = template.ecoOrganizacionSeleccionada.get();
+    if (e.currentTarget.files && e.currentTarget.files[0]) {
+			let meta = {};
+			if(!ecoOrganizacion._id) {
+				Images.remove({
+					userId: Meteor.userId(),
+					"meta.pendiente": true
+				});
+				meta = { pendiente: true };
+			} else {
+				meta = { ecoOrganizacionId: ecoOrganizacion._id };
+			}
+      const upload = Images.insert({
+        file: e.currentTarget.files[0],
+        streams: 'dynamic',
+        chunkSize: 'dynamic',
+        meta: meta
+      }, false);
+
+      upload.on('start', function () {
+        template.currentUpload.set(this);
+      });
+
+      upload.on('end', function (error, fileObj) {
+        template.currentUpload.set(false);
+        template.$(".marco-drop").addClass("activo");    
+      });
+			
+      upload.start();
+    }
+  },
+	
+	
+	
+	
+	
 });

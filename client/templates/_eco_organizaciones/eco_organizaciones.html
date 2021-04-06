@@ -1,16 +1,34 @@
-<template name="eco_organizaciones">
+<template name="eco_organizaciones">	
+	<div class="navegacion-atras">
+		<i class="material-icons">arrow_back_ios</i>
+	</div>
 	<div class="titulo-grilla">
-		ECO_Organizaciones <small>({{cantidad}})</small>
-		<button class="btn" id="btn-nuevo">Nuevo</button>
+		<div class="contenido-titulo">
+			{{#unless ecoOrganizacion}}
+				<p>ECO_Organizaciones <small>({{cantidad}})</small></p>
+				<button class="btn" id="btn-nuevo">
+					<i class="material-icons">add</i><span>Nuevo</span>	
+				</button>
+			{{else}}
+				<p>{{ecoOrganizacion.nombre}}</p>
+				{{#if ecoOrganizacion.esPropia}}
+				<button class="btn" id="btn-editar">
+					<i class="material-icons">edit</i><span>Editar</span>	
+				</button>
+				{{/if}}
+			{{/unless}}
+		</div>
 	</div>
 	<div class="carrousel grilla">
 		<div class="grilla">
 			<div class="contenedor-organizaciones">
-				{{#each eco_organizaciones}}
-					<div class="marco-organizacion neuromorph purpura" style="background-image: url({{avatar}})">
+				{{#each ecoOrganizaciones}}
+					<div class="marco-organizacion neuromorph purpura" 
+							 style="background-image: url({{avatar}})"
+							 id={{_id}}>
 						<div class="overlay"></div>
 						<div class="titulo">
-							{{titulo}}
+							{{nombre}}
 						</div>
 						<div class="banda">
 							<div class="categoria">
@@ -25,7 +43,7 @@
 								<i class="material-icons">request_quote</i>
 								<div class="cantidad">
 									<small>CLP </small>$ {{donaciones}}<small> M</small></div>
-							</div>
+								</div>
 							<div class="integrantes">
 								<div class="cantidad">{{integrantes}}<br /><small> integrantes</small></div>
 							</div>
@@ -35,49 +53,54 @@
 			</div>
 		</div>
 		<div class="detalle">
+			{{#if editando}}
 			<div class="formulario">
 				<div class="entrada">
 					<span>Nombre</span>
-					<input class="campo" id="input-nombre" type="text" placeholder="e.j: Corazones service">					
+					<input class="campo" id="input-nombre" type="text" 
+								 placeholder="e.j: Corazones service"
+								 value="{{ecoOrganizacion.nombre}}">
 				</div>
 				<div class="flex">
 					<div class="entrada">
 						<span>Tipo</span>
-						<input class="campo autocomplete" id="input-tipo" type="text" placeholder="e.j: Familia">				
+						<input class="campo autocomplete" id="input-tipo" type="text" placeholder="e.j: Familia"
+									 value="{{ecoOrganizacion.tipo}}">
 					</div>
 					<div class="entrada">
 						<span>Sub-tipo</span>
-						<input class="campo autocomplete" id="input-subtipo" type="text" placeholder="e.j: Varias familias">
+						<input class="campo autocomplete" id="input-subtipo" type="text" 
+									 placeholder="e.j: Varias familias"
+									 value="{{ecoOrganizacion.subtipo}}">
 					</div>
 				</div>
 				<div class="flex">
 					<div class="entrada">
 						<span>Teléfono</span>
-						<input class="campo" id="input-telefono" type="text" placeholder="+56 9 1234 5678">					
+						<input class="campo" id="input-telefono" type="text" placeholder="+56 9 1234 5678"
+									 value="{{ecoOrganizacion.telefono}}">					
 					</div>
 					<div class="entrada">
 						<span>e-mail contacto</span>
-						<input class="campo" id="input-email" type="email" placeholder="contacto@dominio.cl">
+						<input class="campo" id="input-contacto" type="email" placeholder="contacto@dominio.cl"
+									 value="{{ecoOrganizacion.contacto}}">
 					</div>
 				</div>
 				<div class="flex">				
 					<div class="entrada avatar">
 						<span>Avatar</span>
-						<div class="marco-upload upload">
+						<div class="marco-upload">
 							<div class="marco-foto">
 								<i class="material-icons">insert_photo</i>
 								<p>Arrastra / Click</p>
+								<div class="marco-drop"></div>
 							</div>
-							<div class="marco-drag">
-								<i class="material-icons">file_upload</i>
-								<p>Suelta</p>
-							</div>
-							<input type="file" style="display: none">
 						</div>
+						<input id="upload-image" type="file" style="display: none">
 					</div>
 					<div class="entrada">
 						<span>Reseña</span>
-						<textarea class="campo" id="input-resena" rows="4"></textarea>
+						<textarea class="campo" id="input-resena" rows="4" value="{{ecoOrganizacion.resena}}"></textarea>
 					</div>
 				</div>
 				<div class="flex">
@@ -89,6 +112,40 @@
 					</div>
 				</div>
 			</div>
+			{{else}}
+				{{#with ecoOrganizacion}}
+				<div class="presentacion">
+					<div class="avatar" style="background-image: url({{avatar}})"></div>
+					<div class="ultima-actividad"><i>ultimaActividad: </i>{{formatoFecha ultimaActividad 'DD/MMM/YYYY HH:mm'}}</div>
+					<div class="titulo-presentacion">Participantes</div>
+					<div class="participantes">
+						<div class="avatar-participante">
+							<img src="/img/avatares/avatar01.png"><br/>
+							<span>EdUTroN</span>
+							<i class="material-icons">star</i>
+						</div>
+						<div class="avatar-participante">
+							<img src="/img/avatares/avatar02.jpg"><br/>
+							<span>Miriam</span>
+						</div>
+					</div>
+					<div class="titulo-presentacion">Total en donaciones</div>
+					<div class="donaciones">
+						<i class="material-icons">request_quote</i>
+						<div class="cantidad">
+							<small>CLP </small>$ {{donaciones}}<small> M</small>
+						</div>
+					</div>
+					<div class="titulo-presentacion">Reseña histórica</div>
+					<div class="resena"><p>{{resena}}</p></div>
+					<div class="titulo-presentacion">Solicitar unirse</div>
+					<div class="neuromorph boton redondo purpura">
+						<i class="material-icons">login</i>
+					</div>
+				</div>
+			
+				{{/with}}
+			{{/if}}
 		</div>
 	</div>
 </template>
