@@ -10,13 +10,13 @@
 					<i class="material-icons">add</i><span>Nuevo</span>	
 				</button>
 			{{else}}
-				<p>{{#if ecoOrganizacion.nombre}}{{ecoOrganizacion.nombre}}{{else}}Nueva ECO_Organizacion{{/if}}</p>
+				<p>{{#if ecoOrganizacion.nombre}}{{ecoOrganizacion.nombre}}{{else}}Nueva ECO_Organizacion{{/if}}{{#if editando}} <small>(editando)</small>{{/if}}</p>
 				{{#if ecoOrganizacion.esPropia}}
-					{{#if editando}}
+					{{#unless editando}}
 						<button class="btn" id="btn-editar">
 							<i class="material-icons">edit</i><span>Editar</span>	
 						</button>
-					{{/if}}
+					{{/unless}}
 				{{/if}}
 			{{/if}}
 		</div>
