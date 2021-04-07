@@ -73,6 +73,14 @@
 					margin-top: 4px;
 					text-align: center;
 					z-index: 0;
+					
+					.marco-avatar {
+						width: 132px;
+						height: 132px;
+						border-radius: 6px;
+						background-size: 100% auto;
+						background-position: center;
+					}
 
 					.marco-drop {
 						position: absolute;

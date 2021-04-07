@@ -104,6 +104,22 @@ Meteor.methods({
 				apellidos: "Ecopasaporte",
 				rol: 2
 			}
+		}, {
+			username: "corazon2@yopmail.com",
+			password: "test",
+			profile: {
+				nombres: "Corazon Dos",
+				apellidos: "Ecopasaporte",
+				rol: 2
+			}
+		}, {
+			username: "corazon3@yopmail.com",
+			password: "test",
+			profile: {
+				nombres: "Corazon Tres",
+				apellidos: "Ecopasaporte",
+				rol: 2
+			}
 		}];
 		defecto.forEach((u) => {
 			Accounts.createUser(u);

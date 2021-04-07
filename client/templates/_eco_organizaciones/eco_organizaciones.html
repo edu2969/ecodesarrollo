@@ -4,19 +4,21 @@
 	</div>
 	<div class="titulo-grilla">
 		<div class="contenido-titulo">
-			{{#unless ecoOrganizacion}}
+			{{#if enListado}}
 				<p>ECO_Organizaciones <small>({{cantidad}})</small></p>
 				<button class="btn" id="btn-nuevo">
 					<i class="material-icons">add</i><span>Nuevo</span>	
 				</button>
 			{{else}}
-				<p>{{ecoOrganizacion.nombre}}</p>
+				<p>{{#if ecoOrganizacion.nombre}}{{ecoOrganizacion.nombre}}{{else}}Nueva ECO_Organizacion{{/if}}</p>
 				{{#if ecoOrganizacion.esPropia}}
-				<button class="btn" id="btn-editar">
-					<i class="material-icons">edit</i><span>Editar</span>	
-				</button>
+					{{#if editando}}
+						<button class="btn" id="btn-editar">
+							<i class="material-icons">edit</i><span>Editar</span>	
+						</button>
+					{{/if}}
 				{{/if}}
-			{{/unless}}
+			{{/if}}
 		</div>
 	</div>
 	<div class="carrousel grilla">
@@ -86,13 +88,18 @@
 									 value="{{ecoOrganizacion.contacto}}">
 					</div>
 				</div>
-				<div class="flex">				
+				<div class="flex">
 					<div class="entrada avatar">
 						<span>Avatar</span>
 						<div class="marco-upload">
 							<div class="marco-foto">
+								{{#if ecoOrganizacion.avatar}}
+								<div class="marco-avatar" 
+										 style="background-image: url({{ecoOrganizacion.avatar}})"></div>
+								{{else}}
 								<i class="material-icons">insert_photo</i>
 								<p>Arrastra / Click</p>
+								{{/if}}
 								<div class="marco-drop"></div>
 							</div>
 						</div>
@@ -142,8 +149,7 @@
 					<div class="neuromorph boton redondo purpura">
 						<i class="material-icons">login</i>
 					</div>
-				</div>
-			
+				</div>			
 				{{/with}}
 			{{/if}}
 		</div>

@@ -4,6 +4,7 @@ Template.eco_organizaciones.onCreated(function() {
 	this.currentUpload = new ReactiveVar();
 	this.ecoOrganizacionSeleccionada = new ReactiveVar(false);
 	this.editando = ReactiveVar(false);
+	this.enListado = ReactiveVar(true);
 });
 
 Template.eco_organizaciones.rendered = () => {
@@ -13,6 +14,9 @@ Template.eco_organizaciones.rendered = () => {
 }
 
 Template.eco_organizaciones.helpers({
+	enListado() {
+		return Template.instance().enListado.get();
+	},
 	editando() {
 		const template = Template.instance();
 		return template.editando.get();
@@ -20,7 +24,13 @@ Template.eco_organizaciones.helpers({
 	ecoOrganizaciones() {
 		return ECOOrganizaciones.find().map(ecoOrganizacion => {
 			ecoOrganizacion.ultimaActividad = ecoOrganizacion.ultimaActualizacion;
-			const img = Images.findOne({ "meta.ecoOrganizacionId": ecoOrganizacion._id });
+			const img = Images.findOne({ 
+				$or: [{
+					"meta.ecoOrganizacionId": ecoOrganizacion._id		
+				}, {
+					"meta.pendiente": true
+				}] 
+			});
 			ecoOrganizacion.avatar = img ? img.link() : '/img/no_image_available.jpg';
 			ecoOrganizacion.integrantes = 0;
 			ecoOrganizacion.donaciones = 0;
@@ -30,13 +40,20 @@ Template.eco_organizaciones.helpers({
 	ecoOrganizacion() {
 		const template = Template.instance();
 		let ecoOrganizacion = template.ecoOrganizacionSeleccionada.get();
+		if(!ecoOrganizacion) return;
 		const userId = Meteor.userId();
 		if(userId==ecoOrganizacion.userId) {
 			ecoOrganizacion.esPropia = true;
 		}
-		const img = Images.findOne({ "meta.ecoOrganizacionId": ecoOrganizacion._id });
-		ecoOrganizacion.ultimaActividad = ecoOrganizacion.ultimaActualizacion;
+		const img = Images.findOne({ 
+			$or: [{
+				"meta.ecoOrganizacionId": ecoOrganizacion._id		
+			}, {
+				"meta.pendiente": true
+			}] 
+		});
 		ecoOrganizacion.avatar = img ? img.link() : '/img/no_image_available.jpg';
+		ecoOrganizacion.ultimaActividad = ecoOrganizacion.ultimaActualizacion;
 		ecoOrganizacion.integrantes = 0;
 		ecoOrganizacion.donaciones = 0;
 		return ecoOrganizacion;
@@ -53,14 +70,16 @@ Template.eco_organizaciones.events({
 	"click .marco-organizacion"(e, template) {
 		const id = e.currentTarget.id;
 		const entidad = ECOOrganizaciones.findOne({ _id: id });
+		template.enListado.set(false);
 		template.ecoOrganizacionSeleccionada.set(entidad);
 		UIUtils.toggle("carrousel", "grilla");
 		UIUtils.toggle("carrousel", "detalle");
 		UIUtils.toggle("navegacion-atras", "activo");
 	},
 	"click #btn-nuevo"(e, template) {
-		template.ecoOrganizacionSeleccionada.set(false);
+		template.ecoOrganizacionSeleccionada.set({});
 		template.editando.set(true);
+		template.enListado.set(false);
 		UIUtils.toggle("carrousel", "grilla");
 		UIUtils.toggle("carrousel", "detalle");
 		UIUtils.toggle("navegacion-atras", "activo");
@@ -80,6 +99,8 @@ Template.eco_organizaciones.events({
 				UIUtils.toggle("carrousel", "detalle");
 				UIUtils.toggle("navegacion-atras", "activo");		
 				template.ecoOrganizacionSeleccionada.set(false);
+				template.editando.set(false);
+				template.enListado.set(true);
 			}
 		})
 	},
@@ -92,6 +113,9 @@ Template.eco_organizaciones.events({
 		UIUtils.toggle("carrousel", "detalle");
 		UIUtils.toggle("navegacion-atras", "activo");		
 		template.ecoOrganizacionSeleccionada.set(false);
+		template.editando.set(false);
+		template.enListado.set(true);
+		$(".detalle").scrollTop(0);
 	},
 	
 	
@@ -153,7 +177,7 @@ Template.eco_organizaciones.events({
           //console.log("FileImage", fileObj);
         }
         template.currentUpload.set(false);
-        template.$(".marco-drop").addClass("activo");
+        template.$(".marco-drop").removeClass("activo");
       });
       upload.start();
     }
@@ -187,7 +211,7 @@ Template.eco_organizaciones.events({
 
       upload.on('end', function (error, fileObj) {
         template.currentUpload.set(false);
-        template.$(".marco-drop").addClass("activo");    
+        template.$(".marco-drop").removeClass("activo");
       });
 			
       upload.start();
