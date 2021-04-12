@@ -1,5 +1,5 @@
 .wizzard {
-	width: 550px;
+	width: 100%;
 	margin: auto;
 	
 	&.oculto {
@@ -13,7 +13,8 @@
 		height: 66px;
 		overflow: hidden;
 		padding-left: 63px;
-		margin-top: 10px;
+		margin: 10px auto;
+		width: 550px;
 		
 		.paso {
 			position: relative;
@@ -92,7 +93,8 @@
 	position: relative;
 	top: 0px;
 	left: 0px;
-	width: 100%;
+	width: calc(100% - 180px);
+	margin: auto;
 	height: 63vh;
 	display: block;
 	text-align: center;
@@ -101,7 +103,7 @@
 	
 	.carrousel {
 		position: relative;
-		width: 400%;
+		width: calc(400% + 160px);
 		display: inline-flex;
 		left: 0px;
 		transition: all 0.5s ease;
@@ -123,9 +125,9 @@
 		}
 		
 		.paso {
-			width: 100%;
+			width: 25%;
 			text-align: left;
-			margin: 0 40px 0 40px;
+			margin: 0 70px 0 70px;
 			
 			.estado {
 				position: relative;
