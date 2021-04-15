@@ -1,4 +1,5 @@
 const { ECO_SOS } = require("../../lib/constantes");
+const { ECO_CAMPANAS } = require("../../lib/constantes");
 
 Handlebars.registerHelper("formatoFecha", function (date, mask) {
   if(!date) return '--/--';
@@ -26,4 +27,7 @@ Handlebars.registerHelper("traductorSOSAfectados", (codigo)=>{
 
 Handlebars.registerHelper("traductorSOSProblemas", (codigo)=>{
 	return ECO_SOS.PROBLEMA[codigo].etiqueta;
+});
+Handlebars.registerHelper("traductorCAMPANASTipos", (codigo)=>{
+	return ECO_CAMPANAS.TIPOS[codigo];
 });

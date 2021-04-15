@@ -80,45 +80,20 @@
 					background-color: rgba(0, 0, 0, 0.7);
 					color: white;
 
-					.categoria {
-						.material-icons {
-							font-size: 32px;
-							margin-left: 12px;
+					.fechas {
+						padding: 4px 8px;
+						.fechainicio {
+							font-weight: bolder;
 						}
-						.tipo {
-							span {
-								position: relative;
-								width: 220px;
-								text-align: center;
-								font-weight: lighter;
-								font-size: 10px;
-								top: 4px;
-								left: -40px;
-							}
-						}
-					}
 
-					.impacto {
-						position: relative;
-						top: -102px;
-						right: -150px;
-						.cantidad {
-							width: 50px;
-							text-align: center;
-							font-size: 36px;
-						}
-						small {
-							position: relative;
+						.fechai {
 							font-size: 12px;
-							top: -40px;
-							left: -8px;
 						}
 					}
-
 					.fecha {
 						position: relative;
 						top: -40px;
-						right: -144px;
+						right: -120px;
 
 						span {
 							padding-left: 4px;
@@ -131,22 +106,29 @@
 						}
 					}
 
-					.donaciones {
+					.nomcomuna {
+						padding: 4px 8px;
 						position: relative;
-						top: 6px;
-
-						.material-icons {
-							position: relative;
-							left: 2px;
-							top: -40px;
-							font-size: 38px;
+						top: -25px;
+						.comuna  {
+							font-weight: bolder;
 						}
+						.comunai {
+							font-size: 14px;
+						}
+						
+					}
+					.nomorganizador {
+						padding: 4px 8px;
+						position: relative;
+						top: -70px;
+						right: -120px;
 
-						.cantidad {
-							position: relative;
-							top: -50px;
-							left: 8px;
-							font-size: 18px;
+						.organizador {
+							font-weight: bolder;
+						}
+						.organizadori {
+							font-size: 7px;
 						}
 					}
 				}

@@ -51,6 +51,7 @@ Meteor.methods({
 	},
 	ActualizarECOCampana(doc) {
 		if(doc._id) {
+			//debugger;
 			const id = doc._id;
 			delete doc._id;
 			ECOCampanas.update({ _id: id }, { $set: doc });
@@ -67,7 +68,15 @@ Meteor.methods({
 			ECOSos.insert(doc);	
 		}		
 	},
-	
+	ActualizarECODesarrollo(doc) {
+		if(doc._id) {
+			const id = doc._id;
+			delete doc._id;
+			ECODesarrollos.update({ _id: id }, { $set: doc });
+		} else {
+			ECODesarrollos.insert(doc);	
+		}		
+	},
 	
 	// TEST
 	_DatosIniciales() {
