@@ -2,6 +2,14 @@ Template.registrame.onCreated(function() {
 	this.paso = new ReactiveVar(1);
 });
 
+Template.registrame.helpers({
+	pasoCompletado(paso) {
+		const template = Template.instance().paso.get();
+		const pasoActual = template.paso.get();
+		return paso == ( pasoActual + 1 )
+	}
+});
+
 Template.registrame.events({
 	"click .navegador .boton"(e, template) {
 		var clase = e.currentTarget.classList.value;
@@ -27,5 +35,6 @@ Template.registrame.events({
 			template.paso.set(paso + 1);
 			UIUtils.toggle("carrousel", "paso" + ( paso + 1 ) );
 		} 
-	}
+	},
+	"focusout "
 })

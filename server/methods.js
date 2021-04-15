@@ -46,7 +46,21 @@ Meteor.methods({
 			delete doc._id;
 			ECOOrganizaciones.update({ _id: id }, { $set: doc });
 		} else {
-			ECOOrganizaciones.insert(doc);	
+			const ecoOrganizacionId = ECOOrganizaciones.insert(doc);
+			const img = Images.findOne({
+				userId: Meteor.userId(),
+				"meta.pendiente": true
+			});
+			if(img) {
+				Images.update({ _id: img._id }, {
+					$set: {
+						"meta.ecoOrganizacionId": ecoOrganizacionId
+					},
+					$unset: {
+						"meta.pendiente": true
+					}
+				});
+			}
 		}		
 	},
 	ActualizarECOCampana(doc) {
@@ -96,6 +110,22 @@ Meteor.methods({
 			password: "test",
 			profile: {
 				nombres: "Corazon Uno",
+				apellidos: "Ecopasaporte",
+				rol: 2
+			}
+		}, {
+			username: "corazon2@yopmail.com",
+			password: "test",
+			profile: {
+				nombres: "Corazon Dos",
+				apellidos: "Ecopasaporte",
+				rol: 2
+			}
+		}, {
+			username: "corazon3@yopmail.com",
+			password: "test",
+			profile: {
+				nombres: "Corazon Tres",
 				apellidos: "Ecopasaporte",
 				rol: 2
 			}

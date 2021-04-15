@@ -43,11 +43,11 @@
 					<div class="formulario">
 						<div class="entrada">
 							<span>Nombre completo</span>
-							<input type="text">
+							<input type="text" class="campo" id="input-nombre">
 						</div>
 						<div class="entrada">
 							<span>Algún pseudónimo?</span>
-							<input type="text">
+							<input type="text" class="campo" id="input-pseudonimo">
 						</div>
 					</div>
 				</div>
@@ -66,7 +66,8 @@
 						</div>
 						<div class="entrada">
 							<span>Tu dirección descrita</span>
-							<input type="text" placeholder="Calle #, Ciudad">
+							<input type="text" class="campo" placeholder="Calle #, Ciudad"
+										 id="input-direccion">
 						</div>
 					</div>
 				</div>
@@ -78,12 +79,13 @@
 					</div>
 					<div class="formulario">
 						<div class="entrada">
-							<input type="email" placeholder="algo@dominio.cl">
+							<input type="email" class="form" placeholder="algo@dominio.cl"
+										 id="input-email">
 						</div>
 						<div class="flex">
 							<div class="entrada password">
 								<span>password</span>
-								<input type="password">
+								<input type="password" class="form" id="input-password">
 								<div class="barra-seguridad insegura">
 									<div class="segmento"></div>
 									<div class="segmento"></div>
@@ -95,7 +97,7 @@
 							</div>
 							<div class="entrada">
 								<span>re-password</span>
-								<input type="password">
+								<input type="password" class="form" id="input-repassword">
 							</div>
 						</div>
 					</div>
@@ -107,7 +109,7 @@
 						<span class="titulo">4. Tu código secreto</span>
 					</div>
 					<span class="detalle">Debes esperar un código en tu email. Esto tarda 3 días o menos.</span>
-					<input type="password">
+					<input type="password" class="form" id="input-codigo">
 				</div>
 
 			</div>

@@ -159,11 +159,6 @@ Template.ecopasaporte.events({
 				UIUtils.toggle("tombola", "reaparece");
 			}, 500);
 		}, 500);
-	},
-	"click .navegacion-atras"(e, template) {
-		UIUtils.toggle("carrousel", "grilla");
-		UIUtils.toggle("carrousel", "detalle");
-		UIUtils.toggle("navegacion-atras", "activo");		
 	}
 });
 
