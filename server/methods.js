@@ -1,5 +1,23 @@
 Meteor.methods({
 	// Core
+	RegistrarCuenta(doc) {
+		console.log(doc);
+		const cuenta = {
+			email: doc.email.valor,
+			profile: {
+				nombre: doc.nombre.valor,
+				direccion: doc.direccion.valor,
+				rol: 1
+			},
+			password: doc.password.valor
+		};
+		if(doc.pesudonimo) {
+			cuenta.username = doc.pesudonimo.valor;
+		}
+		console.log(cuenta);
+		Accounts.createUser(cuenta);
+		// @TODO Enviar por email el codigo secreto
+	},
 	ActualizarCuenta(doc) {
 		if(doc._id) {
 			let docSet = {};
@@ -98,36 +116,12 @@ Meteor.methods({
 			Meteor.users.remove({ _id: usuario._id });
 		})
 		const defecto = [{
-			username: "admin@yopmail.com",
+			username: "SuperAdmin",
+			email: "admin@yopmail.com",
 			password: "test",
 			profile: {
-				nombres: "Admin",
-				apellidos: "Ecopasaporte",
+				nombre: "Admin Ecopasaporte",
 				rol: 1
-			}
-		}, {
-			username: "corazon1@yopmail.com",
-			password: "test",
-			profile: {
-				nombres: "Corazon Uno",
-				apellidos: "Ecopasaporte",
-				rol: 2
-			}
-		}, {
-			username: "corazon2@yopmail.com",
-			password: "test",
-			profile: {
-				nombres: "Corazon Dos",
-				apellidos: "Ecopasaporte",
-				rol: 2
-			}
-		}, {
-			username: "corazon3@yopmail.com",
-			password: "test",
-			profile: {
-				nombres: "Corazon Tres",
-				apellidos: "Ecopasaporte",
-				rol: 2
 			}
 		}];
 		defecto.forEach((u) => {

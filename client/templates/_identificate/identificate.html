@@ -1,9 +1,9 @@
 <template name="identificate">	
-	<div class="tipo-identificacion">
+	<div class="tipo-identificacion oculto">
 		<div class="titulo">ECO_desafío - IDENTIFÍCATE</div>
 		<div class="desafios">
-			<div class="marco-tipo neuromorph verde">
-				<div class="estado">
+			<div class="marco-tipo neuromorph verde" nivel="1">
+				<div class="estado{{#unless nivel.nivel1.completado}} pendiente{{/unless}}">
 					<i class="material-icons">check_circle_outline</i>
 				</div>
 				<div class="simbolo">
@@ -18,8 +18,8 @@
 				</div>
 			</div>
 
-			<div class="marco-tipo neuromorph verde">
-				<div class="estado pendiente">
+			<div class="marco-tipo neuromorph verde{{#unless nivel.nivel2}} deshabilitado{{/unless}}" nivel="2">
+				<div class="estado{{#unless nivel.nivel2.completado}} pendiente{{/unless}}">
 					<i class="material-icons">check_circle_outline</i>
 				</div>
 				<div class="simbolo">
@@ -34,8 +34,8 @@
 				</div>
 			</div>
 
-			<div class="marco-tipo neuromorph verde deshabilitado">
-				<div class="estado pendiente">
+			<div class="marco-tipo neuromorph verde{{#unless nivel.nivel3}} deshabilitado{{/unless}}" nivel="3">
+				<div class="estado{{#unless nivel.nivel3.completado}} pendiente{{/unless}}">
 					<i class="material-icons">check_circle_outline</i>
 				</div>
 				<div class="simbolo">
@@ -50,8 +50,8 @@
 				</div>
 			</div>
 
-			<div class="marco-tipo neuromorph verde deshabilitado">
-				<div class="estado pendiente">
+			<div class="marco-tipo neuromorph verde{{#unless nivel.nivel4}} deshabilitado{{/unless}}" nivel="4">
+				<div class="estado {{#unless nivel.nivel4.completado}} pendiente{{/unless}}">
 					<i class="material-icons">check_circle_outline</i>
 				</div>
 				<div class="simbolo">
@@ -74,12 +74,12 @@
 				<div class="campo">
 					<p>email</p>
 					<i class="material-icons">email</i>
-					<input type="text" id="input-email" placeholder="ejemplo@email.cl">
+					<input type="text" id="input-login-email" placeholder="ejemplo@email.cl">
 				</div>
 				<div class="campo">
 					<p>password</p>
 					<i class="material-icons">lock</i>
-					<input id="input-password" type="password">
+					<input id="input-login-password" type="password">
 				</div>
 				<p class="errores">{{errores}}</p>
 			</div>

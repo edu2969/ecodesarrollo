@@ -35,7 +35,7 @@
 			
 			.titulo {
 				width: 120px;
-				margin-left: -40px; 
+				margin-left: -40px;
 				text-align: center;
 			}
 			
@@ -103,7 +103,7 @@
 	
 	.carrousel {
 		position: relative;
-		width: calc(400% + 160px);
+		width: calc(400% + 0px);
 		display: inline-flex;
 		left: 0px;
 		transition: all 0.5s ease;
@@ -132,10 +132,10 @@
 			.estado {
 				position: relative;
 				display: flex;
-				top: 12px;
+				top: 2px;
 				left: -6px;
 				color: white;
-				margin-bottom: 20px;
+				margin-bottom: 4px;
 				
 				.titulo {
 					position: relative;

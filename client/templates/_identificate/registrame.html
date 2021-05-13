@@ -1,17 +1,17 @@
 <template name="registrame">
 	<div class="wizzard oculto">
 		<div class="barra-estado neuromorph verde">
-			<div class="paso">
+			<div class="paso{{#if nivel.nivel1.pasos.paso1.completado}} completo{{/if}}">
 				<div class="numero">1</div>
 				<div class="titulo">Quién eres</div>
 				<div class="trazo"></div>
 			</div>
-			<div class="paso">
+			<div class="paso{{#if nivel.nivel1.pasos.paso2.completado}} completo{{/if}}">
 				<div class="numero">2</div>
 				<div class="titulo">Dónde vives</div>
 				<div class="trazo"></div>
 			</div>
-			<div class="paso">
+			<div class="paso{{#if nivel.nivel1.pasos.paso3.completado}} completo{{/if}}">
 				<div class="numero">3</div>
 				<div class="titulo">Tu e-correo</div>
 				<div class="trazo"></div>
@@ -33,32 +33,33 @@
 
 		<div class="contenedor-pasos">
 
-			<div class="carrousel paso1">
+			<div class="carrousel {{paso}}">
 
-				<div class="paso">
+				<div class="paso paso1">
 					<div class="estado">
 						<i class="material-icons">check_circle_outline</i>
 						<span class="titulo">1. Quién eres</span>
 					</div>
-					<div class="formulario">
+					<div class="formulario" paso="1">
 						<div class="entrada">
 							<span>Nombre completo</span>
-							<input type="text" class="campo" id="input-nombre">
+							{{#if errores.nombre.mensaje}} <span class="mensaje">{{errores.nombre.mensaje}}</span>{{/if}}
+							<input type="text" class="campo-entrada" id="input-nombre" required="true" value="{{usuario.nombre}}">
 						</div>
 						<div class="entrada">
 							<span>Algún pseudónimo?</span>
-							<input type="text" class="campo" id="input-pseudonimo">
+							<input type="text" class="campo-entrada" id="input-pseudonimo" value="{{usuario.pseudónimo}}">
 						</div>
 					</div>
 				</div>
 
-				<div class="paso">
+				<div class="paso paso2">
 					<div class="estado">
 						<i class="material-icons">check_circle_outline</i>
 						<span class="titulo">2. Dónde vives</span>
 					</div>
-					<div class="formulario flex">
-						<div class="entrada geo neuromorph verde">
+					<div class="formulario flex" paso="2">
+						<div class="entrada geo neuromorph verde" type="geolocation">
 							<div class="icono">
 								<i class="material-icons">share_location</i>
 								<p class="share-location">Permitir acceso</p>
@@ -66,56 +67,63 @@
 						</div>
 						<div class="entrada">
 							<span>Tu dirección descrita</span>
-							<input type="text" class="campo" placeholder="Calle #, Ciudad"
-										 id="input-direccion">
+							{{#if errores.direccion.mensaje}} <span class="mensaje">{{errores.direccion.mensaje}}</span>{{/if}}
+							<input type="text" class="campo-entrada" placeholder="Calle #, Ciudad"
+										 id="input-direccion" required="true" value="{{usuario.direccion}}">
 						</div>
 					</div>
 				</div>
 
-				<div class="paso">
+				<div class="paso paso3">
 					<div class="estado">
 						<i class="material-icons">check_circle_outline</i>
 						<span class="titulo">3. Tu e-correo</span>
 					</div>
-					<div class="formulario">
+					<div class="formulario" paso="3">
 						<div class="entrada">
-							<input type="email" class="form" placeholder="algo@dominio.cl"
-										 id="input-email">
+							<span>Tu correo electroninco</span>
+							{{#if errores.email.mensaje}} <span class="mensaje">{{errores.email.mensaje}}</span>{{/if}}
+							<input type="email" class="campo-entrada" placeholder="algo@dominio.cl"
+										 id="input-email" required="true" value="usuario.email">
 						</div>
 						<div class="flex">
 							<div class="entrada password">
 								<span>password</span>
-								<input type="password" class="form" id="input-password">
-								<div class="barra-seguridad insegura">
-									<div class="segmento"></div>
-									<div class="segmento"></div>
-									<div class="segmento"></div>
-									<div class="segmento"></div>
-									<div class="segmento"></div>
-									<span>0% Insegura</span>
-								</div>
+								{{#if errores.password.mensaje}} <span class="mensaje">{{errores.password.mensaje}}</span>{{/if}}
+								<input type="password" class="campo-entrada" id="input-password" required="true">
 							</div>
 							<div class="entrada">
 								<span>re-password</span>
-								<input type="password" class="form" id="input-repassword">
+								{{#if errores.repassword.mensaje}} <span class="mensaje">{{errores.repassword.mensaje}}</span>{{/if}}
+								<input type="password" class="campo-entrada" id="input-repassword" required="true">
 							</div>
+						</div>
+						<div class="barra-seguridad insegura">
+							<div class="segmento"></div>
+							<div class="segmento"></div>
+							<div class="segmento"></div>
+							<div class="segmento"></div>
+							<div class="segmento"></div>
+							<span>0% Insegura</span>
 						</div>
 					</div>
 				</div>
 
-				<div class="paso">
+				<div class="paso paso4">
 					<div class="estado">
 						<i class="material-icons">check_circle_outline</i>
 						<span class="titulo">4. Tu código secreto</span>
 					</div>
-					<span class="detalle">Debes esperar un código en tu email. Esto tarda 3 días o menos.</span>
-					<input type="password" class="form" id="input-codigo">
+					<div class="formulario" paso="4">
+						<div class="entrada">
+							<span>Debes esperar un código en tu email. Esto tarda 3 días o menos.</span>
+							{{#if errores.codigo.mensaje}} <span class="mensaje">{{errores.codigo.mensaje}}</span>{{/if}}
+							<input type="password" class="campo-entrada" id="input-codigo" required="true">
+						</div>
+					</div>
 				</div>
 
 			</div>
-
 		</div>
-
 	</div>
-
 </template>
