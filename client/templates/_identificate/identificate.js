@@ -6,7 +6,6 @@ Template.identificate.onCreated(function () {
 
 Template.identificate.rendered = function () {
   const instance = Template.instance();
-  Nivel.setNivelUsuario();
 }
 
 Template.identificate.helpers({
