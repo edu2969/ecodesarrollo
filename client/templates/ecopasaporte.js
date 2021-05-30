@@ -93,6 +93,15 @@ Template.ecopasaporte.events({
 				esIdentificate: true
 			});
 			UIUtils.toggle("eco-panel", "activo");
+			setTimeout(() => {
+				if(Meteor.userId()) {
+					console.log("Uno");
+					UIUtils.toggle("tipo-identificacion", "oculto");
+				} else {
+					console.log("Dos");
+					$(".contendor-identificate").toggleClass("oculto");
+				}	
+			}, 500);			
 		} else if(actividad.indexOf("eco_organizaciones")!=-1) {
 			template.panel.set({
 				clase: "eco_organizaciones",
@@ -125,13 +134,11 @@ Template.ecopasaporte.events({
 	},
 	"click .cruz-panel"(e, template) {
 		UIUtils.toggle("eco-panel", "activo");
+		$(".contendor-identificate").removeClass("oculto");
+		$(".tipo-identificacion").removeClass("oculto");
 		setTimeout(function() {
 			template.panel.set(false);	
 		}, 1000);
-	},
-	"click .marco-tipo"() {
-		UIUtils.toggle("tipo-identificacion", "oculto");
-		UIUtils.toggle("contendor-identificate", "oculto");
 	},
 	"click .cruz-principal"(e, template) {
 		UIUtils.toggle("cruz-principal", "oculto");
