@@ -46,7 +46,17 @@ const Nivel = {
           paso4: { actual: true }
         }
       }
+    } else {
+      nivel.nivel1 = { 
+        pasos: { 
+          paso1: { actual: true },
+          paso2: {},
+          paso3: {},
+          paso4: {}
+        }
+      }
     }
+    console.log("NIVEL INICIAL", nivel);
     Session.set("Nivel", nivel);
   },
   get() {

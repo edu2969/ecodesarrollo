@@ -161,8 +161,6 @@ Template.eco_organizaciones.events({
 			}
       const upload = Images.insert({
         file: e.originalEvent.dataTransfer.files[0],
-        streams: 'dynamic',
-        chunkSize: 'dynamic',
         meta: meta
       }, false);
 
@@ -200,8 +198,6 @@ Template.eco_organizaciones.events({
 			}
       const upload = Images.insert({
         file: e.currentTarget.files[0],
-        streams: 'dynamic',
-        chunkSize: 'dynamic',
         meta: meta
       }, false);
 
