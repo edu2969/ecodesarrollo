@@ -1,4 +1,12 @@
+export { Images };
 const { ECO_CAMPANAS } = require('../../../lib/constantes');
+
+Template.eco_campanas.onCreated(function() {
+	this.currentUpload = new ReactiveVar();
+	this.ecoCampanaSeleccionada = new ReactiveVar(false);
+	this.editando = ReactiveVar(false);
+	this.enListado = ReactiveVar(true);
+});
 
 Template.eco_campanas.rendered = () => {
 	Tracker.autorun(() => {
@@ -7,8 +15,39 @@ Template.eco_campanas.rendered = () => {
 }
 
 Template.eco_campanas.helpers({
-	eco_campanas() {
+	enListado() {
+		return Template.instance().enListado.get();
+	},
+	editando() {
+		const template = Template.instance();
+		return template.editando.get();
+	},
+	eco_campanas(){
+		
 		return ECOCampanas.find();
+		
+	},
+	ecoCampana() {
+		//debugger;
+		const template = Template.instance();
+		let ecoCampana = template.ecoCampanaSeleccionada.get();
+		if(!ecoCampana) return;
+		const userId = Meteor.userId();
+		if(userId==ecoCampana.userId) {
+			ecoCampana.esPropia = true;
+		}
+		const img = Images.findOne({ 
+			$or: [{
+				"meta.ecoCamapnaId": ecoCampana._id		
+			}, {
+				"meta.pendiente": true
+			}] 
+		});
+		ecoCampana.avatar = img ? img.link() : '/img/no_image_available.jpg';
+		ecoCampana.ultimaActividad = ecoCampana.ultimaActualizacion;
+		ecoCampana.integrantes = 0;
+		ecoCampana.donaciones = 0;
+		return ecoCampana;
 	},
 	cantidad() {
 		return ECOCampanas.find().count();
@@ -24,38 +63,175 @@ Template.eco_campanas.helpers({
 			}
 		});
 	},
-	eco_campana() {
-		return Session.get("ECOCampanaSeleccionado");
+	eco_campana(){
+		return ECOCampanas.find();
+	},
+	currentUpload() {
+		return Template.instance().currentUpload.get();
+	},
+	imagenes() {
+		debugger;
+		return Images.find({ "meta.tipo": "ecocampana" }).map(img => {
+			const imagen = Images.findOne({ _id: img._id });
+			return {
+				_id: img._id,
+				link: imagen.name,
+				imagen: imagen.link()
+			}
+		});
 	}
 })
 
 Template.eco_campanas.events({
-	"click .marco-campana"(e) {
+	"click .marco-campana"(e, template) {
+
 		const id = e.currentTarget.id;
 		const entidad = ECOCampanas.findOne({ _id: id });
-		Session.set("ECOCampanaSeleccionado", entidad);
+		template.enListado.set(false);
+		template.ecoCampanaSeleccionada.set(entidad);
+		//Session.set("ECOCampanaSeleccionado", entidad);
 		UIUtils.toggle("carrousel", "grilla");
 		UIUtils.toggle("carrousel", "detalle");
 		UIUtils.toggle("navegacion-atras", "activo");
 	},
-	"click #btn-nuevo"() {
+	"click #btn-nuevo"(e, template) {
+		template.ecoCampanaSeleccionada.set({});
+		template.editando.set(true);
+		template.enListado.set(false);
+		
 		Session.set("ECOCampanaSeleccionado", {});
 		UIUtils.toggle("carrousel", "grilla");
 		UIUtils.toggle("carrousel", "detalle");
 		UIUtils.toggle("navegacion-atras", "activo");
 	},
-	"click #btn-guardar"() {
+	"click #btn-guardar"(e, template) {
+		//debugger;
 		const doc = FormUtils.getFields();
-		const ecocampana = Session.get("ECOCampanaSeleccionado");
-		if(ecocampana._id) {
-			doc._id = ecocampana._id;
+		const ecoCampana = template.ecoCampanaSeleccionada.get();
+
+		if(ecoCampana._id) {
+			doc._id = ecoCampana._id;
+		} else {
+			doc.userId = Meteor.userId();
+			doc.ultimaActualizacion = new Date();
 		}
 		Meteor.call("ActualizarECOCampana", doc, function(err, resp) {
 			if(!err) {
 				UIUtils.toggle("carrousel", "grilla");
 				UIUtils.toggle("carrousel", "detalle");
-				UIUtils.toggle("navegacion-atras", "activo");		
+				UIUtils.toggle("navegacion-atras", "activo");	
+				//template.ecoCampanaSeleccionada.set(false);
+				//template.editando.set(false);
+				//template.enListado.set(true);
 			}
 		})
-	}
+	},
+	"click #btn-editar"(e, template) {
+		const editando = template.editando.get();
+		template.editando.set(!editando);
+	},
+	"click .navegacion-atras"(e, template) {
+		UIUtils.toggle("carrousel", "grilla");
+		UIUtils.toggle("carrousel", "detalle");
+		UIUtils.toggle("navegacion-atras", "activo");		
+		template.ecoCampanaSeleccionada.set(false);
+		template.editando.set(false);
+		template.enListado.set(true);
+		$(".detalle").scrollTop(0);
+	},
+	
+
+"dragover .camara .marco-upload": function (e, t) {
+    e.stopPropagation();
+    e.preventDefault();
+    t.$(".marco-drop").addClass("activo");
+  },
+"dragleave .camara .marco-upload": function (e, t) {
+    e.stopPropagation();
+    e.preventDefault();
+    t.$(".marco-drop").removeClass("activo");
+  },
+"dragenter .camara .marco-upload": function (e, t) {
+    e.preventDefault();
+    e.stopPropagation();
+  },
+"drop .camara .marco-upload": function (e, template) {
+    e.stopPropagation();
+    e.preventDefault();
+    var ecoCampana = template.ecoCampanaSeleccionada.get();
+    if (e.originalEvent.dataTransfer.files && e.originalEvent.dataTransfer.files[0]) {
+			let meta = {};
+			var img;
+			if(!ecoCampana._id) {
+				img = Images.findOne({
+					userId: Meteor.userId(),
+					"meta.pendiente": true
+				});
+				meta = { pendiente: true };
+			} else {
+				img = Images.findOne({
+					userId: Meteor.userId(),
+					"meta.ecoOrganizacion": ecoCampana._id
+				});
+				meta = { ecoCampanaId: ecoCampana._id };
+			}
+			
+      const upload = Images.insert({
+        file: e.originalEvent.dataTransfer.files[0],
+        streams: 'dynamic',
+        chunkSize: 'dynamic',
+        meta: meta
+      }, false);
+
+      upload.on('start', function () {
+        template.currentUpload.set(this);
+      });
+			
+      upload.on('end', function (error, fileObj) {
+        if (error) {
+          alert('Error during upload: ' + error);
+        } else {
+          //console.log("FileImage", fileObj);
+        }
+        template.currentUpload.set(false);
+        template.$(".marco-drop").removeClass("activo");
+      });
+      upload.start();
+    }
+  },
+  "click .marco-upload"(e) {
+    $("#upload-image").click();
+  },
+  "change #upload-image"(e, template) {
+    var ecoCampana = template.ecoCampanaSeleccionada.get();
+    if (e.currentTarget.files && e.currentTarget.files[0]) {
+			let meta = {};
+			if(!ecoCampana._id) {
+				Images.remove({
+					userId: Meteor.userId(),
+					"meta.pendiente": true
+				});
+				meta = { pendiente: true };
+			} else {
+				meta = { ecoCampanaId: ecoCampana._id };
+			}
+      const upload = Images.insert({
+        file: e.currentTarget.files[0],
+        streams: 'dynamic',
+        chunkSize: 'dynamic',
+        meta: meta
+      }, false);
+
+      upload.on('start', function () {
+        template.currentUpload.set(this);
+      });
+
+      upload.on('end', function (error, fileObj) {
+        template.currentUpload.set(false);
+        template.$(".marco-drop").removeClass("activo");
+      });
+			
+      upload.start();
+    }
+  },
 })

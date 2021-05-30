@@ -62,7 +62,7 @@ Template.eco_organizaciones.helpers({
 		return ECOOrganizaciones.find().count();
 	},
 	currentUpload() {
-		return Template.instance().currentUpload();
+		return Template.instance().currentUpload.get();
 	}
 });
 
@@ -93,6 +93,7 @@ Template.eco_organizaciones.events({
 			doc.userId = Meteor.userId();
 			doc.ultimaActualizacion = new Date();
 		}
+		
 		Meteor.call("ActualizarECOOrganizacion", doc, function(err, resp) {
 			if(!err) {
 				UIUtils.toggle("carrousel", "grilla");
@@ -119,10 +120,7 @@ Template.eco_organizaciones.events({
 	},
 	
 	
-	
-	
-	
-	"dragover .marco-upload": function (e, t) {
+"dragover .marco-upload": function (e, t) {
     e.stopPropagation();
     e.preventDefault();
     t.$(".marco-drop").addClass("activo");
@@ -182,7 +180,7 @@ Template.eco_organizaciones.events({
       upload.start();
     }
   },
-  "click .marco-drag"(e) {
+  "click .marco-upload"(e) {
     $("#upload-image").click();
   },
   "change #upload-image"(e, template) {

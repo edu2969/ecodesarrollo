@@ -1,7 +1,28 @@
 <template name="eco_desarrollos">
+	<div class="navegacion-atras">
+		<i class="material-icons">arrow_back_ios</i>
+	</div>
 	<div class="titulo-grilla">
+		<div class="contenido-titulo">
+		{{#if enListado}}
 			ECO_Desarrollos <small>{{cantidad}}</small>
-			<button class="btn" id="btn-nuevo">Nuevo</button>
+			<button class="btn" id="btn-nuevo">
+			<i class="material-icons">add </i>
+			<span>Nuevo</span>
+			</button>
+		{{else}}
+			<p>
+				{{#if ecodesarrollo.titulo}}{{ecodesarrollo.titulo}}{{else}}Nuevo	ECO_Desarrollo 
+				{{/if}}{{#if editando}}<small>(editando) </small>{{/if}}</p>
+				{{#if ecoDesarrollo.esPropia}}
+					{{#unless editando}}
+					<button class="btn" id="btn-editar">
+							<i class="material-icons">edit</i><span>Editar</span>	
+					</button>
+					{{/unless}}
+				{{/if}}
+		{{/if}}
+	</div>	
 	</div>
 	<div class="carrousel grilla">
 		<div class="grilla">
@@ -34,30 +55,35 @@
 			</div>
 		</div>
 		<div class="detalle">
+			{{#if editando}}
 			<div class="formulario">
 				<div class="entrada">
 					<span>Título</span><br/>
-					<input class="campo" id="input-titulo" type="text" value="{{eco_desarrollo.titulo}}" placeholder="Título">
+					<input class="campo" id="input-titulo" type="text" value="{{ecoDesarrollo.titulo}}" placeholder="Título">
 				</div>
 				<div class="entrada">
 					<span>Dirección</span>
-					<input class="campo" id="input-direccion" type="text" value="{{eco_desarrollo.direccion}}" placeholder="Dirección">
+					<input class="campo" id="input-direccion" type="text" value="{{ecoDesarrollo.direccion}}" placeholder="Dirección">
 				</div>
 				<div class="entrada">
 					<span>Comuna</span>
 					<input class="campo autocomplete " id="input-comuna" type="text"  
-					value="{{eco_desarrollo.comuna}}" placeholder="Comuna">
+					value="{{ecoDesarrollo.comuna}}" placeholder="Comuna">
 				</div>
 				<div class="entrada">
 					<span>Descripción</span>
-					<textarea class="campo" id="input-descripcion" value="{{eco_desarrollo.descripcion}}" 
+					<textarea class="campo" id="input-descripcion" value="{{ecoDesarrollo.descripcion}}" 
 							rows="4" ></textarea>
 				</div>
 				<div class="entrada documentos-picker">
-					<div class="documento">
-						<i class="material-icons">attachment</i><br />
-						<p>Tomar / Arrastrar<br />Documento</p>
-						<div class="drop-texto"></div>					
+						<div class="documento">
+							<div class="marco-upload">
+							<i class="material-icons">attachment</i><br />
+							<p>Tomar / Arrastrar<br />Documento</p>
+
+							<div class="drop-texto"></div>
+							<input id="upload-archivo" type="file" style="display: none">					
+						</div>
 					</div>
 					<div class="documentos">
 						{{#each documentos}}
@@ -75,20 +101,21 @@
 						<h3>No hay documentos</h3>
 						{{/each}}
 					</div>
-					<input type="file" id="upload-image" style="display: none;">
+					<input type="file" id="upload-archivo" style="display: none;">
 				</div>
 				<div class="entrada imagenes-picker">
 					<div class="camara">
+						<div class="marco-upload">
 						<i class="material-icons">photo_camera</i><br />
 						<p>Tomar / Arrastrar<br />fotografía</p>
 						<div class="drop-texto"></div>					
 					</div>
+				</div>
 					<div class="imagenes">
 						{{#each imagenes}}
 						<div class="imagen" id={{_id}}>
 							<div class="marco-imagen">
 								<img src="{{imagen}}">
-								<p class="nombre" id="{{_id}}">{{link}}</p>
 								<div class="eliminar" id="{{_id}}">
 									<i class="material-icons">clear</i>
 									<span>Eliminar</span>
@@ -110,6 +137,39 @@
 					</div>
 				</div>
 			</div>
+			{{else}}
+				{{#with ecoDesarrollo}}
+				<div class="presentacion">
+					
+					<div class="ultima-actividad"><i>ultimaActividad: </i>{{formatoFecha ultimaActividad 'DD/MMM/YYYY HH:mm'}}</div>
+					<div class="titulo-presentacion">Participantes</div>
+					<div class="participantes">
+						<div class="avatar-participante">
+							<img src="/img/avatares/avatar01.png"><br/>
+							<span>EdUTroN</span>
+							<i class="material-icons">star</i>
+						</div>
+						<div class="avatar-participante">
+							<img src="/img/avatares/avatar02.jpg"><br/>
+							<span>Miriam</span>
+						</div>
+					</div>
+					<div class="titulo-presentacion">Total en donaciones</div>
+					<div class="donaciones">
+						<i class="material-icons">request_quote</i>
+						<div class="cantidad">
+							<small>CLP </small>$ {{donaciones}}<small> M</small>
+						</div>
+					</div>
+					<div class="titulo-presentacion">Reseña histórica</div>
+					<div class="resena"><p>{{resena}}</p></div>
+					<div class="titulo-presentacion">Solicitar unirse</div>
+					<div class="neuromorph boton redondo purpura">
+						<i class="material-icons">login</i>
+					</div>
+				</div>			
+				{{/with}}
+			{{/if}}
 		</div>
 	</div>
 </template>

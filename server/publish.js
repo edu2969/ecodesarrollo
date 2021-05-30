@@ -24,7 +24,25 @@ Meteor.publish('eco_campanas', function() {
 Meteor.publish('eco_sos', function() {
 	return ECOSos.find();
 });
-Meteor.publish('eco_desarrollos', function() {
-	return ECODesarrollos.find();
+
+Meteor.publishComposite('eco_desarrollos', function() {
+	return {
+		find() {
+			return ECODesarrollos.find();
+		},
+		children: [{
+			find(ecoDesarrollo) {
+				return Images.find({
+					$or: [{
+						"meta.ecoDesarrolloId": ecoDesarrollo._id,
+						"meta.tipo": "ecodesarrollo"
+					}, {
+						"meta.pendiente": true,
+						"meta.tipo": "ecodesarrollo"
+					}]
+				}).cursor;
+			}
+		}]
+	}
 });
 

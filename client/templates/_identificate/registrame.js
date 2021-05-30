@@ -36,5 +36,5 @@ Template.registrame.events({
 			UIUtils.toggle("carrousel", "paso" + ( paso + 1 ) );
 		} 
 	},
-	"focusout "
+	
 })
