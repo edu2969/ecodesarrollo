@@ -49,6 +49,10 @@ Template.registrame.onCreated(function() {
 	this.formulario = new ReactiveVar(false);
 });
 
+Template.registrame.onCreated(function() {
+	Nivel.setNivelUsuario();
+})
+
 Template.registrame.helpers({
 	errores() {
 		return Template.instance().errores.get();
