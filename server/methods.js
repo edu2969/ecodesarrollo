@@ -84,25 +84,27 @@ Meteor.methods({
 	ActualizarECOCampana(doc) {
 		if(doc._id) {
 			//debugger;
-				const id = doc._id;
-				delete doc._id;
-				ECOCampanas.update({ _id: id }, { $set: doc });
+			const id = doc._id;
+			delete doc._id;
+			ECOCampanas.update({ _id: id }, { $set: doc });
 		} else {
-					const ecoCampanaId = ECOCampanas.insert(doc);
-					const img = Images.findOne({
-						userId: Meteor.userId(),
-						"meta.pendiente": true	
+			const ecoCampanaId = ECOCampanas.insert(doc);
+			Images.find({
+				userId: Meteor.userId(),
+				"meta.tipo": "ecocampana",
+				"meta.pendiente": true	
+			}).forEach(function(imagen) {
+				if(img) {
+					Images.update({ _id: imagen._id }, {
+						$set: {
+							"meta.ecoCampanaId": ecoCampanaId
+						},
+						$unset: {
+							"meta.pendiente": true
+						}
 					});
-			if(img) {
-					Images.update({ _id: img._id }, {
-					$set: {
-						"meta.ecoCampanaId": ecoCampanaId
-					},
-					$unset: {
-						"meta.pendiente": true
-					}
-				});
-			}	
+				}	
+			})
 		}
 	},
 	ActualizarECOSos(doc) {

@@ -11,6 +11,7 @@ Template.eco_sos.onCreated(function() {
 Template.eco_sos.rendered = () => {
 	Tracker.autorun(() => {
 		Meteor.subscribe('eco_sos');
+		Meteor.subscribe('eco_sos.imagenes');
 	});
 }
 

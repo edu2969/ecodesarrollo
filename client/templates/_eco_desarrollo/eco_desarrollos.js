@@ -10,6 +10,7 @@ Template.eco_desarrollos.onCreated(function() {
 Template.eco_desarrollos.rendered = () => {
 	Tracker.autorun(() => {
 		Meteor.subscribe('eco_desarrollos');
+		Meteor.subscribe('eco_desarrollos.imagenes');
 	});
 }
 

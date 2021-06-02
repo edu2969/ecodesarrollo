@@ -5,13 +5,13 @@
 	<div class="titulo-grilla">
 		<div class="contenido-titulo">
 			{{#if enListado}}
-			ECO_Campanas <small> {{cantidad}}</small>
+			<p>ECO_Campañas <small> ({{cantidad}})</small></p>
 			<button class="btn" id="btn-nuevo">
 				<i class="material-icons">add</i><span>Nuevo</span>
 			</button>
 			{{else}}
 			<p>
-				{{#if ecoCampana.tipo}}{{ecoCampana.tipo}}{{else}}Nuevo ECO_Campana
+				{{#if ecoCampana.tipo}}{{traductorCAMPANASTipos ecoCampana.tipo}}{{else}}Nuevo ECO_Campana
 				{{/if}}{{#if editando}}<small>(editando) </small>{{/if}}</p>
 			{{#if ecoCampana.esPropia}}
 			{{#unless editando}}
@@ -97,21 +97,22 @@
 						</div>
 						<input id="upload-image" type="file" style="display: none">
 					</div>
-				</div>
-				<div class="imagenes">
-					{{#each imagenes}}
-					<div class="imagen" id={{_id}}>
-						<div class="marco-imagen">
-							<img src="{{imagen}}">
-							<div class="eliminar" id="{{_id}}">
-								<i class="material-icons">clear</i>
-								<span>Eliminar</span>
+					<div class="imagenes">
+						{{#each imagenes}}
+						<div class="imagen" id={{_id}}>
+							<div class="marco-imagen">
+								<img src="{{imagen}}">
+								<div class="eliminar" id="{{_id}}">
+									<i class="material-icons">clear</i>
+									<span>Eliminar</span>
+								</div>
 							</div>
 						</div>
+						{{else}}
+						<h3>No hay Imágenes</h3>
+						{{/each}}
+						<input id="upload-image" type="file" style="display: none">
 					</div>
-					{{else}}
-					<h3>No hay Imágenes</h3>
-					{{/each}}
 				</div>
 				<div class="flex">
 					<div class="entrada">
@@ -202,7 +203,7 @@
 					<p>{{resena}}</p>
 				</div>
 				<div class="titulo-presentacion">Solicitar unirse</div>
-				<div class="neuromorph boton redondo purpura">
+				<div class="neuromorph boton redondo azul">
 					<i class="material-icons">login</i>
 				</div>
 			</div>

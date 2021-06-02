@@ -10,6 +10,7 @@ Template.eco_organizaciones.onCreated(function() {
 Template.eco_organizaciones.rendered = () => {
 	Tracker.autorun(() => {
 		Meteor.subscribe('eco_organizaciones');
+		Meteor.subscribe('eco_organizaciones.imagenes');
 	});
 }
 
@@ -26,9 +27,11 @@ Template.eco_organizaciones.helpers({
 			ecoOrganizacion.ultimaActividad = ecoOrganizacion.ultimaActualizacion;
 			const img = Images.findOne({ 
 				$or: [{
-					"meta.ecoOrganizacionId": ecoOrganizacion._id		
+					"meta.ecoOrganizacionId": ecoOrganizacion._id,
+					"meta.tipo": "ecoorganizacion"	
 				}, {
-					"meta.pendiente": true
+					"meta.pendiente": true,
+					"meta.tipo": "ecoorganizacion"
 				}] 
 			});
 			ecoOrganizacion.avatar = img ? img.link() : '/img/no_image_available.jpg';
@@ -47,9 +50,11 @@ Template.eco_organizaciones.helpers({
 		}
 		const img = Images.findOne({ 
 			$or: [{
-				"meta.ecoOrganizacionId": ecoOrganizacion._id		
+				"meta.ecoOrganizacionId": ecoOrganizacion._id,
+				"meta.tipo": "ecoorganizacion"		
 			}, {
-				"meta.pendiente": true
+				"meta.pendiente": true,
+				"meta.tipo": "ecoorganizacion"
 			}] 
 		});
 		ecoOrganizacion.avatar = img ? img.link() : '/img/no_image_available.jpg';
@@ -150,9 +155,13 @@ Template.eco_organizaciones.events({
 			} else {
 				img = Images.findOne({
 					userId: Meteor.userId(),
-					"meta.ecoOrganizacion": ecoOrganizacion._id
+					"meta.ecoOrganizacion": ecoOrganizacion._id,
+					"meta.tipo": "ecoorganizacion"
 				});
-				meta = { ecoOrganizacionId: ecoOrganizacion._id };
+				meta = { 
+					ecoOrganizacionId: ecoOrganizacion._id,
+					tipo: "ecoorganizacion"
+				};
 			}
 			if(img) {
 				Images.remove({ _id: img._id });
@@ -182,17 +191,24 @@ Template.eco_organizaciones.events({
     $("#upload-image").click();
   },
   "change #upload-image"(e, template) {
-    var ecoOranizacion = template.ecoOrganizacionSeleccionada.get();
+    var ecoOrganizacion = template.ecoOrganizacionSeleccionada.get();
     if (e.currentTarget.files && e.currentTarget.files[0]) {
 			let meta = {};
 			if(!ecoOrganizacion._id) {
 				Images.remove({
 					userId: Meteor.userId(),
-					"meta.pendiente": true
+					"meta.pendiente": true,
+					"meta.tipo": "ecoorganizacion"
 				});
-				meta = { pendiente: true };
+				meta = { 
+					pendiente: true,
+					tipo: "ecoorganizacion"
+				};
 			} else {
-				meta = { ecoOrganizacionId: ecoOrganizacion._id };
+				meta = { 
+					ecoOrganizacionId: ecoOrganizacion._id,
+					tipo: "ecoorganizacion"
+				};
 			}
       const upload = Images.insert({
         file: e.currentTarget.files[0],

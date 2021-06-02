@@ -11,6 +11,7 @@ Template.eco_campanas.onCreated(function() {
 Template.eco_campanas.rendered = () => {
 	Tracker.autorun(() => {
 		Meteor.subscribe('eco_campanas');
+		Meteor.subscribe('eco_campanas.imagenes');
 	});
 }
 
@@ -52,9 +53,7 @@ Template.eco_campanas.helpers({
 		return ECOCampanas.find().count();
 	},
 	tipos() {
-
 		const keys = Object.keys(ECO_CAMPANAS.TIPOS);
-
 		return keys.map((key) => {
 			return {
 				id: key,
@@ -69,8 +68,21 @@ Template.eco_campanas.helpers({
 		return Template.instance().currentUpload.get();
 	},
 	imagenes() {
-		
-		return Images.find({ "meta.tipo": "ecocampana" }).map(img => {
+		const template = Template.instance();
+		const ecoCampana = template.ecoCampanaSeleccionada.get();
+		let selector = {};
+		if(ecoCampana._id) {
+			selector = {
+				"meta.ecoCampanaId": ecoCampana._id,
+				"meta.tipo": "ecocampana"
+			}
+		} else {
+			selector = {
+				"meta.pendiente": true,
+				"meta.tipo": "ecocampana"
+			}
+		}
+		return Images.find(selector).map(img => {
 			const imagen = Images.findOne({ _id: img._id });
 			return {
 				_id: img._id,
@@ -118,7 +130,6 @@ Template.eco_campanas.events({
 				UIUtils.toggle("carrousel", "grilla");
 				UIUtils.toggle("carrousel", "detalle");
 				UIUtils.toggle("navegacion-atras", "activo");	
-			
 			}
 		})
 	},
@@ -156,22 +167,15 @@ Template.eco_campanas.events({
     e.preventDefault();
     var ecoCampana = template.ecoCampanaSeleccionada.get();
     if (e.originalEvent.dataTransfer.files && e.originalEvent.dataTransfer.files[0]) {
-			let meta = {};
 			var img;
-			if(!ecoCampana._id) {
-				img = Images.findOne({
-					userId: Meteor.userId(),
-					"meta.pendiente": true
-				});
-				meta = { pendiente: true };
-			} else {
-				img = Images.findOne({
-					userId: Meteor.userId(),
-					"meta.ecoCampana": ecoCampana._id
-				});
-				meta = { ecoCampanaId: ecoCampana._id };
+			var meta = {
+				tipo: "ecocampana"
 			}
-			
+			if (!ecoCampana._id) {
+				meta.pendiente = true;
+			} else {
+				meta.ecoCampanaId = ecoCampana._id;
+			}		
       const upload = Images.insert({
         file: e.originalEvent.dataTransfer.files[0],
         //streams: 'dynamic',
@@ -226,4 +230,9 @@ Template.eco_campanas.events({
       upload.start();
     }
   },
+
+	"click .eliminar"(e) {
+		const id = e.currentTarget.id;
+		Images.remove({ _id: id });
+	}
 })

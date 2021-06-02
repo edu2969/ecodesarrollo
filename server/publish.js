@@ -1,82 +1,39 @@
-Meteor.publishComposite('eco_organizaciones', function() {
-	return {
-		find() {
-			return ECOOrganizaciones.find();
-		},
-		children: [{
-			find(ecoOrganizacion) {
-				return Images.find({
-					$or: [{
-						"meta.ecoOrganizacionId": ecoOrganizacion._id
-					}, {
-						"meta.pendiente": true
-					}]
-				}).cursor;
-			}
-		}]
-	}
+Meteor.publish('eco_organizaciones', function() {
+	return ECOOrganizaciones.find();
 });
 
-Meteor.publishComposite('eco_campanas', function() {
-	return{
-		find(){
-			return ECOCampanas.find();
-	},
-	children: [{
-			find(ecoCampana) {
-				return Images.find({
-					$or: [{
-						"meta.ecoCampanaId": ecoCampana._id,
-						"meta.tipo": "ecocampana"
-					}, {
-						"meta.pendiente": true,
-						"meta.tipo": "ecocampana"
-					}]
-				}).cursor;
-			}
-		}]
-	}
+Meteor.publish('eco_organizaciones.imagenes', function() {
+	return Images.find({
+		"meta.tipo": "ecoorganizacion"
+	}).cursor;
 });
 
-Meteor.publishComposite('eco_sos', function() {
-	return{
-		find(){
-				return ECOSos.find();
-},
-	children: [{
-			find(ecoSos) {
-				return Images.find({
-					$or: [{
-						"meta.ecoSosId": ecoSos._id,
-						"meta.tipo": "ecosos"
-					}, {
-						"meta.pendiente": true,
-						"meta.tipo": "ecosos"
-					}]
-				}).cursor;
-			}
-		}]
-	}
+Meteor.publish('eco_campanas', function() {
+	return ECOCampanas.find();
 });
 
-Meteor.publishComposite('eco_desarrollos', function() {
-	return {
-		find() {
-			return ECODesarrollos.find();
-		},
-		children: [{
-			find(ecoDesarrollo) {
-				return Images.find({
-					$or: [{
-						"meta.ecoDesarrolloId": ecoDesarrollo._id,
-						"meta.tipo": "ecodesarrollo"
-					}, {
-						"meta.pendiente": true,
-						"meta.tipo": "ecodesarrollo"
-					}]
-				}).cursor;
-			}
-		}]
-	}
+Meteor.publish('eco_campanas.imagenes', function() {
+	return Images.find({
+		"meta.tipo": "ecocampana"
+	}).cursor;
 });
 
+Meteor.publish('eco_sos', function() {
+	return ECOSos.find();
+});
+
+Meteor.publish('eco_sos.imagenes', function() {
+	return Images.find({
+		"meta.tipo": "ecosos"
+	}).cursor;
+});
+
+Meteor.publish('eco_desarrollos', function() {
+	return ECODesarrollos.find();
+});
+
+Meteor.publish('eco_desarrollos.imagenes', function() {
+	return Images.find({
+		"meta.tipo": "ecodesarrollo"
+	}).cursor;
+});
