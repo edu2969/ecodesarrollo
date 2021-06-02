@@ -23,9 +23,8 @@ Template.eco_campanas.helpers({
 		return template.editando.get();
 	},
 	eco_campanas(){
-		
+
 		return ECOCampanas.find();
-		
 	},
 	ecoCampana() {
 		//debugger;
@@ -70,7 +69,7 @@ Template.eco_campanas.helpers({
 		return Template.instance().currentUpload.get();
 	},
 	imagenes() {
-		debugger;
+		
 		return Images.find({ "meta.tipo": "ecocampana" }).map(img => {
 			const imagen = Images.findOne({ _id: img._id });
 			return {
@@ -98,7 +97,6 @@ Template.eco_campanas.events({
 		template.ecoCampanaSeleccionada.set({});
 		template.editando.set(true);
 		template.enListado.set(false);
-		
 		Session.set("ECOCampanaSeleccionado", {});
 		UIUtils.toggle("carrousel", "grilla");
 		UIUtils.toggle("carrousel", "detalle");
@@ -120,9 +118,7 @@ Template.eco_campanas.events({
 				UIUtils.toggle("carrousel", "grilla");
 				UIUtils.toggle("carrousel", "detalle");
 				UIUtils.toggle("navegacion-atras", "activo");	
-				//template.ecoCampanaSeleccionada.set(false);
-				//template.editando.set(false);
-				//template.enListado.set(true);
+			
 			}
 		})
 	},
@@ -144,12 +140,12 @@ Template.eco_campanas.events({
 "dragover .camara .marco-upload": function (e, t) {
     e.stopPropagation();
     e.preventDefault();
-    t.$(".marco-drop").addClass("activo");
+    t.$(".camara .marco-drop").addClass("activo");
   },
 "dragleave .camara .marco-upload": function (e, t) {
     e.stopPropagation();
     e.preventDefault();
-    t.$(".marco-drop").removeClass("activo");
+    t.$(".camara .marco-drop").removeClass("activo");
   },
 "dragenter .camara .marco-upload": function (e, t) {
     e.preventDefault();
@@ -171,15 +167,15 @@ Template.eco_campanas.events({
 			} else {
 				img = Images.findOne({
 					userId: Meteor.userId(),
-					"meta.ecoOrganizacion": ecoCampana._id
+					"meta.ecoCampana": ecoCampana._id
 				});
 				meta = { ecoCampanaId: ecoCampana._id };
 			}
 			
       const upload = Images.insert({
         file: e.originalEvent.dataTransfer.files[0],
-        streams: 'dynamic',
-        chunkSize: 'dynamic',
+        //streams: 'dynamic',
+        //chunkSize: 'dynamic',
         meta: meta
       }, false);
 
@@ -199,26 +195,22 @@ Template.eco_campanas.events({
       upload.start();
     }
   },
-  "click .marco-upload"(e) {
+  "click .camara .marco-upload"(e) {
     $("#upload-image").click();
   },
   "change #upload-image"(e, template) {
     var ecoCampana = template.ecoCampanaSeleccionada.get();
     if (e.currentTarget.files && e.currentTarget.files[0]) {
-			let meta = {};
-			if(!ecoCampana._id) {
-				Images.remove({
-					userId: Meteor.userId(),
-					"meta.pendiente": true
-				});
-				meta = { pendiente: true };
-			} else {
-				meta = { ecoCampanaId: ecoCampana._id };
-			}
+	  	var meta = {
+   			tipo: "ecocampana"
+    	}
+    	if (!ecoCampana._id) {
+    		meta.pendiente = true;
+    	} else {
+    		meta.ecoCampanaId = ecoCampana._id;
+    	}
       const upload = Images.insert({
         file: e.currentTarget.files[0],
-        streams: 'dynamic',
-        chunkSize: 'dynamic',
         meta: meta
       }, false);
 
@@ -228,7 +220,7 @@ Template.eco_campanas.events({
 
       upload.on('end', function (error, fileObj) {
         template.currentUpload.set(false);
-        template.$(".marco-drop").removeClass("activo");
+        template.$(".camara .marco-drop").removeClass("activo");
       });
 			
       upload.start();

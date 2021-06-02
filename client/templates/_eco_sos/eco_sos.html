@@ -1,7 +1,28 @@
 <template name="eco_sos">
+	<div class="navegacion-atras">
+		<i class="material-icons">arrow_back_ios</i>
+	</div>
 	<div class="titulo-grilla">
-		ECO SOS <small>({{cantidad}})</small>
-		<button class="btn" id="btn-nuevo">Nuevo</button>
+		<div class="contenido-titulo">
+		{{#if enListado}}
+			ECO_Soss <small>{{cantidad}}</small>
+			<button class="btn" id="btn-nuevo">
+			<i class="material-icons">add </i>
+			<span>Nuevo</span>
+			</button>
+		{{else}}
+			<p>
+				{{#if ecosos.titulo}}{{ecosos.titulo}}{{else}}Nuevo	ECO_Sos 
+				{{/if}}{{#if editando}}<small>(editando) </small>{{/if}}</p>
+				{{#if ecoSos.esPropia}}
+					{{#unless editando}}
+					<button class="btn" id="btn-editar">
+							<i class="material-icons">edit</i><span>Editar</span>	
+					</button>
+					{{/unless}}
+				{{/if}}
+		{{/if}}
+	</div>	
 	</div>
 	<div class="carrousel grilla">
 		<div class="grilla">
@@ -33,9 +54,10 @@
 			</div>
 		</div>
 		<div class="detalle">
-			<div class="formulario">
-				<div class="entrada">
-					<span>Tipo</span><br/>
+	{{#if editando}}
+		<div class="formulario">
+			<div class="entrada">
+				<span>Tipo</span><br/>
 					<select id="input-tipo" class="campo">
 						{{#each tipos}}
 						<option value="{{id}}" {{selectValor id eco_sos.tipo}}>{{etiqueta}}</option>
@@ -44,19 +66,19 @@
 				</div>
 				<div class="entrada">
 					<span>afectado</span>
-					<select id="input-afectado" class="campo">
-						{{#each afectados}}
-						<option value="{{id}}" {{selectValor id eco_sos.afectado}}>{{etiqueta}}</option>
-						{{/each}}
-					</select>
+						<select id="input-afectado" class="campo">
+							{{#each afectados}}
+								<option value="{{id}}" {{selectValor id eco_sos.afectado}}>{{etiqueta}}</option>
+							{{/each}}
+						</select>
 				</div>
 				<div class="entrada">
 					<span>Problema</span>
-					<select id="input-problema" class="campo">
-						{{#each problemas}}
-						<option value="{{id}}" {{selectValor id eco_sos.problema}}>{{etiqueta}}</option>
-						{{/each}}
-					</select>
+						<select id="input-problema" class="campo">
+							{{#each problemas}}
+								<option value="{{id}}" {{selectValor id eco_sos.problema}}>{{etiqueta}}</option>
+							{{/each}}
+						</select>
 				</div>
 				<div class="entrada">
 					<span>Dirección</span>
@@ -72,10 +94,12 @@
 				</div>
 				<div class="entrada imagenes-picker">
 					<div class="camara">
+						<div class="marco-upload">
 						<i class="material-icons">photo_camera</i><br />
 						<p>Tomar / Arrastrar<br />fotografía</p>
 						<div class="drop-texto"></div>					
 					</div>
+				</div>
 					<div class="imagenes">
 						{{#each imagenes}}
 						<div class="imagen" id={{_id}}>
@@ -103,6 +127,38 @@
 					</div>
 				</div>
 			</div>
+			{{else}}
+				{{#with ecoSos}}
+				<div class="presentacion">
+					<div class="ultima-actividad"><i>ultimaActividad: </i>{{formatoFecha ultimaActividad 'DD/MMM/YYYY HH:mm'}}</div>
+					<div class="titulo-presentacion">Participantes</div>
+					<div class="participantes">
+						<div class="avatar-participante">
+							<img src="/img/avatares/avatar01.png"><br/>
+							<span>EdUTroN</span>
+							<i class="material-icons">star</i>
+						</div>
+						<div class="avatar-participante">
+							<img src="/img/avatares/avatar02.jpg"><br/>
+							<span>Miriam</span>
+						</div>
+					</div>
+					<div class="titulo-presentacion">Total en donaciones</div>
+					<div class="donaciones">
+						<i class="material-icons">request_quote</i>
+						<div class="cantidad">
+							<small>CLP </small>$ {{donaciones}}<small> M</small>
+						</div>
+					</div>
+					<div class="titulo-presentacion">Reseña histórica</div>
+					<div class="resena"><p>{{resena}}</p></div>
+					<div class="titulo-presentacion">Solicitar unirse</div>
+					<div class="neuromorph boton redondo purpura">
+						<i class="material-icons">login</i>
+					</div>
+				</div>			
+				{{/with}}
+			{{/if}}
 		</div>
 	</div>
 </template>

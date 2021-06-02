@@ -107,12 +107,27 @@ Meteor.methods({
 	},
 	ActualizarECOSos(doc) {
 		if(doc._id) {
-			const id = doc._id;
-			delete doc._id;
-			ECOSos.update({ _id: id }, { $set: doc });
+			//debugger;
+				const id = doc._id;
+				delete doc._id;
+				ECOSos.update({ _id: id }, { $set: doc });
 		} else {
-			ECOSos.insert(doc);	
-		}		
+					const ecoSosId = ECOSos.insert(doc);
+					const img = Images.findOne({
+						userId: Meteor.userId(),
+						"meta.pendiente": true	
+					});
+			if(img) {
+					Images.update({ _id: img._id }, {
+					$set: {
+						"meta.ecoSosId": ecoSosId
+					},
+					$unset: {
+						"meta.pendiente": true
+					}
+				});
+			}	
+		}
 	},
 	ActualizarECODesarrollo(doc) {
 		if(doc._id) {
