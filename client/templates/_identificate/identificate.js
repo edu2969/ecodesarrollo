@@ -6,7 +6,6 @@ Template.identificate.onCreated(function () {
 
 Template.identificate.rendered = function () {
   const instance = Template.instance();
-  Nivel.setNivelUsuario();
 }
 
 Template.identificate.helpers({
@@ -50,15 +49,10 @@ Template.identificate.events({
   },
 	"click .contenedor-registrame"() {
 		UIUtils.toggle("contendor-identificate", "oculto");
-		UIUtils.toggle("wizzard", "oculto");
+		UIUtils.toggle("seccion-identificate", "oculto");
 	},
 	"click .marco-tipo"() {
-    if(Meteor.userId()) {
-      UIUtils.toggle("tipo-identificacion", "oculto");
-      UIUtils.toggle("wizzard", "oculto");
-    } else {
-      UIUtils.toggle("tipo-identificacion", "oculto");
-      UIUtils.toggle("contendor-identificate", "oculto");
-    }
+    $(".tipo-identificacion").toggleClass("oculto");
+    $(".seccion-identificate").toggleClass("oculto");
 	},
 });

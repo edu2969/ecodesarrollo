@@ -1,6 +1,6 @@
 <template name="ecopasaporte">
-  <div class="mundo">		
-	
+	<div class="mundo">
+
 		<section id="ecopasaporte" name="eco-actividades" class="ecopasaporte">
 			<div class="logo">
 				<img src="/img/logo_panel.png">
@@ -21,7 +21,7 @@
 				{{/each}}
 			</div>
 		</section>
-	
+
 		<!-- CORAZON VERDE -->
 		<div class="marco-agente">
 			<div class="corazon cuerpo">
@@ -41,7 +41,7 @@
 			</div>
 		</div>
 		<!-- FIN CORAZON VERDE -->
-		
+
 		<div class="puntaje">
 			<p>NIVEL 01</p>
 			<ul>
@@ -57,35 +57,35 @@
 				<li class="lleno"></li>
 			</ul>
 		</div>
-  </div>
-	
+	</div>
+
 	<div class="cruz cruz-principal oculto">
 		<i class="material-icons">clear</i>
 	</div>
-	
-	<div class="eco-panel {{panel.clase}} {{panel.color}} inactivo">
+
+	<div class="eco-panel {{panel.clase}} {{panel.color}}">
 		<div class="cruz cruz-panel">
 			<i class="material-icons">clear</i>
 		</div>
 
 		{{#if panel.esIdentificate}}
-			{{> identificate}}
+		{{> identificate}}
 		{{/if}}
 		{{#if panel.esECOOrganizaciones}}
-			{{> eco_organizaciones}}
+		{{> eco_organizaciones}}
 		{{/if}}
 		{{#if panel.esECOCampanas}}
-			{{> eco_campanas}}
+		{{> eco_campanas}}
 		{{/if}}
 		{{#if panel.esECODesarrollos}}
-			{{> eco_desarrollos}}
+		{{> eco_desarrollos}}
 		{{/if}}
 		{{#if panel.esECOVoluntariado}}
-			{{> eco_voluntariado}}
+		{{> eco_voluntariado}}
 		{{/if}}
 		{{#if panel.esECOSOS}}
-			{{> eco_sos}}
+		{{> eco_sos}}
 		{{/if}}
 	</div>
-	
+
 </template>

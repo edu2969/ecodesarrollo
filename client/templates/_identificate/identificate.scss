@@ -12,6 +12,7 @@
 	
 	.desafios {
 		display: flex;
+		justify-content: center;
 	}
 		
 	&.oculto {
@@ -58,6 +59,14 @@
 				}
 			}
 		}
+}
+
+.seccion-identificate {
+	display: block;
+
+	&.oculto {
+		display: none;
+	}
 }
 
 .contendor-identificate {

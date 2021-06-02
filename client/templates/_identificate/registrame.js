@@ -90,6 +90,9 @@ Template.registrame.helpers({
 			return nivel.nivel1.pasos[paso].actual;		
 		});
 		return "paso" + ( indice + 1 );
+	},
+	enLogin() {
+		return Meteor.userId();
 	}
 });
 
@@ -108,46 +111,50 @@ Template.registrame.events({
 			if(paso==2) {
 				UIUtils.toggle("izquierda", "deshabilitado");
 			}
-			if(paso==4) {
+			if(paso==3) {
 				UIUtils.toggle("derecha", "deshabilitado");
 			}
 			UIUtils.toggle("carrousel", "paso" + paso);
 			delete nivel.nivel1.pasos["paso" + paso].actual;
 			nivel.nivel1.pasos["paso" + ( paso - 1 )].actual = true;
-		} else if( clase.indexOf("derecha")!=-1 && paso < 4 ) {
+			Nivel.set(nivel);
+		} else if( clase.indexOf("derecha")!=-1 && paso <= 3 ) {
 			if(paso==1) {
 				UIUtils.toggle("izquierda", "deshabilitado");
 			}
 			if(paso==3) {
-				UIUtils.toggle("derecha", "deshabilitado");
 				const formulario = template.formulario.get();
-				if(!Meteor.userId()) {
-					Meteor.call("RegistrarCuenta", formulario, function(err, resp) {
-						if(!err) {
-							Meteor.loginWithPassword({
-								email: formulario.email.valor
-							}, formulario.password.valor, function(err2, resp2) {
-								Session.set("ModalParams", {
-									esInfo: true,
-									titulo: "Creacion de cuenta",
-									texto: "Tu cuenta de e-mail <b>" + formulario.email.valor + "</b> fue creada con exito" 
-								});
-								$("#modalgeneral").modal("show");
-								Nivel.setNivelUsuario();
+				UIUtils.toggle("derecha", "deshabilitado");
+				Meteor.call("RegistrarCuenta", formulario, function(err, resp) {
+					if(!err) {
+						Meteor.loginWithPassword({
+							email: formulario.email.valor
+						}, formulario.password.valor, function(err2, resp2) {
+							Session.set("ModalParams", {
+								esInfo: true,
+								titulo: "Creacion de cuenta",
+								texto: "Tu cuenta de e-mail <b>" + formulario.email.valor + "</b> fue creada con exito" 
 							});
-						} else {
-							errores.creacionCuenta = {
-								mensaje: "No se pudo crear la cuenta (" + err.reason + ")"
-							}
+							UIUtils.toggle("tipo-identificacion", "oculto");
+							nivel.nivel1.completado = true;
+							Nivel.set(nivel);
+							$(".wizzard").toggleClass("oculto");
+							$(".contendor-identificate").toggleClass("oculto");
+							$("#modalgeneral").modal("show");
+						});
+					} else {
+						template.errores.creacionCuenta = {
+							mensaje: "No se pudo crear la cuenta (" + err.reason + ")"
 						}
-					});
-				}
+					}
+				});
+			} else {
+				UIUtils.toggle("carrousel", "paso" + paso);
+				delete nivel.nivel1.pasos["paso" + paso].actual;
+				nivel.nivel1.pasos["paso" + paso].completado = true;
+				nivel.nivel1.pasos["paso" + ( paso + 1 )].actual = true;
+				Nivel.set(nivel);
 			}
-			UIUtils.toggle("carrousel", "paso" + paso);
-			delete nivel.nivel1.pasos["paso" + paso].actual;
-			nivel.nivel1.pasos["paso" + ( paso + 1 )].actual = true;
 		}
-		console.log("Seteando NIVEL", nivel);
-		Nivel.set(nivel);
 	}
 })

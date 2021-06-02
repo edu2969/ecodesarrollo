@@ -1,6 +1,9 @@
+const { Nivel } = require("../utils/nivel");
+
 Template.ecopasaporte.onCreated(function() {
 	this.ecoactividades = new ReactiveVar();
 	this.panel = new ReactiveVar(false);
+	Nivel.setNivelUsuario();
 });
 
 Template.ecopasaporte.rendered = function() {		
@@ -93,7 +96,7 @@ Template.ecopasaporte.events({
 				esIdentificate: true
 			});
 			UIUtils.toggle("eco-panel", "activo");
-			setTimeout(() => {
+			/*setTimeout(() => {
 				if(Meteor.userId()) {
 					console.log("Uno");
 					UIUtils.toggle("tipo-identificacion", "oculto");
@@ -101,7 +104,7 @@ Template.ecopasaporte.events({
 					console.log("Dos");
 					$(".contendor-identificate").toggleClass("oculto");
 				}	
-			}, 500);			
+			}, 500);*/
 		} else if(actividad.indexOf("eco_organizaciones")!=-1) {
 			template.panel.set({
 				clase: "eco_organizaciones",
@@ -134,9 +137,9 @@ Template.ecopasaporte.events({
 	},
 	"click .cruz-panel"(e, template) {
 		UIUtils.toggle("eco-panel", "activo");
-		$(".contendor-identificate").removeClass("oculto");
-		$(".tipo-identificacion").removeClass("oculto");
 		setTimeout(function() {
+			$(".contendor-identificate").removeClass("oculto");
+			$(".tipo-identificacion").removeClass("oculto");
 			template.panel.set(false);	
 		}, 1000);
 	},

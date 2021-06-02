@@ -1,5 +1,5 @@
 <template name="registrame">
-	<div class="wizzard oculto">
+	<div class="wizzard">
 		<div class="barra-estado neuromorph verde">
 			<div class="paso{{#if nivel.nivel1.pasos.paso1.completado}} completo{{/if}}">
 				<div class="numero">1</div>
@@ -14,11 +14,6 @@
 			<div class="paso{{#if nivel.nivel1.pasos.paso3.completado}} completo{{/if}}">
 				<div class="numero">3</div>
 				<div class="titulo">Tu e-correo</div>
-				<div class="trazo"></div>
-			</div>
-			<div class="paso">
-				<div class="numero">4</div>
-				<div class="titulo">Código secreto</div>
 			</div>
 		</div>
 
@@ -68,8 +63,8 @@
 						<div class="entrada">
 							<span>Tu dirección descrita</span>
 							{{#if errores.direccion.mensaje}} <span class="mensaje">{{errores.direccion.mensaje}}</span>{{/if}}
-							<input type="text" class="campo-entrada" placeholder="Calle #, Ciudad"
-										 id="input-direccion" required="true" value="{{usuario.direccion}}">
+							<input type="text" class="campo-entrada" placeholder="Calle #, Ciudad" id="input-direccion"
+								required="true" value="{{usuario.direccion}}">
 						</div>
 					</div>
 				</div>
@@ -83,8 +78,8 @@
 						<div class="entrada">
 							<span>Tu correo electroninco</span>
 							{{#if errores.email.mensaje}} <span class="mensaje">{{errores.email.mensaje}}</span>{{/if}}
-							<input type="email" class="campo-entrada" placeholder="algo@dominio.cl"
-										 id="input-email" required="true" value="usuario.email">
+							<input type="email" class="campo-entrada" placeholder="algo@dominio.cl" id="input-email" required="true"
+								value="{{usuario.email}}">
 						</div>
 						<div class="flex">
 							<div class="entrada password">
@@ -105,20 +100,6 @@
 							<div class="segmento"></div>
 							<div class="segmento"></div>
 							<span>0% Insegura</span>
-						</div>
-					</div>
-				</div>
-
-				<div class="paso paso4">
-					<div class="estado">
-						<i class="material-icons">check_circle_outline</i>
-						<span class="titulo">4. Tu código secreto</span>
-					</div>
-					<div class="formulario" paso="4">
-						<div class="entrada">
-							<span>Debes esperar un código en tu email. Esto tarda 3 días o menos.</span>
-							{{#if errores.codigo.mensaje}} <span class="mensaje">{{errores.codigo.mensaje}}</span>{{/if}}
-							<input type="password" class="campo-entrada" id="input-codigo" required="true">
 						</div>
 					</div>
 				</div>

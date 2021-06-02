@@ -1,4 +1,4 @@
-<template name="identificate">	
+<template name="identificate">
 	<div class="tipo-identificacion oculto">
 		<div class="titulo">ECO_desafío - IDENTIFÍCATE</div>
 		<div class="desafios">
@@ -12,8 +12,10 @@
 				</div>
 				<div class="progreso">
 					<div class="progress">
-						<div class="progress-bar" role="progressbar" 
-								 aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+						<div class="progress-bar progress-bar-striped" role="progressbar"
+							style="width: {{nivel.nivel1.porcentaje}}%" aria-valuemin="0" aria-valuemax="100">
+							{{nivel.nivel1.porcentaje}}%
+						</div>
 					</div>
 				</div>
 			</div>
@@ -23,13 +25,14 @@
 					<i class="material-icons">check_circle_outline</i>
 				</div>
 				<div class="simbolo">
-					<i class="material-icons">portrait</i>
-					<p>Fotografía perfil</p>
+					<i class="material-icons">money_off</i>
+					<p>Donación inicial</p>
 				</div>
 				<div class="progreso">
 					<div class="progress">
-						<div class="progress-bar" role="progressbar" 
-								 aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+						<div class="progress-bar progress-bar-striped" role="progressbar"
+							style="width: {{nivel.nivel2.porcentaje}}%" aria-valuemin="0" aria-valuemax="100">
+							{{nivel.nivel2.porcentaje}}%</div>
 					</div>
 				</div>
 			</div>
@@ -39,36 +42,21 @@
 					<i class="material-icons">check_circle_outline</i>
 				</div>
 				<div class="simbolo">
-					<i class="material-icons">fingerprint</i>
-					<p>Huella Digitital</p>
+					<i class="material-icons">vpn_key</i>
+					<p>Código secreo</p>
 				</div>
 				<div class="progreso">
 					<div class="progress">
-						<div class="progress-bar" role="progressbar" 
-								 aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+						<div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0"
+							aria-valuemax="100"></div>
 					</div>
 				</div>
 			</div>
 
-			<div class="marco-tipo neuromorph verde{{#unless nivel.nivel4}} deshabilitado{{/unless}}" nivel="4">
-				<div class="estado {{#unless nivel.nivel4.completado}} pendiente{{/unless}}">
-					<i class="material-icons">check_circle_outline</i>
-				</div>
-				<div class="simbolo">
-					<i class="material-icons">money_off</i>
-					<p>Donación inicial</p>
-				</div>
-				<div class="progreso">
-					<div class="progress">
-						<div class="progress-bar" role="progressbar" 
-								 aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-					</div>
-				</div>
-			</div>
-		</div>		
+		</div>
 	</div>
-	
-	<div class="contendor-identificate oculto">
+
+	<div class="contendor-identificate">
 		<div class="contenedor-login neuromorph verde">
 			<div class="formulario">
 				<div class="campo">
@@ -86,18 +74,29 @@
 			<div id="btn-login" class="neuromorph boton verde redondo">
 				<i class="material-icons">
 					launch
-				</i>			
-			</div>		
+				</i>
+			</div>
 		</div>
 		<div class="contenedor-registrame neuromorph verde">
 			<div class="icono-soynuevo">
 				<i class="material-icons">loyalty</i>
 			</div>
 			<p>Quiero registrarme</p>
-		</div>	
+		</div>
 	</div>
-	
-	
-	{{>registrame}}	
-	
+
+	<div class="seccion-identificate oculto">
+		{{#if nivel.nivel1.actual}}
+		{{>registrame}}
+		{{/if}}
+
+		{{#if nivel.nivel2.actual}}
+		{{>deposito}}
+		{{/if}}
+
+		{{#if nivel.nivel3.actual}}
+		{{>codigoSecreto}}
+		{{/if}}
+	</div>
+
 </template>
