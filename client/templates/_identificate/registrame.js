@@ -90,6 +90,9 @@ Template.registrame.helpers({
 			return nivel.nivel1.pasos[paso].actual;		
 		});
 		return "paso" + ( indice + 1 );
+	},
+	enLogin() {
+		return Meteor.userId();
 	}
 });
 
@@ -135,7 +138,7 @@ Template.registrame.events({
 							UIUtils.toggle("tipo-identificacion", "oculto");
 							nivel.nivel1.completado = true;
 							Nivel.set(nivel);
-							$(".wizzard").hide();
+							$(".wizzard").toggleClass("oculto");
 							$(".contendor-identificate").toggleClass("oculto");
 							$("#modalgeneral").modal("show");
 						});

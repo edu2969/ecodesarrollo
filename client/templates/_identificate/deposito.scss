@@ -1,0 +1,28 @@
+.datos-deposito {
+  .titulo {
+    font-size: 30px;
+    margin-top: 1em;
+  }
+
+  .cuadro-datos-deposito {
+    margin: 10px 4em;
+    padding: 2em;
+    border-radius: 1em;
+
+    .linea {
+      display: flex;
+      font-size: 14px;
+      .etiqueta {
+        width: 180px;
+        font-weight: bolder;
+      }
+    }
+  }
+
+  .sector-tipo-comprobate {
+    width: 460px;
+    border-radius: 1em;
+    padding: 1em;
+    margin: 1em auto;
+  }
+}

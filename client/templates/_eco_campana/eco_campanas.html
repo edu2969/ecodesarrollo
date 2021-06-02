@@ -5,55 +5,54 @@
 	<div class="titulo-grilla">
 		<div class="contenido-titulo">
 			{{#if enListado}}
-				ECO_Campanas <small> {{cantidad}}</small>
-				<button class="btn" id="btn-nuevo">
+			ECO_Campanas <small> {{cantidad}}</small>
+			<button class="btn" id="btn-nuevo">
 				<i class="material-icons">add</i><span>Nuevo</span>
-				</button>
+			</button>
 			{{else}}
-				<p>
-					{{#if ecoCampana.tipo}}{{ecoCampana.tipo}}{{else}}Nuevo	ECO_Campana 
-					{{/if}}{{#if editando}}<small>(editando) </small>{{/if}}</p>
-					{{#if ecoCampana.esPropia}}
-						{{#unless editando}}
-						<button class="btn" id="btn-editar">
-								<i class="material-icons">edit</i><span>Editar</span>	
-						</button>
-						{{/unless}}
-					{{/if}}
+			<p>
+				{{#if ecoCampana.tipo}}{{ecoCampana.tipo}}{{else}}Nuevo ECO_Campana
+				{{/if}}{{#if editando}}<small>(editando) </small>{{/if}}</p>
+			{{#if ecoCampana.esPropia}}
+			{{#unless editando}}
+			<button class="btn" id="btn-editar">
+				<i class="material-icons">edit</i><span>Editar</span>
+			</button>
+			{{/unless}}
 			{{/if}}
-		</div>	
+			{{/if}}
+		</div>
 	</div>
 	<div class="carrousel grilla">
 		<div class="grilla">
 			<div class="contenedor-campanas">
 				{{#each eco_campanas}}
-					<div class="marco-campana neuromorph azul" style="background-image: url({{imagen}})"
-								id="{{_id}}">
-						<div class="overlay"></div>
-						<div class="titulo">
-							{{traductorCAMPANASTipos tipo}}
-						</div>
-						<div class="banda">
+				<div class="marco-campana neuromorph azul" style="background-image: url({{imagen}})" id="{{_id}}">
+					<div class="overlay"></div>
+					<div class="titulo">
+						{{traductorCAMPANASTipos tipo}}
+					</div>
+					<div class="banda">
 
-							<div class="fechas">
-								<div class="fechainicio">Fecha Inicio</div>
-								<div class="fechai">{{formatoFecha fechaInicio 'DD/MM/YYYY'}}</div>
-							</div>
-							<div class="fecha">
-								<div class="fechainicio">Fecha Termino</div>
-								<div class="fechai">{{formatoFecha fechaFin 'DD/MM/YYYY'}}</div>
-							</div>
-							<div class="nomcomuna">
-								<div class="comuna">Comuna</div>
-								<div class="comunai">{{comuna}}</div>
-							</div>
-							<div class="nomorganizador">
-								<div class="organizdor">Organizador</div>
-								<div class="organizdori">{{organizador}}</div>
-							</div>							
+						<div class="fechas">
+							<div class="fechainicio">Fecha Inicio</div>
+							<div class="fechai">{{formatoFecha fechaInicio 'DD/MM/YYYY'}}</div>
+						</div>
+						<div class="fecha">
+							<div class="fechainicio">Fecha Termino</div>
+							<div class="fechai">{{formatoFecha fechaFin 'DD/MM/YYYY'}}</div>
+						</div>
+						<div class="nomcomuna">
+							<div class="comuna">Comuna</div>
+							<div class="comunai">{{comuna}}</div>
+						</div>
+						<div class="nomorganizador">
+							<div class="organizdor">Organizador</div>
+							<div class="organizdori">{{organizador}}</div>
 						</div>
 					</div>
-					
+				</div>
+
 				{{/each}}
 			</div>
 		</div>
@@ -62,115 +61,108 @@
 			<div class="formulario">
 				<div class="flex">
 					<div class="entrada">
-						<span>Tipo de campaña</span><br/>
+						<span>Tipo de campaña</span><br />
 						<select id="input-tipo" class="campo">
-						{{#each tipos}}
-						<option value="{{id}}" {{selectValor id eco_campana.tipo}}>{{etiqueta}}</option>
-						{{/each}}		
+							{{#each tipos}}
+							<option value="{{id}}" {{selectValor id eco_campana.tipo}}>{{etiqueta}}</option>
+							{{/each}}
 						</select>
 					</div>
 					<div class="entrada">
 						<span>Describe tu campaña</span>
-						<textarea class="campo" id="input-descripcion" 
-									rows="4" value="{{ecoCampana.descripcion}}"></textarea>
+						<textarea class="campo" id="input-descripcion" rows="4" value="{{ecoCampana.descripcion}}"></textarea>
 					</div>
 				</div>
 				<div class="entrada">
 					<span>Dirección</span>
-					<input type="text" class="campo" id="input-direccion" 
-							placeholder="Dirección" value="{{ecoCampana.direccion}}">
+					<input type="text" class="campo" id="input-direccion" placeholder="Dirección"
+						value="{{ecoCampana.direccion}}">
 				</div>
 				<div class="entrada">
 					<span>Comuna</span>
-					<input type="text" class="campo autocomplete" 
-							id="input-comuna" placeholder="Comuna"
-					 		value="{{ecoCampana.comuna}}">
+					<input type="text" class="campo autocomplete" id="input-comuna" placeholder="Comuna"
+						value="{{ecoCampana.comuna}}">
 				</div>
 				<div class="flex">
 					<div class="entrada">
 						<span>Descripción del lugar</span>
 						<textarea class="campo" id="input-descripcionLugar" rows="4"
-									value="{{ecoCampana.descripcionLugar}}"></textarea>
+							value="{{ecoCampana.descripcionLugar}}"></textarea>
 					</div>
 				</div>
 				<div class="entrada imagenes-picker">
 					<div class="camara">
 						<div class="marco-upload">
-						<i class="material-icons">photo_camera</i><br />
-						<p>Tomar / Arrastrar<br />fotografía</p>
-						<div class="drop-texto"></div>					
-					</div>
-				
+							<i class="material-icons">photo_camera</i><br />
+							<p>Tomar / Arrastrar<br />fotografía</p>
+							<div class="drop-texto"></div>
+						</div>
 						<input id="upload-image" type="file" style="display: none">
-				</div>
+					</div>
 				</div>
 				<div class="imagenes">
-						{{#each imagenes}}
-						<div class="imagen" id={{_id}}>
-							<div class="marco-imagen">
-								<img src="{{imagen}}">
-								<div class="eliminar" id="{{_id}}">
-									<i class="material-icons">clear</i>
-									<span>Eliminar</span>
-								</div>
+					{{#each imagenes}}
+					<div class="imagen" id={{_id}}>
+						<div class="marco-imagen">
+							<img src="{{imagen}}">
+							<div class="eliminar" id="{{_id}}">
+								<i class="material-icons">clear</i>
+								<span>Eliminar</span>
 							</div>
 						</div>
-						{{else}}
-						<h3>No hay Imágenes</h3>
-						{{/each}}
+					</div>
+					{{else}}
+					<h3>No hay Imágenes</h3>
+					{{/each}}
 				</div>
-				
+
 				<div class="flex">
 					<div class="entrada">
 						<span>Fecha de inicio</span>
-						<input type="text" class="campo datetime-componente" 
-								id="input-fechaInicio" value="{{ecoCampana.fechaInicio}}">
+						<input type="text" class="campo datetime-componente" id="input-fechaInicio"
+							value="{{ecoCampana.fechaInicio}}">
 					</div>
 					<div class="entrada">
 						<span>Fecha de fin</span>
-						<input type="text" class="campo datetime-componente" 
-								id="input-fechaFin" value="{{ecoCampana.fechaFin}}">
+						<input type="text" class="campo datetime-componente" id="input-fechaFin" value="{{ecoCampana.fechaFin}}">
 					</div>
 				</div>
 				<div class="entrada usuario-picker">
 					<div class="campo-entrada">
-						<span>Organizador</span><br/>
-						<input type="text" class="campo autocomplete" id="input-organizador"
-								value="{{ecoCampana.organizador}}">
+						<span>Organizador</span><br />
+						<input type="text" class="campo autocomplete" id="input-organizador" value="{{ecoCampana.organizador}}">
 					</div>
 					<div class="avatar">
-						<img src="/img/avatares/avatar01.png"><br/>
+						<img src="/img/avatares/avatar01.png"><br />
 						<span>EdUTroN</span>
 					</div>
 				</div>
 				<div class="entrada usuario-picker">
 					<div class="campo-entrada">
-						<span>Coordinador</span><br/>
-						<input type="text" class="campo autocomplete" id="input-coordinador"
-							value="{{ecoCampana.coordinador}}">
+						<span>Coordinador</span><br />
+						<input type="text" class="campo autocomplete" id="input-coordinador" value="{{ecoCampana.coordinador}}">
 					</div>
 					<div class="avatar">
-						<img src="/img/avatares/avatar02.jpg"><br/>
+						<img src="/img/avatares/avatar02.jpg"><br />
 						<span>Oleska</span>
 					</div>
 				</div>
 				<div class="entrada cuadrilla-picker">
 					<div class="campo-entrada">
-						<span>Cuadrillas relacionadas</span><br/>
-						<input type="text" class="campo autocomplete" id="input-cuadrillas"
-								value="{{ecoCampana.cuadrillas}}">
+						<span>Cuadrillas relacionadas</span><br />
+						<input type="text" class="campo autocomplete" id="input-cuadrillas" value="{{ecoCampana.cuadrillas}}">
 					</div>
 					<div class="avatares">
 						<div class="avatar">
-							<img src="/img/avatares/team01.png"><br/>
+							<img src="/img/avatares/team01.png"><br />
 							<span>Los Galgos</span>
 						</div>
 						<div class="avatar">
-							<img src="/img/avatares/team02.png"><br/>
+							<img src="/img/avatares/team02.png"><br />
 							<span>Clerigos</span>
 						</div>
 						<div class="avatar">
-							<img src="/img/avatares/team03.png"><br/>
+							<img src="/img/avatares/team03.png"><br />
 							<span>Colegio San Bernardo</span>
 						</div>
 					</div>
@@ -184,38 +176,40 @@
 					</div>
 				</div>
 			</div>
-		{{else}}
-				{{#with ecoCampana}}
-				<div class="presentacion">
-					
-					<div class="ultima-actividad"><i>ultimaActividad: </i>{{formatoFecha ultimaActividad 'DD/MMM/YYYY HH:mm'}}</div>
-					<div class="titulo-presentacion">Participantes</div>
-					<div class="participantes">
-						<div class="avatar-participante">
-							<img src="/img/avatares/avatar01.png"><br/>
-							<span>EdUTroN</span>
-							<i class="material-icons">star</i>
-						</div>
-						<div class="avatar-participante">
-							<img src="/img/avatares/avatar02.jpg"><br/>
-							<span>Miriam</span>
-						</div>
+			{{else}}
+			{{#with ecoCampana}}
+			<div class="presentacion">
+
+				<div class="ultima-actividad"><i>ultimaActividad: </i>{{formatoFecha ultimaActividad 'DD/MMM/YYYY HH:mm'}}</div>
+				<div class="titulo-presentacion">Participantes</div>
+				<div class="participantes">
+					<div class="avatar-participante">
+						<img src="/img/avatares/avatar01.png"><br />
+						<span>EdUTroN</span>
+						<i class="material-icons">star</i>
 					</div>
-					<div class="titulo-presentacion">Total en donaciones</div>
-					<div class="donaciones">
-						<i class="material-icons">request_quote</i>
-						<div class="cantidad">
-							<small>CLP </small>$ {{donaciones}}<small> M</small>
-						</div>
+					<div class="avatar-participante">
+						<img src="/img/avatares/avatar02.jpg"><br />
+						<span>Miriam</span>
 					</div>
-					<div class="titulo-presentacion">Reseña histórica</div>
-					<div class="resena"><p>{{resena}}</p></div>
-					<div class="titulo-presentacion">Solicitar unirse</div>
-					<div class="neuromorph boton redondo purpura">
-						<i class="material-icons">login</i>
+				</div>
+				<div class="titulo-presentacion">Total en donaciones</div>
+				<div class="donaciones">
+					<i class="material-icons">request_quote</i>
+					<div class="cantidad">
+						<small>CLP </small>$ {{donaciones}}<small> M</small>
 					</div>
-				</div>			
-				{{/with}}
+				</div>
+				<div class="titulo-presentacion">Reseña histórica</div>
+				<div class="resena">
+					<p>{{resena}}</p>
+				</div>
+				<div class="titulo-presentacion">Solicitar unirse</div>
+				<div class="neuromorph boton redondo purpura">
+					<i class="material-icons">login</i>
+				</div>
+			</div>
+			{{/with}}
 			{{/if}}
 		</div>
 	</div>

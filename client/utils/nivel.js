@@ -15,6 +15,10 @@ const Nivel = {
           paso3: { completado: true }
         }
       }
+      nivel.nivel2 = {
+        porcentaje: 0,
+        actual: true
+      }
       if(usuario.deposito) {
         if(usuario.deposito.aprobado) {
           nivel.nivel2 = {
@@ -33,7 +37,9 @@ const Nivel = {
         }
       }
     } else {
-      nivel.nivel1 = { 
+      nivel.nivel1 = {
+        actual: true,
+        pocentaje: 0, 
         pasos: { 
           paso1: { actual: true },
           paso2: {},
