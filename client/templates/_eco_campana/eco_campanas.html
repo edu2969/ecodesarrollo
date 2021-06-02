@@ -33,7 +33,6 @@
 						{{traductorCAMPANASTipos tipo}}
 					</div>
 					<div class="banda">
-
 						<div class="fechas">
 							<div class="fechainicio">Fecha Inicio</div>
 							<div class="fechai">{{formatoFecha fechaInicio 'DD/MM/YYYY'}}</div>
@@ -52,7 +51,6 @@
 						</div>
 					</div>
 				</div>
-
 				{{/each}}
 			</div>
 		</div>
@@ -101,14 +99,13 @@
 					</div>
 				</div>
 				<div class="imagenes">
-						{{#each imagenes}}
-						<div class="imagen" id={{_id}}>
-							<div class="marco-imagen">
-								<img src="{{imagen}}">
-									<div class="eliminar" id="{{_id}}">
-									<i class="material-icons">clear</i>
-									<span>Eliminar</span>
-								</div>
+					{{#each imagenes}}
+					<div class="imagen" id={{_id}}>
+						<div class="marco-imagen">
+							<img src="{{imagen}}">
+							<div class="eliminar" id="{{_id}}">
+								<i class="material-icons">clear</i>
+								<span>Eliminar</span>
 							</div>
 						</div>
 					</div>
@@ -116,7 +113,6 @@
 					<h3>No hay Imágenes</h3>
 					{{/each}}
 				</div>
-
 				<div class="flex">
 					<div class="entrada">
 						<span>Fecha de inicio</span>
@@ -180,8 +176,8 @@
 			{{else}}
 			{{#with ecoCampana}}
 			<div class="presentacion">
-
-				<div class="ultima-actividad"><i>ultimaActividad: </i>{{formatoFecha ultimaActividad 'DD/MMM/YYYY HH:mm'}}</div>
+				<div class="ultima-actividad"><i>ultimaActividad: </i>{{formatoFecha ultimaActividad 'DD/MMM/YYYY HH:mm'}}
+				</div>
 				<div class="titulo-presentacion">Participantes</div>
 				<div class="participantes">
 					<div class="avatar-participante">
