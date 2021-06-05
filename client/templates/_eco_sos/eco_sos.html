@@ -3,26 +3,26 @@
 		<i class="material-icons">arrow_back_ios</i>
 	</div>
 	<div class="titulo-grilla">
-		<div class="contenido-titulo">
-		{{#if enListado}}
-			ECO_Soss <small>{{cantidad}}</small>
-			<button class="btn" id="btn-nuevo">
-			<i class="material-icons">add </i>
-			<span>Nuevo</span>
-			</button>
-		{{else}}
-			<p>
-				{{#if ecosos.titulo}}{{ecosos.titulo}}{{else}}Nuevo	ECO_Sos 
-				{{/if}}{{#if editando}}<small>(editando) </small>{{/if}}</p>
-				{{#if ecoSos.esPropia}}
-					{{#unless editando}}
-					<button class="btn" id="btn-editar">
-							<i class="material-icons">edit</i><span>Editar</span>	
-					</button>
-					{{/unless}}
-				{{/if}}
-		{{/if}}
-	</div>	
+			<div class="contenido-titulo">
+					{{#if enListado}}
+						<p>ECO_Sos <small> ({{cantidad}})</small></p>
+						<button class="btn" id="btn-nuevo">
+						<i class="material-icons">add </i>
+						<span>Nuevo</span>
+						</button>
+					{{else}}
+						<p>
+							{{#if ecosos.titulo}}{{ecosos.titulo}}{{else}}Nuevo	ECO_Sos 
+							{{/if}}{{#if editando}}<small>(editando) </small>{{/if}}</p>
+							{{#if ecoSos.esPropia}}
+								{{#unless editando}}
+								<button class="btn" id="btn-editar">
+										<i class="material-icons">edit</i><span>Editar</span>	
+								</button>
+								{{/unless}}
+							{{/if}}
+					{{/if}}
+		</div>	
 	</div>
 	<div class="carrousel grilla">
 		<div class="grilla">
@@ -56,19 +56,19 @@
 		<div class="detalle">
 	{{#if editando}}
 		<div class="formulario">
-			<div class="entrada">
-				<span>Tipo</span><br/>
-					<select id="input-tipo" class="campo">
-						{{#each tipos}}
-						<option value="{{id}}" {{selectValor id eco_sos.tipo}}>{{etiqueta}}</option>
-						{{/each}}						
-					</select>
+				<div class="entrada">
+					<span>Tipo</span><br/>
+						<select id="input-tipo" class="campo">
+							{{#each tipos}}
+							<option value="{{id}}" {{selectValor id ecoSos.tipo}}>{{etiqueta}}</option>
+							{{/each}}						
+						</select>
 				</div>
 				<div class="entrada">
 					<span>afectado</span>
 						<select id="input-afectado" class="campo">
 							{{#each afectados}}
-								<option value="{{id}}" {{selectValor id eco_sos.afectado}}>{{etiqueta}}</option>
+								<option value="{{id}}" {{selectValor id ecoSos.afectado}}>{{etiqueta}}</option>
 							{{/each}}
 						</select>
 				</div>
@@ -76,7 +76,7 @@
 					<span>Problema</span>
 						<select id="input-problema" class="campo">
 							{{#each problemas}}
-								<option value="{{id}}" {{selectValor id eco_sos.problema}}>{{etiqueta}}</option>
+								<option value="{{id}}" {{selectValor id ecoSos.problema}}>{{etiqueta}}</option>
 							{{/each}}
 						</select>
 				</div>
@@ -84,48 +84,52 @@
 					<span>Dirección</span>
 					<input id="input-direccion" class="campo" 
 								 type="text" placeholder="Dirección"
-								 value="{{eco_sos.direccion}}">
+								 value="{{ecoSos.direccion}}">
 				</div>
 				<div class="entrada">
 					<span>Comuna</span>
 					<input id="input-comuna" type="text" 
 								 class="campo autocomplete" placeholder="Comuna"
-								 value="{{eco_sos.comuna}}">
+								 value="{{ecoSos.comuna}}">
+				</div>
+				<div class="entrada">
+					<span>Descripción</span>
+					<textarea class="campo" id="input-descripcion" type="text" value="{{ecoSos.descripcion}}" rows="4"></textarea>
 				</div>
 				<div class="entrada imagenes-picker">
-					<div class="camara">
-						<div class="marco-upload">
-						<i class="material-icons">photo_camera</i><br />
-						<p>Tomar / Arrastrar<br />fotografía</p>
-						<div class="drop-texto"></div>					
-					</div>
-				</div>
-					<div class="imagenes">
-						{{#each imagenes}}
-						<div class="imagen" id={{_id}}>
-							<div class="marco-imagen">
-								<img src="{{imagen}}">
-								<p class="nombre" id="{{_id}}">{{link}}</p>
-								<div class="eliminar" id="{{_id}}">
-									<i class="material-icons">clear</i>
-									<span>Eliminar</span>
-								</div>
+						<div class="camara">
+							<div class="marco-upload">
+								<i class="material-icons">photo_camera</i><br />
+								<p>Tomar / Arrastrar<br />fotografía</p>
+								<div class="drop-texto"></div>
 							</div>
+							<input id="upload-image" type="file" style="display: none">
 						</div>
-						{{else}}
-						<h3>No hay Imágenes</h3>
-						{{/each}}
-					</div>
-					<input type="file" id="upload-image" style="display: none;">
+						<div class="imagenes">
+								{{#each imagenes}}
+								<div class="imagen" id={{_id}}>
+									<div class="marco-imagen">
+										<img src="{{imagen}}">
+										<div class="eliminar" id="{{_id}}">
+											<i class="material-icons">clear</i>
+											<span>Eliminar</span>
+										</div>
+									</div>
+								</div>
+								{{else}}
+								<h3>No hay Imágenes</h3>
+								{{/each}}
+								<input id="upload-image" type="file" style="display: none">
+						</div>
 				</div>
-				<div class="flex">
-					<div class="neuromorph boton redondo amarillo">
-						<i class="material-icons">clear</i>
+					<div class="flex">
+						<div class="neuromorph boton redondo amarillo">
+							<i class="material-icons">clear</i>
+						</div>
+						<div class="neuromorph boton redondo amarillo" id="btn-guardar">
+							<i class="material-icons">save</i>
+						</div>
 					</div>
-					<div class="neuromorph boton redondo amarillo" id="btn-guardar">
-						<i class="material-icons">save</i>
-					</div>
-				</div>
 			</div>
 			{{else}}
 				{{#with ecoSos}}
@@ -153,7 +157,7 @@
 					<div class="titulo-presentacion">Reseña histórica</div>
 					<div class="resena"><p>{{resena}}</p></div>
 					<div class="titulo-presentacion">Solicitar unirse</div>
-					<div class="neuromorph boton redondo purpura">
+					<div class="neuromorph boton redondo amarillo">
 						<i class="material-icons">login</i>
 					</div>
 				</div>			

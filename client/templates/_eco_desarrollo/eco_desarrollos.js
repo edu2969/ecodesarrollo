@@ -42,7 +42,7 @@ Template.eco_desarrollos.helpers({
 		});
 		ecoDesarrollo.avatar = img ? img.link() : '/img/no_image_available.jpg';
 		ecoDesarrollo.ultimaActividad = ecoDesarrollo.ultimaActualizacion;
-		ecoDesarrollo.integrantes = 0;
+		ecoDesarrollo.integrantes = 10;
 		ecoDesarrollo.donaciones = 0;
 		return ecoDesarrollo;
 	},
@@ -53,10 +53,26 @@ Template.eco_desarrollos.helpers({
 		return Session.get("ECODesarrolloSeleccionado");
 	},
 	currentUpload() {
-		return Template.instance().currentUpload.get();
+			return Template.instance().currentUpload.get();
 	},
 	imagenes() {
-		return Images.find({ "meta.tipo": "ecodesarrollo" }).map(img => {
+		const template = Template.instance();
+		const ecoDesarrollo = template.ecoDesarrolloSeleccionada.get();
+		let selector = {};
+		if (ecoDesarrollo._id) {
+			selector = {
+				"meta.ecoDesarrolloId": ecoDesarrollo._id,
+				"meta.tipo": "ecodesarrollo"
+			}
+		}
+		 else {
+			selector = {
+				"meta.pendiente": true,
+				"meta.tipo" : "ecodesarrollo"
+			}
+		
+		}
+		return Images.find(selector).map(img => {
 			const imagen = Images.findOne({ _id: img._id });
 			return {
 				_id: img._id,
@@ -70,7 +86,6 @@ Template.eco_desarrollos.helpers({
 Template.eco_desarrollos.events({
 	"click .marco-desarrollo"(e, template) {
 		const id = e.currentTarget.id;
-		//debugger;
 		const entidad = ECODesarrollos.findOne({ _id: id });
 		template.enListado.set(false);
 		template.ecoDesarrolloSeleccionada.set(entidad);
@@ -83,7 +98,7 @@ Template.eco_desarrollos.events({
 		template.ecoDesarrolloSeleccionada.set({});
 		template.editando.set(true);
 		template.enListado.set(false);
-		//Session.set("ECODesarrolloSeleccionado", {});
+		Session.set("ecoDesarrolloSeleccionado", {});
 		UIUtils.toggle("carrousel", "grilla");
 		UIUtils.toggle("carrousel", "detalle");
 		UIUtils.toggle("navegacion-atras", "activo");
@@ -102,7 +117,10 @@ Template.eco_desarrollos.events({
 			if(!err) {
 				UIUtils.toggle("carrousel", "grilla");
 				UIUtils.toggle("carrousel", "detalle");
-				UIUtils.toggle("navegacion-atras", "activo");		
+				UIUtils.toggle("navegacion-atras", "activo");
+				template.ecoDesarrolloSeleccionada.set(false);
+				template.editando.set(false);
+				template.enListado.set(true);
 			}
 		})
 	},
@@ -119,9 +137,6 @@ Template.eco_desarrollos.events({
 		template.enListado.set(true);
 		$(".detalle").scrollTop(0);
 	},
-
-
-
 	"dragover .camara .marco-upload": function (e, t) {
     e.stopPropagation();
     e.preventDefault();
@@ -141,7 +156,8 @@ Template.eco_desarrollos.events({
     e.preventDefault();
     var ecoDesarrollo = template.ecoDesarrolloSeleccionada.get();
     if (e.originalEvent.dataTransfer.files && e.originalEvent.dataTransfer.files[0]) {
-    	var meta = {
+			var img;
+			var meta = {
     		tipo: "ecodesarrollo"
     	}
     	if (!ecoDesarrollo._id) {
@@ -200,5 +216,9 @@ Template.eco_desarrollos.events({
 			
       upload.start();
     }
-  },
+	},
+	"click .eliminar"(e) {
+		const id = e.currentTarget.id;
+		Images.remove({_id: id})
+	}	
 })

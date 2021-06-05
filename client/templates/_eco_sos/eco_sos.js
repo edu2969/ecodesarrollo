@@ -34,7 +34,6 @@ Template.eco_sos.helpers({
 		});
 	},
 	ecoSos() {
-		//debugger;
 		const template = Template.instance();
 		let ecoSos = template.ecoSosSeleccionada.get();
 		if(!ecoSos) return;
@@ -91,8 +90,22 @@ Template.eco_sos.helpers({
 		return Template.instance().currentUpload.get();
 	},
 	imagenes() {
-		
-		return Images.find({ "meta.tipo": "ecosos" }).map(img => {
+		const template = Template.instance();
+		const ecoSos = template.ecoSosSeleccionada.get();
+		let selector = {};
+		if(ecoSos._id) {
+			
+			selector = {
+				"meta.ecoSosId": ecoSos._id,
+				"meta.tipo": "ecosos"
+			}
+		} else {
+			selector = {
+				"meta.pendiente": true,
+				"meta.tipo": "ecosos"
+			}
+		}
+		return Images.find(selector).map(img => {
 			const imagen = Images.findOne({ _id: img._id });
 			return {
 				_id: img._id,
@@ -110,7 +123,7 @@ Template.eco_sos.events({
 		const entidad = ECOSos.findOne({ _id: id });
 		template.enListado.set(false);
 		template.ecoSosSeleccionada.set(entidad);
-		Session.set("ECOSosSeleccionado", entidad);
+		//Session.set("ECOSosSeleccionado", entidad);
 		UIUtils.toggle("carrousel", "grilla");
 		UIUtils.toggle("carrousel", "detalle");
 		UIUtils.toggle("navegacion-atras", "activo");
@@ -139,7 +152,10 @@ Template.eco_sos.events({
 			if(!err) {
 				UIUtils.toggle("carrousel", "grilla");
 				UIUtils.toggle("carrousel", "detalle");
-				UIUtils.toggle("navegacion-atras", "activo");		
+				UIUtils.toggle("navegacion-atras", "activo");
+				template.ecoSosSeleccionada.set(false);
+				template.editando.set(false);
+				template.enListado.set(true);	
 			}
 		})
 	},
@@ -175,21 +191,15 @@ Template.eco_sos.events({
     e.preventDefault();
     var ecoSos = template.ecoSosSeleccionada.get();
     if (e.originalEvent.dataTransfer.files && e.originalEvent.dataTransfer.files[0]) {
-			let meta = {};
 			var img;
-			if(!ecoSos._id) {
-				img = Images.findOne({
-					userId: Meteor.userId(),
-					"meta.pendiente": true
-				});
-				meta = { pendiente: true };
-			} else {
-				img = Images.findOne({
-					userId: Meteor.userId(),
-					"meta.ecoSos": ecoSos._id
-				});
-				meta = { ecoSosId: ecoSos._id };
+			var meta = {
+				tipo: "ecosos"
 			}
+			if (!ecoSos._id) {
+				meta.pendiente = true;
+			} else {
+				meta.ecoSosId = ecoSos._id;
+			}		
 			
       const upload = Images.insert({
         file: e.originalEvent.dataTransfer.files[0],
@@ -245,4 +255,8 @@ Template.eco_sos.events({
       upload.start();
     }
   },
+  "click .eliminar"(e) {
+		const id = e.currentTarget.id;
+		Images.remove({ _id: id });
+	}
 })

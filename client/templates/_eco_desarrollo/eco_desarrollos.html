@@ -12,7 +12,7 @@
 			</button>
 			{{else}}
 			<p>
-				{{#if ecodesarrollo.titulo}}{{ecodesarrollo.titulo}}{{else}}Nuevo ECO_Desarrollo
+				{{#if ecoDesarrollo.titulo}}{{ecoDesarrollo.titulo}}{{else}}Nuevo ECO_Desarrollo
 				{{/if}}{{#if editando}}<small>(editando) </small>{{/if}}</p>
 			{{#if ecoDesarrollo.esPropia}}
 			{{#unless editando}}
@@ -125,8 +125,8 @@
 						{{else}}
 						<h3>No hay Imágenes</h3>
 						{{/each}}
+						<input type="file" id="upload-image" style="display: none;">
 					</div>
-					<input type="file" id="upload-image" style="display: none;">
 				</div>
 				<div class="flex">
 					<div class="neuromorph boton redondo verde">
@@ -163,10 +163,10 @@
 				</div>
 				<div class="titulo-presentacion">Reseña histórica</div>
 				<div class="resena">
-					<p>{{resena}}</p>
+					<p>{{ecoDesarrollo.descripcion}}</p>
 				</div>
 				<div class="titulo-presentacion">Solicitar unirse</div>
-				<div class="neuromorph boton redondo purpura">
+				<div class="neuromorph boton redondo verde">
 					<i class="material-icons">login</i>
 				</div>
 			</div>

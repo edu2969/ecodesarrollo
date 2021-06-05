@@ -110,17 +110,17 @@ Meteor.methods({
 	ActualizarECOSos(doc) {
 		if(doc._id) {
 			//debugger;
-				const id = doc._id;
-				delete doc._id;
-				ECOSos.update({ _id: id }, { $set: doc });
+			const id = doc._id;
+			delete doc._id;
+			ECOSos.update({ _id: id }, { $set: doc });
 		} else {
-					const ecoSosId = ECOSos.insert(doc);
-					const img = Images.findOne({
-						userId: Meteor.userId(),
-						"meta.pendiente": true	
-					});
-			if(img) {
-					Images.update({ _id: img._id }, {
+			const ecoSosId = ECOSos.insert(doc);
+			Images.find({
+				userId: Meteor.userId(),
+				"meta.tipo": "ecosos",
+				"meta.pendiente": true	
+			}).fetch().forEach(function(imagen) {
+				Images.update({ _id: imagen._id }, {
 					$set: {
 						"meta.ecoSosId": ecoSosId
 					},
@@ -128,7 +128,7 @@ Meteor.methods({
 						"meta.pendiente": true
 					}
 				});
-			}	
+			})
 		}
 	},
 	ActualizarECODesarrollo(doc) {
@@ -136,14 +136,15 @@ Meteor.methods({
 			const id = doc._id;
 			delete doc._id;
 			ECODesarrollos.update({ _id: id }, { $set: doc });
-		} else {
+		} 
+		else {
 			const ecoDesarrolloId = ECODesarrollos.insert(doc);
-			const img = Images.findOne({
+			Images.find({
 				userId: Meteor.userId(),
-				"meta.pendiente": true
-			});
-			if(img) {
-				Images.update({ _id: img._id }, {
+				"meta.tipo": "ecodesarrollo",
+				"meta.pendiente": true	
+			}).fetch().forEach(function(imagen) {
+				Images.update({ _id: imagen._id }, {
 					$set: {
 						"meta.ecoDesarrolloId": ecoDesarrolloId
 					},
@@ -151,8 +152,8 @@ Meteor.methods({
 						"meta.pendiente": true
 					}
 				});
-			}
-		}		
+			})
+		}
 	},
 	
 	// TEST
