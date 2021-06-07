@@ -35,9 +35,13 @@ const Nivel = {
             porcentaje: 0,
             actual: true
           }
-          if(usuario.profile.secretCodeOK) {
+          if(usuario.profile.codigoSecretoOK) {
             nivel.nivel3.porcentaje = 100;
             nivel.nivel3.completado = true;
+            nivel.nivel4 = {
+              actual: true,
+              puntos: 0
+            }
           }
         }
       }     

@@ -52,6 +52,19 @@ Template.ecopasaporte.helpers({
 	},
 	panel() {
 		return Template.instance().panel.get();
+	},
+	corazonVerde() {
+		const usuario = Meteor.user();
+		if(!usuario) return false;
+		var corazonVerde = usuario.profile.corazonVerde;
+		corazonVerde.cara = corazonVerde.nivel + 1;
+		corazonVerde.puntaje = new Array(10).fill("vacio");
+		if(corazonVerde.puntos) {
+			for(var i = 0; i < corazonVerde.puntos; i++) {
+				corazonVerde.puntaje[9 - i] = "lleno";
+			}
+		}
+		return corazonVerde;
 	}
 })
 

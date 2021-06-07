@@ -27,4 +27,28 @@ export const IngresarDepositoNoConfirmado = new ValidatedMethod({
     doc.pendiente = true;
     return Depositos.insert(doc);
   }
+});
+
+export const CodigoSecreto = new ValidatedMethod({
+  name: 'Usuarios.CodigoSecreto',
+  validate: new SimpleSchema({
+    codigo: {
+      type: String
+    }
+  }).validator({
+    clean: true
+  }),
+  run(doc) {
+    Meteor.users.update({
+      _id: this.userId
+    }, {
+      $set: {
+        "profile.codigoSecretoOK": true,
+        "profile.corazonVerde": {
+          nivel: 1,
+          puntos: 0
+        }
+      }
+    });
+  }
 })

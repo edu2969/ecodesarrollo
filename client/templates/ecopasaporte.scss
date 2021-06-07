@@ -34,7 +34,6 @@
 	width: calc(100% + 24px);
 	left: -12px;
 	height: 100%;
-	background-image: url(/img/corazon/ciudad_001.jpg);
 	background-size: 100% auto;
 	background-position: center;
 	animation: temblor 9631215s infinite;
@@ -45,7 +44,30 @@
 		bottom: 20px;
 		right: -40px;
 		transform: scale(0.4);
-		filter: grayscale(0.9);
+
+		&.nivel0 {
+			filter: grayscale(0.9);
+		}
+
+		&.nivel1 {
+			filter: grayscale(0.7);
+		}
+
+		&.nivel2 {
+			filter: grayscale(0.5);
+		}
+
+		&.nivel3 {
+			filter: grayscale(0.3);
+		}
+
+		&.nivel4 {
+			filter: grayscale(0.1);
+		}
+
+		&.nivel5 {
+			filter: grayscale(0);
+		}
 		
 		.cuerpo {
 			position: relative;
