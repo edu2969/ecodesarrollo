@@ -22,8 +22,8 @@
       </div>
       <div class="formulario">
         <div class="entrada selector-radio flex">
-          <input type="radio" name="tipo" value="F" checked>Foto de comprobante
-          <input type="radio" name="tipo" value="T">Texto detalle
+          <input type="radio" name="tipo" value="foto" checked>Foto de comprobante
+          <input type="radio" name="tipo" value="texto">Texto detalle
         </div>
         <div class="sector-tipo-comprobate neuromorph verde">
           <div class="entrada" id="tipo-foto">
@@ -32,14 +32,29 @@
                 <div class="marco-upload">
                   <i class="material-icons">photo_camera</i><br />
                   <p>Tomar / Arrastrar<br />fotografía</p>
-                  <div class="drop-texto"></div>
+                  <div class="marco-drop"></div>
                 </div>
                 <input id="upload-image" type="file" style="display: none">
+              </div>
+              <div class="imagenes">
+                {{#with comprobante}}
+                <div class="imagen" id={{_id}}>
+                  <div class="marco-imagen">
+                    <img src="{{this}}">
+                    <div class="eliminar" id="{{_id}}">
+                      <i class="material-icons">clear</i>
+                      <span>Eliminar</span>
+                    </div>
+                  </div>
+                </div>
+                {{else}}
+                <h3>No hay Comprobante</h3>
+                {{/with}}
               </div>
             </div>
           </div>
           <div class="entrada" id="tipo-texto" style="display: none">
-            <span>Describe tu campaña</span>
+            <span>Detalle de tu comprobante</span>
             <textarea class="campo" id="input-detalle-deposito" rows="4"></textarea>
           </div>
         </div>

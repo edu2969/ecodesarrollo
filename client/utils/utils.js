@@ -1,4 +1,4 @@
-VERSION = "0.91";
+VERSION = "2.0";
 
 IsEmpty = (valor) => {
 	return Object.keys(valor).length === 0 && valor.constructor === Object

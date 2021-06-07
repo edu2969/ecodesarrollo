@@ -96,15 +96,15 @@ Template.ecopasaporte.events({
 				esIdentificate: true
 			});
 			UIUtils.toggle("eco-panel", "activo");
-			/*setTimeout(() => {
+			setTimeout(function() {
 				if(Meteor.userId()) {
-					console.log("Uno");
-					UIUtils.toggle("tipo-identificacion", "oculto");
+					$(".tipo-identificacion").removeClass("oculto");
+					$(".contendor-identificate").addClass("oculto");
 				} else {
-					console.log("Dos");
-					$(".contendor-identificate").toggleClass("oculto");
-				}	
-			}, 500);*/
+					$(".contendor-identificate").removeClass("oculto");
+					$(".tipo-identificacion").addClass("oculto");
+				}
+			}, 250);
 		} else if(actividad.indexOf("eco_organizaciones")!=-1) {
 			template.panel.set({
 				clase: "eco_organizaciones",

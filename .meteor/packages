@@ -25,3 +25,4 @@ seba:minifiers-autoprefixer
 summernote:summernote
 tsega:bootstrap3-datetimepicker
 reywood:publish-composite
+mdg:validated-method

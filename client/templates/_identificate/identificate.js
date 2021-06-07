@@ -1,6 +1,9 @@
 const { Nivel } = require('../../utils/nivel');
 
 Template.identificate.onCreated(function () {
+  Tracker.autorun(() => {
+    Meteor.subscribe('usuarios.depositos');
+  })
   this.errores = new ReactiveVar(false);
 });
 
