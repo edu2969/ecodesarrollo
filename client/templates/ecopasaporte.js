@@ -1,7 +1,8 @@
-const { Nivel } = require("../utils/nivel");
+import { Nivel } from '../utils/nivel'
+import { ECOActividades } from '../../lib/ECOActividades' 
 
 Template.ecopasaporte.onCreated(function() {
-	this.ecoactividades = new ReactiveVar();
+	ECOActividades.init();
 	this.panel = new ReactiveVar(false);
 	Nivel.setNivelUsuario();
 });
@@ -28,37 +29,26 @@ Template.ecopasaporte.rendered = function() {
 	
 	Tracker.autorun(() => {
 	});
-	
-	const instance = Template.instance();
-	instance.ecoactividades.set([{
-		espacio: true
-	}, {
-		espacio: true
-	}, {
-		nombre: "identificate",
-		icono: "fingerprint",
-		activo: true,
-		accion: "Soy <b>&hearts;</b> verde"
-	}, {
-		nombre: "sabermas",
-		icono: "contact_support",
-		accion: "Quiero saber"
-	}]);
 }
 
 Template.ecopasaporte.helpers({
 	ecoactividades() {
-		return Template.instance().ecoactividades.get();
+		return ECOActividades.get();
 	},
 	panel() {
 		return Template.instance().panel.get();
 	},
 	corazonVerde() {
 		const usuario = Meteor.user();
-		if(!usuario) return false;
+		var arregloVacio = new Array(10).fill("vacio");
+		if(!usuario) return {
+			cara: 1,
+			nivel: 0,
+			puntaje: arregloVacio
+		};
 		var corazonVerde = usuario.profile.corazonVerde;
 		corazonVerde.cara = corazonVerde.nivel + 1;
-		corazonVerde.puntaje = new Array(10).fill("vacio");
+		corazonVerde.puntaje = arregloVacio;
 		if(corazonVerde.puntos) {
 			for(var i = 0; i < corazonVerde.puntos; i++) {
 				corazonVerde.puntaje[9 - i] = "lleno";
@@ -77,7 +67,7 @@ Template.ecopasaporte.events({
 			UIUtils.toggle("tombola", "flotalatombola2x");
 			setTimeout(function() {
 				UIUtils.toggle("tombola", "flotalatombola5x");
-				template.ecoactividades.set([{
+				ECOActividades.set([{
 					nombre: "eco_organizaciones",
 					icono: "share",
 					activo: true,
@@ -162,7 +152,7 @@ Template.ecopasaporte.events({
 		UIUtils.toggle("tombola", "flotalatombola2x");
 		UIUtils.toggle("tombola", "desaparece");
 		setTimeout(function() {
-			template.ecoactividades.set([{
+			ECOActividades.set([{
 				espacio: true 
 			}, {
 				espacio: true
