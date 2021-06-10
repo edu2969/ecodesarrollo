@@ -1,13 +1,19 @@
 @font-face {
   font-family: BebasNeue Regular;
   font-weigth: normal;
-  src: url('fonts/BabasNeue/BebasNeue-Regular.woff');
+  src: url('font/BabasNeue/BebasNeue-Regular.woff');
 }
 
 @font-face {
   font-family: BebasNeue Bold;
   font-weigth: bold;
-  src: url('fonts/BabasNeue/BebasNeue-Bold.woff');
+  src: url('font/BabasNeue/BebasNeue-Bold.woff');
+}
+
+@font-face {
+  font-family: ArcadeClasic;
+  font-weigth: normal;
+  src: url('font/ArcadeClasic.ttf');
 }
 
 body {
