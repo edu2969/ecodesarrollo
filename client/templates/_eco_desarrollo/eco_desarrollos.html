@@ -75,32 +75,31 @@
 					<textarea class="campo" id="input-descripcion" value="{{ecoDesarrollo.descripcion}}" rows="4"></textarea>
 				</div>
 				<div class="entrada documentos-picker">
-					<div class="documento">
-						<div class="marco-upload">
-							<i class="material-icons">attachment</i><br />
-							<p>Tomar / Arrastrar<br />Documento</p>
-
-							<div class="drop-texto"></div>
-							<input id="upload-archivo" type="file" style="display: none">
-						</div>
-					</div>
-					<div class="documentos">
-						{{#each documentos}}
-						<div class="documento" id={{_id}}>
-							<div class="marco-documento">
-								<img src="{{imagen}}">
-								<p class="nombre" id="{{_id}}">{{link}}</p>
-								<div class="eliminar" id="{{_id}}">
-									<i class="material-icons">clear</i>
-									<span>Eliminar</span>
-								</div>
+						<div class="archivo">
+							<div class="marco-upload">
+								<i class="material-icons">attachment</i><br />
+								<p>Tomar / Arrastrar<br />Documento</p>
+								<div class="drop-texto"></div>
+								<input id="upload-documento" type="file" style="display: none">
 							</div>
 						</div>
-						{{else}}
-						<h3>No hay documentos</h3>
-						{{/each}}
-					</div>
-					<input type="file" id="upload-archivo" style="display: none;">
+						<div class="documentos">
+							{{#each documentos}}
+							<div class="archivo" id={{_id}}>
+								<div class="marco-documento">
+									<img src="{{nombre}}">
+									<p class="nombre" id="{{_id}}">{{link}}</p>
+									<div class="eliminar" id="{{_id}}">
+										<i class="material-icons">clear</i>
+										<span>Eliminar</span>
+									</div>
+								</div>
+							</div>
+							{{else}}
+								<h3>No hay documentos</h3>
+							{{/each}}
+						</div>
+					<input type="file" id="upload-documento" style="display: none;">
 				</div>
 				<div class="entrada imagenes-picker">
 					<div class="camara">

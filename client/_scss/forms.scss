@@ -193,7 +193,7 @@
 			width: 100%;
 			margin-bottom: 12px;
 
-			.documento {
+			.archivo {
 				width: 120px;
 				height: 120px;
 				border: 2px solid white;
@@ -212,22 +212,37 @@
 				flex-wrap: wrap;
 				
 				.documento {
-					width: 80px;
-					padding-top: 20px;
-					padding-left: 20px;
+					.marco-documento {
+						width: 80px;
+						padding-top: 20px;
+						padding-left: 20px;
+	
+						arc {
+							width: 40px;
+							height: 40px;
+							border-radius: 50%;
+						}
 
-					span {
-						display: inline-block;
-						width: 100%;
-						white-space: nowrap;
-						overflow: hidden !important;
-						text-overflow: ellipsis;
-					}
-
-					img {
-						width: 40px;
-						height: 40px;
-						border-radius: 50%;
+						.eliminar {
+							display: inline-flex;
+							font-size: 10px;
+							background-color: salmon;
+							border-radius: 3px;
+							padding: 2px;
+							margin-left: -3px;
+							cursor: pointer;
+							.material-icons {
+								font-size: 10px;
+							}
+							span {
+								position: relative;
+								top: -1px;
+								width: 100%;
+								white-space: nowrap;
+								overflow: hidden !important;
+								text-overflow: ellipsis;
+							}
+						}
 					}
 				}
 			}

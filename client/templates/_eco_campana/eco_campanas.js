@@ -128,7 +128,10 @@ Template.eco_campanas.events({
 			if(!err) {
 				UIUtils.toggle("carrousel", "grilla");
 				UIUtils.toggle("carrousel", "detalle");
-				UIUtils.toggle("navegacion-atras", "activo");	
+				UIUtils.toggle("navegacion-atras", "activo");
+				template.ecoCampanaSeleccionada.set(false);
+				template.editando.set(false);
+				template.enListado.set(true);	
 			}
 		})
 	},

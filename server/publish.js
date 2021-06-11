@@ -37,3 +37,8 @@ Meteor.publish('eco_desarrollos.imagenes', function() {
 		"meta.tipo": "ecodesarrollo"
 	}).cursor;
 });
+Meteor.publish('eco_desarrollos.documentos', function() {
+	return Documents.find({
+		"meta.tipo": "ecodesarrollo"
+	}).cursor;
+});

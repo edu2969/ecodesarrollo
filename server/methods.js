@@ -93,9 +93,8 @@ Meteor.methods({
 				userId: Meteor.userId(),
 				"meta.tipo": "ecocampana",
 				"meta.pendiente": true	
-			}).forEach(function(imagen) {
-				if(img) {
-					Images.update({ _id: imagen._id }, {
+			}).fetch().forEach(function(imagen) {
+						Images.update({ _id: imagen._id }, {
 						$set: {
 							"meta.ecoCampanaId": ecoCampanaId
 						},
@@ -103,10 +102,9 @@ Meteor.methods({
 							"meta.pendiente": true
 						}
 					});
-				}	
-			})
-		}
-	},
+				})
+			}
+		},
 	ActualizarECOSos(doc) {
 		if(doc._id) {
 			//debugger;
@@ -145,6 +143,20 @@ Meteor.methods({
 				"meta.pendiente": true	
 			}).fetch().forEach(function(imagen) {
 				Images.update({ _id: imagen._id }, {
+					$set: {
+						"meta.ecoDesarrolloId": ecoDesarrolloId
+					},
+					$unset: {
+						"meta.pendiente": true
+					}
+				});
+			})
+			Documents.find({
+				userId: Meteor.userId(),
+				"meta.tipo": "ecodesarrollo",
+				"meta.pendiente": true	
+			}).fetch().forEach(function(archivo) {
+				Documents.update({ _id: archivo._id }, {
 					$set: {
 						"meta.ecoDesarrolloId": ecoDesarrolloId
 					},

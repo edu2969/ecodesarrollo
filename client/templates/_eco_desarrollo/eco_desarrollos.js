@@ -11,6 +11,7 @@ Template.eco_desarrollos.rendered = () => {
 	Tracker.autorun(() => {
 		Meteor.subscribe('eco_desarrollos');
 		Meteor.subscribe('eco_desarrollos.imagenes');
+		Meteor.subscribe('eco_desarrollos.documentos');
 	});
 }
 
@@ -78,6 +79,31 @@ Template.eco_desarrollos.helpers({
 				_id: img._id,
 				link: imagen.name,
 				imagen: imagen.link()
+			}
+		});
+	},
+	documentos() {
+		const template = Template.instance();
+		const ecoDesarrollo = template.ecoDesarrolloSeleccionada.get();
+		let selector = {};
+		if (ecoDesarrollo._id) {
+			selector = {
+				"meta.ecoDesarrolloId": ecoDesarrollo._id,
+				"meta.tipo": "ecodesarrollo"
+			}
+		}
+		 else {
+			selector = {
+				"meta.pendiente": true,
+				"meta.tipo" : "ecodesarrollo"
+			}
+		}
+		return Documents.find(selector).map(arc => {
+			const archivo = Documents.findOne({ _id: arc._id });
+			return {
+				_id: arc._id,
+				link: archivo.name,
+				archivo: archivo.link()
 			}
 		});
 	}
@@ -201,6 +227,38 @@ Template.eco_desarrollos.events({
     		meta.ecoDesarrolloId = ecoDesarrollo._id;
     	}
       const upload = Images.insert({
+        file: e.currentTarget.files[0],
+        meta: meta
+      }, false);
+
+      upload.on('start', function () {
+        template.currentUpload.set(this);
+      });
+
+      upload.on('end', function (error, fileObj) {
+        template.currentUpload.set(false);
+        template.$(".camara .marco-drop").removeClass("activo");
+      });
+			
+      upload.start();
+    }
+	},
+	"click .archivo .marco-upload"(e) {
+    $("#upload-documento").click();
+  },
+	"change #upload-documento"(e, template) {
+
+    var ecoDesarrollo = template.ecoDesarrolloSeleccionada.get();
+    if (e.currentTarget.files && e.currentTarget.files[0]) {
+	  	var meta = {
+   			tipo: "ecodesarrollo"
+    	}
+    	if (!ecoDesarrollo._id) {
+    		meta.pendiente = true;
+    	} else {
+    		meta.ecoDesarrolloId = ecoDesarrollo._id;
+    	}
+      const upload = Documents.insert({
         file: e.currentTarget.files[0],
         meta: meta
       }, false);
