@@ -34,7 +34,6 @@
 	width: calc(100% + 24px);
 	left: -12px;
 	height: 100%;
-	background-image: url(/img/corazon/ciudad_001.jpg);
 	background-size: 100% auto;
 	background-position: center;
 	animation: temblor 9631215s infinite;
@@ -45,7 +44,30 @@
 		bottom: 20px;
 		right: -40px;
 		transform: scale(0.4);
-		filter: grayscale(0.9);
+
+		&.nivel0 {
+			filter: grayscale(0.9);
+		}
+
+		&.nivel1 {
+			filter: grayscale(0.7);
+		}
+
+		&.nivel2 {
+			filter: grayscale(0.5);
+		}
+
+		&.nivel3 {
+			filter: grayscale(0.3);
+		}
+
+		&.nivel4 {
+			filter: grayscale(0.1);
+		}
+
+		&.nivel5 {
+			filter: grayscale(0);
+		}
 		
 		.cuerpo {
 			position: relative;
@@ -96,15 +118,18 @@
 	.puntaje {
 		position: absolute;
 		display: flex;
-		width: 400px;
-		bottom: -10px;
+		width: 440px;
+		bottom: -8px;
 		right: -25px;
 		
 		p {
+			position: relative;
+			top: -6px;
 			color: white;
-			font-size: 24px;
-			width: 120px;
+			font-size: 32px;
+			width: 140px;
 			margin-left: 20px;
+			font-family: ArcadeClasic;
 		}
 		
 		ul {
@@ -352,7 +377,7 @@
 	}
 }
 
-.cruz {
+.rincon-derecho {
 	display: block;
 	visibility: visible;
 	position: absolute;
@@ -371,5 +396,44 @@
 	&.verde i {
 		right: 10px;
 		color: limegreen;
+	}
+}
+
+.panel-preferencias {
+	position: absolute;
+	width: calc(50% - 20px);
+	padding: 10px 10px;
+	height: calc(100vh - 20px);
+	overflow-y: scroll;
+	background-color: #7bcc71;
+	color: white;
+	border-radius: 1em;
+	overflow-x: hidden;
+	background: #f8512c;
+	transform: translate(calc(200% + 80px), 10px); 
+	transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0);
+	
+	.opcion-preferencia {
+		display: flex;
+		background-color: rgba(255, 255, 255, 0.2);
+		margin: 1em;
+		padding: 0.5em;
+		cursor: pointer;
+
+		.material-icons {
+			font-size: 42px;
+		}
+		
+		.texto {
+			font-family: ArcadeClasic;
+			font-size: 26px;
+			margin-left: 10px;
+			padding-top: 4px;		
+		}
+	}
+
+	&.activo {
+		transform: translate(10px, 10px); 
+		transition: transform 0.5s cubic-bezier(0.52, 1.64, 0.37, 0.66);
 	}
 }

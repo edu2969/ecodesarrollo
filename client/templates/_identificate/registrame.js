@@ -83,10 +83,8 @@ Template.registrame.helpers({
 	paso() {
 		const nivel = Nivel.get();
 		if(!nivel || !nivel.nivel1) return false;
-		console.log("NIVEL", nivel);
 		const pasos = Object.keys(nivel.nivel1.pasos);
 		const indice = pasos.findIndex(paso => {
-			console.log("llave", paso);
 			return nivel.nivel1.pasos[paso].actual;		
 		});
 		return "paso" + ( indice + 1 );

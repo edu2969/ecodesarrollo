@@ -1,5 +1,5 @@
 <template name="ecopasaporte">
-	<div class="mundo">
+	<div class="mundo" style="background-image: url(/img/corazon/ciudad_00{{corazonVerde.nivel}}.jpg);">
 
 		<section id="ecopasaporte" name="eco-actividades" class="ecopasaporte">
 			<div class="logo">
@@ -23,12 +23,12 @@
 		</section>
 
 		<!-- CORAZON VERDE -->
-		<div class="marco-agente">
+		<div class="marco-agente nivel{{corazonVerde.nivel}}">
 			<div class="corazon cuerpo">
 				<img src="/img/corazon/corazon_verde.png">
 			</div>
 			<div class="expresion">
-				<img src="/img/corazon/corazon_verde_cara_01.png">
+				<img src="/img/corazon/corazon_verde_cara_0{{corazonVerde.cara}}.png">
 			</div>
 			<div class="brazo-izq">
 				<img src="/img/corazon/corazon_verde_brazo_izq.png">
@@ -42,29 +42,24 @@
 		</div>
 		<!-- FIN CORAZON VERDE -->
 
+		{{#if corazonVerde}}
 		<div class="puntaje">
-			<p>NIVEL 01</p>
+			<p>NIVEL 0{{corazonVerde.nivel}}</p>
 			<ul>
-				<li class="vacio"></li>
-				<li class="vacio"></li>
-				<li class="vacio"></li>
-				<li class="vacio"></li>
-				<li class="vacio"></li>
-				<li class="vacio"></li>
-				<li class="vacio"></li>
-				<li class="vacio"></li>
-				<li class="lleno"></li>
-				<li class="lleno"></li>
+				{{#each corazonVerde.puntaje}}
+				<li class="{{this}}"></li>
+				{{/each}}
 			</ul>
 		</div>
+		{{/if}}
 	</div>
 
-	<div class="cruz cruz-principal oculto">
-		<i class="material-icons">clear</i>
+	<div class="rincon-derecho menu-preferencias oculto">
+		<i class="material-icons">settings</i>
 	</div>
 
 	<div class="eco-panel {{panel.clase}} {{panel.color}}">
-		<div class="cruz cruz-panel">
+		<div class="rincon-derecho cruz-panel">
 			<i class="material-icons">clear</i>
 		</div>
 
@@ -86,6 +81,27 @@
 		{{#if panel.esECOSOS}}
 		{{> eco_sos}}
 		{{/if}}
+	</div>
+
+	<div class="panel-preferencias">
+		<div class="marco-opciones">
+			<div class="opcion-preferencia opcion-perfil">
+				<div class="icono"><i class="material-icons">favorite</i></div>
+				<div class="texto">Mi perfil</div>
+			</div>
+			<div class="opcion-preferencia opcion-notificaciones">
+				<div class="icono"><i class="material-icons">notifications</i></div>
+				<div class="texto">Notificaciones</div>
+			</div>
+			<div class="opcion-preferencia opcion-info">
+				<div class="icono"><i class="material-icons">info</i></div>
+				<div class="texto">Mundo de Corazones</div>
+			</div>
+			<div class="opcion-preferencia opcion-logout">
+				<div class="icono"><i class="material-icons">logout</i></div>
+				<div class="texto">Logout</div>
+			</div>
+		</div>
 	</div>
 
 </template>

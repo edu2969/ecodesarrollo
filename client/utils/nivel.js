@@ -19,23 +19,32 @@ const Nivel = {
         porcentaje: 0,
         actual: true
       }
-      if(usuario.deposito) {
-        if(usuario.deposito.aprobado) {
-          nivel.nivel2 = {
-            completado: true,
-            porcentaje: 100
-          }
-          if(usuario.profile.secretCodeOK) {
-            nivel.nivel3.porcentaje = 100;
-            nivel.nivel3.completado = true;
-          }
-        } else {
+      const depositoInicial = Depositos.findOne();
+      if(depositoInicial) {
+        if(depositoInicial.pendiente) {
           nivel.nivel2 = {
             completado: false,
             porcentaje: 50
           }
+        } else {
+          nivel.nivel2 = {
+            completado: true,
+            porcentaje: 100
+          }
+          nivel.nivel3 = {
+            porcentaje: 0,
+            actual: true
+          }
+          if(usuario.profile.codigoSecretoOK) {
+            nivel.nivel3.porcentaje = 100;
+            nivel.nivel3.completado = true;
+            nivel.nivel4 = {
+              actual: true,
+              puntos: 0
+            }
+          }
         }
-      }
+      }     
     } else {
       nivel.nivel1 = {
         actual: true,

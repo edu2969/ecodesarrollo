@@ -1,6 +1,42 @@
-const { Nivel } = require('../../utils/nivel');
+import { Nivel } from '../../utils/nivel'
+import { ECOActividades } from '/lib/ECOActividades'
+
+const iniciarTombola = (template) => {
+  UIUtils.toggle("tombola", "desaparece");
+  UIUtils.toggle("tombola", "flotalatombola2x");
+  setTimeout(function() {
+    UIUtils.toggle("tombola", "flotalatombola5x");
+    ECOActividades.set([{
+      nombre: "eco_organizaciones",
+      icono: "share",
+      activo: true,
+      accion: "ECO Organizaciones"
+    }, {
+      nombre: "eco_campanas",
+      icono: "campaign",
+      accion: "ECO Campañas"
+    }, {
+      nombre: "eco_desarrollos",
+      icono: "architecture",
+      accion: "ECO Desarrollos"
+    }, {
+      nombre: "eco_sos",
+      icono: "support",
+      accion: "ECO S.O.S."
+    }]);
+    UIUtils.toggle("tombola", "reaparece");
+    UIUtils.toggle("tombola", "desaparece");
+    UIUtils.toggle("menu-preferencias", "oculto");
+    setTimeout(function() {
+      UIUtils.toggle("tombola", "reaparece");
+    }, 500);
+  }, 500);
+}
 
 Template.identificate.onCreated(function () {
+  Tracker.autorun(() => {
+    Meteor.subscribe('usuarios.depositos');
+  })
   this.errores = new ReactiveVar(false);
 });
 
@@ -29,7 +65,7 @@ Template.identificate.events({
       email: email
     }, password, function (err, resp) {
       if (!err) {
-				UIUtils.toggle("tipo-identificacion", "oculto");
+				/*UIUtils.toggle("tipo-identificacion", "oculto");
 				UIUtils.toggle("contendor-identificate", "oculto");
         let estado = {
           enLogin: true
@@ -39,8 +75,18 @@ Template.identificate.events({
         } else if( Meteor.user().profile.rol == 1 ) {
           estado.esAdmin = true;
         } 
-        Session.set("EstadoApp", estado);
+        Session.set("EstadoApp", estado);*/
         Nivel.setNivelUsuario();
+        const nivel = Nivel.get();
+        if(nivel.nivel4 && nivel.nivel4.actual) {
+          UIUtils.toggle("eco-panel", "activo");
+          setTimeout(function() {
+            iniciarTombola(template);
+          }, 500)
+        } else {
+          UIUtils.toggle("contendor-identificate", "oculto");
+          UIUtils.toggle("contendor-identificate", "oculto");
+        }
       } else {
         template.errores.set("Ups!, no pareces corazón verde :(");
         console.error(err);
@@ -48,6 +94,7 @@ Template.identificate.events({
     });
   },
 	"click .contenedor-registrame"() {
+    Nivel.setNivelUsuario();
 		UIUtils.toggle("contendor-identificate", "oculto");
 		UIUtils.toggle("seccion-identificate", "oculto");
 	},
