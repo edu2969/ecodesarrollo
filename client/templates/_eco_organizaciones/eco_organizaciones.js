@@ -110,7 +110,7 @@ Template.eco_organizaciones.events({
 			}
 		})
 	},
-	"click #btn-editar"(e, template) {
+	"click #btn-editar, click #btn-cancelar"(e, template) {
 		const editando = template.editando.get();
 		template.editando.set(!editando);
 	},

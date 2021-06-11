@@ -115,7 +115,6 @@ Template.eco_desarrollos.events({
 		const entidad = ECODesarrollos.findOne({ _id: id });
 		template.enListado.set(false);
 		template.ecoDesarrolloSeleccionada.set(entidad);
-		//Session.set("ECODesarrolloSeleccionado", entidad);
 		UIUtils.toggle("carrousel", "grilla");
 		UIUtils.toggle("carrousel", "detalle");
 		UIUtils.toggle("navegacion-atras", "activo");
@@ -138,7 +137,6 @@ Template.eco_desarrollos.events({
 			doc.userId = Meteor.userId();
 			doc.ultimaActualizacion = new Date();
 		}
-		//debugger;
 		Meteor.call("ActualizarECODesarrollo", doc, function(err, resp) {
 			if(!err) {
 				UIUtils.toggle("carrousel", "grilla");
@@ -163,21 +161,22 @@ Template.eco_desarrollos.events({
 		template.enListado.set(true);
 		$(".detalle").scrollTop(0);
 	},
-	"dragover .camara .marco-upload": function (e, t) {
+
+	"dragover .camara .marco-drop": function (e, t) {
     e.stopPropagation();
     e.preventDefault();
     t.$(".camara .marco-drop").addClass("activo");
   },
-  "dragleave .camara .marco-upload": function (e, t) {
+  "dragleave .camara .marco-drop": function (e, t) {
     e.stopPropagation();
     e.preventDefault();
     t.$(".camara .marco-drop").removeClass("activo");
   },
-  "dragenter .camara .marco-upload": function (e, t) {
+  "dragenter .camara .marco-drop": function (e, t) {
     e.preventDefault();
     e.stopPropagation();
   },
-  "drop .camara .marco-upload": function (e, template) {
+  "drop .camara .marco-drop": function (e, template) {
     e.stopPropagation();
     e.preventDefault();
     var ecoDesarrollo = template.ecoDesarrolloSeleccionada.get();
@@ -212,7 +211,7 @@ Template.eco_desarrollos.events({
       upload.start();
     }
   },
-  "click .camara .marco-upload"(e) {
+  "click .camara .marco-drop"(e) {
     $("#upload-image").click();
   },
   "change #upload-image"(e, template) {
@@ -243,11 +242,65 @@ Template.eco_desarrollos.events({
       upload.start();
     }
 	},
-	"click .archivo .marco-upload"(e) {
+	"click .imagen .eliminar"(e) {
+		const id = e.currentTarget.id;
+		Images.remove({_id: id})
+	},
+
+	"dragover .archivo .marco-drop": function (e, t) {
+		console.log("ENTRA");
+    e.stopPropagation();
+    e.preventDefault();
+    t.$(".archivo .marco-drop").addClass("activo");
+  },
+  "dragleave .archivo .marco-drop": function (e, t) {
+    e.stopPropagation();
+    e.preventDefault();
+    t.$(".archivo .marco-drop").removeClass("activo");
+  },
+  "dragenter .archivo .marco-drop": function (e, t) {
+    e.preventDefault();
+    e.stopPropagation();
+  },
+  "drop .archivo .marco-drop": function (e, template) {
+    e.stopPropagation();
+    e.preventDefault();
+    var ecoDesarrollo = template.ecoDesarrolloSeleccionada.get();
+    if (e.originalEvent.dataTransfer.files && e.originalEvent.dataTransfer.files[0]) {
+			var img;
+			var meta = {
+    		tipo: "ecodesarrollo"
+    	}
+    	if (!ecoDesarrollo._id) {
+    		meta.pendiente = true;
+    	} else {
+    		meta.ecoDesarrolloId = ecoDesarrollo._id;
+    	}
+	    const upload = Documents.insert({
+	      file: e.originalEvent.dataTransfer.files[0],
+	      meta: meta
+      }, false);
+
+      upload.on('start', function () {
+        template.currentUpload.set(this);
+      });
+			
+      upload.on('end', function (error, fileObj) {
+        if (error) {
+          alert('Error during upload: ' + error);
+        } else {
+          //console.log("FileImage", fileObj);
+        }
+        template.currentUpload.set(false);
+        template.$(".archivo .marco-drop").removeClass("activo");
+      });
+      upload.start();
+    }
+  },
+	"click .archivo .marco-drop"(e) {
     $("#upload-documento").click();
   },
 	"change #upload-documento"(e, template) {
-
     var ecoDesarrollo = template.ecoDesarrolloSeleccionada.get();
     if (e.currentTarget.files && e.currentTarget.files[0]) {
 	  	var meta = {
@@ -275,8 +328,8 @@ Template.eco_desarrollos.events({
       upload.start();
     }
 	},
-	"click .eliminar"(e) {
+	"click .archivo .eliminar"(e) {
 		const id = e.currentTarget.id;
-		Images.remove({_id: id})
-	}	
+		Documents.remove({_id: id})
+	},
 })

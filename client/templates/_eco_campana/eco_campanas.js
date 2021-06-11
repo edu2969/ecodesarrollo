@@ -138,6 +138,20 @@ Template.eco_campanas.events({
 	"click #btn-editar"(e, template) {
 		const editando = template.editando.get();
 		template.editando.set(!editando);
+
+		setTimeout(function() {
+			$("#input-fechaInicio").datetimepicker({
+				locale: moment.locale("es"),
+				format: "DD/MM/YYYY HH:mm",
+				defaultDate: moment().startOf("day").hour(8),
+			});
+	
+			$("#input-fechaFin").datetimepicker({
+				locale: moment.locale("es"),
+				format: "DD/MM/YYYY HH:mm",
+				defaultDate: moment().startOf("day").hour(8),
+			});
+		}, 250);
 	},
 	"click .navegacion-atras"(e, template) {
 		UIUtils.toggle("carrousel", "grilla");
