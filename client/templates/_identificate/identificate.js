@@ -94,6 +94,7 @@ Template.identificate.events({
     });
   },
 	"click .contenedor-registrame"() {
+    Nivel.setNivelUsuario();
 		UIUtils.toggle("contendor-identificate", "oculto");
 		UIUtils.toggle("seccion-identificate", "oculto");
 	},

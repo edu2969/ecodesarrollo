@@ -134,7 +134,7 @@ Template.ecopasaporte.events({
 					$(".contendor-identificate").removeClass("oculto");
 					$(".tipo-identificacion").addClass("oculto");
 				}
-			}, 250);
+			}, 300);
 		} else if(actividad.indexOf("eco_organizaciones")!=-1) {
 			template.panel.set({
 				clase: "eco_organizaciones",
