@@ -29,7 +29,7 @@
 			<div class="contenedor-soss">
 				{{#each eco_soss}}
 					<div class="marco-sos neuromorph amarillo" 
-							 style="background-image: url({{imagen}})"
+							 style="background-image: url({{avatar}})"
 							  id="{{_id}}">
 						<div class="overlay"></div>
 						<div class="tipo">
@@ -123,7 +123,7 @@
 						</div>
 				</div>
 					<div class="flex">
-						<div class="neuromorph boton redondo amarillo">
+						<div class="neuromorph boton redondo amarillo" id="btn-cancelar">
 							<i class="material-icons">clear</i>
 						</div>
 						<div class="neuromorph boton redondo amarillo" id="btn-guardar">
@@ -135,6 +135,20 @@
 				{{#with ecoSos}}
 				<div class="presentacion">
 					<div class="ultima-actividad"><i>ultimaActividad: </i>{{formatoFecha ultimaActividad 'DD/MMM/YYYY HH:mm'}}</div>
+					<div class="titulo-presentacion">Imagenes</div>
+				<div class="entrada imagenes-picker">
+					<div class="imagenes">
+						{{#each imagenes}}
+						<div class="imagen" id={{_id}}>
+							<div class="marco-imagen">
+								<img src="{{imagen}}">
+							</div>
+						</div>
+						{{else}}
+						<h3>No hay Imágenes</h3>
+						{{/each}}
+					</div>
+				</div>
 					<div class="titulo-presentacion">Participantes</div>
 					<div class="participantes">
 						<div class="avatar-participante">

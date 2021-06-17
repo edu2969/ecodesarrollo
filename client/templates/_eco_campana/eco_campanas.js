@@ -24,8 +24,24 @@ Template.eco_campanas.helpers({
 		return template.editando.get();
 	},
 	eco_campanas(){
-
-		return ECOCampanas.find();
+		return ECOCampanas.find().map(ecoCampana => {
+			ecoCampana.ultimaActividad = ecoCampana.ultimaActualizacion;
+			const img = Images.findOne({ 
+				$or: [{
+					"meta.ecoCampanaId": ecoCampana._id,
+					"meta.tipo": "ecocampana",
+					
+				}, {
+					"meta.pendiente": true,
+					"meta.tipo": "ecocampana"
+				}] 
+			});
+			ecoCampana.avatar = img ? img.link() : '/img/no_image_available.jpg';
+			ecoCampana.integrantes = 0;
+			ecoCampana.donaciones = 0;
+			return ecoCampana;
+		
+	});
 	},
 	ecoCampana() {
 		//debugger;
@@ -135,9 +151,10 @@ Template.eco_campanas.events({
 			}
 		})
 	},
-	"click #btn-editar"(e, template) {
+	"click #btn-editar, click #btn-cancelar"(e, template) {
 		const editando = template.editando.get();
 		template.editando.set(!editando);
+	
 
 		setTimeout(function() {
 			$("#input-fechaInicio").datetimepicker({

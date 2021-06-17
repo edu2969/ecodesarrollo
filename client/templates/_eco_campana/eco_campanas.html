@@ -27,7 +27,7 @@
 		<div class="grilla">
 			<div class="contenedor-campanas">
 				{{#each eco_campanas}}
-				<div class="marco-campana neuromorph azul" style="background-image: url({{imagen}})" id="{{_id}}">
+				<div class="marco-campana neuromorph azul" style="background-image: url({{avatar}})" id="{{_id}}">
 					<div class="overlay"></div>
 					<div class="titulo">
 						{{traductorCAMPANASTipos tipo}}
@@ -165,7 +165,7 @@
 					</div>
 				</div>
 				<div class="flex">
-					<div class="neuromorph boton redondo azul">
+					<div class="neuromorph boton redondo azul" id="btn-cancelar">
 						<i class="material-icons">clear</i>
 					</div>
 					<div class="neuromorph boton redondo azul" id="btn-guardar">
@@ -177,6 +177,20 @@
 			{{#with ecoCampana}}
 			<div class="presentacion">
 				<div class="ultima-actividad"><i>ultimaActividad: </i>{{formatoFecha ultimaActividad 'DD/MMM/YYYY HH:mm'}}
+				</div>
+				<div class="titulo-presentacion">Imagenes</div>
+				<div class="entrada imagenes-picker">
+					<div class="imagenes">
+						{{#each imagenes}}
+						<div class="imagen" id={{_id}}>
+							<div class="marco-imagen">
+								<img src="{{imagen}}">
+							</div>
+						</div>
+						{{else}}
+						<h3>No hay Imágenes</h3>
+						{{/each}}
+					</div>
 				</div>
 				<div class="titulo-presentacion">Participantes</div>
 				<div class="participantes">

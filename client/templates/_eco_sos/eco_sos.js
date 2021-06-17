@@ -30,6 +30,19 @@ Template.eco_sos.helpers({
 	eco_soss() {
 		return ECOSos.find().map(ecosos => {
 			ecosos.icono = ECO_SOS.PROBLEMA[ecosos.problema].icono;
+			const img = Images.findOne({ 
+				$or: [{
+					"meta.ecoSosId": ecosos._id,
+					"meta.tipo": "ecosos",
+					
+				}, {
+					"meta.pendiente": true,
+					"meta.tipo": "ecosos"
+				}] 
+			});
+			ecosos.avatar = img ? img.link() : '/img/no_image_available.jpg';
+			ecosos.integrantes = 0;
+			ecosos.donaciones = 0;
 			return ecosos;
 		});
 	},
@@ -159,7 +172,7 @@ Template.eco_sos.events({
 			}
 		})
 	},
-	"click #btn-editar"(e, template) {
+	"click #btn-editar, click #btn-cancelar"(e, template) {
 		const editando = template.editando.get();
 		template.editando.set(!editando);
 	},

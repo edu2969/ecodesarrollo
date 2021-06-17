@@ -24,7 +24,24 @@ Template.eco_desarrollos.helpers({
 		return template.editando.get();
 	},
 	eco_desarrollos(){
-		return ECODesarrollos.find();
+		return ECODesarrollos.find().map(ecoDesarrollo => {
+			ecoDesarrollo.ultimaActividad = ecoDesarrollo.ultimaActualizacion;
+			const img = Images.findOne({ 
+				$or: [{
+					"meta.ecoDesarrolloId": ecoDesarrollo._id,
+					"meta.tipo": "ecodesarrollo",
+					
+				}, {
+					"meta.pendiente": true,
+					"meta.tipo": "ecodesarrollo"
+				}] 
+			});
+			ecoDesarrollo.avatar = img ? img.link() : '/img/no_image_available.jpg';
+			ecoDesarrollo.integrantes = 0;
+			ecoDesarrollo.donaciones = 0;
+			return ecoDesarrollo;
+		
+	});
 	},
 	ecoDesarrollo() {
 		const template = Template.instance();
@@ -148,10 +165,11 @@ Template.eco_desarrollos.events({
 			}
 		})
 	},
-	"click #btn-editar"(e, template) {
+	"click #btn-editar, click #btn-cancelar"(e, template) {
 		const editando = template.editando.get();
 		template.editando.set(!editando);
 	},
+
 	"click .navegacion-atras"(e, template) {
 		UIUtils.toggle("carrousel", "grilla");
 		UIUtils.toggle("carrousel", "detalle");
