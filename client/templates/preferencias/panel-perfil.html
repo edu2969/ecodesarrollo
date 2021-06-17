@@ -1,0 +1,31 @@
+<template name="panelPerfil">
+  <div class="marco-perfil" style="display: flex;">
+    <div class="marco-foto-perfil">
+      <div class="marco-foto">
+        <img src="/img/drag-and-drop.png">
+        <div class="nombre">{{perfil.nombre}}</div>
+        <div class="pseudonimo">{{perfil.pseudonimo}}</div>
+        <div class="marco-editar">
+          <i class="material-icons">edit</i>
+        </div>
+        <div class="distintivo">
+          <i class="material-icons">star</i>
+        </div>
+      </div>
+    </div>
+    <div class="marco-informacion">
+      <div class="linea">
+        <div class="etiqueta">Direccion</div>
+        <div class="valor">{{perfil.direccion}}</div>
+      </div>
+    </div>
+    <div class="formulario-oculto" style="display: none">
+      <div class="formulario">
+        <div class="entrada">
+          <span>Direccion</span>
+          <input class="entrada-formulario">
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

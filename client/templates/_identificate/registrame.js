@@ -123,7 +123,16 @@ Template.registrame.events({
 			if(paso==3) {
 				const formulario = template.formulario.get();
 				UIUtils.toggle("derecha", "deshabilitado");
-				Meteor.call("RegistrarCuenta", formulario, function(err, resp) {
+				const account = {
+					email: formulario.email.valor,
+					nombre: formulario.nombre.valor,
+					direccion: formulario.direccion.valor,
+					password: formulario.password.valor
+				}
+				if(formulario.pseudonimo) {
+					account.pseudonimo = formulario.pseudonimo.valor;
+				}
+				Meteor.call('Usuarios.RegistrarCuenta', account, function(err, resp) {
 					if(!err) {
 						Meteor.loginWithPassword({
 							email: formulario.email.valor
@@ -134,8 +143,7 @@ Template.registrame.events({
 								texto: "Tu cuenta de e-mail <b>" + formulario.email.valor + "</b> fue creada con exito" 
 							});
 							UIUtils.toggle("tipo-identificacion", "oculto");
-							nivel.nivel1.completado = true;
-							Nivel.set(nivel);
+							Nivel.setNivelUsuario()
 							$(".wizzard").toggleClass("oculto");
 							$(".contendor-identificate").toggleClass("oculto");
 							$("#modalgeneral").modal("show");

@@ -1,5 +1,6 @@
 <template name="deposito">
   <div class="instrucciones">
+    {{#unless comprobanteEnviado}}
     <div class="datos-deposito">
       <div class="titulo">Tu donación es importante</div>
       <div class="subtitulo">Debes depositar a la cuenta a continuación y enviar una foto de
@@ -68,5 +69,22 @@
         </div>
       </div>
     </div>
+    {{else}}
+    <div class="datos-deposito">
+      <div class="espaciado"></div>
+      <div class="cuadro-datos-deposito neuromorph verde">
+        <div class="linea">
+          <div class="etiqueta">
+            <i class="material-icons">fact_check</i>
+          </div>
+          <div class="valor">
+            <p>Los datos de tu depósito están siendo validados.</p>
+            <span>Cuando recibas la aprobación del equipo, recibirás tu código secreto y
+              podrás completar el siguiente paso.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{/unless}}
   </div>
 </template>

@@ -24,7 +24,8 @@ const Nivel = {
         if(depositoInicial.pendiente) {
           nivel.nivel2 = {
             completado: false,
-            porcentaje: 50
+            porcentaje: 50,
+            actual: true
           }
         } else {
           nivel.nivel2 = {

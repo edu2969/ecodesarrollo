@@ -75,6 +75,16 @@ Template.ecopasaporte.helpers({
 			puntaje: arregloVacio
 		};
 		var corazonVerde = usuario.profile.corazonVerde;
+		if(!corazonVerde) {
+			const nivel = Nivel.get();
+			const puntos = Math.floor( ( ( nivel.nivel1.porcentaje || 0 ) * 30 + 
+			( nivel.nivel2.porcentaje || 0 ) * 40 + 
+			( nivel.nivel3.porcentaje || 0 ) * 30 ) / 1000 )
+			corazonVerde = {
+				nivel: 0,
+				puntos: puntos 
+			}
+		}
 		corazonVerde.cara = corazonVerde.nivel + 1;
 		corazonVerde.puntaje = arregloVacio;
 		if(corazonVerde.puntos) {
@@ -179,10 +189,37 @@ Template.ecopasaporte.events({
 	"click .menu-preferencias"(e, template) {
 		$(".panel-preferencias").toggleClass("activo");
 	},
+	"click .opcion-perfil"(e, template) {
+		template.panel.set({
+			clase: "perfil",
+			color: "rojo",
+			esPerfil: true
+		});
+		UIUtils.toggle("eco-panel", "activo");
+		$(".panel-preferencias").toggleClass("activo");
+	},
 	"click .opcion-logout"(e, template) {
 		$(".menu-preferencias").toggleClass("oculto");
 		$(".panel-preferencias").toggleClass("activo");
 		Meteor.logout();
 		menuPrincipal(template);
-	}
+	},
+	"click .opcion-notificaciones"(e, template) {
+		template.panel.set({
+			clase: "notificaciones",
+			color: "rojo",
+			esNotificaciones: true
+		});
+		UIUtils.toggle("eco-panel", "activo");
+		$(".panel-preferencias").toggleClass("activo");
+	},
+	"click .opcion-info"(e, template) {
+		template.panel.set({
+			clase: "mundo-corazones",
+			color: "rojo",
+			esMundoCorazones: true
+		});
+		UIUtils.toggle("eco-panel", "activo");
+		$(".panel-preferencias").toggleClass("activo");
+	},
 });

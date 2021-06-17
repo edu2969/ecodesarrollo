@@ -22,6 +22,10 @@ Template.deposito.helpers({
       "meta.tipo": "deposito"
     }, { sort: { fecha: -1 }});
     return img ? img.link() : false;
+  },
+  comprobanteEnviado() {
+    const nivel = Nivel.get();
+    return nivel && nivel.nivel2 && nivel.nivel2.porcentaje == 50
   }
 })
 
