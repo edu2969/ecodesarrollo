@@ -52,3 +52,43 @@ export const CodigoSecreto = new ValidatedMethod({
     });
   }
 })
+
+export const RegistrarCuenta = new ValidatedMethod({
+  name: 'Usuarios.RegistrarCuenta',
+  validate: new SimpleSchema({
+    email: {
+      type: String
+    },
+    nombre: {
+      type: String
+    },
+    direccion: {
+      type: String
+    },
+    password: {
+      type: String
+    },
+    pseudonimo: {
+      type: String,
+      optional: true
+    }
+  }).validator({
+    clean: true
+  }),
+  run(doc) {
+    const cuenta = {
+      email: doc.email,
+      profile: {
+        nombre: doc.nombre,
+        direccion: doc.direccion,
+        rol: 1
+      },
+      password: doc.password,
+      createdAt: new Date()
+    };
+    if(doc.pesudonimo) {
+      cuenta.username = doc.pesudonimo;
+    }
+    Accounts.createUser(cuenta);
+  }
+})

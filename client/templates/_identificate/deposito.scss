@@ -4,6 +4,11 @@
     margin-top: 1em;
   }
 
+  .espaciado {
+    display: block;
+    height: 50px;
+  }
+
   .cuadro-datos-deposito {
     margin: 10px 4em;
     padding: 2em;
@@ -15,6 +20,18 @@
       .etiqueta {
         width: 180px;
         font-weight: bolder;
+        .material-icons {
+          font-size: 80px;
+        }
+      }
+      .valor {
+        p {
+          font-size: 30px;
+          font-weight: bolder;
+        }
+        span {
+          font-size: 16px;
+        }
       }
     }
   }
