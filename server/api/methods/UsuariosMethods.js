@@ -81,7 +81,11 @@ export const RegistrarCuenta = new ValidatedMethod({
       profile: {
         nombre: doc.nombre,
         direccion: doc.direccion,
-        rol: 1
+        rol: 1,
+        corazonVerde: {
+          nivel: 1,
+          puntos: 0
+        }
       },
       password: doc.password,
       createdAt: new Date()

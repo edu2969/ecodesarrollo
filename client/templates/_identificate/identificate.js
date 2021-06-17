@@ -65,20 +65,9 @@ Template.identificate.events({
       email: email
     }, password, function (err, resp) {
       if (!err) {
-				/*UIUtils.toggle("tipo-identificacion", "oculto");
-				UIUtils.toggle("contendor-identificate", "oculto");
-        let estado = {
-          enLogin: true
-        };
-        if (Meteor.user().profile.rol == 2) {
-          estado.esCorazonVerde = true;
-        } else if( Meteor.user().profile.rol == 1 ) {
-          estado.esAdmin = true;
-        } 
-        Session.set("EstadoApp", estado);*/
         Nivel.setNivelUsuario();
         const nivel = Nivel.get();
-        if(nivel.nivel4 && nivel.nivel4.actual) {
+        if(nivel.nivel2 && nivel.nivel2.actual) {
           UIUtils.toggle("eco-panel", "activo");
           setTimeout(function() {
             iniciarTombola(template);
