@@ -3,7 +3,8 @@ import { ECOActividades } from '/lib/ECOActividades'
 
 const iniciarTombola = (template) => {
   UIUtils.toggle("tombola", "desaparece");
-  UIUtils.toggle("tombola", "flotalatombola2x");
+  $(".tombola").removeClass(".flotalatombola2x");
+  $(".tombola").removeClass(".flotalatombola5x");
   setTimeout(function() {
     UIUtils.toggle("tombola", "flotalatombola5x");
     ECOActividades.set([{

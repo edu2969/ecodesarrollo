@@ -34,9 +34,16 @@
 	width: calc(100% + 24px);
 	left: -12px;
 	height: 100%;
-	background-size: 100% auto;
 	background-position: center;
 	animation: temblor 9631215s infinite;
+
+	@media (max-aspect-ratio: 16/9) {
+		background-size: auto 100%;
+	}
+
+	@media (min-aspect-ratio: 16/9) {
+		background-size: 100% auto;
+	}
 	
 	.marco-agente {
 		position: absolute;
@@ -212,8 +219,8 @@
 		.tombola {
 			display: block;
 			position: absolute;
-			left: -24%;
-			top: -50%;
+			left: -196px;
+			top: -187px;
 			z-index: 10;
 			animation-timing-function: linear;
 			

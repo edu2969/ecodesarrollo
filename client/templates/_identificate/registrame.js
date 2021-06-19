@@ -1,8 +1,6 @@
 const { Nivel } = require("../../utils/nivel");
 
 const validarFormulario = (paso, template) => {
-	console.log("VALIDANDO FORM", paso, ".formulario[paso='" + paso + "'] .entrada");
-	// valida campos requeridos
 	const errores = {};
 	var formulario = template.formulario.get();
 	$(".formulario[paso='" + paso + "'] .entrada").removeClass("is-invalid");
