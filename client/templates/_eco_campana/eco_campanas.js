@@ -110,7 +110,7 @@ Template.eco_campanas.helpers({
 })
 
 Template.eco_campanas.events({
-	"click .marco-campana"(e, template) {
+	"click .marco-entidad"(e, template) {
 		const id = e.currentTarget.id;
 		const entidad = ECOCampanas.findOne({ _id: id });
 		template.enListado.set(false);

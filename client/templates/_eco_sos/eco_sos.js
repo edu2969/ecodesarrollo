@@ -130,8 +130,7 @@ Template.eco_sos.helpers({
 });
 
 Template.eco_sos.events({
-	"click .marco-sos"(e, template) {
-
+	"click .marco-entidad"(e, template) {
 		const id = e.currentTarget.id;
 		const entidad = ECOSos.findOne({ _id: id });
 		template.enListado.set(false);

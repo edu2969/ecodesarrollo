@@ -72,12 +72,12 @@ Template.eco_organizaciones.helpers({
 });
 
 Template.eco_organizaciones.events({
-	"click .marco-organizacion"(e, template) {
+	"click .marco-entidad"(e, template) {
 		const id = e.currentTarget.id;
 		const entidad = ECOOrganizaciones.findOne({ _id: id });
 		template.enListado.set(false);
 		template.ecoOrganizacionSeleccionada.set(entidad);
-		UIUtils.toggle("carrousel", "grilla");
+		UIUtils.toggle("carrousel", "modo-listado");
 		UIUtils.toggle("carrousel", "detalle");
 		UIUtils.toggle("navegacion-atras", "activo");
 	},
@@ -85,7 +85,7 @@ Template.eco_organizaciones.events({
 		template.ecoOrganizacionSeleccionada.set({});
 		template.editando.set(true);
 		template.enListado.set(false);
-		UIUtils.toggle("carrousel", "grilla");
+		UIUtils.toggle("carrousel", "modo-listado");
 		UIUtils.toggle("carrousel", "detalle");
 		UIUtils.toggle("navegacion-atras", "activo");
 	},
@@ -101,7 +101,7 @@ Template.eco_organizaciones.events({
 		
 		Meteor.call("ActualizarECOOrganizacion", doc, function(err, resp) {
 			if(!err) {
-				UIUtils.toggle("carrousel", "grilla");
+				UIUtils.toggle("carrousel", "modo-listado");
 				UIUtils.toggle("carrousel", "detalle");
 				UIUtils.toggle("navegacion-atras", "activo");		
 				template.ecoOrganizacionSeleccionada.set(false);
@@ -115,7 +115,7 @@ Template.eco_organizaciones.events({
 		template.editando.set(!editando);
 	},
 	"click .navegacion-atras"(e, template) {
-		UIUtils.toggle("carrousel", "grilla");
+		UIUtils.toggle("carrousel", "modo-listado");
 		UIUtils.toggle("carrousel", "detalle");
 		UIUtils.toggle("navegacion-atras", "activo");		
 		template.ecoOrganizacionSeleccionada.set(false);

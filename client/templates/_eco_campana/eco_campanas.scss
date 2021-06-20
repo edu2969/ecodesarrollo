@@ -1,149 +1,99 @@
-.titulo-grilla {
-	position: relative;
-	top: 2px;
-	left: 2px;
-	width: 400px;
-	margin: 0px auto 10px auto;
-	text-align: center;
-	font-size: 28px;
-	font-weight: bolder;
-	color: white;
-}
+.contenedor-campanas {
+	display: flex;
+	flex-wrap: wrap;
+	padding-left: 10px;
+	width: 100%;
 
-.carrousel {
-	position: relative;
-	width: 200%;
-	display: inline-flex;
-	transition: all 0.5s ease;
-	overflow-x: hidden;
-	overflow-y: hidden;
-	
-	&.grilla {
-		left: 0%;
-	}
-	
-	&.detalle {
-		left: calc(-100% - 20px);
-	}
-	
-	.grilla {
+	.marco-campana {
 		position: relative;
-		overflow-y: scroll;
-		overflow-x: hidden;
-		padding-top: 14px;
-		left: 0%;
-		width: 768px;
-		height: 280px;
+		width: 222px;
+		height: 222px;
+		background-size: cover;
+		margin-right: 20px;
+		margin-bottom: 20px;
+		border-radius: 8px;
 
-		.contenedor-campanas {
-			display: flex;
-			flex-wrap: wrap;
-			padding-left: 10px;
-			width: 100%;
+		.overlay {
+			display: block;
+			widows: 222px;
+			height: 222px;
+			background-color: rgba(0, 0, 0, 0.2);
+			border-radius: 8px;
+		}
 
-			.marco-campana {
-				position: relative;
-				width: 222px;
-				height: 222px;
-				background-size: cover;
-				margin-right: 20px;
-				margin-bottom: 20px;
-				border-radius: 8px;
+		.titulo {
+			position: relative;
+			top: -210px;
+			left: 10px;
+			background-color: yellow;
+			color: black;
+			border-radius: 3px;
+			font-size: 14px;
+			width: 200px;
+			padding: 3px 8px;
+			font-weight: bolder;
+		}
 
-				.overlay {
-					display: block;
-					widows: 222px;
-					height: 222px;
-					background-color: rgba(0, 0, 0, 0.2);
-					border-radius: 8px;
-				}
+		.banda {
+			position: relative;
+			top: -131px;
+			height: 110px;
+			border-bottom-left-radius: 8px;
+			border-bottom-right-radius: 8px;
+			background-color: rgba(0, 0, 0, 0.7);
+			color: white;
 
-				.titulo {
-					position: relative;
-					top: -210px;
-					left: 10px;
-					background-color: yellow;
-					color: black;
-					border-radius: 3px;
-					font-size: 14px;
-					width: 200px;
-					padding: 3px 8px;
+			.fechas {
+				padding: 4px 8px;
+				.fechainicio {
 					font-weight: bolder;
 				}
 
-				.banda {
-					position: relative;
-					top: -131px;
-					height: 110px;
-					border-bottom-left-radius: 8px;
-					border-bottom-right-radius: 8px;
-					background-color: rgba(0, 0, 0, 0.7);
-					color: white;
-
-					.fechas {
-						padding: 4px 8px;
-						.fechainicio {
-							font-weight: bolder;
-						}
-
-						.fechai {
-							font-size: 12px;
-						}
-					}
-					.fecha {
-						position: relative;
-						top: -40px;
-						right: -120px;
-
-						span {
-							padding-left: 4px;
-							font-size: 9px;
-						}
-
-						p {
-							margin-top: -6px;
-							font-size: 14px;
-						}
-					}
-
-					.nomcomuna {
-						padding: 4px 8px;
-						position: relative;
-						top: -25px;
-						.comuna  {
-							font-weight: bolder;
-						}
-						.comunai {
-							font-size: 14px;
-						}
-						
-					}
-					.nomorganizador {
-						padding: 4px 8px;
-						position: relative;
-						top: -70px;
-						right: -120px;
-
-						.organizador {
-							font-weight: bolder;
-						}
-						.organizadori {
-							font-size: 7px;
-						}
-					}
+				.fechai {
+					font-size: 12px;
 				}
 			}
-		}	
-	}
-	
-	.detalle {
-		position: relative;
-		display: block;
-		width: 768px;
-		height: 280px;
-		padding-left: 20px;
-		overflow-x: hidden;
-		overflow-y: scroll;
-	}	
-}
+			.fecha {
+				position: relative;
+				top: -40px;
+				right: -120px;
 
+				span {
+					padding-left: 4px;
+					font-size: 9px;
+				}
+
+				p {
+					margin-top: -6px;
+					font-size: 14px;
+				}
+			}
+
+			.nomcomuna {
+				padding: 4px 8px;
+				position: relative;
+				top: -25px;
+				.comuna  {
+					font-weight: bolder;
+				}
+				.comunai {
+					font-size: 14px;
+				}
+				
+			}
+			.nomorganizador {
+				padding: 4px 8px;
+				position: relative;
+				top: -70px;
+				right: -120px;
+
+				.organizador {
+					font-weight: bolder;
+				}
+				.organizadori {
+					font-size: 7px;
+				}
+			}
+		}
+	}
+}	

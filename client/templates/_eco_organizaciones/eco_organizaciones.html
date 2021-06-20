@@ -11,7 +11,8 @@
 			</button>
 			{{else}}
 			<p>{{#if ecoOrganizacion.nombre}}{{ecoOrganizacion.nombre}}{{else}}Nueva ECO_Organizacion{{/if}}{{#if editando}}
-				<small>(editando)</small>{{/if}}</p>
+				<small>(editando)</small>{{/if}}
+			</p>
 			{{#if ecoOrganizacion.esPropia}}
 			{{#unless editando}}
 			<button class="btn" id="btn-editar">
@@ -22,11 +23,11 @@
 			{{/if}}
 		</div>
 	</div>
-	<div class="carrousel grilla">
+	<div class="carrousel modo-listado">
 		<div class="grilla">
-			<div class="contenedor-organizaciones">
+			<div class="contenedor-entidades contenedor-organizaciones">
 				{{#each ecoOrganizaciones}}
-				<div class="marco-organizacion neuromorph purpura" style="background-image: url({{avatar}})" id={{_id}}>
+				<div class="marco-entidad neuromorph purpura" style="background-image: url({{avatar}})" id={{_id}}>
 					<div class="overlay"></div>
 					<div class="titulo">
 						{{nombre}}

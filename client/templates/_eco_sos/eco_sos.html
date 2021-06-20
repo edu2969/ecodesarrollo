@@ -3,139 +3,134 @@
 		<i class="material-icons">arrow_back_ios</i>
 	</div>
 	<div class="titulo-grilla">
-			<div class="contenido-titulo">
-					{{#if enListado}}
-						<p>ECO_Sos <small> ({{cantidad}})</small></p>
-						<button class="btn" id="btn-nuevo">
-						<i class="material-icons">add </i>
-						<span>Nuevo</span>
-						</button>
-					{{else}}
-						<p>
-							{{#if ecosos.titulo}}{{ecosos.titulo}}{{else}}Nuevo	ECO_Sos 
-							{{/if}}{{#if editando}}<small>(editando) </small>{{/if}}</p>
-							{{#if ecoSos.esPropia}}
-								{{#unless editando}}
-								<button class="btn" id="btn-editar">
-										<i class="material-icons">edit</i><span>Editar</span>	
-								</button>
-								{{/unless}}
-							{{/if}}
-					{{/if}}
-		</div>	
+		<div class="contenido-titulo">
+			{{#if enListado}}
+			<p>ECO_Sos <small> ({{cantidad}})</small></p>
+			<button class="btn" id="btn-nuevo">
+				<i class="material-icons">add </i>
+				<span>Nuevo</span>
+			</button>
+			{{else}}
+			<p>
+				{{#if ecosos.titulo}}{{ecosos.titulo}}{{else}}Nuevo ECO_Sos
+				{{/if}}{{#if editando}}<small>(editando) </small>{{/if}}</p>
+			{{#if ecoSos.esPropia}}
+			{{#unless editando}}
+			<button class="btn" id="btn-editar">
+				<i class="material-icons">edit</i><span>Editar</span>
+			</button>
+			{{/unless}}
+			{{/if}}
+			{{/if}}
+		</div>
 	</div>
-	<div class="carrousel grilla">
+	<div class="carrousel modo-listado">
 		<div class="grilla">
-			<div class="contenedor-soss">
+			<div class="contenedor-entidades contenedor-soss">
 				{{#each eco_soss}}
-					<div class="marco-sos neuromorph amarillo" 
-							 style="background-image: url({{avatar}})"
-							  id="{{_id}}">
-						<div class="overlay"></div>
-						<div class="tipo">
-							{{traductorSOSTipos tipo}}
+				<div class="marco-entidad neuromorph amarillo" style="background-image: url({{avatar}})" id="{{_id}}">
+					<div class="overlay"></div>
+					<div class="tipo">
+						{{traductorSOSTipos tipo}}
+					</div>
+					<div class="banda">
+						<div class="comuna">
+							<i class="material-icons">room</i>
+							<span>{{comuna}}</span>
 						</div>
-						<div class="banda">
-							<div class="comuna">
-								<i class="material-icons">room</i>
-								<span>{{comuna}}</span>
-							</div>
-							<div class="afectado">
-								<p>Afectado:</p>
-								<span>{{traductorSOSAfectados afectado}}</span>
-							</div>
-							<div class="problema">
-								<span>{{traductorSOSProblemas problema}}</span>
-								<i class="material-icons">{{icono}}</i>
-							</div>
+						<div class="afectado">
+							<p>Afectado:</p>
+							<span>{{traductorSOSAfectados afectado}}</span>
+						</div>
+						<div class="problema">
+							<span>{{traductorSOSProblemas problema}}</span>
+							<i class="material-icons">{{icono}}</i>
 						</div>
 					</div>
+				</div>
 				{{/each}}
 			</div>
 		</div>
 		<div class="detalle">
-	{{#if editando}}
-		<div class="formulario">
+			{{#if editando}}
+			<div class="formulario">
 				<div class="entrada">
-					<span>Tipo</span><br/>
-						<select id="input-tipo" class="campo">
-							{{#each tipos}}
-							<option value="{{id}}" {{selectValor id ecoSos.tipo}}>{{etiqueta}}</option>
-							{{/each}}						
-						</select>
+					<span>Tipo</span><br />
+					<select id="input-tipo" class="campo">
+						{{#each tipos}}
+						<option value="{{id}}" {{selectValor id ecoSos.tipo}}>{{etiqueta}}</option>
+						{{/each}}
+					</select>
 				</div>
 				<div class="entrada">
 					<span>afectado</span>
-						<select id="input-afectado" class="campo">
-							{{#each afectados}}
-								<option value="{{id}}" {{selectValor id ecoSos.afectado}}>{{etiqueta}}</option>
-							{{/each}}
-						</select>
+					<select id="input-afectado" class="campo">
+						{{#each afectados}}
+						<option value="{{id}}" {{selectValor id ecoSos.afectado}}>{{etiqueta}}</option>
+						{{/each}}
+					</select>
 				</div>
 				<div class="entrada">
 					<span>Problema</span>
-						<select id="input-problema" class="campo">
-							{{#each problemas}}
-								<option value="{{id}}" {{selectValor id ecoSos.problema}}>{{etiqueta}}</option>
-							{{/each}}
-						</select>
+					<select id="input-problema" class="campo">
+						{{#each problemas}}
+						<option value="{{id}}" {{selectValor id ecoSos.problema}}>{{etiqueta}}</option>
+						{{/each}}
+					</select>
 				</div>
 				<div class="entrada">
 					<span>Dirección</span>
-					<input id="input-direccion" class="campo" 
-								 type="text" placeholder="Dirección"
-								 value="{{ecoSos.direccion}}">
+					<input id="input-direccion" class="campo" type="text" placeholder="Dirección" value="{{ecoSos.direccion}}">
 				</div>
 				<div class="entrada">
 					<span>Comuna</span>
-					<input id="input-comuna" type="text" 
-								 class="campo autocomplete" placeholder="Comuna"
-								 value="{{ecoSos.comuna}}">
+					<input id="input-comuna" type="text" class="campo autocomplete" placeholder="Comuna"
+						value="{{ecoSos.comuna}}">
 				</div>
 				<div class="entrada">
 					<span>Descripción</span>
 					<textarea class="campo" id="input-descripcion" type="text" value="{{ecoSos.descripcion}}" rows="4"></textarea>
 				</div>
 				<div class="entrada imagenes-picker">
-						<div class="camara">
-							<div class="marco-upload">
-								<i class="material-icons">photo_camera</i><br />
-								<p>Tomar / Arrastrar<br />fotografía</p>
-								<div class="drop-texto"></div>
-							</div>
-							<input id="upload-image" type="file" style="display: none">
+					<div class="camara">
+						<div class="marco-upload">
+							<i class="material-icons">photo_camera</i><br />
+							<p>Tomar / Arrastrar<br />fotografía</p>
+							<div class="drop-texto"></div>
 						</div>
-						<div class="imagenes">
-								{{#each imagenes}}
-								<div class="imagen" id={{_id}}>
-									<div class="marco-imagen">
-										<img src="{{imagen}}">
-										<div class="eliminar" id="{{_id}}">
-											<i class="material-icons">clear</i>
-											<span>Eliminar</span>
-										</div>
-									</div>
-								</div>
-								{{else}}
-								<h3>No hay Imágenes</h3>
-								{{/each}}
-								<input id="upload-image" type="file" style="display: none">
-						</div>
-				</div>
-					<div class="flex">
-						<div class="neuromorph boton redondo amarillo" id="btn-cancelar">
-							<i class="material-icons">clear</i>
-						</div>
-						<div class="neuromorph boton redondo amarillo" id="btn-guardar">
-							<i class="material-icons">save</i>
-						</div>
+						<input id="upload-image" type="file" style="display: none">
 					</div>
+					<div class="imagenes">
+						{{#each imagenes}}
+						<div class="imagen" id={{_id}}>
+							<div class="marco-imagen">
+								<img src="{{imagen}}">
+								<div class="eliminar" id="{{_id}}">
+									<i class="material-icons">clear</i>
+									<span>Eliminar</span>
+								</div>
+							</div>
+						</div>
+						{{else}}
+						<h3>No hay Imágenes</h3>
+						{{/each}}
+						<input id="upload-image" type="file" style="display: none">
+					</div>
+				</div>
+				<div class="flex">
+					<div class="neuromorph boton redondo amarillo" id="btn-cancelar">
+						<i class="material-icons">clear</i>
+					</div>
+					<div class="neuromorph boton redondo amarillo" id="btn-guardar">
+						<i class="material-icons">save</i>
+					</div>
+				</div>
 			</div>
 			{{else}}
-				{{#with ecoSos}}
-				<div class="presentacion">
-					<div class="ultima-actividad"><i>ultimaActividad: </i>{{formatoFecha ultimaActividad 'DD/MMM/YYYY HH:mm'}}</div>
-					<div class="titulo-presentacion">Imagenes</div>
+			{{#with ecoSos}}
+			<div class="presentacion">
+				<div class="ultima-actividad"><i>ultimaActividad: </i>{{formatoFecha ultimaActividad 'DD/MMM/YYYY HH:mm'}}</div>
+				<div class="titulo-presentacion">Imagenes</div>
 				<div class="entrada imagenes-picker">
 					<div class="imagenes">
 						{{#each imagenes}}
@@ -149,33 +144,35 @@
 						{{/each}}
 					</div>
 				</div>
-					<div class="titulo-presentacion">Participantes</div>
-					<div class="participantes">
-						<div class="avatar-participante">
-							<img src="/img/avatares/avatar01.png"><br/>
-							<span>EdUTroN</span>
-							<i class="material-icons">star</i>
-						</div>
-						<div class="avatar-participante">
-							<img src="/img/avatares/avatar02.jpg"><br/>
-							<span>Miriam</span>
-						</div>
+				<div class="titulo-presentacion">Participantes</div>
+				<div class="participantes">
+					<div class="avatar-participante">
+						<img src="/img/avatares/avatar01.png"><br />
+						<span>EdUTroN</span>
+						<i class="material-icons">star</i>
 					</div>
-					<div class="titulo-presentacion">Total en donaciones</div>
-					<div class="donaciones">
-						<i class="material-icons">request_quote</i>
-						<div class="cantidad">
-							<small>CLP </small>$ {{donaciones}}<small> M</small>
-						</div>
+					<div class="avatar-participante">
+						<img src="/img/avatares/avatar02.jpg"><br />
+						<span>Miriam</span>
 					</div>
-					<div class="titulo-presentacion">Reseña histórica</div>
-					<div class="resena"><p>{{resena}}</p></div>
-					<div class="titulo-presentacion">Solicitar unirse</div>
-					<div class="neuromorph boton redondo amarillo">
-						<i class="material-icons">login</i>
+				</div>
+				<div class="titulo-presentacion">Total en donaciones</div>
+				<div class="donaciones">
+					<i class="material-icons">request_quote</i>
+					<div class="cantidad">
+						<small>CLP </small>$ {{donaciones}}<small> M</small>
 					</div>
-				</div>			
-				{{/with}}
+				</div>
+				<div class="titulo-presentacion">Reseña histórica</div>
+				<div class="resena">
+					<p>{{resena}}</p>
+				</div>
+				<div class="titulo-presentacion">Solicitar unirse</div>
+				<div class="neuromorph boton redondo amarillo">
+					<i class="material-icons">login</i>
+				</div>
+			</div>
+			{{/with}}
 			{{/if}}
 		</div>
 	</div>

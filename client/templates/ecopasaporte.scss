@@ -36,6 +36,7 @@
 	height: 100%;
 	background-position: center;
 	animation: temblor 9631215s infinite;
+	background-color: black;
 
 	@media (max-aspect-ratio: 16/9) {
 		background-size: auto 100%;
@@ -334,11 +335,34 @@
 	width: calc(100% - 20px);
 	padding: 10px 20px;
 	height: calc(100vh - 20px);
-	overflow-y: scroll;
+	overflow-y: none;
 	background-color: #7bcc71;
 	color: white;
 	border-radius: 1em;
 	overflow-x: hidden;
+
+	.titulo-grilla {
+		position: relative;
+		top: 2px;
+		left: 2px;
+		width: 550px;
+		margin: 0px auto 10px auto;
+		text-align: center;
+		font-size: 28px;
+		font-weight: bolder;
+		color: white;
+	
+		.contenido-titulo {
+			width: 100%;
+			display: inline-flex;
+			justify-content: center;
+
+			.btn {
+				margin-left: 10px;
+			}
+		}
+	}
+	
 
 	transform: translate(10px, calc(100% + 20px)); 
 	transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0);
@@ -410,8 +434,8 @@
 	position: absolute;
 	width: calc(50% - 20px);
 	padding: 10px 10px;
-	height: calc(100vh - 20px);
-	overflow-y: scroll;
+	height: 355px;
+	overflow-y: none;
 	background-color: #7bcc71;
 	color: white;
 	border-radius: 1em;

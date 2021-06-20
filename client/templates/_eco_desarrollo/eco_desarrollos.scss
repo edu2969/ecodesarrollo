@@ -1,154 +1,105 @@
-.titulo-grilla {
-	position: relative;
-	top: 2px;
-	left: 2px;
-	width: 400px;
-	margin: 0px auto 10px auto;
-	text-align: center;
-	font-size: 28px;
-	font-weight: bolder;
-	color: white;
-}
+.contenedor-desarrollos {
+	display: flex;
+	flex-wrap: wrap;
+	padding-left: 10px;
+	width: 100%;
 
-.carrousel {
-	position: relative;
-	width: 200%;
-	display: inline-flex;
-	transition: all 0.5s ease;
-	overflow-x: hidden;
-	overflow-y: hidden;
-	
-	&.grilla {
-		left: 0%;
-	}
-	
-	&.detalle {
-		left: calc(-100% - 20px);
-	}
-	
-	.grilla {
+	.marco-entidad {
 		position: relative;
-		overflow-y: scroll;
-		overflow-x: hidden;
-		padding-top: 14px;
-		left: 0%;
-		width: 768px;
-		height: 280px;
+		width: 222px;
+		height: 222px;
+		background-size: cover;
+		margin-right: 20px;
+		margin-bottom: 20px;
+		border-radius: 8px;
 
-		.contenedor-desarrollos {
-			display: flex;
-			flex-wrap: wrap;
-			padding-left: 10px;
-			width: 100%;
+		.overlay {
+			display: block;
+			widows: 222px;
+			height: 222px;
+			background-color: rgba(0, 0, 0, 0.2);
+			border-radius: 8px;
+		}
 
-			.marco-desarrollo {
-				position: relative;
-				width: 222px;
-				height: 222px;
-				background-size: cover;
-				margin-right: 20px;
-				margin-bottom: 20px;
-				border-radius: 8px;
+		.titulo {
+			position: relative;
+			top: -210px;
+			left: 10px;
+			background-color: yellow;
+			color: black;
+			border-radius: 3px;
+			font-size: 14px;
+			width: 200px;
+			padding: 3px 8px;
+			font-weight: bolder;
+		}
 
-				.overlay {
-					display: block;
-					widows: 222px;
-					height: 222px;
-					background-color: rgba(0, 0, 0, 0.2);
-					border-radius: 8px;
-				}
+		.banda {
+			position: relative;
+			top: -131px;
+			height: 110px;
+			border-bottom-left-radius: 8px;
+			border-bottom-right-radius: 8px;
+			background-color: rgba(0, 0, 0, 0.7);
+			color: white;
 
-				.titulo {
-					position: relative;
-					top: -210px;
-					left: 10px;
-					background-color: yellow;
-					color: black;
-					border-radius: 3px;
-					font-size: 14px;
-					width: 200px;
-					padding: 3px 8px;
+			.comuna {
+				padding: 4px 8px;
+				.comunaing {
 					font-weight: bolder;
 				}
 
-				.banda {
-					position: relative;
-					top: -131px;
-					height: 110px;
-					border-bottom-left-radius: 8px;
-					border-bottom-right-radius: 8px;
-					background-color: rgba(0, 0, 0, 0.7);
-					color: white;
-
-					.comuna {
-						padding: 4px 8px;
-						.comunaing {
-							font-weight: bolder;
-						}
-
-						.comunai {
-							font-size: 12px;
-						}
-					}
-
-					.participantes {
-						position: relative;
-						top: -102px;
-						right: -150px;
-						.cantidad {
-							width: 50px;
-							text-align: center;
-							font-size: 36px;
-						}
-						small {
-							position: relative;
-							font-size: 12px;
-							top: -40px;
-							left: -8px;
-						}
-					}
-
-					.participante {
-						position: relative;
-						top: -40px;
-						right: -120px;
-
-						span {
-							padding-left: 4px;
-							font-size: 9px;
-						}
-
-						p {
-							margin-top: -6px;
-							font-size: 14px;
-						}
-					}
-					.direcciones {
-						padding: 4px 8px;
-						position: relative;
-						top: -25px;
-						.comuna  {
-							font-weight: bolder;
-						}
-						.comunai {
-							font-size: 14px;
-						}
-						
-					}
-
+				.comunai {
+					font-size: 12px;
 				}
 			}
-		}	
+
+			.participantes {
+				position: relative;
+				top: -102px;
+				right: -150px;
+				.cantidad {
+					width: 50px;
+					text-align: center;
+					font-size: 36px;
+				}
+				small {
+					position: relative;
+					font-size: 12px;
+					top: -40px;
+					left: -8px;
+				}
+			}
+
+			.participante {
+				position: relative;
+				top: -40px;
+				right: -120px;
+
+				span {
+					padding-left: 4px;
+					font-size: 9px;
+				}
+
+				p {
+					margin-top: -6px;
+					font-size: 14px;
+				}
+			}
+			.direcciones {
+				padding: 4px 8px;
+				position: relative;
+				top: -25px;
+				.comuna  {
+					font-weight: bolder;
+				}
+				.comunai {
+					font-size: 14px;
+				}
+				
+			}
+
+		}
 	}
-	
-	.detalle {
-		position: relative;
-		display: block;
-		width: 768px;
-		height: 280px;
-		padding-left: 20px;
-		overflow-x: hidden;
-		overflow-y: scroll;
-	}	
-}
+}	
 

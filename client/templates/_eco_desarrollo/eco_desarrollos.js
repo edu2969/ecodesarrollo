@@ -40,8 +40,7 @@ Template.eco_desarrollos.helpers({
 			ecoDesarrollo.integrantes = 0;
 			ecoDesarrollo.donaciones = 0;
 			return ecoDesarrollo;
-		
-	});
+		});
 	},
 	ecoDesarrollo() {
 		const template = Template.instance();
@@ -127,7 +126,7 @@ Template.eco_desarrollos.helpers({
 })
 
 Template.eco_desarrollos.events({
-	"click .marco-desarrollo"(e, template) {
+	"click .marco-entidad"(e, template) {
 		const id = e.currentTarget.id;
 		const entidad = ECODesarrollos.findOne({ _id: id });
 		template.enListado.set(false);

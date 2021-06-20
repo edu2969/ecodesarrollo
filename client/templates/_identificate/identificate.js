@@ -68,7 +68,7 @@ Template.identificate.events({
       if (!err) {
         Nivel.setNivelUsuario();
         const nivel = Nivel.get();
-        if(nivel.nivel2 && nivel.nivel2.actual) {
+        if(nivel.nivel4) {
           UIUtils.toggle("eco-panel", "activo");
           setTimeout(function() {
             iniciarTombola(template);
