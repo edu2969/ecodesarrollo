@@ -42,3 +42,7 @@ Meteor.publish('eco_desarrollos.documentos', function() {
 		"meta.tipo": "ecodesarrollo"
 	}).cursor;
 });
+
+Meteor.publish('lugares.comunas', function() {
+	return Comunas.find();
+})

@@ -12,3 +12,20 @@ Meteor.publish('usuarios.depositos', function() {
   const usuarioId = this.userId;
 	return Depositos.find({ usuarioId: usuarioId });
 });
+
+Meteor.publishComposite('usuarios.coordinadores', function() {
+  return {
+    find() {
+      return Meteor.users.find({}, {
+        fields: {
+          "profile.nombre": 1
+        }
+      })
+    }, 
+    children: [{
+      find(usuario) {
+        return Images.find({ usuarioId: usuario._id }, { meta: {}}).cursor
+      }
+    }]
+  }
+})

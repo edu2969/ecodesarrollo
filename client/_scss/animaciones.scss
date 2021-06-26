@@ -1,0 +1,38 @@
+@keyframes lanzamiento {
+  from {
+    left: -100px;
+  }
+
+  100% {
+    left: calc(100% - 180px);
+  }
+}
+
+@keyframes rotacion {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.desecho {
+  display: block;
+  position: absolute;
+  left: 0%;
+  bottom: 180px;
+  animation: lanzamiento 4s infinite;
+  animation-timing-function: linear;
+
+  img {
+    width: 75%;
+    height: 75%;
+  }
+}
+
+.rotando {
+  animation: rotacion 750ms infinite;
+  animation-timing-function: linear;
+}

@@ -78,8 +78,8 @@
 				</div>
 				<div class="entrada">
 					<span>Comuna</span>
-					<input type="text" class="campo autocomplete" id="input-comuna" placeholder="Comuna"
-						value="{{ecoCampana.comuna}}">
+					{{> inputAutocomplete settings=settingsComunas id="input-comuna" class="campo" placeholder="Comuna..."
+					autocomplete="off" value=ecoCampana.comuna}}
 				</div>
 				<div class="flex">
 					<div class="entrada">
@@ -137,12 +137,17 @@
 				<div class="entrada usuario-picker">
 					<div class="campo-entrada">
 						<span>Coordinador</span><br />
-						<input type="text" class="campo autocomplete" id="input-coordinador" value="{{ecoCampana.coordinador}}">
+						<!--input type="text" class="campo autocomplete" id="input-coordinador" value="{{ecoCampana.coordinador}}"-->
+						{{> inputAutocomplete settings=settingsCoordinador id="input-coordinador" class="campo"
+						placeholder="Nombre..."
+						autocomplete="off"}}
 					</div>
+					{{#if coordinador}}
 					<div class="avatar">
 						<img src="/img/avatares/avatar02.jpg"><br />
 						<span>Oleska</span>
 					</div>
+					{{/if}}
 				</div>
 				<div class="entrada cuadrilla-picker">
 					<div class="campo-entrada">

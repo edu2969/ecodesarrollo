@@ -1,5 +1,6 @@
 export { Images };
 const { ECO_CAMPANAS } = require('../../../lib/constantes');
+const { CHILE } = require('/lib/lugares/lugares_CL')
 
 Template.eco_campanas.onCreated(function() {
 	this.currentUpload = new ReactiveVar();
@@ -13,6 +14,8 @@ Template.eco_campanas.rendered = () => {
 		Meteor.subscribe('eco_campanas');
 		Meteor.subscribe('eco_campanas.imagenes');
 	});
+	Meteor.subscribe('lugares.comunas')
+	Meteor.subscribe('usuarios.coordinadores')
 }
 
 Template.eco_campanas.helpers({
@@ -44,7 +47,6 @@ Template.eco_campanas.helpers({
 	});
 	},
 	ecoCampana() {
-		//debugger;
 		const template = Template.instance();
 		let ecoCampana = template.ecoCampanaSeleccionada.get();
 		if(!ecoCampana) return;
@@ -77,9 +79,6 @@ Template.eco_campanas.helpers({
 			}
 		});
 	},
-	eco_campana(){
-		return ECOCampanas.find();
-	},
 	currentUpload() {
 		return Template.instance().currentUpload.get();
 	},
@@ -106,7 +105,37 @@ Template.eco_campanas.helpers({
 				imagen: imagen.link()
 			}
 		});
-	}
+	},
+	settingsComunas() {
+    return {
+      position: "bottom",
+      limit: 5,
+      rules: [
+        {
+          collection: Comunas,
+          field: "nombre",
+          matchAll: false,
+          template: Template.itemComuna,
+					noMatchTemplate: Template.noComuna,
+        }
+      ]
+    };
+  },
+	settingsCoordinador() {
+    return {
+      position: "bottom",
+      limit: 5,
+      rules: [
+        {
+          collection: Meteor.users,
+          field: "profile.nombre",
+          matchAll: false,
+          template: Template.avatar,
+					noMatchTemplate: Template.noComuna,
+        }
+      ]
+    };
+  }
 })
 
 Template.eco_campanas.events({
@@ -140,6 +169,13 @@ Template.eco_campanas.events({
 			doc.userId = Meteor.userId();
 			doc.ultimaActualizacion = new Date();
 		}
+
+		if(ecoCampana.comunaId) {
+			doc.comunaId = ecoCampana.comunaId
+		}
+
+		console.log("SETEANDO", doc)
+		
 		Meteor.call("ActualizarECOCampana", doc, function(err, resp) {
 			if(!err) {
 				UIUtils.toggle("carrousel", "grilla");
@@ -267,5 +303,11 @@ Template.eco_campanas.events({
 	"click .eliminar"(e) {
 		const id = e.currentTarget.id;
 		Images.remove({ _id: id });
-	}
+	},
+	"autocompleteselect #input-comuna"(event, template, doc) {
+    console.log("selected ", doc);
+		var ecoCampana = template.ecoCampanaSeleccionada.get();
+		ecoCampana.comundaId = doc._id
+		template.ecoCampanaSeleccionada.set(ecoCampana)
+  }
 })

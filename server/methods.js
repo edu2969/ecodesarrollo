@@ -1,3 +1,5 @@
+const { CHILE } = require('../lib/lugares/lugares_CL')
+
 Meteor.methods({
 	// ECOOrganizaciones
 	ActualizarECOOrganizacion(doc) {
@@ -127,5 +129,16 @@ Meteor.methods({
 		defecto.forEach((u) => {
 			Accounts.createUser(u);
 		});
+	},
+	_IniciarComunas() {
+		CHILE.REGIONES.forEach((region) => {
+			Regiones.insert(region)
+		})
+
+		CHILE.COMUNAS.forEach((comuna)=>{
+			Comunas.insert(comuna);
+		})
+
+		console.log("LISTO!");
 	}
 })

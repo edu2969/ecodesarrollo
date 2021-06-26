@@ -33,7 +33,13 @@ const menuPrincipal = (template) => {
 Template.ecopasaporte.onCreated(function() {
 	ECOActividades.init();
 	this.panel = new ReactiveVar(false);
+	this.desecho = new ReactiveVar(false)
 });
+
+const setDesecho = (template) => {
+	const numero = Math.floor( Math.random() * 12 ) + 1
+	template.desecho.set( ( numero < 10 ? "0" : "" ) + numero)
+}
 
 Template.ecopasaporte.rendered = function() {		
 	setInterval(function() {
@@ -58,6 +64,12 @@ Template.ecopasaporte.rendered = function() {
 	if(Meteor.userId()) {
 		$(".menu-preferencias").toggleClass("oculto");
 	}
+
+	const template = Template.instance()
+	setDesecho(template)
+	setInterval(function() {
+		setDesecho(template)
+	}, 4000)
 }
 
 Template.ecopasaporte.helpers({
@@ -94,6 +106,9 @@ Template.ecopasaporte.helpers({
 			}
 		}
 		return corazonVerde;
+	},
+	desecho() {
+		return Template.instance().desecho.get()
 	}
 })
 
