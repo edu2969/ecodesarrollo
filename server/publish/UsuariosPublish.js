@@ -1,5 +1,13 @@
 export { Images }
 
+Meteor.publish('usuarios.profile', function() {
+  const usuarioId = this.userId
+  return Images.find({
+    userId: usuarioId,
+    meta: {}
+  }).cursor
+})
+
 Meteor.publish('usuarios.comprobantes', function() {
   const usuarioId = this.userId;
 	return Images.find({

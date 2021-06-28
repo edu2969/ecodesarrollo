@@ -2,7 +2,16 @@
   <div class="marco-perfil" style="display: flex;">
     <div class="marco-foto-perfil">
       <div class="marco-foto">
-        <img src="/img/drag-and-drop.png">
+        <div class="marco-avatar">
+          {{#if perfil.avatar}}
+          <div class="avatar">
+            <img src="{{perfil.avatar}}" />
+          </div>
+          {{else}}
+          <div class="no-imagen">{{perfil.iniciales}}</div>
+          {{/if}}
+          <div class="marco-drop"></div>
+        </div>
         <div class="nombre">{{perfil.nombre}}</div>
         <div class="pseudonimo">{{perfil.pseudonimo}}</div>
         <div class="marco-editar">
@@ -12,6 +21,7 @@
           <i class="material-icons">star</i>
         </div>
       </div>
+      <input type="file" id="upload-image" style="display: none;">
     </div>
     <div class="marco-informacion">
       <div class="linea">
@@ -19,7 +29,7 @@
         <div class="valor">{{perfil.direccion}}</div>
       </div>
     </div>
-    <div class="formulario-oculto" style="display: none">
+    <div class="formulario-edicion" style="display: none">
       <div class="formulario">
         <div class="entrada">
           <span>Direccion</span>
