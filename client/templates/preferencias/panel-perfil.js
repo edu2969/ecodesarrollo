@@ -31,6 +31,21 @@ Template.panelPerfil.events({
     $(".marco-informacion").hide()
     $(".formulario-edicion").show()
   },
+  "click #btn-cancelar"() {
+    $(".marco-informacion").show()
+    $(".formulario-edicion").hide()
+  },
+  "click #btn-guardar"() {
+    const direccion = $("#input-direccion").val();
+    const doc = FormUtils.getFields();
+    Meteor.call("Usuarios.ModificarCuenta", doc, function(err, resp) {
+      if(!err) {
+        $(".marco-informacion").show()
+        $(".formulario-edicion").hide()
+      } else console.error(err)
+    })
+  },
+
   "dragover .marco-avatar": function (e, t) {
     e.stopPropagation();
     e.preventDefault();

@@ -81,7 +81,7 @@ export const RegistrarCuenta = new ValidatedMethod({
       profile: {
         nombre: doc.nombre,
         direccion: doc.direccion,
-        rol: 1,
+        rol: 2,
         corazonVerde: {
           nivel: 1,
           puntos: 0
@@ -94,5 +94,23 @@ export const RegistrarCuenta = new ValidatedMethod({
       cuenta.username = doc.pesudonimo;
     }
     Accounts.createUser(cuenta);
+  }
+})
+
+export const ModificarCuenta = new ValidatedMethod({
+  name: 'Usuarios.ModificarCuenta',
+  validate: new SimpleSchema({
+    direccion: {
+      type: String
+    }
+  }).validator({
+    clean: true
+  }),
+  run(doc) {
+    const usuarioId = Meteor.userId()
+    const usuario = {
+      "profile.direccion": doc.direccion
+    }
+    Meteor.users.update({ _id: usuarioId }, { $set: usuario })
   }
 })
