@@ -1,5 +1,7 @@
 import SimpleSchema from 'simpl-schema'
 import { ValidatedMethod } from 'meteor/mdg:validated-method'
+import { Depositos } from '/lib/collections/BaseCollections'
+import { NotificacionesServices } from '../services/NotificacionesServices'
 
 export const IngresarDepositoNoConfirmado = new ValidatedMethod({
   name: 'Usuarios.IngresarDepositoNoConfirmado',
@@ -18,13 +20,14 @@ export const IngresarDepositoNoConfirmado = new ValidatedMethod({
   }).validator({
     clean: true,
   }),
-  run(doc) {
-    if(!doc.texto && !doc.imagenId) {
+  run(doc: any) {
+    if (!doc.texto && !doc.imagenId) {
       throw new Meteor.Error('No hay comprobante alguno');
     }
     doc.usuarioId = this.userId;
     doc.fecha = new Date();
     doc.pendiente = true;
+    NotificacionesServices.nuevoUsuario(this.userId)
     return Depositos.insert(doc);
   }
 });
@@ -90,7 +93,7 @@ export const RegistrarCuenta = new ValidatedMethod({
       password: doc.password,
       createdAt: new Date()
     };
-    if(doc.pesudonimo) {
+    if (doc.pesudonimo) {
       cuenta.username = doc.pesudonimo;
     }
     Accounts.createUser(cuenta);

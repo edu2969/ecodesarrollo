@@ -1,4 +1,5 @@
-export { Images }
+const { Depositos } = require("../../lib/collections/BaseCollections");
+const { Images } = require("../../lib/collections/FilesCollections");
 
 Meteor.publish('usuarios.profile', function() {
   const usuarioId = this.userId

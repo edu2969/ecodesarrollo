@@ -1,11 +1,17 @@
 import { Nivel } from '../../utils/nivel'
 import { ECOActividades } from '/lib/ECOActividades'
 
+import { Meteor } from 'meteor/meteor'
+import { Template } from 'meteor/templating'
+import { Tracker } from 'meteor/tracker'
+import { ReactiveVar } from 'meteor/reactive-var'
+const { UIUtils } = require('../../utils/utils')
+
 const iniciarTombola = (template) => {
   UIUtils.toggle("tombola", "desaparece");
   $(".tombola").removeClass(".flotalatombola2x");
   $(".tombola").removeClass(".flotalatombola5x");
-  setTimeout(function() {
+  setTimeout(function () {
     UIUtils.toggle("tombola", "flotalatombola5x");
     ECOActividades.set([{
       nombre: "eco_organizaciones",
@@ -28,7 +34,7 @@ const iniciarTombola = (template) => {
     UIUtils.toggle("tombola", "reaparece");
     UIUtils.toggle("tombola", "desaparece");
     UIUtils.toggle("menu-preferencias", "oculto");
-    setTimeout(function() {
+    setTimeout(function () {
       UIUtils.toggle("tombola", "reaparece");
     }, 500);
   }, 500);
@@ -68,9 +74,9 @@ Template.identificate.events({
       if (!err) {
         Nivel.setNivelUsuario();
         const nivel = Nivel.get();
-        if(nivel.nivel4) {
+        if (nivel.nivel4) {
           UIUtils.toggle("eco-panel", "activo");
-          setTimeout(function() {
+          setTimeout(function () {
             iniciarTombola(template);
           }, 500)
         } else {
@@ -83,13 +89,13 @@ Template.identificate.events({
       }
     });
   },
-	"click .contenedor-registrame"() {
+  "click .contenedor-registrame"() {
     Nivel.setNivelUsuario();
-		UIUtils.toggle("contendor-identificate", "oculto");
-		UIUtils.toggle("seccion-identificate", "oculto");
-	},
-	"click .marco-tipo"() {
+    UIUtils.toggle("contendor-identificate", "oculto");
+    UIUtils.toggle("seccion-identificate", "oculto");
+  },
+  "click .marco-tipo"() {
     $(".tipo-identificacion").toggleClass("oculto");
     $(".seccion-identificate").toggleClass("oculto");
-	},
+  },
 });

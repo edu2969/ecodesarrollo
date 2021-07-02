@@ -1,10 +1,13 @@
-export { Images }
+import { Meteor } from 'meteor/meteor'
+import { Template } from 'meteor/templating'
+import { ReactiveVar } from 'meteor/reactive-var'
+const { Images } = require('/lib/collections/FilesCollections')
 
-Template.panelPerfil.onCreated(function() {
+Template.panelPerfil.onCreated(function () {
   this.currentUpload = new ReactiveVar(false);
 })
 
-Template.panelPerfil.rendered = function() {
+Template.panelPerfil.rendered = function () {
   Meteor.subscribe('usuarios.profile')
 }
 
@@ -14,14 +17,15 @@ Template.panelPerfil.helpers({
     const perfil = usuario.profile;
     perfil.pseudonimo = usuario.username;
     const nombre = perfil.nombre.split(" ");
-    perfil.iniciales = nombre[0].charAt(0) + ( nombre.length >= 1 ? nombre[1].charAt(0) : "")
+    perfil.iniciales = nombre[0].charAt(0) + (nombre.length > 1 ? nombre[1].charAt(0) : "")
     const avatar = Images.findOne({
       userId: usuario._id,
       meta: {}
     });
-    if(avatar) {
+    if (avatar) {
       perfil.avatar = avatar.link();
     }
+    if (perfil.rol == 1) perfil.esAdmin = true
     return perfil;
   }
 })
@@ -38,8 +42,8 @@ Template.panelPerfil.events({
   "click #btn-guardar"() {
     const direccion = $("#input-direccion").val();
     const doc = FormUtils.getFields();
-    Meteor.call("Usuarios.ModificarCuenta", doc, function(err, resp) {
-      if(!err) {
+    Meteor.call("Usuarios.ModificarCuenta", doc, function (err, resp) {
+      if (!err) {
         $(".marco-informacion").show()
         $(".formulario-edicion").hide()
       } else console.error(err)
@@ -64,8 +68,8 @@ Template.panelPerfil.events({
     e.stopPropagation();
     e.preventDefault();
     if (e.originalEvent.dataTransfer.files && e.originalEvent.dataTransfer.files[0]) {
-			const usuarioId = Meteor.userId();
-			Images.remove({
+      const usuarioId = Meteor.userId();
+      Images.remove({
         userId: usuarioId,
         meta: {}
       });
@@ -76,7 +80,7 @@ Template.panelPerfil.events({
       upload.on('start', function () {
         template.currentUpload.set(this);
       });
-			
+
       upload.on('end', function (error, fileObj) {
         if (error) {
           alert('Error during upload: ' + error);
@@ -98,7 +102,7 @@ Template.panelPerfil.events({
         userId: Meteor.userId(),
         meta: {}
       });
-  	  const upload = Images.insert({
+      const upload = Images.insert({
         file: e.currentTarget.files[0]
       }, false);
 
@@ -110,7 +114,7 @@ Template.panelPerfil.events({
         template.currentUpload.set(false);
         template.$(".marco-drop").removeClass("drop");
       });
-			
+
       upload.start();
     }
   },

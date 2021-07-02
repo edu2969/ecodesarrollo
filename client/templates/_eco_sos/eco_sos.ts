@@ -1,7 +1,16 @@
-export { Images };
-const { ECO_SOS } = require('../../../lib/constantes');
+import { Meteor } from 'meteor/meteor'
+import { Template } from 'meteor/templating'
+import { Tracker } from 'meteor/tracker'
+import { ReactiveVar } from 'meteor/reactive-var'
+const { ECOSos } = require('../../../lib/collections/ECODimensionesCollections')
+const { Images } = require('../../../lib/collections/FilesCollections')
+const { ECO_SOS } = require('../../../lib/constantes')
+const {
+	UIUtils,
+	FormUtils
+} = require('../../utils/utils')
 
-Template.eco_sos.onCreated(function() {
+Template.eco_sos.onCreated(function () {
 	this.currentUpload = new ReactiveVar();
 	this.ecoSosSeleccionada = new ReactiveVar(false);
 	this.editando = ReactiveVar(false);
@@ -16,7 +25,7 @@ Template.eco_sos.rendered = () => {
 }
 
 Template.eco_sos.helpers({
-	
+
 	enListado() {
 		return Template.instance().enListado.get();
 	},
@@ -30,15 +39,15 @@ Template.eco_sos.helpers({
 	eco_soss() {
 		return ECOSos.find().map(ecosos => {
 			ecosos.icono = ECO_SOS.PROBLEMA[ecosos.problema].icono;
-			const img = Images.findOne({ 
+			const img = Images.findOne({
 				$or: [{
 					"meta.ecoSosId": ecosos._id,
 					"meta.tipo": "ecosos",
-					
+
 				}, {
 					"meta.pendiente": true,
 					"meta.tipo": "ecosos"
-				}] 
+				}]
 			});
 			ecosos.avatar = img ? img.link() : '/img/no_image_available.jpg';
 			ecosos.integrantes = 0;
@@ -49,17 +58,17 @@ Template.eco_sos.helpers({
 	ecoSos() {
 		const template = Template.instance();
 		let ecoSos = template.ecoSosSeleccionada.get();
-		if(!ecoSos) return;
+		if (!ecoSos) return;
 		const userId = Meteor.userId();
-		if(userId==ecoSos.userId) {
+		if (userId == ecoSos.userId) {
 			ecoSos.esPropia = true;
 		}
-		const img = Images.findOne({ 
+		const img = Images.findOne({
 			$or: [{
-				"meta.ecoSosId": ecoSos._id		
+				"meta.ecoSosId": ecoSos._id
 			}, {
 				"meta.pendiente": true
-			}] 
+			}]
 		});
 		ecoSos.avatar = img ? img.link() : '/img/no_image_available.jpg';
 		ecoSos.ultimaActividad = ecoSos.ultimaActualizacion;
@@ -67,7 +76,7 @@ Template.eco_sos.helpers({
 		ecoSos.donaciones = 0;
 		return ecoSos;
 	},
-	
+
 	tipos() {
 		const keys = Object.keys(ECO_SOS.TIPOS);
 		return keys.map((key) => {
@@ -106,8 +115,8 @@ Template.eco_sos.helpers({
 		const template = Template.instance();
 		const ecoSos = template.ecoSosSeleccionada.get();
 		let selector = {};
-		if(ecoSos._id) {
-			
+		if (ecoSos._id) {
+
 			selector = {
 				"meta.ecoSosId": ecoSos._id,
 				"meta.tipo": "ecosos"
@@ -154,20 +163,20 @@ Template.eco_sos.events({
 		const doc = FormUtils.getFields();
 		const ecoSos = template.ecoSosSeleccionada.get();
 
-		if(ecoSos._id) {
+		if (ecoSos._id) {
 			doc._id = ecoSos._id;
 		} else {
 			doc.userId = Meteor.userId();
 			doc.ultimaActualizacion = new Date();
 		}
-		Meteor.call("ActualizarECOSos", doc, function(err, resp) {
-			if(!err) {
+		Meteor.call("ActualizarECOSos", doc, function (err, resp) {
+			if (!err) {
 				UIUtils.toggle("carrousel", "grilla");
 				UIUtils.toggle("carrousel", "detalle");
 				UIUtils.toggle("navegacion-atras", "activo");
 				template.ecoSosSeleccionada.set(false);
 				template.editando.set(false);
-				template.enListado.set(true);	
+				template.enListado.set(true);
 			}
 		})
 	},
@@ -178,31 +187,31 @@ Template.eco_sos.events({
 	"click .navegacion-atras"(e, template) {
 		UIUtils.toggle("carrousel", "grilla");
 		UIUtils.toggle("carrousel", "detalle");
-		UIUtils.toggle("navegacion-atras", "activo");		
+		UIUtils.toggle("navegacion-atras", "activo");
 		template.ecoSosSeleccionada.set(false);
 		template.editando.set(false);
 		template.enListado.set(true);
 		$(".detalle").scrollTop(0);
 	},
 	"dragover .camara .marco-upload": function (e, t) {
-    e.stopPropagation();
-    e.preventDefault();
-    t.$(".camara .marco-drop").addClass("activo");
-  },
-"dragleave .camara .marco-upload": function (e, t) {
-    e.stopPropagation();
-    e.preventDefault();
-    t.$(".camara .marco-drop").removeClass("activo");
-  },
-"dragenter .camara .marco-upload": function (e, t) {
-    e.preventDefault();
-    e.stopPropagation();
-  },
-"drop .camara .marco-upload": function (e, template) {
-    e.stopPropagation();
-    e.preventDefault();
-    var ecoSos = template.ecoSosSeleccionada.get();
-    if (e.originalEvent.dataTransfer.files && e.originalEvent.dataTransfer.files[0]) {
+		e.stopPropagation();
+		e.preventDefault();
+		t.$(".camara .marco-drop").addClass("activo");
+	},
+	"dragleave .camara .marco-upload": function (e, t) {
+		e.stopPropagation();
+		e.preventDefault();
+		t.$(".camara .marco-drop").removeClass("activo");
+	},
+	"dragenter .camara .marco-upload": function (e, t) {
+		e.preventDefault();
+		e.stopPropagation();
+	},
+	"drop .camara .marco-upload": function (e, template) {
+		e.stopPropagation();
+		e.preventDefault();
+		var ecoSos = template.ecoSosSeleccionada.get();
+		if (e.originalEvent.dataTransfer.files && e.originalEvent.dataTransfer.files[0]) {
 			var img;
 			var meta = {
 				tipo: "ecosos"
@@ -211,63 +220,63 @@ Template.eco_sos.events({
 				meta.pendiente = true;
 			} else {
 				meta.ecoSosId = ecoSos._id;
-			}		
-			
-      const upload = Images.insert({
-        file: e.originalEvent.dataTransfer.files[0],
-        //streams: 'dynamic',
-        //chunkSize: 'dynamic',
-        meta: meta
-      }, false);
+			}
 
-      upload.on('start', function () {
-        template.currentUpload.set(this);
-      });
-			
-      upload.on('end', function (error, fileObj) {
-        if (error) {
-          alert('Error during upload: ' + error);
-        } else {
-          //console.log("FileImage", fileObj);
-        }
-        template.currentUpload.set(false);
-        template.$(".marco-drop").removeClass("activo");
-      });
-      upload.start();
-    }
-  },
-  "click .camara .marco-upload"(e) {
-    $("#upload-image").click();
-  },
-  "change #upload-image"(e, template) {
-    var ecoSos = template.ecoSosSeleccionada.get();
-    if (e.currentTarget.files && e.currentTarget.files[0]) {
-	  	var meta = {
-   			tipo: "ecosos"
-    	}
-    	if (!ecoSos._id) {
-    		meta.pendiente = true;
-    	} else {
-    		meta.ecoSosId = ecoSos._id;
-    	}
-      const upload = Images.insert({
-        file: e.currentTarget.files[0],
-        meta: meta
-      }, false);
+			const upload = Images.insert({
+				file: e.originalEvent.dataTransfer.files[0],
+				//streams: 'dynamic',
+				//chunkSize: 'dynamic',
+				meta: meta
+			}, false);
 
-      upload.on('start', function () {
-        template.currentUpload.set(this);
-      });
+			upload.on('start', function () {
+				template.currentUpload.set(this);
+			});
 
-      upload.on('end', function (error, fileObj) {
-        template.currentUpload.set(false);
-        template.$(".camara .marco-drop").removeClass("activo");
-      });
-			
-      upload.start();
-    }
-  },
-  "click .eliminar"(e) {
+			upload.on('end', function (error, fileObj) {
+				if (error) {
+					alert('Error during upload: ' + error);
+				} else {
+					//console.log("FileImage", fileObj);
+				}
+				template.currentUpload.set(false);
+				template.$(".marco-drop").removeClass("activo");
+			});
+			upload.start();
+		}
+	},
+	"click .camara .marco-upload"(e) {
+		$("#upload-image").click();
+	},
+	"change #upload-image"(e, template) {
+		var ecoSos = template.ecoSosSeleccionada.get();
+		if (e.currentTarget.files && e.currentTarget.files[0]) {
+			var meta = {
+				tipo: "ecosos"
+			}
+			if (!ecoSos._id) {
+				meta.pendiente = true;
+			} else {
+				meta.ecoSosId = ecoSos._id;
+			}
+			const upload = Images.insert({
+				file: e.currentTarget.files[0],
+				meta: meta
+			}, false);
+
+			upload.on('start', function () {
+				template.currentUpload.set(this);
+			});
+
+			upload.on('end', function (error, fileObj) {
+				template.currentUpload.set(false);
+				template.$(".camara .marco-drop").removeClass("activo");
+			});
+
+			upload.start();
+		}
+	},
+	"click .eliminar"(e) {
 		const id = e.currentTarget.id;
 		Images.remove({ _id: id });
 	}

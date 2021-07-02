@@ -17,9 +17,11 @@
         <div class="marco-editar">
           <i class="material-icons">edit</i>
         </div>
+        {{#if perfil.esAdmin}}
         <div class="distintivo">
           <i class="material-icons">star</i>
         </div>
+        {{/if}}
       </div>
       <input type="file" id="upload-image" style="display: none;">
     </div>

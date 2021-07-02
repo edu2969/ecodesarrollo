@@ -1,8 +1,13 @@
-export { Images };
-const { ECO_CAMPANAS } = require('../../../lib/constantes');
-const { CHILE } = require('/lib/lugares/lugares_CL')
+import { Meteor } from 'meteor/meteor'
+import { Template } from 'meteor/templating'
+import { Tracker } from 'meteor/tracker'
+import { ReactiveVar } from 'meteor/reactive-var'
+const { ECOCampanas } = require('../../../lib/collections/ECODimensionesCollections')
+const { Comunas } = require('../../../lib/collections/BaseCollections')
+const { Images } = require('../../../lib/collections/FilesCollections')
+const { ECO_CAMPANAS } = require('../../../lib/constantes')
 
-Template.eco_campanas.onCreated(function() {
+Template.eco_campanas.onCreated(function () {
 	this.currentUpload = new ReactiveVar();
 	this.ecoCampanaSeleccionada = new ReactiveVar(false);
 	this.editando = ReactiveVar(false);
@@ -26,40 +31,40 @@ Template.eco_campanas.helpers({
 		const template = Template.instance();
 		return template.editando.get();
 	},
-	eco_campanas(){
+	eco_campanas() {
 		return ECOCampanas.find().map(ecoCampana => {
 			ecoCampana.ultimaActividad = ecoCampana.ultimaActualizacion;
-			const img = Images.findOne({ 
+			const img = Images.findOne({
 				$or: [{
 					"meta.ecoCampanaId": ecoCampana._id,
 					"meta.tipo": "ecocampana",
-					
+
 				}, {
 					"meta.pendiente": true,
 					"meta.tipo": "ecocampana"
-				}] 
+				}]
 			});
 			ecoCampana.avatar = img ? img.link() : '/img/no_image_available.jpg';
 			ecoCampana.integrantes = 0;
 			ecoCampana.donaciones = 0;
 			return ecoCampana;
-		
-	});
+
+		});
 	},
 	ecoCampana() {
 		const template = Template.instance();
 		let ecoCampana = template.ecoCampanaSeleccionada.get();
-		if(!ecoCampana) return;
+		if (!ecoCampana) return;
 		const userId = Meteor.userId();
-		if(userId==ecoCampana.userId) {
+		if (userId == ecoCampana.userId) {
 			ecoCampana.esPropia = true;
 		}
-		const img = Images.findOne({ 
+		const img = Images.findOne({
 			$or: [{
-				"meta.ecoCamapnaId": ecoCampana._id		
+				"meta.ecoCamapnaId": ecoCampana._id
 			}, {
 				"meta.pendiente": true
-			}] 
+			}]
 		});
 		ecoCampana.avatar = img ? img.link() : '/img/no_image_available.jpg';
 		ecoCampana.ultimaActividad = ecoCampana.ultimaActualizacion;
@@ -86,7 +91,7 @@ Template.eco_campanas.helpers({
 		const template = Template.instance();
 		const ecoCampana = template.ecoCampanaSeleccionada.get();
 		let selector = {};
-		if(ecoCampana._id) {
+		if (ecoCampana._id) {
 			selector = {
 				"meta.ecoCampanaId": ecoCampana._id,
 				"meta.tipo": "ecocampana"
@@ -107,35 +112,35 @@ Template.eco_campanas.helpers({
 		});
 	},
 	settingsComunas() {
-    return {
-      position: "bottom",
-      limit: 5,
-      rules: [
-        {
-          collection: Comunas,
-          field: "nombre",
-          matchAll: false,
-          template: Template.itemComuna,
+		return {
+			position: "bottom",
+			limit: 5,
+			rules: [
+				{
+					collection: Comunas,
+					field: "nombre",
+					matchAll: false,
+					template: Template.itemComuna,
 					noMatchTemplate: Template.noComuna,
-        }
-      ]
-    };
-  },
+				}
+			]
+		};
+	},
 	settingsCoordinador() {
-    return {
-      position: "bottom",
-      limit: 5,
-      rules: [
-        {
-          collection: Meteor.users,
-          field: "profile.nombre",
-          matchAll: false,
-          template: Template.avatar,
+		return {
+			position: "bottom",
+			limit: 5,
+			rules: [
+				{
+					collection: Meteor.users,
+					field: "profile.nombre",
+					matchAll: false,
+					template: Template.avatar,
 					noMatchTemplate: Template.noComuna,
-        }
-      ]
-    };
-  }
+				}
+			]
+		};
+	}
 })
 
 Template.eco_campanas.events({
@@ -163,42 +168,42 @@ Template.eco_campanas.events({
 		const doc = FormUtils.getFields();
 		const ecoCampana = template.ecoCampanaSeleccionada.get();
 
-		if(ecoCampana._id) {
+		if (ecoCampana._id) {
 			doc._id = ecoCampana._id;
 		} else {
 			doc.userId = Meteor.userId();
 			doc.ultimaActualizacion = new Date();
 		}
 
-		if(ecoCampana.comunaId) {
+		if (ecoCampana.comunaId) {
 			doc.comunaId = ecoCampana.comunaId
 		}
 
 		console.log("SETEANDO", doc)
-		
-		Meteor.call("ActualizarECOCampana", doc, function(err, resp) {
-			if(!err) {
+
+		Meteor.call("ActualizarECOCampana", doc, function (err, resp) {
+			if (!err) {
 				UIUtils.toggle("carrousel", "grilla");
 				UIUtils.toggle("carrousel", "detalle");
 				UIUtils.toggle("navegacion-atras", "activo");
 				template.ecoCampanaSeleccionada.set(false);
 				template.editando.set(false);
-				template.enListado.set(true);	
+				template.enListado.set(true);
 			}
 		})
 	},
 	"click #btn-editar, click #btn-cancelar"(e, template) {
 		const editando = template.editando.get();
 		template.editando.set(!editando);
-	
 
-		setTimeout(function() {
+
+		setTimeout(function () {
 			$("#input-fechaInicio").datetimepicker({
 				locale: moment.locale("es"),
 				format: "DD/MM/YYYY HH:mm",
 				defaultDate: moment().startOf("day").hour(8),
 			});
-	
+
 			$("#input-fechaFin").datetimepicker({
 				locale: moment.locale("es"),
 				format: "DD/MM/YYYY HH:mm",
@@ -209,33 +214,33 @@ Template.eco_campanas.events({
 	"click .navegacion-atras"(e, template) {
 		UIUtils.toggle("carrousel", "grilla");
 		UIUtils.toggle("carrousel", "detalle");
-		UIUtils.toggle("navegacion-atras", "activo");		
+		UIUtils.toggle("navegacion-atras", "activo");
 		template.ecoCampanaSeleccionada.set(false);
 		template.editando.set(false);
 		template.enListado.set(true);
 		$(".detalle").scrollTop(0);
 	},
-	
 
-"dragover .camara .marco-upload": function (e, t) {
-    e.stopPropagation();
-    e.preventDefault();
-    t.$(".camara .marco-drop").addClass("activo");
-  },
-"dragleave .camara .marco-upload": function (e, t) {
-    e.stopPropagation();
-    e.preventDefault();
-    t.$(".camara .marco-drop").removeClass("activo");
-  },
-"dragenter .camara .marco-upload": function (e, t) {
-    e.preventDefault();
-    e.stopPropagation();
-  },
-"drop .camara .marco-upload": function (e, template) {
-    e.stopPropagation();
-    e.preventDefault();
-    var ecoCampana = template.ecoCampanaSeleccionada.get();
-    if (e.originalEvent.dataTransfer.files && e.originalEvent.dataTransfer.files[0]) {
+
+	"dragover .camara .marco-upload": function (e, t) {
+		e.stopPropagation();
+		e.preventDefault();
+		t.$(".camara .marco-drop").addClass("activo");
+	},
+	"dragleave .camara .marco-upload": function (e, t) {
+		e.stopPropagation();
+		e.preventDefault();
+		t.$(".camara .marco-drop").removeClass("activo");
+	},
+	"dragenter .camara .marco-upload": function (e, t) {
+		e.preventDefault();
+		e.stopPropagation();
+	},
+	"drop .camara .marco-upload": function (e, template) {
+		e.stopPropagation();
+		e.preventDefault();
+		var ecoCampana = template.ecoCampanaSeleccionada.get();
+		if (e.originalEvent.dataTransfer.files && e.originalEvent.dataTransfer.files[0]) {
 			var img;
 			var meta = {
 				tipo: "ecocampana"
@@ -244,70 +249,70 @@ Template.eco_campanas.events({
 				meta.pendiente = true;
 			} else {
 				meta.ecoCampanaId = ecoCampana._id;
-			}		
-      const upload = Images.insert({
-        file: e.originalEvent.dataTransfer.files[0],
-        //streams: 'dynamic',
-        //chunkSize: 'dynamic',
-        meta: meta
-      }, false);
+			}
+			const upload = Images.insert({
+				file: e.originalEvent.dataTransfer.files[0],
+				//streams: 'dynamic',
+				//chunkSize: 'dynamic',
+				meta: meta
+			}, false);
 
-      upload.on('start', function () {
-        template.currentUpload.set(this);
-      });
-			
-      upload.on('end', function (error, fileObj) {
-        if (error) {
-          alert('Error during upload: ' + error);
-        } else {
-          //console.log("FileImage", fileObj);
-        }
-        template.currentUpload.set(false);
-        template.$(".marco-drop").removeClass("activo");
-      });
-      upload.start();
-    }
-  },
-  "click .camara .marco-upload"(e) {
-    $("#upload-image").click();
-  },
-  "change #upload-image"(e, template) {
-    var ecoCampana = template.ecoCampanaSeleccionada.get();
-    if (e.currentTarget.files && e.currentTarget.files[0]) {
-	  	var meta = {
-   			tipo: "ecocampana"
-    	}
-    	if (!ecoCampana._id) {
-    		meta.pendiente = true;
-    	} else {
-    		meta.ecoCampanaId = ecoCampana._id;
-    	}
-      const upload = Images.insert({
-        file: e.currentTarget.files[0],
-        meta: meta
-      }, false);
+			upload.on('start', function () {
+				template.currentUpload.set(this);
+			});
 
-      upload.on('start', function () {
-        template.currentUpload.set(this);
-      });
+			upload.on('end', function (error, fileObj) {
+				if (error) {
+					alert('Error during upload: ' + error);
+				} else {
+					//console.log("FileImage", fileObj);
+				}
+				template.currentUpload.set(false);
+				template.$(".marco-drop").removeClass("activo");
+			});
+			upload.start();
+		}
+	},
+	"click .camara .marco-upload"(e) {
+		$("#upload-image").click();
+	},
+	"change #upload-image"(e, template) {
+		var ecoCampana = template.ecoCampanaSeleccionada.get();
+		if (e.currentTarget.files && e.currentTarget.files[0]) {
+			var meta = {
+				tipo: "ecocampana"
+			}
+			if (!ecoCampana._id) {
+				meta.pendiente = true;
+			} else {
+				meta.ecoCampanaId = ecoCampana._id;
+			}
+			const upload = Images.insert({
+				file: e.currentTarget.files[0],
+				meta: meta
+			}, false);
 
-      upload.on('end', function (error, fileObj) {
-        template.currentUpload.set(false);
-        template.$(".camara .marco-drop").removeClass("activo");
-      });
-			
-      upload.start();
-    }
-  },
+			upload.on('start', function () {
+				template.currentUpload.set(this);
+			});
+
+			upload.on('end', function (error, fileObj) {
+				template.currentUpload.set(false);
+				template.$(".camara .marco-drop").removeClass("activo");
+			});
+
+			upload.start();
+		}
+	},
 
 	"click .eliminar"(e) {
 		const id = e.currentTarget.id;
 		Images.remove({ _id: id });
 	},
 	"autocompleteselect #input-comuna"(event, template, doc) {
-    console.log("selected ", doc);
+		console.log("selected ", doc);
 		var ecoCampana = template.ecoCampanaSeleccionada.get();
 		ecoCampana.comundaId = doc._id
 		template.ecoCampanaSeleccionada.set(ecoCampana)
-  }
+	}
 })

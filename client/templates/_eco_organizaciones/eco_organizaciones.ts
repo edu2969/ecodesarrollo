@@ -1,6 +1,11 @@
-export { Images };
+import { Meteor } from 'meteor/meteor'
+import { Template } from 'meteor/templating'
+import { Tracker } from 'meteor/tracker'
+import { ReactiveVar } from 'meteor/reactive-var'
+const { ECOOrganizaciones } = require('../../../lib/collections/ECODimensionesCollections')
+const { Images } = require('../../../lib/collections/FilesCollections')
 
-Template.eco_organizaciones.onCreated(function() {
+Template.eco_organizaciones.onCreated(function () {
 	this.currentUpload = new ReactiveVar();
 	this.ecoOrganizacionSeleccionada = new ReactiveVar(false);
 	this.editando = ReactiveVar(false);
@@ -25,14 +30,14 @@ Template.eco_organizaciones.helpers({
 	ecoOrganizaciones() {
 		return ECOOrganizaciones.find().map(ecoOrganizacion => {
 			ecoOrganizacion.ultimaActividad = ecoOrganizacion.ultimaActualizacion;
-			const img = Images.findOne({ 
+			const img = Images.findOne({
 				$or: [{
 					"meta.ecoOrganizacionId": ecoOrganizacion._id,
-					"meta.tipo": "ecoorganizacion"	
+					"meta.tipo": "ecoorganizacion"
 				}, {
 					"meta.pendiente": true,
 					"meta.tipo": "ecoorganizacion"
-				}] 
+				}]
 			});
 			ecoOrganizacion.avatar = img ? img.link() : '/img/no_image_available.jpg';
 			ecoOrganizacion.integrantes = 0;
@@ -43,19 +48,19 @@ Template.eco_organizaciones.helpers({
 	ecoOrganizacion() {
 		const template = Template.instance();
 		let ecoOrganizacion = template.ecoOrganizacionSeleccionada.get();
-		if(!ecoOrganizacion) return;
+		if (!ecoOrganizacion) return;
 		const userId = Meteor.userId();
-		if(userId==ecoOrganizacion.userId) {
+		if (userId == ecoOrganizacion.userId) {
 			ecoOrganizacion.esPropia = true;
 		}
-		const img = Images.findOne({ 
+		const img = Images.findOne({
 			$or: [{
 				"meta.ecoOrganizacionId": ecoOrganizacion._id,
-				"meta.tipo": "ecoorganizacion"		
+				"meta.tipo": "ecoorganizacion"
 			}, {
 				"meta.pendiente": true,
 				"meta.tipo": "ecoorganizacion"
-			}] 
+			}]
 		});
 		ecoOrganizacion.avatar = img ? img.link() : '/img/no_image_available.jpg';
 		ecoOrganizacion.ultimaActividad = ecoOrganizacion.ultimaActualizacion;
@@ -92,18 +97,18 @@ Template.eco_organizaciones.events({
 	"click #btn-guardar"(e, template) {
 		const doc = FormUtils.getFields();
 		const ecoOrganizacion = template.ecoOrganizacionSeleccionada.get();
-		if(ecoOrganizacion._id) {
+		if (ecoOrganizacion._id) {
 			doc._id = ecoOrganizacion._id;
 		} else {
 			doc.userId = Meteor.userId();
 			doc.ultimaActualizacion = new Date();
 		}
-		
-		Meteor.call("ActualizarECOOrganizacion", doc, function(err, resp) {
-			if(!err) {
+
+		Meteor.call("ActualizarECOOrganizacion", doc, function (err, resp) {
+			if (!err) {
 				UIUtils.toggle("carrousel", "modo-listado");
 				UIUtils.toggle("carrousel", "detalle");
-				UIUtils.toggle("navegacion-atras", "activo");		
+				UIUtils.toggle("navegacion-atras", "activo");
 				template.ecoOrganizacionSeleccionada.set(false);
 				template.editando.set(false);
 				template.enListado.set(true);
@@ -117,36 +122,36 @@ Template.eco_organizaciones.events({
 	"click .navegacion-atras"(e, template) {
 		UIUtils.toggle("carrousel", "modo-listado");
 		UIUtils.toggle("carrousel", "detalle");
-		UIUtils.toggle("navegacion-atras", "activo");		
+		UIUtils.toggle("navegacion-atras", "activo");
 		template.ecoOrganizacionSeleccionada.set(false);
 		template.editando.set(false);
 		template.enListado.set(true);
 		$(".detalle").scrollTop(0);
 	},
-	
-	
-"dragover .marco-upload": function (e, t) {
-    e.stopPropagation();
-    e.preventDefault();
-    t.$(".marco-drop").addClass("activo");
-  },
-  "dragleave .marco-upload": function (e, t) {
-    e.stopPropagation();
-    e.preventDefault();
-    t.$(".marco-drop").removeClass("activo");
-  },
-  "dragenter .marco-upload": function (e, t) {
-    e.preventDefault();
-    e.stopPropagation();
-  },
-  "drop .marco-upload": function (e, template) {
-    e.stopPropagation();
-    e.preventDefault();
-    var ecoOrganizacion = template.ecoOrganizacionSeleccionada.get();
-    if (e.originalEvent.dataTransfer.files && e.originalEvent.dataTransfer.files[0]) {
+
+
+	"dragover .marco-upload": function (e, t) {
+		e.stopPropagation();
+		e.preventDefault();
+		t.$(".marco-drop").addClass("activo");
+	},
+	"dragleave .marco-upload": function (e, t) {
+		e.stopPropagation();
+		e.preventDefault();
+		t.$(".marco-drop").removeClass("activo");
+	},
+	"dragenter .marco-upload": function (e, t) {
+		e.preventDefault();
+		e.stopPropagation();
+	},
+	"drop .marco-upload": function (e, template) {
+		e.stopPropagation();
+		e.preventDefault();
+		var ecoOrganizacion = template.ecoOrganizacionSeleccionada.get();
+		if (e.originalEvent.dataTransfer.files && e.originalEvent.dataTransfer.files[0]) {
 			let meta = {};
 			var img;
-			if(!ecoOrganizacion._id) {
+			if (!ecoOrganizacion._id) {
 				img = Images.findOne({
 					userId: Meteor.userId(),
 					"meta.pendiente": true
@@ -158,78 +163,78 @@ Template.eco_organizaciones.events({
 					"meta.ecoOrganizacion": ecoOrganizacion._id,
 					"meta.tipo": "ecoorganizacion"
 				});
-				meta = { 
+				meta = {
 					ecoOrganizacionId: ecoOrganizacion._id,
 					tipo: "ecoorganizacion"
 				};
 			}
-			if(img) {
+			if (img) {
 				Images.remove({ _id: img._id });
 			}
-      const upload = Images.insert({
-        file: e.originalEvent.dataTransfer.files[0],
-        meta: meta
-      }, false);
+			const upload = Images.insert({
+				file: e.originalEvent.dataTransfer.files[0],
+				meta: meta
+			}, false);
 
-      upload.on('start', function () {
-        template.currentUpload.set(this);
-      });
-			
-      upload.on('end', function (error, fileObj) {
-        if (error) {
-          alert('Error during upload: ' + error);
-        } else {
-          //console.log("FileImage", fileObj);
-        }
-        template.currentUpload.set(false);
-        template.$(".marco-drop").removeClass("activo");
-      });
-      upload.start();
-    }
-  },
-  "click .marco-upload"(e) {
-    $("#upload-image").click();
-  },
-  "change #upload-image"(e, template) {
-    var ecoOrganizacion = template.ecoOrganizacionSeleccionada.get();
-    if (e.currentTarget.files && e.currentTarget.files[0]) {
+			upload.on('start', function () {
+				template.currentUpload.set(this);
+			});
+
+			upload.on('end', function (error, fileObj) {
+				if (error) {
+					alert('Error during upload: ' + error);
+				} else {
+					//console.log("FileImage", fileObj);
+				}
+				template.currentUpload.set(false);
+				template.$(".marco-drop").removeClass("activo");
+			});
+			upload.start();
+		}
+	},
+	"click .marco-upload"(e) {
+		$("#upload-image").click();
+	},
+	"change #upload-image"(e, template) {
+		var ecoOrganizacion = template.ecoOrganizacionSeleccionada.get();
+		if (e.currentTarget.files && e.currentTarget.files[0]) {
 			let meta = {};
-			if(!ecoOrganizacion._id) {
+			if (!ecoOrganizacion._id) {
 				Images.remove({
 					userId: Meteor.userId(),
 					"meta.pendiente": true,
 					"meta.tipo": "ecoorganizacion"
 				});
-				meta = { 
+				meta = {
 					pendiente: true,
 					tipo: "ecoorganizacion"
 				};
 			} else {
-				meta = { 
+				meta = {
 					ecoOrganizacionId: ecoOrganizacion._id,
 					tipo: "ecoorganizacion"
 				};
 			}
-      const upload = Images.insert({
-        file: e.currentTarget.files[0],
-        meta: meta
-      }, false);
+			const upload = Images.insert({
+				file: e.currentTarget.files[0],
+				meta: meta
+			}, false);
 
-      upload.on('start', function () {
-        template.currentUpload.set(this);
-      });
+			upload.on('start', function () {
+				template.currentUpload.set(this);
+			});
 
-      upload.on('end', function (error, fileObj) {
-        template.currentUpload.set(false);
-        template.$(".marco-drop").removeClass("activo");
-      });
-			
-      upload.start();
-    }
-  },
-	
-	
-	
-	
-	
+			upload.on('end', function (error, fileObj) {
+				template.currentUpload.set(false);
+				template.$(".marco-drop").removeClass("activo");
+			});
+
+			upload.start();
+		}
+	},
+
+
+
+
+
 });

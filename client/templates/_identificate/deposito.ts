@@ -1,8 +1,12 @@
-import { Nivel } from "../../utils/nivel";
+import { Nivel } from '../../utils/nivel'
+import { Meteor } from 'meteor/meteor'
+import { Template } from 'meteor/templating'
+import { Tracker } from 'meteor/tracker'
+import { ReactiveVar } from 'meteor/reactive-var'
+const { Comprobante } = require('../../../lib/collections/BaseCollections')
+const { Images } = require('../../../lib/collections/FilesCollections')
 
-export { Images };
-
-Template.deposito.onCreated(function() {
+Template.deposito.onCreated(function () {
   this.currentUpload = new ReactiveVar(false);
 })
 
@@ -20,7 +24,7 @@ Template.deposito.helpers({
   comprobante() {
     const img = Images.findOne({
       "meta.tipo": "deposito"
-    }, { sort: { fecha: -1 }});
+    }, { sort: { fecha: -1 } });
     return img ? img.link() : false;
   },
   comprobanteEnviado() {
@@ -36,8 +40,8 @@ Template.deposito.events({
     $("#tipo-" + value).show();
   },
 
-  
-	"dragover .camara .marco-upload": function (e, t) {
+
+  "dragover .camara .marco-upload": function (e, t) {
     e.stopPropagation();
     e.preventDefault();
     t.$(".camara .marco-drop").addClass("activo");
@@ -55,9 +59,9 @@ Template.deposito.events({
     e.stopPropagation();
     e.preventDefault();
     if (e.originalEvent.dataTransfer.files && e.originalEvent.dataTransfer.files[0]) {
-	    const upload = Images.insert({
-	      file: e.originalEvent.dataTransfer.files[0],
-	      meta: {
+      const upload = Images.insert({
+        file: e.originalEvent.dataTransfer.files[0],
+        meta: {
           tipo: "deposito"
         }
       }, false);
@@ -65,7 +69,7 @@ Template.deposito.events({
       upload.on('start', function () {
         template.currentUpload.set(this);
       });
-			
+
       upload.on('end', function (error, fileObj) {
         if (error) {
           alert('Error during upload: ' + error);
@@ -98,7 +102,7 @@ Template.deposito.events({
         template.currentUpload.set(false);
         template.$(".camara .marco-drop").removeClass("activo");
       });
-			
+
       upload.start();
     }
   },
@@ -108,8 +112,8 @@ Template.deposito.events({
       Session.set("ModalParams", {
         esInfo: true,
         titulo: "Confirmación de deposito",
-        texto: "Tu información de deposito ha sido ingresada con éxito. " 
-        + "Ésta será revisada para ser autorizada tu entrega de código secreto" 
+        texto: "Tu información de deposito ha sido ingresada con éxito. "
+          + "Ésta será revisada para ser autorizada tu entrega de código secreto"
       });
       $(".tipo-identificacion").toggleClass("oculto");
       $(".seccion-identificate").toggleClass("oculto");
@@ -117,13 +121,13 @@ Template.deposito.events({
     }
 
     const tipo = $("input[type='radio']:checked").val();
-    if(tipo == "texto") {
-      const text = $("#input-detalle-deposito").val();
+    if (tipo == "texto") {
+      const detalleDeposito = $("#input-detalle-deposito").val();
       Meteor.call("Usuarios.IngresarDepositoNoConfirmado", {
         tipo: "texto",
-        texto: texto
-      }, function(err, resp) {
-        if(!err) {
+        texto: detalleDeposito
+      }, function (err, resp) {
+        if (!err) {
           depositoConfirmado();
         }
       })
@@ -132,8 +136,8 @@ Template.deposito.events({
       Meteor.call("Usuarios.IngresarDepositoNoConfirmado", {
         tipo: "comprobante",
         imagenId: img._id
-      }, function(err, resp) {
-        if(!err) {
+      }, function (err, resp) {
+        if (!err) {
           depositoConfirmado();
         }
       });
