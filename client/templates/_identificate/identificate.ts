@@ -1,6 +1,5 @@
 import { Nivel } from '../../utils/nivel'
 import { ECOActividades } from '/lib/ECOActividades'
-
 import { Meteor } from 'meteor/meteor'
 import { Template } from 'meteor/templating'
 import { Tracker } from 'meteor/tracker'
@@ -81,7 +80,7 @@ Template.identificate.events({
           }, 500)
         } else {
           UIUtils.toggle("contendor-identificate", "oculto");
-          UIUtils.toggle("contendor-identificate", "oculto");
+          UIUtils.toggle("tipo-identificacion", "oculto");
         }
       } else {
         template.errores.set("Ups!, no pareces corazón verde :(");

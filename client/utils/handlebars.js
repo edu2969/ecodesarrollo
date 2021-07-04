@@ -1,11 +1,10 @@
 const { ECO_SOS } = require("../../lib/constantes");
 const { ECO_CAMPANAS } = require("../../lib/constantes");
 
-Handlebars.registerHelper("formatoFecha", function (date, mask) {
+Handlebars.registerHelper("formatoFecha", function (date, mask = 'dd/MM/yyyy') {
   if(!date) return '--/--';
   var m = moment(date);
   if (!m) return '--/--';
-  if (!mask) mask = 'dd/MM/yyyy';
   return m.format(mask);
 });
 

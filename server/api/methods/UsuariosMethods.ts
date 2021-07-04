@@ -1,7 +1,10 @@
+import { Meteor } from 'meteor/meteor'
 import SimpleSchema from 'simpl-schema'
 import { ValidatedMethod } from 'meteor/mdg:validated-method'
 import { Depositos } from '/lib/collections/BaseCollections'
-import { NotificacionesServices } from '../services/NotificacionesServices'
+import NotificacionesServices from '../services/NotificacionesServices'
+import { Notificaciones } from '../../../lib/collections/BaseCollections'
+import { EstadoType } from '../services/EstadoType'
 
 export const IngresarDepositoNoConfirmado = new ValidatedMethod({
   name: 'Usuarios.IngresarDepositoNoConfirmado',
@@ -115,5 +118,66 @@ export const ModificarCuenta = new ValidatedMethod({
       "profile.direccion": doc.direccion
     }
     Meteor.users.update({ _id: usuarioId }, { $set: usuario })
+  }
+})
+
+export const AprobarDeposito = new ValidatedMethod({
+  name: 'Usuarios.AprobarDeposito',
+  validate: new SimpleSchema({
+    notificacionId: {
+      type: String
+    }
+  }).validator({
+    clean: true
+  }),
+  run(doc) {
+    const usuarioId = Meteor.userId()
+    Depositos.update({ usuarioId: usuarioId, pendiente: true }, { $unset: { pendiente: 1 } })
+    const notificacion = Notificaciones.findOne({ _id: doc.notificacionId })
+    let historial = notificacion.historial
+    historial.push({
+      estado: EstadoType.Aprobado,
+      fecha: new Date()
+    })
+    Notificaciones.update({
+      _id: doc.notificacionId
+    }, {
+      $set: {
+        estado: EstadoType.Aprobado,
+        historial: historial
+      }
+    })
+    // @TODO enviar mail con el codigo secreto
+    return true
+  }
+})
+
+export const RechazarDeposito = new ValidatedMethod({
+  name: 'Usuarios.RechazarDeposito',
+  validate: new SimpleSchema({
+    notificacionId: {
+      type: String
+    }
+  }).validator({
+    clean: true
+  }),
+  run(doc) {
+    const usuarioId = Meteor.userId()
+    Depositos.update({ usuarioId: usuarioId, pendiente: true }, { $unset: { rechazado: 1 } })
+    const notificacion = Notificaciones.findOne({ _id: doc.notificacionId })
+    let historial = notificacion.historial
+    historial.push({
+      estado: EstadoType.Rechazado,
+      fecha: new Date()
+    })
+    Notificaciones.update({
+      _id: doc.notificacionId
+    }, {
+      $set: {
+        estado: EstadoType.Rechazado,
+        historial: historial
+      }
+    })
+    return true
   }
 })

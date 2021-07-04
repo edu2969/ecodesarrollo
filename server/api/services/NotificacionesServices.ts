@@ -1,17 +1,21 @@
-import { Notificaciones } from '/lib/collections/BaseCollections'
-import { EstadosType } from "./EstadosType";
-import { NotificacionType } from "./NotificationType";
+import { Notificaciones } from '../../../lib/collections/BaseCollections'
+import { EstadoType } from "./EstadoType";
+import { NotificacionType } from "./NotificacionType";
 
 export const nuevoUsuario = (usuarioId: string) {
   Notificaciones.insert({
     tipo: NotificacionType.NuevoUsuario,
     fecha: new Date(),
-    estado: EstadosType.Pendiente,
-    usuarioId: usuarioId
+    estado: EstadoType.Pendiente,
+    usuarioId: usuarioId,
+    historial: [{
+      estado: EstadoType.Pendiente,
+      fecha: new Date()
+    }]
   })
 }
 
-const cambiarEstadoNotificacion = (id: string, estado: EstadosType) {
+const cambiarEstadoNotificacion = (id: string, estado: EstadoType) {
   const notificacion = Notificaciones.findOne(id);
   let estados = notificacion.historial
   estados.push({

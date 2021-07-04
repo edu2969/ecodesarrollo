@@ -1,6 +1,6 @@
 <template name="modalgeneral">
-  <div class="modal fade" id="modalgeneral" tabindex="-1" role="dialog" 
-  aria-labelledby="modalgeneral" aria-hidden="true" style="visibility: none;">
+  <div class="modal fade" id="modalgeneral" tabindex="-1" role="dialog" aria-labelledby="modalgeneral"
+    aria-hidden="true" style="visibility: none;">
     <div class="modal-dialog">
       <div class="modal-content blanco">
         <div class="modal-header">
@@ -18,6 +18,14 @@
           {{#if params.esInfo}}
           <button type="button" class="btn btn-entendido" id="btn-entendido" data-dismiss="modal">
             Entendido
+          </button>
+          {{/if}}
+          {{#if params.esDecision}}
+          <button type="button" class="btn" id="btn-rechazar">
+            <i class="material-icons">clear</i> Rechazar
+          </button>
+          <button type="button" class="btn" id="btn-aceptar">
+            <i class="material-icons">check</i> Aceptar
           </button>
           {{/if}}
         </div>

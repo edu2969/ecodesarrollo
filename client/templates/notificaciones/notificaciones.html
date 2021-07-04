@@ -1,3 +1,19 @@
 <template name="notificaciones">
-  <h1>Notificaciones</h1>
+  <div class="contenedor-notificaciones">
+    <div class="status">
+      <div class="titulo">Notificaciones</div>
+      <div class="pendientes"> ({{cantidad.pendientes}})</div>
+    </div>
+    <div class="contenedor-listado">
+      {{#each listado}}
+      <div class="notificacion neuromorph rojo" id="{{_id}}">
+        <i class="material-icons">{{icono}}</i>
+        <div class="titulo">{{tipoTraducido}}</div>
+        <div class="descripcion">{{{descripcion}}}</div>
+        <div class="estado">{{estado}}</div>
+        <div class="fecha">{{formatoFecha fecha 'DD/MM/yyyy'}}</div>
+      </div>
+      {{/each}}
+    </div>
+  </div>
 </template>
