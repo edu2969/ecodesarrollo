@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor'
 import { Template } from 'meteor/templating'
 import { Tracker } from 'meteor/tracker'
 import { ReactiveVar } from 'meteor/reactive-var'
+import { UIUtils } from '../../utils/utils'
 const { ECOOrganizaciones } = require('../../../lib/collections/ECODimensionesCollections')
 const { Images } = require('../../../lib/collections/FilesCollections')
 

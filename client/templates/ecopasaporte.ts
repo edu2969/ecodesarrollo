@@ -1,3 +1,6 @@
+import { Meteor } from 'meteor/meteor'
+import { Template } from 'meteor/templating'
+import { ReactiveVar } from 'meteor/reactive-var'
 import { Nivel } from '../utils/nivel'
 import { ECOActividades } from '../../lib/ECOActividades'
 import { UIUtils } from '../utils/utils';
@@ -39,7 +42,20 @@ Template.ecopasaporte.onCreated(function () {
 
 const setDesecho = (template) => {
 	const numero = Math.floor(Math.random() * 12) + 1
-	template.desecho.set((numero < 10 ? "0" : "") + numero)
+	template.desecho.set("desecho_" + (numero < 10 ? "0" : "") + numero)
+	$(".desecho img").addClass("rotando")
+	$(".desecho").addClass("lanzamiento")
+	$(".desecho").removeClass("golpe")
+	$(".expresion img").attr("src", "/img/corazon/corazon_verde_cara_02.png")
+}
+
+const setGolpe = (template) => {
+	template.desecho.set("golpe")
+	$(".desecho img").removeClass("rotando")
+	$(".desecho").removeClass("lanzamiento")
+	$(".desecho").addClass("golpe")
+	const cara = Math.floor(Math.random() * 3)
+	$(".expresion img").attr("src", "/img/corazon/corazon_verde_cara_1" + cara + ".png")
 }
 
 Template.ecopasaporte.rendered = function () {
@@ -67,10 +83,12 @@ Template.ecopasaporte.rendered = function () {
 	}
 
 	const template = Template.instance()
-	setDesecho(template)
 	setInterval(function () {
 		setDesecho(template)
-	}, 4000)
+		setTimeout(() => {
+			setGolpe(template)
+		}, 2500)
+	}, 2750)
 }
 
 Template.ecopasaporte.helpers({
