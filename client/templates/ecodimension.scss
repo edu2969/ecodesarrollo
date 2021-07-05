@@ -9,12 +9,12 @@
 	}
 	
 	&.detalle {
-		left: calc(-100% - 20px);
+		left: calc(-100% - 0px);
 	}
 	
 	.grilla {
 		position: relative;
-		overflow-y: scroll;
+		overflow-y: hidden;
 		overflow-x: hidden;
 		padding-top: 14px;
 		left: 0%;
@@ -60,9 +60,26 @@
 		position: relative;
 		display: block;
 		width: 50%;
+		height: calc(100vh - 112px);
 		padding-left: 20px;
+		padding-right: 20px;
 		overflow-x: hidden;
 		overflow-y: scroll;
 	}	
+}
+
+.no-content {
+	display: table-cell;
+	vertical-align: middle;
+	overflow: hidden;
+	text-align: center;
+	width: 100%;
+	margin-top: 10%;
+	.material-icons {
+		font-size: 92px;
+	}
+	p {
+		font-size: 24px;
+	}
 }
 

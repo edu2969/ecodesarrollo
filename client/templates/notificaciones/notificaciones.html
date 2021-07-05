@@ -13,6 +13,11 @@
         <div class="estado">{{estado}}</div>
         <div class="fecha">{{formatoFecha fecha 'DD/MM/yyyy'}}</div>
       </div>
+      {{else}}
+      <div class="no-content">
+        <i class="material-icons">notifications_off</i>
+        <p>Sin notificaciones para resolver</p>
+      </div>
       {{/each}}
     </div>
   </div>
