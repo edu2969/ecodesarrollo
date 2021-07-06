@@ -45,4 +45,8 @@ Meteor.publish('eco_desarrollos.documentos', function() {
 
 Meteor.publish('lugares.comunas', function() {
 	return Comunas.find();
-})
+});
+
+Meteor.publish('ecoorganizaciones.cuadrillas', function() {
+	return ECOOrganizaciones.find();
+});

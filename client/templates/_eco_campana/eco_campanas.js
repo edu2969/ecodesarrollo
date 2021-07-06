@@ -16,6 +16,7 @@ Template.eco_campanas.rendered = () => {
 	});
 	Meteor.subscribe('lugares.comunas')
 	Meteor.subscribe('usuarios.coordinadores')
+	Meteor.subscribe('ecoorganizaciones.cuadrillas')
 }
 
 Template.eco_campanas.helpers({
@@ -129,6 +130,21 @@ Template.eco_campanas.helpers({
         {
           collection: Meteor.users,
           field: "profile.nombre",
+          matchAll: false,
+          template: Template.avatar,
+					noMatchTemplate: Template.noComuna,
+        }
+      ]
+    };
+  },
+  settingsCuadrilla() {
+    return {
+      position: "bottom",
+      limit: 5,
+      rules: [
+        {
+          collection: Meteor.ecoorganizaciones,
+          field: "nombre",
           matchAll: false,
           template: Template.avatar,
 					noMatchTemplate: Template.noComuna,

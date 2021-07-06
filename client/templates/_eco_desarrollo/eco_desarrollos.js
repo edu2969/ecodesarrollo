@@ -1,4 +1,5 @@
 export { Images };
+const { CHILE } = require('/lib/lugares/lugares_CL')
 
 Template.eco_desarrollos.onCreated(function() {
 	this.currentUpload = new ReactiveVar();
@@ -13,6 +14,8 @@ Template.eco_desarrollos.rendered = () => {
 		Meteor.subscribe('eco_desarrollos.imagenes');
 		Meteor.subscribe('eco_desarrollos.documentos');
 	});
+	Meteor.subscribe('lugares.comunas')
+	Meteor.subscribe('usuarios.coordinadores')
 }
 
 Template.eco_desarrollos.helpers({
@@ -98,6 +101,21 @@ Template.eco_desarrollos.helpers({
 			}
 		});
 	},
+	settingsComunas() {
+    return {
+      position: "bottom",
+      limit: 5,
+      rules: [
+        {
+          collection: Comunas,
+          field: "nombre",
+          matchAll: false,
+          template: Template.itemComuna,
+					noMatchTemplate: Template.noComuna,
+        }
+      ]
+    };
+  },
 	documentos() {
 		const template = Template.instance();
 		const ecoDesarrollo = template.ecoDesarrolloSeleccionada.get();
@@ -152,6 +170,9 @@ Template.eco_desarrollos.events({
 		} else {
 			doc.userId = Meteor.userId();
 			doc.ultimaActualizacion = new Date();
+		}
+		if(ecoDesarrollo.comunaId) {
+			doc.comunaId = ecoDesarrollo.comunaId
 		}
 		Meteor.call("ActualizarECODesarrollo", doc, function(err, resp) {
 			if(!err) {
@@ -349,4 +370,10 @@ Template.eco_desarrollos.events({
 		const id = e.currentTarget.id;
 		Documents.remove({_id: id})
 	},
+	"autocompleteselect #input-comuna"(event, template, doc) {
+    console.log("selected ", doc);
+		var ecoDesarrollo = template.ecoDesarrolloSeleccionada.get();
+		ecoDesarrollo.comundaId = doc._id
+		template.ecoDesarrolloSeleccionada.set(ecoDesarrollo)
+  }
 })

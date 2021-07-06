@@ -1,5 +1,6 @@
 export { Images };
 const { ECO_SOS } = require('../../../lib/constantes');
+const { CHILE } = require('/lib/lugares/lugares_CL')
 
 Template.eco_sos.onCreated(function() {
 	this.currentUpload = new ReactiveVar();
@@ -13,6 +14,7 @@ Template.eco_sos.rendered = () => {
 		Meteor.subscribe('eco_sos');
 		Meteor.subscribe('eco_sos.imagenes');
 	});
+	Meteor.subscribe('lugares.comunas')
 }
 
 Template.eco_sos.helpers({
@@ -126,7 +128,22 @@ Template.eco_sos.helpers({
 				imagen: imagen.link()
 			}
 		});
-	}
+	},
+	settingsComunas() {
+    return {
+      position: "bottom",
+      limit: 5,
+      rules: [
+        {
+          collection: Comunas,
+          field: "nombre",
+          matchAll: false,
+          template: Template.itemComuna,
+					noMatchTemplate: Template.noComuna,
+        }
+      ]
+    };
+  },
 });
 
 Template.eco_sos.events({
@@ -159,6 +176,9 @@ Template.eco_sos.events({
 		} else {
 			doc.userId = Meteor.userId();
 			doc.ultimaActualizacion = new Date();
+		}
+		if(ecoSos.comunaId) {
+			doc.comunaId = ecoSos.comunaId
 		}
 		Meteor.call("ActualizarECOSos", doc, function(err, resp) {
 			if(!err) {
@@ -270,5 +290,11 @@ Template.eco_sos.events({
   "click .eliminar"(e) {
 		const id = e.currentTarget.id;
 		Images.remove({ _id: id });
-	}
+	},
+	"autocompleteselect #input-comuna"(event, template, doc) {
+    console.log("selected ", doc);
+		var ecoSos = template.ecoSosSeleccionada.get();
+		ecoSos.comundaId = doc._id
+		template.ecoSosSeleccionada.set(ecoSos)
+  }
 })

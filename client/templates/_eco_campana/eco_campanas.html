@@ -152,7 +152,10 @@
 				<div class="entrada cuadrilla-picker">
 					<div class="campo-entrada">
 						<span>Cuadrillas relacionadas</span><br />
-						<input type="text" class="campo autocomplete" id="input-cuadrillas" value="{{ecoCampana.cuadrillas}}">
+						<!--input type="text" class="campo autocomplete" id="input-coordinador" value="{{ecoCampana.coordinador}}"-->
+						{{> inputAutocomplete settings=settingsCuadrilla id="input-cuadrilla" class="campo"
+						placeholder="Nombre Cuadrilla..."
+						autocomplete="off"}}
 					</div>
 					<div class="avatares">
 						<div class="avatar">

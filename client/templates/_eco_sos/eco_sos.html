@@ -84,8 +84,8 @@
 				</div>
 				<div class="entrada">
 					<span>Comuna</span>
-					<input id="input-comuna" type="text" class="campo autocomplete" placeholder="Comuna"
-						value="{{ecoSos.comuna}}">
+					{{> inputAutocomplete settings=settingsComunas id="input-comuna" class="campo" placeholder="Comuna..."
+					autocomplete="off" value=ecoSos.comuna}}
 				</div>
 				<div class="entrada">
 					<span>Descripción</span>
