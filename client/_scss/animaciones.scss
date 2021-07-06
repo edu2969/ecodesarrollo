@@ -4,7 +4,7 @@
   }
 
   100% {
-    left: calc(100% - 180px);
+    left: calc(100% - 220px);
   }
 }
 
@@ -12,7 +12,7 @@
   0% {
     transform: rotate(0deg);
   }
-
+  
   100% {
     transform: rotate(360deg);
   }
@@ -22,9 +22,16 @@
   display: block;
   position: absolute;
   left: 0%;
-  bottom: 180px;
-  animation: lanzamiento 4s infinite;
-  animation-timing-function: linear;
+  bottom: 140px;
+
+  &.lanzamiento {
+    animation: lanzamiento 2500ms infinite;
+    animation-timing-function: linear;
+  }
+
+  &.golpe {
+    left: calc(100% - 260px);
+  }
 
   img {
     width: 75%;

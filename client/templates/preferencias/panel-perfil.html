@@ -2,16 +2,28 @@
   <div class="marco-perfil" style="display: flex;">
     <div class="marco-foto-perfil">
       <div class="marco-foto">
-        <img src="/img/drag-and-drop.png">
+        <div class="marco-avatar">
+          {{#if perfil.avatar}}
+          <div class="avatar">
+            <img src="{{perfil.avatar}}" />
+          </div>
+          {{else}}
+          <div class="no-imagen">{{perfil.iniciales}}</div>
+          {{/if}}
+          <div class="marco-drop"></div>
+        </div>
         <div class="nombre">{{perfil.nombre}}</div>
         <div class="pseudonimo">{{perfil.pseudonimo}}</div>
         <div class="marco-editar">
           <i class="material-icons">edit</i>
         </div>
+        {{#if perfil.esAdmin}}
         <div class="distintivo">
           <i class="material-icons">star</i>
         </div>
+        {{/if}}
       </div>
+      <input type="file" id="upload-image" style="display: none;">
     </div>
     <div class="marco-informacion">
       <div class="linea">
@@ -19,11 +31,19 @@
         <div class="valor">{{perfil.direccion}}</div>
       </div>
     </div>
-    <div class="formulario-oculto" style="display: none">
+    <div class="formulario-edicion" style="display: none">
       <div class="formulario">
         <div class="entrada">
           <span>Direccion</span>
-          <input class="entrada-formulario">
+          <input type="text" id="input-direccion" class="campo" value="{{perfil.direccion}}">
+        </div>
+        <div class="flex">
+          <div class="neuromorph boton redondo rojo" id="btn-cancelar">
+            <i class="material-icons">clear</i>
+          </div>
+          <div class="neuromorph boton redondo rojo" id="btn-guardar">
+            <i class="material-icons">save</i>
+          </div>
         </div>
       </div>
     </div>

@@ -1,0 +1,60 @@
+.contenedor-notificaciones {
+  .status {
+    display: flex;
+    margin-top: 1.5em;
+    margin-left: 1.5em;
+    .titulo {
+      font-size: 25px;
+    }
+    .pendientes {
+      margin-left: 6px;
+      font-size: 14px;
+    }
+  }
+  .contenedor-listado {
+    display: flex;
+    .notificacion {
+      position: absolute;
+      width: 380px;
+      height: 92px;
+      padding: 1em;
+      margin: 1em;
+      border-radius: 8px;
+      cursor: pointer;
+      .material-icons {
+        position: absolute;
+        font-size: 46px;
+        background-color: rgba(255, 255, 255, 0.2);
+        padding: 8px;
+        border-radius: 50%;
+      }
+      .titulo {
+        position: absolute;
+        font-size: 20px;
+        left: 92px;
+      }
+      .descripcion {
+        position: absolute;
+        font-size: 14px;
+        left: 92px;
+        top: 42px;
+      }
+      .estado {
+        position: absolute;
+        font-size: 14px;
+        left: 240px;
+        text-align: right;
+        width: 120px;
+        top: 8px;
+      }
+      .fecha {
+        position: absolute;
+        font-style: italic;
+        top: 64px;
+        left: 240px;
+        width: 120px;
+        text-align: right;
+      }
+    }
+  }
+}

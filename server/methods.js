@@ -2,29 +2,7 @@ const { CHILE } = require('../lib/lugares/lugares_CL')
 
 Meteor.methods({
 	// ECOOrganizaciones
-	ActualizarECOOrganizacion(doc) {
-		if(doc._id) {
-			const id = doc._id;
-			delete doc._id;
-			ECOOrganizaciones.update({ _id: id }, { $set: doc });
-		} else {
-			const ecoOrganizacionId = ECOOrganizaciones.insert(doc);
-			const img = Images.findOne({
-				userId: Meteor.userId(),
-				"meta.pendiente": true
-			});
-			if(img) {
-				Images.update({ _id: img._id }, {
-					$set: {
-						"meta.ecoOrganizacionId": ecoOrganizacionId
-					},
-					$unset: {
-						"meta.pendiente": true
-					}
-				});
-			}
-		}		
-	},
+
 	ActualizarECOCampana(doc) {
 		if(doc._id) {
 			//debugger;

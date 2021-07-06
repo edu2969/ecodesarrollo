@@ -1,32 +1,39 @@
-const { Nivel } = require("../../utils/nivel");
+
+import { Meteor } from 'meteor/meteor'
+import { Template } from 'meteor/templating'
+import { ReactiveVar } from 'meteor/reactive-var'
+const {
+	UIUtils
+} = require('../../utils/utils')
+const { Nivel } = require("../../utils/nivel")
 
 const validarFormulario = (paso, template) => {
 	const errores = {};
 	var formulario = template.formulario.get();
 	$(".formulario[paso='" + paso + "'] .entrada").removeClass("is-invalid");
 	$(".formulario[paso='" + paso + "'] .entrada").each((index, item) => {
-		const input = item.children[1] && item.children[1].id.indexOf("input")!=-1 ? item.children[1] : 
-		( item.children[2] && item.children[2].id && item.children[2].id.indexOf("input")!=-1 ? 
-		item.children[2] : item );
+		const input = item.children[1] && item.children[1].id.indexOf("input") != -1 ? item.children[1] :
+			(item.children[2] && item.children[2].id && item.children[2].id.indexOf("input") != -1 ?
+				item.children[2] : item);
 		console.log("INPUT -->", input);
 		const id = input.id.split("-")[1];
-		if(id) {
+		if (id) {
 			const requerido = Boolean(input.attributes["required"] && input.attributes["required"].value);
 			const type = input && input.attributes["type"].value;
 			var valor = "";
-			if(type=="text" || type=="password" || type=="email" || type=="numero") {
+			if (type == "text" || type == "password" || type == "email" || type == "numero") {
 				valor = input && $("#input-" + id).val().trim();
 			}
-			if(requerido && valor=="" && (type!="password" || ( type=="password" && !Meteor.userId())) ) {
+			if (requerido && valor == "" && (type != "password" || (type == "password" && !Meteor.userId()))) {
 				errores[id] = {
 					mensaje: "*requerido"
 				}
 				item.classList.add("is-invalid");
-			} else if(valor!="") {
-				if(!formulario) {
+			} else if (valor != "") {
+				if (!formulario) {
 					formulario = {};
 				}
-				formulario[id] = { 
+				formulario[id] = {
 					valor: valor,
 					tipo: type
 				};
@@ -34,7 +41,7 @@ const validarFormulario = (paso, template) => {
 		}
 	});
 	const hayErrores = Object.keys(errores).length;
-	if(hayErrores) {
+	if (hayErrores) {
 		template.errores.set(errores);
 	}
 	template.formulario.set(formulario);
@@ -42,12 +49,12 @@ const validarFormulario = (paso, template) => {
 	return !hayErrores;
 }
 
-Template.registrame.onCreated(function() {
+Template.registrame.onCreated(function () {
 	this.errores = new ReactiveVar(false);
 	this.formulario = new ReactiveVar(false);
 });
 
-Template.registrame.onCreated(function() {
+Template.registrame.onCreated(function () {
 	Nivel.setNivelUsuario();
 })
 
@@ -57,7 +64,7 @@ Template.registrame.helpers({
 	},
 	usuario() {
 		const usuario = Meteor.user();
-		if(usuario) {
+		if (usuario) {
 			return {
 				nombre: usuario.profile.nombre,
 				pseudonimo: usuario.username,
@@ -80,12 +87,12 @@ Template.registrame.helpers({
 	},
 	paso() {
 		const nivel = Nivel.get();
-		if(!nivel || !nivel.nivel1) return false;
+		if (!nivel || !nivel.nivel1) return false;
 		const pasos = Object.keys(nivel.nivel1.pasos);
 		const indice = pasos.findIndex(paso => {
-			return nivel.nivel1.pasos[paso].actual;		
+			return nivel.nivel1.pasos[paso].actual;
 		});
-		return "paso" + ( indice + 1 );
+		return "paso" + (indice + 1);
 	},
 	enLogin() {
 		return Meteor.userId();
@@ -100,25 +107,25 @@ Template.registrame.events({
 			return nivel.nivel1.pasos[paso].actual;
 		}) + 1;
 		var clase = e.currentTarget.classList.value;
-		if(clase.indexOf("derecha")!=-1 && !validarFormulario(paso, template)) {
-			return;	
+		if (clase.indexOf("derecha") != -1 && !validarFormulario(paso, template)) {
+			return;
 		}
-		if( clase.indexOf("izquierda")!=-1 && paso > 1 ) {
-			if(paso==2) {
+		if (clase.indexOf("izquierda") != -1 && paso > 1) {
+			if (paso == 2) {
 				UIUtils.toggle("izquierda", "deshabilitado");
 			}
-			if(paso==3) {
+			if (paso == 3) {
 				UIUtils.toggle("derecha", "deshabilitado");
 			}
 			UIUtils.toggle("carrousel", "paso" + paso);
 			delete nivel.nivel1.pasos["paso" + paso].actual;
-			nivel.nivel1.pasos["paso" + ( paso - 1 )].actual = true;
+			nivel.nivel1.pasos["paso" + (paso - 1)].actual = true;
 			Nivel.set(nivel);
-		} else if( clase.indexOf("derecha")!=-1 && paso <= 3 ) {
-			if(paso==1) {
+		} else if (clase.indexOf("derecha") != -1 && paso <= 3) {
+			if (paso == 1) {
 				UIUtils.toggle("izquierda", "deshabilitado");
 			}
-			if(paso==3) {
+			if (paso == 3) {
 				const formulario = template.formulario.get();
 				UIUtils.toggle("derecha", "deshabilitado");
 				const account = {
@@ -127,18 +134,18 @@ Template.registrame.events({
 					direccion: formulario.direccion.valor,
 					password: formulario.password.valor
 				}
-				if(formulario.pseudonimo) {
+				if (formulario.pseudonimo) {
 					account.pseudonimo = formulario.pseudonimo.valor;
 				}
-				Meteor.call('Usuarios.RegistrarCuenta', account, function(err, resp) {
-					if(!err) {
+				Meteor.call('Usuarios.RegistrarCuenta', account, function (err, resp) {
+					if (!err) {
 						Meteor.loginWithPassword({
 							email: formulario.email.valor
-						}, formulario.password.valor, function(err2, resp2) {
+						}, formulario.password.valor, function (err2, resp2) {
 							Session.set("ModalParams", {
 								esInfo: true,
 								titulo: "Creacion de cuenta",
-								texto: "Tu cuenta de e-mail <b>" + formulario.email.valor + "</b> fue creada con exito" 
+								texto: "Tu cuenta de e-mail <b>" + formulario.email.valor + "</b> fue creada con exito"
 							});
 							UIUtils.toggle("tipo-identificacion", "oculto");
 							Nivel.setNivelUsuario()
@@ -156,7 +163,7 @@ Template.registrame.events({
 				UIUtils.toggle("carrousel", "paso" + paso);
 				delete nivel.nivel1.pasos["paso" + paso].actual;
 				nivel.nivel1.pasos["paso" + paso].completado = true;
-				nivel.nivel1.pasos["paso" + ( paso + 1 )].actual = true;
+				nivel.nivel1.pasos["paso" + (paso + 1)].actual = true;
 				Nivel.set(nivel);
 			}
 		}

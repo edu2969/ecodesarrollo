@@ -1,15 +1,19 @@
+import { Meteor } from 'meteor/meteor'
+import { Template } from 'meteor/templating'
+import { ReactiveVar } from 'meteor/reactive-var'
 import { Nivel } from '../utils/nivel'
-import { ECOActividades } from '../../lib/ECOActividades' 
+import { ECOActividades } from '../../lib/ECOActividades'
+import { UIUtils } from '../utils/utils';
 
 const menuPrincipal = (template) => {
 	UIUtils.toggle("cruz-principal", "oculto");
-  $(".tombola").removeClass("flotalatombola2x");
-  $(".tombola").removeClass("flotalatombola5x");
+	$(".tombola").removeClass("flotalatombola2x");
+	$(".tombola").removeClass("flotalatombola5x");
 	$(".tombola").addClass("flotalatombola2x");
 	UIUtils.toggle("tombola", "desaparece");
-	setTimeout(function() {
+	setTimeout(function () {
 		ECOActividades.set([{
-			espacio: true 
+			espacio: true
 		}, {
 			espacio: true
 		}, {
@@ -24,52 +28,67 @@ const menuPrincipal = (template) => {
 		}]);
 		UIUtils.toggle("tombola", "reaparece");
 		UIUtils.toggle("tombola", "desaparece");
-		setTimeout(function() {
+		setTimeout(function () {
 			UIUtils.toggle("tombola", "reaparece");
 		}, 500);
 	}, 500);
 }
 
-Template.ecopasaporte.onCreated(function() {
+Template.ecopasaporte.onCreated(function () {
 	ECOActividades.init();
 	this.panel = new ReactiveVar(false);
 	this.desecho = new ReactiveVar(false)
 });
 
 const setDesecho = (template) => {
-	const numero = Math.floor( Math.random() * 12 ) + 1
-	template.desecho.set( ( numero < 10 ? "0" : "" ) + numero)
+	const numero = Math.floor(Math.random() * 12) + 1
+	template.desecho.set("desecho_" + (numero < 10 ? "0" : "") + numero)
+	$(".desecho img").addClass("rotando")
+	$(".desecho").addClass("lanzamiento")
+	$(".desecho").removeClass("golpe")
+	$(".expresion img").attr("src", "/img/corazon/corazon_verde_cara_02.png")
 }
 
-Template.ecopasaporte.rendered = function() {		
-	setInterval(function() {
-		setTimeout(function() {
+const setGolpe = (template) => {
+	template.desecho.set("golpe")
+	$(".desecho img").removeClass("rotando")
+	$(".desecho").removeClass("lanzamiento")
+	$(".desecho").addClass("golpe")
+	const cara = Math.floor(Math.random() * 3)
+	$(".expresion img").attr("src", "/img/corazon/corazon_verde_cara_1" + cara + ".png")
+}
+
+Template.ecopasaporte.rendered = function () {
+	setInterval(function () {
+		setTimeout(function () {
 			UIUtils.toggle("cuerpo", "latido");
 		}, 500);
-		
-		setTimeout(function() {
+
+		setTimeout(function () {
 			UIUtils.toggle("cuerpo", "latido");
 		}, 650);
-		
-		setTimeout(function() {
+
+		setTimeout(function () {
 			UIUtils.toggle("cuerpo", "latido");
 		}, 800);
-		
-		setTimeout(function() {
+
+		setTimeout(function () {
 			UIUtils.toggle("cuerpo", "latido");
 		}, 950);
-		
+
 	}, 1500);
 
-	if(Meteor.userId()) {
+	if (Meteor.userId()) {
 		$(".menu-preferencias").toggleClass("oculto");
 	}
 
 	const template = Template.instance()
-	setDesecho(template)
-	setInterval(function() {
+	setInterval(function () {
 		setDesecho(template)
-	}, 4000)
+		setTimeout(() => {
+			setGolpe(template)
+		}, 2500)
+	}, 2750)
 }
 
 Template.ecopasaporte.helpers({
@@ -82,26 +101,26 @@ Template.ecopasaporte.helpers({
 	corazonVerde() {
 		const usuario = Meteor.user();
 		var arregloVacio = new Array(10).fill("vacio");
-		if(!usuario) return {
+		if (!usuario) return {
 			cara: 1,
 			nivel: 0,
 			puntaje: arregloVacio
 		};
 		var corazonVerde = usuario.profile.corazonVerde;
-		if(!corazonVerde) {
+		if (!corazonVerde) {
 			const nivel = Nivel.get();
-			const puntos = Math.floor( ( ( nivel.nivel1.porcentaje || 0 ) * 30 + 
-			( nivel.nivel2.porcentaje || 0 ) * 40 + 
-			( nivel.nivel3.porcentaje || 0 ) * 30 ) / 1000 )
+			const puntos = Math.floor(((nivel.nivel1.porcentaje || 0) * 30 +
+				(nivel.nivel2.porcentaje || 0) * 40 +
+				(nivel.nivel3.porcentaje || 0) * 30) / 1000)
 			corazonVerde = {
 				nivel: 0,
-				puntos: puntos 
+				puntos: puntos
 			}
 		}
 		corazonVerde.cara = corazonVerde.nivel + 1;
 		corazonVerde.puntaje = arregloVacio;
-		if(corazonVerde.puntos) {
-			for(var i = 0; i < corazonVerde.puntos; i++) {
+		if (corazonVerde.puntos) {
+			for (var i = 0; i < corazonVerde.puntos; i++) {
 				corazonVerde.puntaje[9 - i] = "lleno";
 			}
 		}
@@ -115,10 +134,10 @@ Template.ecopasaporte.helpers({
 Template.ecopasaporte.events({
 	"click .actividad"(e, template) {
 		let actividad = e.currentTarget.classList.value;
-		if(actividad.indexOf("sabermas")!=-1) {
+		if (actividad.indexOf("sabermas") != -1) {
 			UIUtils.toggle("tombola", "desaparece");
 			UIUtils.toggle("tombola", "flotalatombola2x");
-			setTimeout(function() {
+			setTimeout(function () {
 				UIUtils.toggle("tombola", "flotalatombola5x");
 				ECOActividades.set([{
 					nombre: "eco_organizaciones",
@@ -141,19 +160,19 @@ Template.ecopasaporte.events({
 				UIUtils.toggle("tombola", "reaparece");
 				UIUtils.toggle("tombola", "desaparece");
 				UIUtils.toggle("cruz-principal", "oculto");
-				setTimeout(function() {
+				setTimeout(function () {
 					UIUtils.toggle("tombola", "reaparece");
 				}, 500);
 			}, 500);
-		} else if(actividad.indexOf("identificate")!=-1) {
+		} else if (actividad.indexOf("identificate") != -1) {
 			template.panel.set({
 				clase: "identificate",
 				color: "verde",
 				esIdentificate: true
 			});
 			UIUtils.toggle("eco-panel", "activo");
-			setTimeout(function() {
-				if(Meteor.userId()) {
+			setTimeout(function () {
+				if (Meteor.userId()) {
 					$(".tipo-identificacion").removeClass("oculto");
 					$(".contendor-identificate").addClass("oculto");
 				} else {
@@ -161,28 +180,28 @@ Template.ecopasaporte.events({
 					$(".tipo-identificacion").addClass("oculto");
 				}
 			}, 300);
-		} else if(actividad.indexOf("eco_organizaciones")!=-1) {
+		} else if (actividad.indexOf("eco_organizaciones") != -1) {
 			template.panel.set({
 				clase: "eco_organizaciones",
 				esECOOrganizaciones: true,
 				color: "purpura"
 			});
 			UIUtils.toggle("eco-panel", "activo");
-		} else if(actividad.indexOf("eco_campanas")!=-1) {
+		} else if (actividad.indexOf("eco_campanas") != -1) {
 			template.panel.set({
 				clase: "eco_campanas",
 				esECOCampanas: true,
 				color: "azul"
 			});
 			UIUtils.toggle("eco-panel", "activo");
-		} else if(actividad.indexOf("eco_desarrollos")!=-1) {
+		} else if (actividad.indexOf("eco_desarrollos") != -1) {
 			template.panel.set({
 				clase: "eco_desarrollos",
 				esECODesarrollos: true,
 				color: "verde"
 			});
 			UIUtils.toggle("eco-panel", "activo");
-		} else if(actividad.indexOf("eco_sos")!=-1) {
+		} else if (actividad.indexOf("eco_sos") != -1) {
 			template.panel.set({
 				clase: "eco_sos",
 				esECOSOS: true,
@@ -193,10 +212,10 @@ Template.ecopasaporte.events({
 	},
 	"click .cruz-panel"(e, template) {
 		UIUtils.toggle("eco-panel", "activo");
-		setTimeout(function() {
+		setTimeout(function () {
 			$(".contendor-identificate").removeClass("oculto");
 			$(".tipo-identificacion").removeClass("oculto");
-			template.panel.set(false);	
+			template.panel.set(false);
 		}, 1000);
 	},
 	"click .cruz-principal"(e, template) {

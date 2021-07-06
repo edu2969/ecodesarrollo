@@ -29,19 +29,60 @@
         left: 190px;
         top: -10px;
         padding: 2px 2px 0px 2px;
+        cursor: pointer;
       }
       .nombre {
         position:  absolute;
         font-size: 22px;
         top: 180px;
       }
-      img {
+      
+      .marco-avatar {
         position: absolute;
+        display: block;
         width: 180px;
         height: 180px;
-        border-radius: 50%;
-        border: 2px solid white;
         left: 15px;
+        z-index: 0;
+        cursor: pointer;
+
+        .no-imagen {
+          width: 180px;
+          height: 180px;
+          border-radius: 50%;
+          border: 2px solid white;
+          background-color: blueviolet;
+          color: white;
+          font-size: 72px;
+          left: 15px;
+          text-align: center;
+          padding-top: 36px;
+        }
+
+        .avatar img {
+          width: 180px;
+          height: 180px;
+          border-radius: 50%;
+          border: 2px solid white;
+        }
+
+        .marco-drop {
+          position: absolute;
+          opacity: 0;
+          width: 180px;
+          height: 180px;
+          background-image: url(/img/drag-and-drop.png);				
+          background-size: cover;					
+          background-position: center;
+          border-radius: 50%;
+          top: 0px;
+          left: 0px;
+          z-index: 1;
+
+          &.drop {
+            opacity: 1;
+          }
+        }
       }
     }
   }
@@ -59,5 +100,9 @@
         content: ': ';
       }
     }
+  }
+
+  .formulario-edicion {
+    margin-top: 2em;
   }
 }

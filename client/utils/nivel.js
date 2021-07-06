@@ -1,3 +1,5 @@
+const { Depositos } = require("../../lib/collections/BaseCollections");
+
 const Nivel = {
   setNivelUsuario() {
     const nivel = {};

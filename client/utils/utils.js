@@ -1,10 +1,10 @@
-VERSION = "2.0";
+export const VERSION = "2.0";
 
-IsEmpty = (valor) => {
+export const IsEmpty = (valor) => {
 	return Object.keys(valor).length === 0 && valor.constructor === Object
 }
 
-UIUtils = {
+export const UIUtils = {
   toggleVisible: (global, selector) => {  
     var elementos = document.querySelectorAll("." + global);
     for(var i=0; i < elementos.length; i++) {
@@ -35,7 +35,7 @@ UIUtils = {
 	}
 }
 // este ulilitario recibe y recorre el formulario ,luego  lo deja en un arreglo Json doc.
-FormUtils = {
+export const FormUtils = {
 	getFields: () => {
 		let doc = {};
 		$(".formulario .campo").each((indice, campo)=> {

@@ -5,19 +5,31 @@
   .info-ecodimensiones {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     .cuadro-indicador {
       position: relative;
       display: block;
-      width: 180px;
+      width: 240px;
       height: 180px;
       border-radius: 10px;
       margin: 1em;
+      padding: 0 1em;
+      text-align: center;
+
+      .valor {
+        position: relative;
+        top: -12px;
+        font-family: ArcadeClasic;
+        font-size: 80px;
+      }
       .material-icons {
         position: relative;
-        font-size: 70px;
+        margin-top: -46px;
+        font-size: 60px;
+        width: 100%;
       }
       .titulo {
-        
+        width: 100%;
       }
     }
   }

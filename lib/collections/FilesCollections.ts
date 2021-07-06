@@ -1,15 +1,16 @@
-import { FilesCollection } from 'meteor/ostrio:files';
+import { FilesCollection } from 'meteor/ostrio:files'
+import { Meteor } from 'meteor/meteor'
 
 var HomePath = process.env.PWD ? process.env.PWD : process.cwd();
 
-Images = new FilesCollection({
+export const Images = new FilesCollection({
   collectionName: 'Images',
   allowClientCode: true,
   storagePath: () => {
     return Meteor.absoluteUrl().indexOf('localhost:3000') != -1 ?
       `../../../../../uploads/images` :
       Meteor.absoluteUrl().indexOf('ecodesarrollo.cl') != -1 ?
-      "/home/ecousuario/uploads/images" : "/home/ecousuario/uploads/images";
+        "/home/ecousuario/uploads/images" : "/home/ecousuario/uploads/images";
   },
   /*transport: Meteor.absoluteUrl().indexOf('localhost:3000') != -1 ? 'http' : 'https',
    */
@@ -21,14 +22,14 @@ Images = new FilesCollection({
   }
 });
 
-Documents = new FilesCollection({
+export const Documents = new FilesCollection({
   collectionName: 'Documents',
   allowClientCode: true,
   storagePath: () => {
     return Meteor.absoluteUrl().indexOf('localhost:3000') != -1 ?
       `../../../../../uploads/documents` :
       Meteor.absoluteUrl().indexOf('ecodesarrollo.cl') != -1 ?
-      "/home/ecousuario/uploads/documents" : "/home/ecousuario/uploads/documents";
+        "/home/ecousuario/uploads/documents" : "/home/ecousuario/uploads/documents";
   },
   /*transport: Meteor.absoluteUrl().indexOf('localhost:3000') != -1 ? 'http' : 'https',
    */
