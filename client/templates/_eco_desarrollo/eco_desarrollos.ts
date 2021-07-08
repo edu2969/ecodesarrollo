@@ -3,6 +3,7 @@ import { Template } from 'meteor/templating'
 import { Tracker } from 'meteor/tracker'
 import { ReactiveVar } from 'meteor/reactive-var'
 import { Session } from 'meteor/session'
+const { Comunas } = require('../../../lib/collections/BaseCollections')
 const { ECODesarrollos } = require('../../../lib/collections/ECODimensionesCollections')
 const {
 	Images,
@@ -26,6 +27,8 @@ Template.eco_desarrollos.rendered = () => {
 		Meteor.subscribe('eco_desarrollos.imagenes');
 		Meteor.subscribe('eco_desarrollos.documentos');
 	});
+	Meteor.subscribe('lugares.comunas')
+	Meteor.subscribe('usuarios.coordinadores')
 }
 
 Template.eco_desarrollos.helpers({
@@ -110,6 +113,21 @@ Template.eco_desarrollos.helpers({
 				imagen: imagen.link()
 			}
 		});
+	},
+	settingsComunas() {
+		return {
+			position: "bottom",
+			limit: 5,
+			rules: [
+				{
+					collection: Comunas,
+					field: "nombre",
+					matchAll: false,
+					template: Template.itemComuna,
+					noMatchTemplate: Template.noComuna,
+				}
+			]
+		};
 	},
 	documentos() {
 		const template = Template.instance();
@@ -362,4 +380,10 @@ Template.eco_desarrollos.events({
 		const id = e.currentTarget.id;
 		Documents.remove({ _id: id })
 	},
+	"autocompleteselect #input-comuna"(event, template, doc) {
+		console.log("selected ", doc);
+		var ecoDesarrollo = template.ecoDesarrolloSeleccionada.get();
+		ecoDesarrollo.comundaId = doc._id
+		template.ecoDesarrolloSeleccionada.set(ecoDesarrollo)
+	}
 })
