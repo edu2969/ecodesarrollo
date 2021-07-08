@@ -2,6 +2,7 @@
 import { Meteor } from 'meteor/meteor'
 import { Template } from 'meteor/templating'
 import { ReactiveVar } from 'meteor/reactive-var'
+import { Session } from 'meteor/session'
 const {
 	UIUtils
 } = require('../../utils/utils')
@@ -147,10 +148,10 @@ Template.registrame.events({
 								titulo: "Creacion de cuenta",
 								texto: "Tu cuenta de e-mail <b>" + formulario.email.valor + "</b> fue creada con exito"
 							});
-							UIUtils.toggle("tipo-identificacion", "oculto");
+							$(".seccion-identificate").addClass("oculto")
 							Nivel.setNivelUsuario()
 							$(".wizzard").toggleClass("oculto");
-							$(".contendor-identificate").toggleClass("oculto");
+							$(".tipo-identificacion").removeClass("oculto");
 							$("#modalgeneral").modal("show");
 						});
 					} else {

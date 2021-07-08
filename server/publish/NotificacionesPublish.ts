@@ -8,6 +8,7 @@ Meteor.publishComposite('Notificaciones.listado', function () {
   return {
     find() {
       const usuario = Meteor.user()
+      if (!usuario) return false
       let tipos: Array<string>
       let query: any = {}
       if (usuario.profile.rol == 1) {
