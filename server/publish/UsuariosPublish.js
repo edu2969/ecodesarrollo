@@ -1,7 +1,7 @@
 const { Depositos } = require("../../lib/collections/BaseCollections");
 const { Images } = require("../../lib/collections/FilesCollections");
 
-Meteor.publish('usuarios.profile', function() {
+Meteor.publish('usuarios.profile', function () {
   const usuarioId = this.userId
   return Images.find({
     userId: usuarioId,
@@ -9,20 +9,20 @@ Meteor.publish('usuarios.profile', function() {
   }).cursor
 })
 
-Meteor.publish('usuarios.comprobantes', function() {
+Meteor.publish('usuarios.comprobantes', function () {
   const usuarioId = this.userId;
-	return Images.find({
+  return Images.find({
     userId: usuarioId,
     "meta.tipo": "deposito"
   }).cursor;
 });
 
-Meteor.publish('usuarios.depositos', function() {
+Meteor.publish('usuarios.depositos', function () {
   const usuarioId = this.userId;
-	return Depositos.find({ usuarioId: usuarioId });
+  return Depositos.find({ usuarioId: usuarioId });
 });
 
-Meteor.publishComposite('usuarios.coordinadores', function() {
+Meteor.publishComposite('usuarios.coordinadores', function () {
   return {
     find() {
       return Meteor.users.find({}, {
@@ -30,10 +30,10 @@ Meteor.publishComposite('usuarios.coordinadores', function() {
           "profile.nombre": 1
         }
       })
-    }, 
+    },
     children: [{
       find(usuario) {
-        return Images.find({ usuarioId: usuario._id }, { meta: {}}).cursor
+        return Images.find({ usuarioId: usuario._id }, { meta: {} }).cursor
       }
     }]
   }

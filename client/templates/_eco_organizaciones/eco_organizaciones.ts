@@ -2,9 +2,9 @@ import { Meteor } from 'meteor/meteor'
 import { Template } from 'meteor/templating'
 import { Tracker } from 'meteor/tracker'
 import { ReactiveVar } from 'meteor/reactive-var'
-import { UIUtils } from '../../utils/utils'
-const { ECOOrganizaciones } = require('../../../lib/collections/ECODimensionesCollections')
-const { Images } = require('../../../lib/collections/FilesCollections')
+import { UIUtils, FormUtils } from '../../utils/utils'
+import { Images } from '../../../lib/collections/FilesCollections'
+import { ECOOrganizaciones } from '../../../lib/collections/ECODimensionesCollections'
 
 Template.eco_organizaciones.onCreated(function () {
 	this.currentUpload = new ReactiveVar();
@@ -43,6 +43,7 @@ Template.eco_organizaciones.helpers({
 			ecoOrganizacion.avatar = img ? img.link() : '/img/no_image_available.jpg';
 			ecoOrganizacion.integrantes = 0;
 			ecoOrganizacion.donaciones = 0;
+			console.log(ecoOrganizacion)
 			return ecoOrganizacion;
 		});
 	},
@@ -50,8 +51,8 @@ Template.eco_organizaciones.helpers({
 		const template = Template.instance();
 		let ecoOrganizacion = template.ecoOrganizacionSeleccionada.get();
 		if (!ecoOrganizacion) return;
-		const userId = Meteor.userId();
-		if (userId == ecoOrganizacion.userId) {
+		const usuarioId = Meteor.userId();
+		if (usuarioId == ecoOrganizacion.usuarioId) {
 			ecoOrganizacion.esPropia = true;
 		}
 		const img = Images.findOne({
@@ -101,11 +102,10 @@ Template.eco_organizaciones.events({
 		if (ecoOrganizacion._id) {
 			doc._id = ecoOrganizacion._id;
 		} else {
-			doc.userId = Meteor.userId();
+			doc.usuarioId = Meteor.userId();
 			doc.ultimaActualizacion = new Date();
 		}
-
-		Meteor.call("ActualizarECOOrganizacion", doc, function (err, resp) {
+		Meteor.call("ECOOrganizaciones.Actualizar", doc, function (err, resp) {
 			if (!err) {
 				UIUtils.toggle("carrousel", "modo-listado");
 				UIUtils.toggle("carrousel", "detalle");
@@ -113,6 +113,8 @@ Template.eco_organizaciones.events({
 				template.ecoOrganizacionSeleccionada.set(false);
 				template.editando.set(false);
 				template.enListado.set(true);
+			} else {
+				console.error(err)
 			}
 		})
 	},

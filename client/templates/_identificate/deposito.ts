@@ -3,6 +3,7 @@ import { Meteor } from 'meteor/meteor'
 import { Template } from 'meteor/templating'
 import { Tracker } from 'meteor/tracker'
 import { ReactiveVar } from 'meteor/reactive-var'
+import { Session } from 'meteor/session'
 const { Comprobante } = require('../../../lib/collections/BaseCollections')
 const { Images } = require('../../../lib/collections/FilesCollections')
 

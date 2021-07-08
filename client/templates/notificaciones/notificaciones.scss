@@ -13,9 +13,10 @@
   }
   .contenedor-listado {
     display: flex;
+    flex-wrap: wrap;
     .notificacion {
-      position: absolute;
-      width: 380px;
+      position: relative;
+      width: calc(50% - 4em);
       height: 92px;
       padding: 1em;
       margin: 1em;

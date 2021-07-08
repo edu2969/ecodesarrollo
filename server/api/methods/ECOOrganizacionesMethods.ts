@@ -3,15 +3,36 @@ import SimpleSchema from 'simpl-schema'
 import { ValidatedMethod } from 'meteor/mdg:validated-method'
 import { Images } from '/lib/collections/FilesCollections'
 const { ECOOrganizaciones } = require('/lib/collections/ECODimensionesCollections')
+const NoficacionesServices = require('../services/NotificacionesServices')
 
 export const Actualizar = new ValidatedMethod({
   name: 'ECOOrganizaciones.Actualizar',
   validate: new SimpleSchema({
-    id: {
+    _id: {
+      type: String,
+      optional: true
+    },
+    usuarioId: {
+      type: String,
+      optional: true
+    },
+    nombre: {
       type: String
     },
-    doc: {
-      type: Object
+    tipo: {
+      type: String
+    },
+    subtipo: {
+      type: String,
+    },
+    telefono: {
+      type: String
+    },
+    contacto: {
+      type: String
+    },
+    resena: {
+      type: String
     }
   }).validator({
     clean: true,
@@ -23,9 +44,11 @@ export const Actualizar = new ValidatedMethod({
       ECOOrganizaciones.update({ _id: id }, { $set: doc });
     } else {
       doc.pendiente = true
+      const usuarioId = Meteor.userId()
       const ecoOrganizacionId = ECOOrganizaciones.insert(doc);
+      NoficacionesServices.nuevaECOOrganizacion(usuarioId, ecoOrganizacionId)
       const img = Images.findOne({
-        userId: Meteor.userId(),
+        userId: usuarioId,
         "meta.pendiente": true
       });
       if (img) {
