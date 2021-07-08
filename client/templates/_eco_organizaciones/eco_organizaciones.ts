@@ -43,7 +43,6 @@ Template.eco_organizaciones.helpers({
 			ecoOrganizacion.avatar = img ? img.link() : '/img/no_image_available.jpg';
 			ecoOrganizacion.integrantes = 0;
 			ecoOrganizacion.donaciones = 0;
-			console.log(ecoOrganizacion)
 			return ecoOrganizacion;
 		});
 	},
