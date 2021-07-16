@@ -14,14 +14,27 @@
   .contenedor-listado {
     display: flex;
     flex-wrap: wrap;
+
     .notificacion {
       position: relative;
-      width: calc(50% - 4em);
       height: 92px;
       padding: 1em;
       margin: 1em;
       border-radius: 8px;
       cursor: pointer;
+
+      @media screen and (max-width: 800px) {
+        width: calc(100% - 4em);
+      }
+
+      @media screen and (min-width: 801px) and (max-width: 1280px) {
+        width: calc(50% - 4em);
+      }
+
+      @media screen and (min-width: 1281px) {
+        width: calc(33.333333% - 4em);
+      }
+
       .material-icons {
         position: absolute;
         font-size: 46px;
@@ -43,17 +56,19 @@
       .estado {
         position: absolute;
         font-size: 14px;
-        left: 240px;
+        left: 0px;
         text-align: right;
-        width: 120px;
-        top: 8px;
+        width: 100%;
+        padding-right: 0.5em;
+        top: 48px;
       }
       .fecha {
         position: absolute;
         font-style: italic;
         top: 64px;
-        left: 240px;
-        width: 120px;
+        left: 0px;
+        width: 100%;
+        padding-right: 0.5em;
         text-align: right;
       }
     }

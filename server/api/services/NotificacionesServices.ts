@@ -1,6 +1,6 @@
 import { Notificaciones } from '../../../lib/collections/BaseCollections'
-import { EstadoType } from "./EstadoType";
-import { NotificacionType } from "./NotificacionType";
+import { EstadoType } from '/lib/types/EstadoType';
+import { NotificacionType } from '/lib/types/NotificacionType';
 
 export const nuevoUsuario = (usuarioId: string) {
   Notificaciones.insert({

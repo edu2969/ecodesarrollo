@@ -421,16 +421,11 @@
 
 .rincon-derecho {
 	display: block;
-	visibility: visible;
 	position: absolute;
 	right: 10px;
 	top: 10px;
 	transition: all 0.5 ease;
 	cursor: pointer;
-	
-	&.oculto {
-		visibility: hidden;
-	}
 
 	i {
 		font-size: 40px;

@@ -32,7 +32,6 @@ const iniciarTombola = (template) => {
     }]);
     UIUtils.toggle("tombola", "reaparece");
     UIUtils.toggle("tombola", "desaparece");
-    UIUtils.toggle("menu-preferencias", "oculto");
     setTimeout(function () {
       UIUtils.toggle("tombola", "reaparece");
     }, 500);

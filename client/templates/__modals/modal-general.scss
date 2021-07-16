@@ -12,6 +12,7 @@
       font-size: 30px;
       padding: 20px;
       border-radius: 50%;
+      text-align: center;
     }
   }
   .nombre {
@@ -21,15 +22,29 @@
   }
   .deposito {
     font-size: 16px;
-    width: 280px;
     border-radius: 8px;
     padding: 1em;
     border: 2px solid black;
     margin: auto;
+    &.texto {
+      width: 280px;
+    }
+    &.comprobante {
+      width: 100%;
+    }
   }
   .fecha {
-    width: 280px;
-    margin: auto;
+    width: 100%;
+    text-align: right;
     font-style: italic;
+  }
+  .ecodimension-content {
+    width: 100%;
+    .imagen {
+      width: 100%;
+      img {
+        width: 100%;
+      }
+    }
   }
 }

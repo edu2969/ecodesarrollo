@@ -4,7 +4,7 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method'
 import { Depositos } from '/lib/collections/BaseCollections'
 import NotificacionesServices from '../services/NotificacionesServices'
 import { Notificaciones } from '../../../lib/collections/BaseCollections'
-import { EstadoType } from '../services/EstadoType'
+import { EstadoType } from '/lib/types/EstadoType'
 
 export const IngresarDepositoNoConfirmado = new ValidatedMethod({
   name: 'Usuarios.IngresarDepositoNoConfirmado',
