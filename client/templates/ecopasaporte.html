@@ -58,9 +58,11 @@
 		{{/if}}
 	</div>
 
-	<div class="rincon-derecho menu-preferencias oculto">
+	{{#if enLogin}}
+	<div class="rincon-derecho menu-preferencias">
 		<i class="material-icons">settings</i>
 	</div>
+	{{/if}}
 
 	<div class="eco-panel {{panel.clase}} {{panel.color}}">
 		<div class="rincon-derecho cruz-panel">

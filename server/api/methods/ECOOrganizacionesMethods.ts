@@ -2,6 +2,8 @@ import { Meteor } from 'meteor/meteor'
 import SimpleSchema from 'simpl-schema'
 import { ValidatedMethod } from 'meteor/mdg:validated-method'
 import { Images } from '/lib/collections/FilesCollections'
+import { Notificaciones } from '../../../lib/collections/BaseCollections'
+import { EstadoType } from '/lib/types/EstadoType'
 const { ECOOrganizaciones } = require('/lib/collections/ECODimensionesCollections')
 const NoficacionesServices = require('../services/NotificacionesServices')
 
@@ -64,3 +66,61 @@ export const Actualizar = new ValidatedMethod({
     }
   }
 });
+
+export const AprobarNueva = new ValidatedMethod({
+  name: 'ECOOrganizaciones.AprobarNueva',
+  validate: new SimpleSchema({
+    notificacionId: {
+      type: String
+    }
+  }).validator({
+    clean: true
+  }),
+  run(doc) {
+    const usuarioId = Meteor.userId()
+    const notificacion = Notificaciones.findOne({ _id: doc.notificacionId })
+    let historial = notificacion.historial
+    historial.push({
+      estado: EstadoType.Aprobado,
+      fecha: new Date()
+    })
+    Notificaciones.update({
+      _id: doc.notificacionId
+    }, {
+      $set: {
+        estado: EstadoType.Aprobado,
+        historial: historial
+      }
+    })
+    return true
+  }
+})
+
+export const RechazarNueva = new ValidatedMethod({
+  name: 'ECOOrganizaciones.Rechazar',
+  validate: new SimpleSchema({
+    notificacionId: {
+      type: String
+    }
+  }).validator({
+    clean: true
+  }),
+  run(doc) {
+    const usuarioId = Meteor.userId()
+    const notificacion = Notificaciones.findOne({ _id: doc.notificacionId })
+    let historial = notificacion.historial
+    historial.push({
+      estado: EstadoType.Rechazado,
+      fecha: new Date()
+    })
+    Notificaciones.update({
+      _id: doc.notificacionId
+    }, {
+      $set: {
+        estado: EstadoType.Rechazado,
+        historial: historial
+      }
+    })
+    return true
+  }
+})

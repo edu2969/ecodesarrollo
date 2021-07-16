@@ -78,10 +78,6 @@ Template.ecopasaporte.rendered = function () {
 
 	}, 1500);
 
-	if (Meteor.userId()) {
-		$(".menu-preferencias").toggleClass("oculto");
-	}
-
 	const template = Template.instance()
 	setInterval(function () {
 		setDesecho(template)
@@ -105,7 +101,7 @@ Template.ecopasaporte.helpers({
 			cara: 1,
 			nivel: 0,
 			puntaje: arregloVacio
-		};
+		}
 		var corazonVerde = usuario.profile.corazonVerde;
 		if (!corazonVerde) {
 			const nivel = Nivel.get();
@@ -128,6 +124,9 @@ Template.ecopasaporte.helpers({
 	},
 	desecho() {
 		return Template.instance().desecho.get()
+	},
+	enLogin() {
+		return Meteor.userId()
 	}
 })
 
@@ -234,7 +233,7 @@ Template.ecopasaporte.events({
 		$(".panel-preferencias").toggleClass("activo");
 	},
 	"click .opcion-logout"(e, template) {
-		$(".menu-preferencias").toggleClass("oculto");
+		$(".menu-preferencias").addClass("oculto");
 		$(".panel-preferencias").toggleClass("activo");
 		Meteor.logout();
 		menuPrincipal(template);
