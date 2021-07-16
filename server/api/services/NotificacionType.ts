@@ -2,9 +2,11 @@ export const NotificacionType = {
   NuevoUsuario: "NuevoUsuario",
   NuevaECOOrganizacion: "NuevaECOOrganizacion",
   NuevoECODesarrollo: "NuevoECODesarrollo",
-  NuevaECOCapana: "NuevaECOCapana",
-  NuevoECOSOS: "NuevoECOSOS",
+  NuevaECOCampana: "NuevaECOCampana",
+  NuevoECOSos: "NuevoECOSos",
   EntrarECOOrganizacion: "EntrarECOOrganizacion",
+  EntrarECODesarrollo: "EntrarECODesarrollo",
+  EntrarECOSos: "EntrarECOSos",
   ParticiparECOCamapa: "ParticiparECOCamapa",
   Donacion: "Donacion"
 }

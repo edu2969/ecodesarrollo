@@ -184,14 +184,16 @@ Template.eco_desarrollos.events({
 			doc.userId = Meteor.userId();
 			doc.ultimaActualizacion = new Date();
 		}
-		Meteor.call("ActualizarECODesarrollo", doc, function (err, resp) {
+		Meteor.call("ECODesarrollos.Actualizar", doc, function (err, resp) {
 			if (!err) {
-				UIUtils.toggle("carrousel", "grilla");
+				UIUtils.toggle("carrousel", "modo-listado");
 				UIUtils.toggle("carrousel", "detalle");
 				UIUtils.toggle("navegacion-atras", "activo");
 				template.ecoDesarrolloSeleccionada.set(false);
 				template.editando.set(false);
 				template.enListado.set(true);
+			} else {
+				console.error(err)
 			}
 		})
 	},
@@ -381,7 +383,7 @@ Template.eco_desarrollos.events({
 		Documents.remove({ _id: id })
 	},
 	"autocompleteselect #input-comuna"(event, template, doc) {
-		console.log("selected ", doc);
+		//console.log("selected ", doc);
 		var ecoDesarrollo = template.ecoDesarrolloSeleccionada.get();
 		ecoDesarrollo.comundaId = doc._id
 		template.ecoDesarrolloSeleccionada.set(ecoDesarrollo)

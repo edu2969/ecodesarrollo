@@ -29,6 +29,47 @@ export const nuevaECOOrganizacion = (usuarioId: string, ecoOrganizacionId: strin
   })
 }
 
+export const nuevaECOCampana = (usuarioId: string, ecoCampanaId: string) {
+  Notificaciones.insert({
+    tipo: NotificacionType.NuevaECOCampana,
+    fecha: new Date(),
+    estado: EstadoType.Pendiente,
+    usuarioId: usuarioId,
+    ecoCampanaId: ecoCampanaId,
+    historial: [{
+      estado: EstadoType.Pendiente,
+      fecha: new Date()
+    }]
+  })
+}
+
+export const nuevoECODesarrollo = (usuarioId: string, ecoDesarrolloId: string) {
+  Notificaciones.insert({
+    tipo: NotificacionType.NuevoECODesarrollo,
+    fecha: new Date(),
+    estado: EstadoType.Pendiente,
+    usuarioId: usuarioId,
+    ecoDesarrolloId: ecoDesarrolloId,
+    historial: [{
+      estado: EstadoType.Pendiente,
+      fecha: new Date()
+    }]
+  })
+}
+export const nuevoECOSos = (usuarioId: string, ecoSosId: string) {
+  Notificaciones.insert({
+    tipo: NotificacionType.NuevoECOSos,
+    fecha: new Date(),
+    estado: EstadoType.Pendiente,
+    usuarioId: usuarioId,
+    ecoSosId: ecoSosId,
+    historial: [{
+      estado: EstadoType.Pendiente,
+      fecha: new Date()
+    }]
+  })
+}
+
 const cambiarEstadoNotificacion = (id: string, estado: EstadoType) {
   const notificacion = Notificaciones.findOne(id);
   let estados = notificacion.historial

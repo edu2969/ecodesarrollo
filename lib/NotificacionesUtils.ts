@@ -11,11 +11,11 @@ export const NotificacionesTraductor = {
     glosa: "Nuevo ECODesarrollo",
     icono: "architecture",
   },
-  NuevaECOCapana: {
-    glosa: "Nueva ECOCapaña",
+  NuevaECOCampana: {
+    glosa: "Nueva ECOCampaña",
     icono: "campaign",
   },
-  NuevoECOSOS: {
+  NuevoECOSos: {
     glosa: "Nuevo ECOSOS",
     icono: "support",
   },
@@ -23,8 +23,16 @@ export const NotificacionesTraductor = {
     glosa: "Solicitud Incorporación",
     icono: "engineering",
   },
-  ParticiparECOCamapa: {
-    glosa: "Participar ECOCamapaña",
+  EntrarECOCampana: {
+    glosa: "Solicitud Incorporación",
+    icono: "engineering",
+  },
+  EntrarEcoDesarrollo: {
+    glosa: "Participar ECODesarrollo",
+    icono: "credit_score",
+  },
+  EntrarECOSos: {
+    glosa: "Participar ECOSos",
     icono: "credit_score",
   },
   Donacion: {

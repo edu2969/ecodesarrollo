@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor'
 import { Template } from 'meteor/templating'
 import { Tracker } from 'meteor/tracker'
 import { ReactiveVar } from 'meteor/reactive-var'
+const { Comunas } = require('../../../lib/collections/BaseCollections')
 const { ECOSos } = require('../../../lib/collections/ECODimensionesCollections')
 const { Images } = require('../../../lib/collections/FilesCollections')
 const { ECO_SOS } = require('../../../lib/constantes')
@@ -188,14 +189,16 @@ Template.eco_sos.events({
 		if (ecoSos.comunaId) {
 			doc.comunaId = ecoSos.comunaId
 		}
-		Meteor.call("ActualizarECOSos", doc, function (err, resp) {
+		Meteor.call("ECOSos.Actualizar", doc, function (err, resp) {
 			if (!err) {
-				UIUtils.toggle("carrousel", "grilla");
+				UIUtils.toggle("carrousel", "modo-listado");
 				UIUtils.toggle("carrousel", "detalle");
 				UIUtils.toggle("navegacion-atras", "activo");
 				template.ecoSosSeleccionada.set(false);
 				template.editando.set(false);
 				template.enListado.set(true);
+			} else {
+				console.error(err)
 			}
 		})
 	},
@@ -300,7 +303,7 @@ Template.eco_sos.events({
 		Images.remove({ _id: id });
 	},
 	"autocompleteselect #input-comuna"(event, template, doc) {
-		console.log("selected ", doc);
+		//console.log("selected ", doc);
 		var ecoSos = template.ecoSosSeleccionada.get();
 		ecoSos.comundaId = doc._id
 		template.ecoSosSeleccionada.set(ecoSos)

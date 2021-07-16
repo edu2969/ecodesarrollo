@@ -15,7 +15,7 @@ Meteor.publishComposite('Notificaciones.listado', function () {
         tipos = [
           NotificacionType.NuevoUsuario,
           NotificacionType.Donacion,
-          NotificacionType.NuevaECOCapana,
+          NotificacionType.NuevaECOCampana,
           NotificacionType.NuevaECOOrganizacion,
           NotificacionType.NuevoECODesarrollo,
           NotificacionType.NuevoECOSOS
@@ -23,7 +23,8 @@ Meteor.publishComposite('Notificaciones.listado', function () {
       } else {
         tipos = [
           NotificacionType.EntrarECOOrganizacion,
-          NotificacionType.ParticiparECOCamapa
+          NotificacionType.EntrarECOCampana,
+          NotificacionType.EntrarECOdesarrollo
         ]
         query.usuarioId = usuario._id
       }

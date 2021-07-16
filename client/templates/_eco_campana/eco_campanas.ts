@@ -2,8 +2,8 @@ import { Meteor } from 'meteor/meteor'
 import { Template } from 'meteor/templating'
 import { Tracker } from 'meteor/tracker'
 import { ReactiveVar } from 'meteor/reactive-var'
-import { UIUtils } from '../../utils/utils'
-const { ECOCampanas } = require('../../../lib/collections/ECODimensionesCollections')
+import { UIUtils, FormUtils } from '../../utils/utils'
+import { ECOCampanas } from '../../../lib/collections/ECODimensionesCollections'
 const { Comunas } = require('../../../lib/collections/BaseCollections')
 const { Images } = require('../../../lib/collections/FilesCollections')
 const { ECO_CAMPANAS } = require('../../../lib/constantes')
@@ -196,16 +196,18 @@ Template.eco_campanas.events({
 			doc.comunaId = ecoCampana.comunaId
 		}
 
-		console.log("SETEANDO", doc)
+		//console.log("SETEANDO", doc)
 
-		Meteor.call("ActualizarECOCampana", doc, function (err, resp) {
+		Meteor.call("ECOCampanas.Actualizar", doc, function (err, resp) {
 			if (!err) {
-				UIUtils.toggle("carrousel", "grilla");
+				UIUtils.toggle("carrousel", "modo-listado");
 				UIUtils.toggle("carrousel", "detalle");
 				UIUtils.toggle("navegacion-atras", "activo");
 				template.ecoCampanaSeleccionada.set(false);
 				template.editando.set(false);
 				template.enListado.set(true);
+			} else {
+				console.error(err)
 			}
 		})
 	},
@@ -327,7 +329,7 @@ Template.eco_campanas.events({
 		Images.remove({ _id: id });
 	},
 	"autocompleteselect #input-comuna"(event, template, doc) {
-		console.log("selected ", doc);
+		//console.log("selected ", doc);
 		var ecoCampana = template.ecoCampanaSeleccionada.get();
 		ecoCampana.comundaId = doc._id
 		template.ecoCampanaSeleccionada.set(ecoCampana)
