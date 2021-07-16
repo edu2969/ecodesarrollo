@@ -76,9 +76,10 @@
 					<input type="text" class="campo" id="input-direccion" placeholder="Dirección"
 						value="{{ecoCampana.direccion}}">
 				</div>
-				<div class="entrada">
+				<div class="entrada" style="position: relative;">
 					<span>Comuna</span>
-					{{> inputAutocomplete settings=settingsComunas id="input-comuna" class="campo" placeholder="Comuna..."
+					{{> inputAutocomplete settings=settingsComunas id="input-comuna"
+					class="campo" placeholder="Comuna..."
 					autocomplete="off" value=ecoCampana.comuna}}
 				</div>
 				<div class="flex">
@@ -135,12 +136,10 @@
 					</div>
 				</div>
 				<div class="entrada usuario-picker">
-					<div class="campo-entrada">
-						<span>Coordinador</span><br />
-						<!--input type="text" class="campo autocomplete" id="input-coordinador" value="{{ecoCampana.coordinador}}"-->
+					<div class="campo-entrada" style="position: relative;">
+						<span>Coordinador</span>
 						{{> inputAutocomplete settings=settingsCoordinador id="input-coordinador" class="campo"
-						placeholder="Nombre..."
-						autocomplete="off"}}
+						placeholder="Nombre..." autocomplete="off"}}
 					</div>
 					{{#if coordinador}}
 					<div class="avatar">

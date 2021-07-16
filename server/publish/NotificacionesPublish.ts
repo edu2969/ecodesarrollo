@@ -24,7 +24,7 @@ Meteor.publishComposite('Notificaciones.listado', function () {
           NotificacionType.NuevaECOCampana,
           NotificacionType.NuevaECOOrganizacion,
           NotificacionType.NuevoECODesarrollo,
-          NotificacionType.NuevoECOSOS
+          NotificacionType.NuevoECOSos
         ]
       } else {
         tipos = [

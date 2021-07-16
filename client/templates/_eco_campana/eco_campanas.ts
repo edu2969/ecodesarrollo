@@ -3,7 +3,7 @@ import { Template } from 'meteor/templating'
 import { Tracker } from 'meteor/tracker'
 import { ReactiveVar } from 'meteor/reactive-var'
 import { UIUtils, FormUtils } from '../../utils/utils'
-import { ECOCampanas } from '../../../lib/collections/ECODimensionesCollections'
+import { ECOCampanas, ECOOrganizaciones } from '../../../lib/collections/ECODimensionesCollections'
 const { Comunas } = require('../../../lib/collections/BaseCollections')
 const { Images } = require('../../../lib/collections/FilesCollections')
 const { ECO_CAMPANAS } = require('../../../lib/constantes')
@@ -139,25 +139,25 @@ Template.eco_campanas.helpers({
 					matchAll: false,
 					template: Template.avatar,
 					noMatchTemplate: Template.noComuna,
-        }
-      ]
-    };
-  },
-  settingsCuadrilla() {
-    return {
-      position: "bottom",
-      limit: 5,
-      rules: [
-        {
-          collection: Meteor.ecoorganizaciones,
-          field: "nombre",
-          matchAll: false,
-          template: Template.avatar,
+				}
+			]
+		};
+	},
+	settingsCuadrilla() {
+		return {
+			position: "bottom",
+			limit: 5,
+			rules: [
+				{
+					collection: ECOOrganizaciones,
+					field: "nombre",
+					matchAll: false,
+					template: Template.avatar,
 					noMatchTemplate: Template.noComuna,
-        }
-      ]
-    };
-  }
+				}
+			]
+		};
+	}
 })
 
 Template.eco_campanas.events({

@@ -33,7 +33,7 @@ Meteor.publishComposite('usuarios.coordinadores', function () {
     },
     children: [{
       find(usuario) {
-        return Images.find({ usuarioId: usuario._id }, { meta: {} }).cursor
+        return Images.find({ userId: usuario._id }, { meta: {} }).cursor
       }
     }]
   }

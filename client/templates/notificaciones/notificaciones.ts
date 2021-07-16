@@ -20,7 +20,7 @@ Template.notificaciones.rendered = function () {
 
 Template.notificaciones.helpers({
   listado() {
-    return Notificaciones.find().map((notificacion) => {
+    return Notificaciones.find().map((notificacion: any) => {
       notificacion.tipoTraducido = NotificacionesTraductor[notificacion.tipo].glosa
       notificacion.icono = NotificacionesTraductor[notificacion.tipo].icono
       const usuario = Meteor.users.findOne(notificacion.usuarioId)
@@ -106,6 +106,33 @@ Template.notificaciones.events({
         esDecision: true,
         methodAccept: "ECOOrganizaciones.AprobarNueva",
         methodReject: "ECOOrganizaciones.RechazarNueva",
+        params: {
+          notificacionId: notificacion._id
+        }
+      }
+    } else if (notificacion.tipo == NotificacionType.NuevoECOSos) {
+      /*const ecoOrganizacion = ECOOrganizaciones.findOne({
+        _id: notificacion.ecoOrganizacionId
+      })
+      let avatarHTML
+      const nombre = usuario.profile.nombre.split(" ");
+      if (avatar) {
+        avatarHTML = '<img src="' + avatar.link() + '">'
+      } else {
+        const iniciales = nombre[0].charAt(0) + (nombre.length > 1 ? nombre[1].charAt(0) : "")
+        avatarHTML = '<div class="no-image">' + iniciales + '</div>'
+      }
+      const imagen = Images.findOne({
+        "meta.ecoOrganizacionId": ecoOrganizacion._id
+      })*/
+      params = {
+        titulo: NotificacionesTraductor[notificacion.tipo].glosa,
+        texto: '<div class="notificacion-content">' +
+          '<div class="texto">HOLA MUNDO</div>' +
+          '</div>',
+        esDecision: true,
+        methodAccept: "ECOSos.AprobarNueva",
+        methodReject: "ECOSos.RechazarNueva",
         params: {
           notificacionId: notificacion._id
         }
