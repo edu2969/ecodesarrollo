@@ -66,37 +66,44 @@
 							{{/each}}
 						</select>
 					</div>
-					<div class="entrada">
+					<div class="entrada{{#if errores.descripcion}} is-invalid{{/if}}">
 						<span>Describe tu campaña</span>
-						<textarea class="campo" id="input-descripcion" rows="4" value="{{ecoCampana.descripcion}}"></textarea>
+						{{#if errores.descripcion}}<span class="mensaje"> (*{{errores.descripcion}})</span>{{/if}}
+						<textarea class="campo" id="input-descripcion" rows="4" required="true" aria-label="Descripción"
+							value="{{ecoCampana.descripcion}}"></textarea>
 					</div>
 				</div>
-				<div class="entrada">
+				<div class="entrada{{#if errores.direccion}} is-invalid{{/if}}">
 					<span>Dirección</span>
-					<input type="text" class="campo" id="input-direccion" placeholder="Dirección"
-						value="{{ecoCampana.direccion}}">
+					{{#if errores.direccion}}<span class="mensaje"> (*{{errores.direccion}})</span>{{/if}}
+					<input type="text" class="campo" id="input-direccion" placeholder="Dirección" value="{{ecoCampana.direccion}}"
+						required="true" aria-label="Dirección">
 				</div>
-				<div class="entrada" style="position: relative;">
+				<div class="entrada{{#if errores.comuna}} is-invalid{{/if}}" style="position: relative;">
 					<span>Comuna</span>
+					{{#if errores.comuna}}<span class="mensaje"> (*{{errores.comuna}})</span>{{/if}}
 					{{> inputAutocomplete settings=settingsComunas id="input-comuna"
-					class="campo" placeholder="Comuna..."
+					class="campo" placeholder="Comuna..." required="true" aria-label="Comuna"
 					autocomplete="off" value=ecoCampana.comuna}}
 				</div>
 				<div class="flex">
-					<div class="entrada">
+					<div class="entrada{{#if errores.descripcionLugar}} is-invalid{{/if}}">
 						<span>Descripción del lugar</span>
-						<textarea class="campo" id="input-descripcionLugar" rows="4"
-							value="{{ecoCampana.descripcionLugar}}"></textarea>
+						{{#if errores.descripcionLugar}}<span class="mensaje"> (*{{errores.descripcionLugar}})</span>{{/if}}
+						<textarea class="campo" id="input-descripcionLugar" rows="4" value="{{ecoCampana.descripcionLugar}}"
+							required="true" aria-label="Descripción del lugar"></textarea>
 					</div>
 				</div>
-				<div class="entrada imagenes-picker">
+				<div class="entrada imagenes-picker {{#if errores.imagen}} is-invalid{{/if}}">
 					<div class="camara">
-						<div class="marco-upload">
+						<div class="marco-upload {{#if errores.imagen}} is-invalid{{/if}}">
 							<i class="material-icons">photo_camera</i><br />
 							<p>Tomar / Arrastrar<br />fotografía</p>
 							<div class="marco-drop"></div>
 						</div>
-						<input id="upload-image" type="file" style="display: none">
+						<input id="upload-imagen" type="file" style="display: none">
+						<input id="input-imagen" class="campo" style="display: none" required="true" aria-label="Imagen"
+							tipo="imagen-uploader" value="{{ecoCampana.tieneImagenes}}">
 					</div>
 					<div class="imagenes">
 						{{#each imagenes}}
@@ -110,47 +117,62 @@
 							</div>
 						</div>
 						{{else}}
-						<h3>No hay Imágenes</h3>
+						<h3>{{#if errores.imagen}}<small><span class="mensaje">(*{{errores.imagen}})<br /></span></small>{{/if}}
+							No hay Imágenes</h3>
 						{{/each}}
 					</div>
 				</div>
 				<div class="flex">
-					<div class="entrada" style="position: relative">
+					<div class="entrada{{#if errores.fechaInicio}} is-invalid{{/if}}" style="position: relative">
 						<span>Fecha de inicio</span>
+						{{#if errores.fechaInicio}}<span class="mensaje"> (*{{errores.fechaInicio}})</span>{{/if}}
 						<input type="text" class="campo datetime-componente" id="input-fechaInicio"
-							value="{{ecoCampana.fechaInicio}}">
+							value="{{ecoCampana.fechaInicio}}" autocomplete="off" required="true" aria-label="Fecha de inicio">
 					</div>
-					<div class="entrada" style="position: relative">
+					<div class="entrada{{#if errores.fechaFin}} is-invalid{{/if}}" style="position: relative">
 						<span>Fecha de fin</span>
-						<input type="text" class="campo datetime-componente" id="input-fechaFin" value="{{ecoCampana.fechaFin}}">
+						{{#if errores.fechaFin}}<span class="mensaje"> (*{{errores.fechaFin}})</span>{{/if}}
+						<input type="text" class="campo datetime-componente" id="input-fechaFin" value="{{ecoCampana.fechaFin}}"
+							autocomplete="off" required="true" aria-label="Fecha de término">
 					</div>
 				</div>
-				<div class="entrada usuario-picker">
+				<div class="entrada usuario-picker{{#if errores.organizador}} is-invalid{{/if}}">
+					{{#unless ecoCampana.organizador}}
 					<div class="campo-entrada">
-						<span>Organizador</span><br />
-						<input type="text" class="campo autocomplete" id="input-organizador" value="{{ecoCampana.organizador}}">
+						<span>Organizador</span>
+						{{#if errores.organizador}}<span class="mensaje"> (*{{errores.organizador}})</span>{{/if}}
+						<br />
+						<input type="text" class="campo autocomplete" id="input-organizador" value="{{ecoCampana.organizador}}"
+							required="true" aria-label="El organizador">
 					</div>
+					{{else}}
 					<div class="avatar">
 						<img src="/img/avatares/avatar01.png"><br />
 						<span>EdUTroN</span>
 					</div>
+					{{/unless}}
 				</div>
-				<div class="entrada usuario-picker">
+				<div class="entrada usuario-picker{{#if errores.coordinador}} is-invalid{{/if}}">
 					<div class="campo-entrada" style="position: relative;">
 						<span>Coordinador</span>
+						{{#unless ecoCampana.coordinador}}
+						{{#if errores.coordinador}}<span class="mensaje"> (*{{errores.coordinador}})</span>{{/if}}
 						{{> inputAutocomplete settings=settingsCoordinador id="input-coordinador" class="campo"
-						placeholder="Nombre..." autocomplete="off"}}
+						placeholder="Nombre..." autocomplete="off" required="true" aria-label="El coordinador"}}
+						{{else}}
+						<div class="avatar" required="true" aria-label="Coordinador">
+							<img src="/img/avatares/avatar02.jpg"><br />
+							<span>Oleska</span>
+						</div>
+						{{/unless}}
 					</div>
-					{{#if coordinador}}
-					<div class="avatar">
-						<img src="/img/avatares/avatar02.jpg"><br />
-						<span>Oleska</span>
-					</div>
-					{{/if}}
 				</div>
-				<div class="entrada cuadrilla-picker">
+				<div class="entrada cuadrilla-picker{{#if errores.cuadrillasRelacionadas}} is-invalid{{/if}}">
 					<div class="campo-entrada">
-						<span>Cuadrillas relacionadas</span><br />
+						<span>Cuadrillas relacionadas</span>
+						{{#if errores.cuadrillasRelacionadas}}<span class="mensaje">
+							(*{{errores.cuadrillasRelacionadas}})</span>{{/if}}
+						<br />
 						<!--input type="text" class="campo autocomplete" id="input-coordinador" value="{{ecoCampana.coordinador}}"-->
 						{{> inputAutocomplete settings=settingsCuadrilla id="input-cuadrilla" class="campo"
 						placeholder="Nombre Cuadrilla..."

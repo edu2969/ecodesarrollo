@@ -1,9 +1,9 @@
 .formulario {
-	.entrada.is-invalid{
+	.entrada.is-invalid {
 		.mensaje {
 			color: orangered;
 		}
-		.campo-entrada {
+		.campo {
 			border: 2px solid orangered;
 		}
 	}
@@ -132,8 +132,8 @@
 			}
 
 			.avatar {
-				width: 80px;
-				padding-top: 20px;
+				width: 120px;
+				padding-top: 10px;
 				padding-left: 20px;
 
 				span {
@@ -145,8 +145,8 @@
 				}
 
 				img {
-					width: 40px;
-					height: 40px;
+					width: 80px;
+					height: 80px;
 					border-radius: 50%;
 				}
 			}
@@ -306,6 +306,11 @@
 					margin-top: 4px;
 					text-align: center;
 					z-index: 0;
+
+					&.is-invalid {
+						border: 2px solid orangered;
+						color: orangered;
+					}
 	
 					.marco-drop {
 						position: absolute;
