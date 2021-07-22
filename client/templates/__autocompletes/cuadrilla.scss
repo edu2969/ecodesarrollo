@@ -1,0 +1,16 @@
+.marco-cuadrilla {
+  display: inline-flex;
+  img {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+  }
+  span {
+    position: relative;
+    top: -5px;
+    color: black;
+    padding: 8px 8px 0 8px;
+    margin-left: 30px;
+  }
+}

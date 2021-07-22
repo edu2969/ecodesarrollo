@@ -136,18 +136,42 @@
 				padding-top: 10px;
 				padding-left: 20px;
 
-				span {
-					display: inline-block;
+				p {
 					width: 100%;
+					display: inline-block;
 					white-space: nowrap;
 					overflow: hidden !important;
 					text-overflow: ellipsis;
+					text-align: center;
 				}
 
 				img {
 					width: 80px;
 					height: 80px;
 					border-radius: 50%;
+				}
+
+				.no-imagen {
+					display: block;
+					width: 80px;
+					height: 80px;
+					border-radius: 50%;
+					background-color: purple;
+					color: white;
+					font-size: 36px;
+					font-weight: bolder;
+					padding-top: 16px;
+					text-align: center;
+				}
+
+				.material-icons {
+					position: absolute;
+					left: 80px;
+					top: 30px;
+					background-color: salmon;
+					color: white;
+					border-radius: 50%;
+					cursor: pointer;
 				}
 			}
 		}
@@ -160,30 +184,47 @@
 				width: 50%;
 			}
 
-			.avatares {
-				width: 100%;
-				height: auto;
-				display: flex;
-				flex-wrap: wrap;
+			.avatar {
+				width: 120px;
+				padding-top: 10px;
+				padding-left: 20px;
 
-				.avatar {
+				p {
+					width: 100%;
+					display: inline-block;
+					white-space: nowrap;
+					overflow: hidden !important;
+					text-overflow: ellipsis;
+					text-align: center;
+				}
+
+				img {
 					width: 80px;
-					padding-top: 20px;
-					padding-left: 20px;
+					height: 80px;
+					border-radius: 50%;
+				}
 
-					span {
-						display: inline-block;
-						width: 100%;
-						white-space: nowrap;
-						overflow: hidden !important;
-						text-overflow: ellipsis;
-					}
+				.no-imagen {
+					display: block;
+					width: 80px;
+					height: 80px;
+					border-radius: 50%;
+					background-color: purple;
+					color: white;
+					font-size: 36px;
+					font-weight: bolder;
+					padding-top: 16px;
+					text-align: center;
+				}
 
-					img {
-						width: 40px;
-						height: 40px;
-						border-radius: 50%;
-					}
+				.material-icons {
+					position: relative;
+					left: 50px;
+					top: -120px;
+					background-color: salmon;
+					color: white;
+					border-radius: 50%;
+					cursor: pointer;
 				}
 			}
 		}

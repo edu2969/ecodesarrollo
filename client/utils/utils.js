@@ -63,7 +63,7 @@ export const FormUtils = {
         }
       }
     })
-    if (doc == {}) {
+    if (IsEmpty(doc)) {
       return false
     }
     return doc

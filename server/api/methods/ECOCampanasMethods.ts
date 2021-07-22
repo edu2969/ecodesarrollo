@@ -3,7 +3,7 @@ import SimpleSchema from 'simpl-schema'
 import { ValidatedMethod } from 'meteor/mdg:validated-method'
 import { Images } from '/lib/collections/FilesCollections'
 const { ECOCampanas } = require('/lib/collections/ECODimensionesCollections')
-const NoficacionesServices = require('../services/NotificacionesServices')
+const NotificacionesServices = require('../services/NotificacionesServices')
 
 export const Actualizar = new ValidatedMethod({
   name: 'ECOCampanas.Actualizar',
@@ -21,7 +21,7 @@ export const Actualizar = new ValidatedMethod({
     direccion: {
       type: String
     },
-     comuna: {
+    comuna: {
       type: String
     },
     descripcionLugar: {
@@ -33,11 +33,11 @@ export const Actualizar = new ValidatedMethod({
     fechaFin: {
       type: Date
     },
-    organizador: {
+    organizadorId: {
       type: String
       optional: true
     },
-    coordinador: {
+    coordinadorId: {
       type: String
       optional: true
     },
@@ -45,8 +45,6 @@ export const Actualizar = new ValidatedMethod({
       type: String
       optional: true
     }
-    
-
   }).validator({
     clean: true,
   }),
@@ -58,14 +56,14 @@ export const Actualizar = new ValidatedMethod({
     } else {
       doc.pendiente = true
       const usuarioId = Meteor.userId()
-      
+      doc.usuarioId = usuarioId
       const ecoCampanaId = ECOCampanas.insert(doc);
-      NoficacionesServices.nuevaECOCampana(usuarioId, ecoCampanaId)
-      const img = Images.findOne({
+      NotificacionesServices.nuevaECOCampana(usuarioId, ecoCampanaId)
+      const imagenes = Images.find({
         userId: usuarioId,
         "meta.pendiente": true
       });
-      if (img) {
+      imagenes.forEach((img) => {
         Images.update({ _id: img._id }, {
           $set: {
             "meta.ecoCampanaId": ecoCampanaId
@@ -74,7 +72,7 @@ export const Actualizar = new ValidatedMethod({
             "meta.pendiente": true
           }
         });
-      }
+      })
     }
   }
 });

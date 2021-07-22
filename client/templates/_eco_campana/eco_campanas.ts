@@ -41,7 +41,8 @@ Template.eco_campanas.rendered = () => {
 	});
 	Meteor.subscribe('lugares.comunas')
 	Meteor.subscribe('usuarios.coordinadores')
-	Meteor.subscribe('ecoorganizaciones.cuadrillas')
+	Meteor.subscribe('eco_organizaciones')
+	Meteor.subscribe('eco_organizaciones.imagenes')
 }
 
 Template.eco_campanas.helpers({
@@ -72,23 +73,70 @@ Template.eco_campanas.helpers({
 		let ecoCampana = template.ecoCampanaSeleccionada.get();
 		if (!ecoCampana) return;
 		const userId = Meteor.userId();
-		if (userId == ecoCampana.userId) {
+		if (userId == ecoCampana.usuarioId) {
 			ecoCampana.esPropia = true;
 		}
 		const img = Images.find({
 			$or: [{
 				"meta.tipo": "ecocampana",
-				"meta.ecoCamapnaId": ecoCampana._id
+				"meta.ecoCampanaId": ecoCampana._id
 			}, {
 				"meta.tipo": "ecocampana",
 				"meta.pendiente": true
 			}]
 		})
-		console.log("Counter", img.count())
 		ecoCampana.tieneImagenes = img.count() > 0 ? "true" : ""
 		ecoCampana.ultimaActividad = ecoCampana.ultimaActualizacion
 		ecoCampana.integrantes = 0
 		ecoCampana.donaciones = 0
+
+		if (ecoCampana.organizadorId) {
+			const organizador = Meteor.users.findOne({ _id: ecoCampana.organizadorId })
+			const nombre = organizador.profile.nombre
+			ecoCampana.nombreOrganizador = nombre
+			const imgOrganizador = Images.findOne({ userId: ecoCampana.organizadorId, meta: {} })
+			if (imgOrganizador) {
+				ecoCampana.imagenOrganizador = imgOrganizador.link()
+			} else {
+				const separado = nombre.split(" ")
+				const iniciales = separado[0].charAt(0) + (separado.length > 1 ? separado[1].charAt(0) : "")
+				delete ecoCampana.imagenOrganizador
+				ecoCampana.inicialesOrganizador = iniciales
+			}
+		}
+
+		if (ecoCampana.coordinadorId) {
+			const coordinador = Meteor.users.findOne({ _id: ecoCampana.coordinadorId })
+			const nombre = coordinador.profile.nombre
+			ecoCampana.nombreCoordinador = nombre
+			const imgCoordinador = Images.findOne({ userId: ecoCampana.coordinadorId, meta: {} })
+			if (imgCoordinador) {
+				ecoCampana.imagenCoordinador = imgCoordinador.link()
+			} else {
+				const separado = nombre.split(" ")
+				const iniciales = separado[0].charAt(0) + (separado.length > 1 ? separado[1].charAt(0) : "")
+				delete ecoCampana.imagenCoordinador
+				ecoCampana.inicialesCoordinador = iniciales
+			}
+		}
+
+		if (ecoCampana.cuadrillasId) {
+			const cuadrillasId = ecoCampana.cuadrillasId.split(",")
+			let cuadrillas = []
+			ecoCampana.cuadrillas = cuadrillasId.map((id: string) => {
+				const img = Images.findOne({
+					"meta.ecoOrganizacionId": id,
+					"meta.tipo": "ecoorganizacion"
+				})
+				const ecoorganizacion = ECOOrganizaciones.findOne(id)
+				return {
+					id: id,
+					imagen: img ? img.link() : '/img/no_image_available.jpg',
+					nombre: ecoorganizacion.nombre
+				}
+			})
+		}
+
 		return ecoCampana
 	},
 	cantidad() {
@@ -160,7 +208,22 @@ Template.eco_campanas.helpers({
 			]
 		};
 	},
-	settingsCuadrilla() {
+	settingsOrganizador() {
+		return {
+			position: "bottom",
+			limit: 5,
+			rules: [
+				{
+					collection: Meteor.users,
+					field: "profile.nombre",
+					matchAll: false,
+					template: Template.avatar,
+					noMatchTemplate: Template.noComuna,
+				}
+			]
+		};
+	},
+	settingsCuadrillas() {
 		return {
 			position: "bottom",
 			limit: 5,
@@ -169,7 +232,7 @@ Template.eco_campanas.helpers({
 					collection: ECOOrganizaciones,
 					field: "nombre",
 					matchAll: false,
-					template: Template.avatar,
+					template: Template.cuadrilla,
 					noMatchTemplate: Template.noComuna,
 				}
 			]
@@ -209,7 +272,6 @@ Template.eco_campanas.events({
 		if (ecoCampana._id) {
 			doc._id = ecoCampana._id
 		} else {
-			doc.userId = Meteor.userId()
 			doc.ultimaActualizacion = new Date()
 		}
 
@@ -224,6 +286,8 @@ Template.eco_campanas.events({
 			return false
 		}
 
+		console.log("ENTRANDO", doc)
+		return false
 		Meteor.call("ECOCampanas.Actualizar", doc, function (err: Meteor.error, resp: boolean) {
 			if (!err) {
 				UIUtils.toggle("carrousel", "modo-listado");
@@ -345,5 +409,44 @@ Template.eco_campanas.events({
 		var ecoCampana = template.ecoCampanaSeleccionada.get();
 		ecoCampana.comundaId = doc._id
 		template.ecoCampanaSeleccionada.set(ecoCampana)
-	}
+	},
+	"autocompleteselect #input-coordinador"(event: any, template: Blaze.TemplateInstance, doc: any) {
+		var ecoCampana = template.ecoCampanaSeleccionada.get()
+		ecoCampana.coordinadorId = doc._id
+		template.ecoCampanaSeleccionada.set(ecoCampana)
+	},
+	"autocompleteselect #input-organizador"(event: any, template: Blaze.TemplateInstance, doc: any) {
+		var ecoCampana = template.ecoCampanaSeleccionada.get()
+		ecoCampana.organizadorId = doc._id
+		template.ecoCampanaSeleccionada.set(ecoCampana)
+	},
+	"click #reasignar-coordinador"(event: any, template: Blaze.TemplateInstance) {
+		var ecoCampana = template.ecoCampanaSeleccionada.get()
+		delete ecoCampana.coordinadorId
+		template.ecoCampanaSeleccionada.set(ecoCampana)
+	},
+	"click #reasignar-organizador"(event: any, template: Blaze.TemplateInstance) {
+		var ecoCampana = template.ecoCampanaSeleccionada.get()
+		delete ecoCampana.organizadorId
+		template.ecoCampanaSeleccionada.set(ecoCampana)
+	},
+	"autocompleteselect #input-cuadrilla"(event: any, template: Blaze.TemplateInstance, doc: any) {
+		var ecoCampana = template.ecoCampanaSeleccionada.get()
+		let cuadrillasId = ecoCampana.cuadrillasId || ""
+		if (cuadrillasId.split(",").indexOf(doc._id) == -1) {
+			cuadrillasId += (cuadrillasId == "" ? "" : ",") + doc._id
+			ecoCampana.cuadrillasId = cuadrillasId
+			template.ecoCampanaSeleccionada.set(ecoCampana)
+		}
+		$("#input-cuadrilla").val("")
+	},
+	"click #reasignar-cuadrilla"(event: any, template: Blaze.TemplateInstance) {
+		const id = event.currentTarget.attributes["cuadrillaId"].value
+		var ecoCampana = template.ecoCampanaSeleccionada.get()
+		var cuadrillasId = ecoCampana.cuadrillasId.split(",")
+		const indice = cuadrillasId.indexOf(id)
+		cuadrillasId.splice(indice, 1)
+		ecoCampana.cuadrillasId = cuadrillasId.join()
+		template.ecoCampanaSeleccionada.set(ecoCampana)
+	},
 })

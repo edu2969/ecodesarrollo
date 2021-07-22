@@ -127,71 +127,77 @@
 						<span>Fecha de inicio</span>
 						{{#if errores.fechaInicio}}<span class="mensaje"> (*{{errores.fechaInicio}})</span>{{/if}}
 						<input type="text" class="campo datetime-componente" id="input-fechaInicio"
-							value="{{ecoCampana.fechaInicio}}" autocomplete="off" required="true" aria-label="Fecha de inicio">
+							value="{{formatoFecha ecoCampana.fechaInicio 'DD/MM/YYYY'}}" autocomplete="off" required="true"
+							aria-label="Fecha de inicio">
 					</div>
 					<div class="entrada{{#if errores.fechaFin}} is-invalid{{/if}}" style="position: relative">
 						<span>Fecha de fin</span>
 						{{#if errores.fechaFin}}<span class="mensaje"> (*{{errores.fechaFin}})</span>{{/if}}
-						<input type="text" class="campo datetime-componente" id="input-fechaFin" value="{{ecoCampana.fechaFin}}"
-							autocomplete="off" required="true" aria-label="Fecha de término">
+						<input type="text" class="campo datetime-componente" id="input-fechaFin"
+							value="{{formatoFecha ecoCampana.fechaFin 'DD/MM/YYYY'}}" autocomplete="off" required="true"
+							aria-label="Fecha de término">
 					</div>
 				</div>
 				<div class="entrada usuario-picker{{#if errores.organizador}} is-invalid{{/if}}">
-					{{#unless ecoCampana.organizador}}
-					<div class="campo-entrada">
-						<span>Organizador</span>
-						{{#if errores.organizador}}<span class="mensaje"> (*{{errores.organizador}})</span>{{/if}}
-						<br />
-						<input type="text" class="campo autocomplete" id="input-organizador" value="{{ecoCampana.organizador}}"
-							required="true" aria-label="El organizador">
-					</div>
-					{{else}}
-					<div class="avatar">
-						<img src="/img/avatares/avatar01.png"><br />
-						<span>EdUTroN</span>
-					</div>
-					{{/unless}}
-				</div>
-				<div class="entrada usuario-picker{{#if errores.coordinador}} is-invalid{{/if}}">
 					<div class="campo-entrada" style="position: relative;">
-						<span>Coordinador</span>
-						{{#unless ecoCampana.coordinador}}
-						{{#if errores.coordinador}}<span class="mensaje"> (*{{errores.coordinador}})</span>{{/if}}
-						{{> inputAutocomplete settings=settingsCoordinador id="input-coordinador" class="campo"
-						placeholder="Nombre..." autocomplete="off" required="true" aria-label="El coordinador"}}
+						<span>Organizador</span>
+						{{#unless ecoCampana.organizadorId}}
+						{{#if errores.organizador}}<span class="mensaje"> (*{{errores.organizador}})</span>{{/if}}
+						{{> inputAutocomplete settings=settingsOrganizador id="input-organizador" class="campo"
+						placeholder="Nombre..." autocomplete="off" required="true" aria-label="El organizador"}}
 						{{else}}
-						<div class="avatar" required="true" aria-label="Coordinador">
-							<img src="/img/avatares/avatar02.jpg"><br />
-							<span>Oleska</span>
+						<input id="input-organizadorId" class="campo" style="display: none" value="{{ecoCampana.organizadorId}}">
+						<div class="avatar" required="true" aria-label="Organizador">
+							{{#if ecoCampana.imagenOrganizador}}
+							<img src="{{ecoCampana.imagenOrganizador}}">
+							{{else}}
+							<div class="no-imagen">{{ecoCampana.inicialesOrganizador}}</div>
+							{{/if}}
+							<p>{{ecoCampana.nombreOrganizador}}</p>
+							<i id="reasignar-organizador" class="material-icons">clear</i>
 						</div>
 						{{/unless}}
 					</div>
 				</div>
-				<div class="entrada cuadrilla-picker{{#if errores.cuadrillasRelacionadas}} is-invalid{{/if}}">
-					<div class="campo-entrada">
+				<div class="entrada usuario-picker{{#if errores.coordinador}} is-invalid{{/if}}">
+					<div class="campo-entrada" style="position: relative;">
+						<span>Coordinador</span>
+						{{#unless ecoCampana.coordinadorId}}
+						{{#if errores.coordinador}}<span class="mensaje"> (*{{errores.coordinador}})</span>{{/if}}
+						{{> inputAutocomplete settings=settingsCoordinador id="input-coordinador" class="campo"
+						placeholder="Nombre..." autocomplete="off" required="true" aria-label="El coordinador"}}
+						{{else}}
+						<input id="input-coordinadorId" class="campo" style="display: none" value="{{ecoCampana.coordinadorId}}">
+						<div class="avatar" required="true" aria-label="Coordinador">
+							{{#if ecoCampana.imagenCoordinador}}
+							<img src="{{ecoCampana.imagenCoordinador}}">
+							{{else}}
+							<div class="no-imagen">{{ecoCampana.inicialesCoordinador}}</div>
+							{{/if}}
+							<p>{{ecoCampana.nombreCoordinador}}</p>
+							<i id="reasignar-coordinador" class="material-icons">clear</i>
+						</div>
+						{{/unless}}
+					</div>
+				</div>
+				<div class="entrada cuadrilla-picker">
+					<div class="campo-entrada" style="position: relative;">
 						<span>Cuadrillas relacionadas</span>
-						{{#if errores.cuadrillasRelacionadas}}<span class="mensaje">
-							(*{{errores.cuadrillasRelacionadas}})</span>{{/if}}
 						<br />
-						<!--input type="text" class="campo autocomplete" id="input-coordinador" value="{{ecoCampana.coordinador}}"-->
-						{{> inputAutocomplete settings=settingsCuadrilla id="input-cuadrilla" class="campo"
+						{{> inputAutocomplete settings=settingsCuadrillas id="input-cuadrilla"
 						placeholder="Nombre Cuadrilla..."
 						autocomplete="off"}}
+						<input id="input-cuadrillasId" class="campo" value="{{ecoCampana.cuadrillasId}}" style="display: none">
 					</div>
-					<div class="avatares">
-						<div class="avatar">
-							<img src="/img/avatares/team01.png"><br />
-							<span>Los Galgos</span>
-						</div>
-						<div class="avatar">
-							<img src="/img/avatares/team02.png"><br />
-							<span>Clerigos</span>
-						</div>
-						<div class="avatar">
-							<img src="/img/avatares/team03.png"><br />
-							<span>Colegio San Bernardo</span>
-						</div>
+
+					{{#each ecoCampana.cuadrillas}}
+					<div class="avatar">
+						<img src="{{imagen}}">
+						<p>{{nombre}}</p>
+						<i id="reasignar-cuadrilla" class="material-icons" cuadrillaId="{{id}}">clear</i>
 					</div>
+					{{/each}}
+
 				</div>
 				<div class="flex">
 					<div class="neuromorph boton redondo azul" id="btn-cancelar">
