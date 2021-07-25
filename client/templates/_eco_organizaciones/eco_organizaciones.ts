@@ -69,7 +69,6 @@ Template.eco_organizaciones.helpers({
 		ecoOrganizacion.ultimaActividad = ecoOrganizacion.ultimaActualizacion;
 		ecoOrganizacion.integrantes = 0;
 		ecoOrganizacion.donaciones = 0
-		console.log(ecoOrganizacion)
 		return ecoOrganizacion;
 	},
 	cantidad() {

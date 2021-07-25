@@ -215,7 +215,7 @@ Template.ecopasaporte.events({
 			$(".contendor-identificate").removeClass("oculto");
 			$(".tipo-identificacion").removeClass("oculto");
 			template.panel.set(false);
-		}, 1000);
+		}, 500);
 	},
 	"click .cruz-principal"(e, template) {
 		menuPrincipal(template);
