@@ -153,6 +153,9 @@ Template.eco_sos.helpers({
 			]
 		};
 	},
+	enLogin() {
+		return Meteor.userId()
+	}
 });
 
 Template.eco_sos.events({

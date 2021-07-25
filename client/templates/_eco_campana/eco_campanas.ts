@@ -160,11 +160,13 @@ Template.eco_campanas.helpers({
 		let selector = {};
 		if (ecoCampana._id) {
 			selector = {
+				userId: Meteor.userId(),
 				"meta.ecoCampanaId": ecoCampana._id,
 				"meta.tipo": "ecocampana"
 			}
 		} else {
 			selector = {
+				userId: Meteor.userId(),
 				"meta.pendiente": true,
 				"meta.tipo": "ecocampana"
 			}
@@ -240,6 +242,9 @@ Template.eco_campanas.helpers({
 	},
 	errores() {
 		return Template.instance().errores.get()
+	},
+	enLogin() {
+		return Meteor.userId()
 	}
 })
 
@@ -286,8 +291,6 @@ Template.eco_campanas.events({
 			return false
 		}
 
-		console.log("ENTRANDO", doc)
-		return false
 		Meteor.call("ECOCampanas.Actualizar", doc, function (err: Meteor.error, resp: boolean) {
 			if (!err) {
 				UIUtils.toggle("carrousel", "modo-listado");

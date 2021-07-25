@@ -6,9 +6,11 @@
 		<div class="contenido-titulo">
 			{{#if enListado}}
 			<p>ECO_Campañas <small> ({{cantidad}})</small></p>
+			{{#if enLogin}}
 			<button class="btn" id="btn-nuevo">
 				<i class="material-icons">add</i><span>Nuevo</span>
 			</button>
+			{{/if}}
 			{{else}}
 			<p>
 				{{#if ecoCampana.tipo}}{{traductorCAMPANASTipos ecoCampana.tipo}}{{else}}Nuevo ECO_Campana

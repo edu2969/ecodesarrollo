@@ -6,10 +6,12 @@
 		<div class="contenido-titulo">
 			{{#if enListado}}
 			<p>ECO_Desarrollos <small>({{cantidad}})</small></p>
+			{{#if enLogin}}
 			<button class="btn" id="btn-nuevo">
 				<i class="material-icons">add </i>
 				<span>Nuevo</span>
 			</button>
+			{{/if}}
 			{{else}}
 			<p>
 				{{#if ecoDesarrollo.titulo}}{{ecoDesarrollo.titulo}}{{else}}Nuevo ECO_Desarrollo
@@ -56,25 +58,31 @@
 		<div class="detalle custom-scroll">
 			{{#if editando}}
 			<div class="formulario">
-				<div class="entrada">
-					<span>Título</span><br />
-					<input class="campo" id="input-titulo" type="text" value="{{ecoDesarrollo.titulo}}" placeholder="Título">
+				<div class="entrada{{#if errores.titulo}} is-invalid{{/if}}">
+					<span>Título</span>
+					{{#if errores.titulo}}<span class="mensaje"> (*{{errores.titulo}})</span>{{/if}}
+					<input class="campo" id="input-titulo" type="text" required="true" aria-label="Título"
+						value="{{ecoDesarrollo.titulo}}" placeholder="Título">
 				</div>
-				<div class="entrada">
+				<div class="entrada{{#if errores.direccion}} is-invalid{{/if}}">
 					<span>Dirección</span>
-					<input class="campo" id="input-direccion" type="text" value="{{ecoDesarrollo.direccion}}"
-						placeholder="Dirección">
+					{{#if errores.direccion}}<span class="mensaje"> (*{{errores.direccion}})</span>{{/if}}
+					<input class="campo" id="input-direccion" type="text" required="true" aria-label="Dirección"
+						value="{{ecoDesarrollo.direccion}}" placeholder="Dirección">
 				</div>
-				<div class="entrada">
+				<div class="entrada{{#if errores.comuna}} is-invalid{{/if}}">
 					<span>Comuna</span>
+					{{#if errores.comuna}}<span class="mensaje"> (*{{errores.comuna}})</span>{{/if}}
 					{{> inputAutocomplete settings=settingsComunas id="input-comuna" class="campo" placeholder="Comuna..."
-					autocomplete="off" value=ecoDesarrollo.comuna}}
+					autocomplete="off" value=ecoDesarrollo.comuna required="true" aria-label="Comuna" }}
 				</div>
-				<div class="entrada">
+				<div class="entrada{{#if errores.descripcion}} is-invalid{{/if}}">
 					<span>Descripción</span>
-					<textarea class="campo" id="input-descripcion" value="{{ecoDesarrollo.descripcion}}" rows="4"></textarea>
+					{{#if errores.descripcion}}<span class="mensaje"> (*{{errores.descripcion}})</span>{{/if}}
+					<textarea class="campo" id="input-descripcion" required="true" aria-label="Descripción"
+						value="{{ecoDesarrollo.descripcion}}" rows="4"></textarea>
 				</div>
-				<div class="entrada documentos-picker">
+				<div class="entrada documentos-picker{{#if errores.tieneDocumentos}} is-invalid{{/if}}">
 					<div class="archivo">
 						<div class="marco-upload">
 							<i class="material-icons">attachment</i><br />
@@ -82,6 +90,8 @@
 							<div class="marco-drop"></div>
 						</div>
 						<input id="upload-documento" type="file" style="display: none">
+						<input id="input-tieneDocumentos" class="campo" style="display: none;" required="true"
+							aria-label="Algun documento" value="{{ecoDesarrollo.tieneDocumentos}}">
 					</div>
 					<div class="documentos">
 						{{#each documentos}}
@@ -95,11 +105,12 @@
 							</div>
 						</div>
 						{{else}}
-						<h3>No hay documentos</h3>
+						<h3>{{#if errores.tieneDocumentos}}<small><span class="mensaje">
+									(*{{errores.tieneDocumentos}})</span></small><br />{{/if}}No hay documentos</h3>
 						{{/each}}
 					</div>
 				</div>
-				<div class="entrada imagenes-picker">
+				<div class="entrada imagenes-picker{{#if errores.tieneImagenes}} is-invalid{{/if}}">
 					<div class="camara">
 						<div class="marco-upload">
 							<i class="material-icons">photo_camera</i><br />
@@ -107,10 +118,11 @@
 							<div class="marco-drop"></div>
 						</div>
 						<input id="upload-image" type="file" style="display: none">
+						<input id="input-tieneImagenes" class="campo" style="display: none;" required="true" aria-label="Imagen"
+							value="{{ecoDesarrollo.tieneImagenes}}">
 					</div>
 					<div class="imagenes">
 						{{#each imagenes}}
-
 						<div class="imagen" id={{_id}}>
 							<div class="marco-imagen">
 								<img src="{{imagen}}">
@@ -121,7 +133,8 @@
 							</div>
 						</div>
 						{{else}}
-						<h3>No hay Imágenes</h3>
+						<h3>{{#if errores.tieneImagenes}}<small><span class="mensaje">
+									(*{{errores.tieneImagenes}})</span></small><br />{{/if}}No hay Imágenes</h3>
 						{{/each}}
 					</div>
 				</div>
