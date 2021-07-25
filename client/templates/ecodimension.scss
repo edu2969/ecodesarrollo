@@ -14,12 +14,13 @@
 	
 	.grilla {
 		position: relative;
-		overflow-y: hidden;
-		overflow-x: hidden;
 		padding-top: 14px;
 		left: 0%;
 		width: 50%;
-
+		height: calc(100vh - 112px);
+		overflow-y: scroll;
+		overflow-x: hidden;
+		
 		.contenedor-entidades {
 			display: flex;
 			flex-wrap: wrap;
