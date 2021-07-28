@@ -16,7 +16,6 @@ const validarFormulario = (paso, template) => {
 		const input = item.children[1] && item.children[1].id.indexOf("input") != -1 ? item.children[1] :
 			(item.children[2] && item.children[2].id && item.children[2].id.indexOf("input") != -1 ?
 				item.children[2] : item);
-		console.log("INPUT -->", input);
 		const id = input.id.split("-")[1];
 		if (id) {
 			const requerido = Boolean(input.attributes["required"] && input.attributes["required"].value);
@@ -24,6 +23,22 @@ const validarFormulario = (paso, template) => {
 			var valor = "";
 			if (type == "text" || type == "password" || type == "email" || type == "numero") {
 				valor = input && $("#input-" + id).val().trim();
+				if (id === "reemail") {
+					if ($("#input-email").val() != $("#input-reemail").val()) {
+						errores[id] = {
+							mensaje: "*ambos deben coincidir"
+						}
+						item.classList.add("is-invalid");
+					}
+				}
+				if (id === "password") {
+					if ($("#input-password").val() != $("#input-repassword").val()) {
+						errores[id] = {
+							mensaje: "*ambos deben coincidir"
+						}
+						item.classList.add("is-invalid")
+					}
+				}
 			}
 			if (requerido && valor == "" && (type != "password" || (type == "password" && !Meteor.userId()))) {
 				errores[id] = {
@@ -45,14 +60,14 @@ const validarFormulario = (paso, template) => {
 	if (hayErrores) {
 		template.errores.set(errores);
 	}
-	template.formulario.set(formulario);
-	console.log(errores, formulario);
+	template.formulario.set(formulario)
 	return !hayErrores;
 }
 
 Template.registrame.onCreated(function () {
 	this.errores = new ReactiveVar(false);
-	this.formulario = new ReactiveVar(false);
+	this.formulario = new ReactiveVar(false)
+	this.passwordStrength = new ReactiveVar(0)
 });
 
 Template.registrame.onCreated(function () {
@@ -93,15 +108,25 @@ Template.registrame.helpers({
 		const indice = pasos.findIndex(paso => {
 			return nivel.nivel1.pasos[paso].actual;
 		});
+		console.log("paso" + (indice + 1))
 		return "paso" + (indice + 1);
 	},
 	enLogin() {
 		return Meteor.userId();
+	},
+	passwordStrength() {
+		const valor = Template.instance().passwordStrength.get()
+		let arreglo = Array(6).fill(0)
+		return {
+			arreglo: arreglo.fill(1, 0, valor),
+			glosa: valor < 3 ? "débil" : valor < 5 ? "medio" : valor < 5 ? "fuerte" : "muy fuerte",
+			porcentaje: valor < 3 ? 20 : valor < 5 ? 50 : valor < 5 ? 75 : 100,
+		}
 	}
-});
+})
 
 Template.registrame.events({
-	"click .navegador .boton"(e, template) {
+	"click .navegador .boton"(e: any, template: Blaze.templating) {
 		const nivel = Nivel.get();
 		const pasos = Object.keys(nivel.nivel1.pasos);
 		const paso = pasos.findIndex(paso => {
@@ -115,18 +140,18 @@ Template.registrame.events({
 			if (paso == 2) {
 				UIUtils.toggle("izquierda", "deshabilitado");
 			}
-			if (paso == 3) {
+			if (paso == 4) {
 				UIUtils.toggle("derecha", "deshabilitado");
 			}
 			UIUtils.toggle("carrousel", "paso" + paso);
 			delete nivel.nivel1.pasos["paso" + paso].actual;
 			nivel.nivel1.pasos["paso" + (paso - 1)].actual = true;
 			Nivel.set(nivel);
-		} else if (clase.indexOf("derecha") != -1 && paso <= 3) {
+		} else if (clase.indexOf("derecha") != -1 && paso <= 4) {
 			if (paso == 1) {
 				UIUtils.toggle("izquierda", "deshabilitado");
 			}
-			if (paso == 3) {
+			if (paso == 4) {
 				const formulario = template.formulario.get();
 				UIUtils.toggle("derecha", "deshabilitado");
 				const account = {
@@ -168,5 +193,25 @@ Template.registrame.events({
 				Nivel.set(nivel);
 			}
 		}
+	},
+	"keyup #input-password"(e: any, template: Blaze.TemplateInstance) {
+		var strongRegex = new RegExp("^(?=.{14,})(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*\\W).*$", "g");
+		var mediumRegex = new RegExp("^(?=.{10,})(((?=.*[A-Z])(?=.*[a-z]))|((?=.*[A-Z])(?=.*[0-9]))|((?=.*[a-z])(?=.*[0-9]))).*$", "g");
+		var enoughRegex = new RegExp("(?=.{8,}).*", "g");
+		const password = $("#input-password").val()
+		let valor = 0
+		if (password.length > 0) {
+			valor = 2
+		}
+		if (enoughRegex.test(password)) {
+			valor = 4
+		}
+		if (mediumRegex.test(password)) {
+			valor = 5
+		}
+		if (strongRegex.test(password)) {
+			valor = 6
+		}
+		template.passwordStrength.set(valor)
 	}
 })

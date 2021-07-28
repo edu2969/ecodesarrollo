@@ -24,7 +24,7 @@ export const Actualizar = new ValidatedMethod({
     direccion: {
       type: String
     },
-     comuna: {
+    comuna: {
       type: String
     },
     descripcion: {
@@ -35,6 +35,7 @@ export const Actualizar = new ValidatedMethod({
     clean: true,
   }),
   run(doc: any) {
+    doc.ultimaActualizacion = new Date()
     if (doc._id) {
       const id = doc._id;
       delete doc._id;

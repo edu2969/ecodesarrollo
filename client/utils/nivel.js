@@ -3,18 +3,19 @@ const { Depositos } = require("../../lib/collections/BaseCollections");
 const Nivel = {
   setNivelUsuario() {
     const nivel = {};
-    for(let i=1; i<=3; i++) {
+    for (let i = 1; i <= 4; i++) {
       nivel["nivel" + i] = false;
     }
     const usuario = Meteor.user();
-    if(usuario) {
+    if (usuario) {
       nivel.nivel1 = {
         completado: true,
         porcentaje: 100,
         pasos: {
           paso1: { completado: true },
           paso2: { completado: true },
-          paso3: { completado: true }
+          paso3: { completado: true },
+          paso4: { completado: true }
         }
       }
       nivel.nivel2 = {
@@ -22,8 +23,8 @@ const Nivel = {
         actual: true
       }
       const depositoInicial = Depositos.findOne();
-      if(depositoInicial) {
-        if(depositoInicial.pendiente) {
+      if (depositoInicial) {
+        if (depositoInicial.pendiente) {
           nivel.nivel2 = {
             completado: false,
             porcentaje: 50,
@@ -38,7 +39,7 @@ const Nivel = {
             porcentaje: 0,
             actual: true
           }
-          if(usuario.profile.codigoSecretoOK) {
+          if (usuario.profile.codigoSecretoOK) {
             nivel.nivel3.porcentaje = 100;
             nivel.nivel3.completado = true;
             nivel.nivel4 = {
@@ -47,15 +48,16 @@ const Nivel = {
             }
           }
         }
-      }     
+      }
     } else {
       nivel.nivel1 = {
         actual: true,
-        pocentaje: 0, 
-        pasos: { 
+        pocentaje: 0,
+        pasos: {
           paso1: { actual: true },
           paso2: {},
-          paso3: {}
+          paso3: {},
+          paso4: {}
         }
       }
     }
