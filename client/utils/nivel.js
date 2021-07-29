@@ -1,4 +1,5 @@
-const { Depositos } = require("../../lib/collections/BaseCollections");
+const { Depositos } = require("../../lib/collections/BaseCollections")
+const { EstadoType } = require("../../lib/types/EstadoType")
 
 const Nivel = {
   setNivelUsuario() {
@@ -24,7 +25,7 @@ const Nivel = {
       }
       const depositoInicial = Depositos.findOne();
       if (depositoInicial) {
-        if (depositoInicial.pendiente) {
+        if (depositoInicial.estado === EstadoType.Pendiente) {
           nivel.nivel2 = {
             completado: false,
             porcentaje: 50,
