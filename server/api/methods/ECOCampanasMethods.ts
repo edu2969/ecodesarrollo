@@ -76,3 +76,60 @@ export const Actualizar = new ValidatedMethod({
     }
   }
 });
+export const AprobarNueva = new ValidatedMethod({
+  name: 'ECOCampanas.AprobarNueva',
+  validate: new SimpleSchema({
+    notificacionId: {
+      type: String
+    }
+  }).validator({
+    clean: true
+  }),
+  run(doc) {
+    const usuarioId = Meteor.userId()
+    const notificacion = Notificaciones.findOne({ _id: doc.notificacionId })
+    let historial = notificacion.historial
+    historial.push({
+      estado: EstadoType.Aprobado,
+      fecha: new Date()
+    })
+    Notificaciones.update({
+      _id: doc.notificacionId
+    }, {
+      $set: {
+        estado: EstadoType.Aprobado,
+        historial: historial
+      }
+    })
+    return true
+  }
+})
+
+export const RechazarNueva = new ValidatedMethod({
+  name: 'ECOCampanas.Rechazar',
+  validate: new SimpleSchema({
+    notificacionId: {
+      type: String
+    }
+  }).validator({
+    clean: true
+  }),
+  run(doc) {
+    const usuarioId = Meteor.userId()
+    const notificacion = Notificaciones.findOne({ _id: doc.notificacionId })
+    let historial = notificacion.historial
+    historial.push({
+      estado: EstadoType.Rechazado,
+      fecha: new Date()
+    })
+    Notificaciones.update({
+      _id: doc.notificacionId
+    }, {
+      $set: {
+        estado: EstadoType.Rechazado,
+        historial: historial
+      }
+    })
+    return true
+  }
+})

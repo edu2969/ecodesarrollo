@@ -1,7 +1,9 @@
 import { Meteor } from 'meteor/meteor'
+import { Blaze } from 'meteor/blaze'
 import { Template } from 'meteor/templating'
 import { Tracker } from 'meteor/tracker'
 import { ReactiveVar } from 'meteor/reactive-var'
+import { Session } from 'meteor/session'
 const { Comunas } = require('../../../lib/collections/BaseCollections')
 const { ECOSos } = require('../../../lib/collections/ECODimensionesCollections')
 const { Images } = require('../../../lib/collections/FilesCollections')
@@ -16,6 +18,7 @@ Template.eco_sos.onCreated(function () {
 	this.ecoSosSeleccionada = new ReactiveVar(false);
 	this.editando = ReactiveVar(false);
 	this.enListado = ReactiveVar(true);
+	this.errores = ReactiveVar(false)
 });
 
 Template.eco_sos.rendered = () => {
@@ -153,6 +156,9 @@ Template.eco_sos.helpers({
 			]
 		};
 	},
+	errores() {
+		return Template.instance().errores.get()
+	}
 });
 
 Template.eco_sos.events({
@@ -176,7 +182,7 @@ Template.eco_sos.events({
 		UIUtils.toggle("navegacion-atras", "activo");
 	},
 	"click #btn-guardar"(e, template) {
-
+		const invalido = FormUtils.invalid()
 		const doc = FormUtils.getFields();
 		const ecoSos = template.ecoSosSeleccionada.get();
 
@@ -188,6 +194,10 @@ Template.eco_sos.events({
 		}
 		if (ecoSos.comunaId) {
 			doc.comunaId = ecoSos.comunaId
+		}
+		if (invalido) {
+			template.errores.set(invalido)
+			return false
 		}
 		Meteor.call("ECOSos.Actualizar", doc, function (err, resp) {
 			if (!err) {

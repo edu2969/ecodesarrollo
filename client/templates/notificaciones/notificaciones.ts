@@ -111,8 +111,8 @@ Template.notificaciones.events({
         }
       }
     } else if (notificacion.tipo == NotificacionType.NuevoECOSos) {
-      /*const ecoOrganizacion = ECOOrganizaciones.findOne({
-        _id: notificacion.ecoOrganizacionId
+      const ecoSos = ECOSos.findOne({
+        _id: notificacion.ecoSosId
       })
       let avatarHTML
       const nombre = usuario.profile.nombre.split(" ");
@@ -123,16 +123,91 @@ Template.notificaciones.events({
         avatarHTML = '<div class="no-image">' + iniciales + '</div>'
       }
       const imagen = Images.findOne({
-        "meta.ecoOrganizacionId": ecoOrganizacion._id
-      })*/
+        "meta.ecoSosId": ecoSos._id
+      })
       params = {
         titulo: NotificacionesTraductor[notificacion.tipo].glosa,
         texto: '<div class="notificacion-content">' +
-          '<div class="texto">HOLA MUNDO</div>' +
+          '<div class="avatar">' + avatarHTML + '</div>' +
+          '<div class="texto">Creador: ' + nombre + '</div>' +
+          '<div class="nombre">' + usuario.profile.nombre + '</div>' +
+          '<div class="ecodimension-content">' +
+          '<div class="titulo">' + ecoSos.tipo + '</div>' +
+          '<div class="imagen"><img src="' + (imagen ? imagen.link() : '/img/no_image_available.jpg') + '"/></div>' +
+          '</div>' +
+          '<div class="fecha">' + moment(notificacion.fecha).format('DD/MM/yyyy HH:mm') + '</div>' +
           '</div>',
         esDecision: true,
         methodAccept: "ECOSos.AprobarNueva",
         methodReject: "ECOSos.RechazarNueva",
+        params: {
+          notificacionId: notificacion._id
+        }
+      }
+    } else if (notificacion.tipo == NotificacionType.NuevoECODesarrollo) {
+      const ecoDesarrollo = ECODesarrollos.findOne({
+        _id: notificacion.ecoDesarrolloId
+      })
+      let avatarHTML
+      const nombre = usuario.profile.nombre.split(" ");
+      if (avatar) {
+        avatarHTML = '<img src="' + avatar.link() + '">'
+      } else {
+        const iniciales = nombre[0].charAt(0) + (nombre.length > 1 ? nombre[1].charAt(0) : "")
+        avatarHTML = '<div class="no-image">' + iniciales + '</div>'
+      }
+      const imagen = Images.findOne({
+        "meta.ecoDesarrollosId": ecoDesarrollo._id
+      })
+      params = {
+        titulo: NotificacionesTraductor[notificacion.tipo].glosa,
+        texto: '<div class="notificacion-content">' +
+          '<div class="avatar">' + avatarHTML + '</div>' +
+          '<div class="texto">Creador: ' + nombre + '</div>' +
+          '<div class="nombre">' + usuario.profile.nombre + '</div>' +
+          '<div class="ecodimension-content">' +
+          '<div class="titulo">' + ecoDesarrollo.nombre + '</div>' +
+          '<div class="imagen"><img src="' + (imagen ? imagen.link() : '/img/no_image_available.jpg') + '"/></div>' +
+          '</div>' +
+          '<div class="fecha">' + moment(notificacion.fecha).format('DD/MM/yyyy HH:mm') + '</div>' +
+          '</div>',
+        esDecision: true,
+        methodAccept: "ECODesarrollo.AprobarNueva",
+        methodReject: "ECODesarrollo.RechazarNueva",
+        params: {
+          notificacionId: notificacion._id
+        }
+      }
+    } else if (notificacion.tipo == NotificacionType.NuevaECOCampana) {
+      const ecoCampana = ECOCampanas.findOne({
+        _id: notificacion.ecoCampanaId
+      })
+      let avatarHTML
+      const nombre = usuario.profile.nombre.split(" ");
+      if (avatar) {
+        avatarHTML = '<img src="' + avatar.link() + '">'
+      } else {
+        const iniciales = nombre[0].charAt(0) + (nombre.length > 1 ? nombre[1].charAt(0) : "")
+        avatarHTML = '<div class="no-image">' + iniciales + '</div>'
+      }
+      const imagen = Images.findOne({
+        "meta.ecoCampanaId": ecoCampana._id
+      })
+      params = {
+        titulo: NotificacionesTraductor[notificacion.tipo].glosa,
+        texto: '<div class="notificacion-content">' +
+          '<div class="avatar">' + avatarHTML + '</div>' +
+          '<div class="texto">Creador: ' + nombre + '</div>' +
+          '<div class="nombre">' + usuario.profile.nombre + '</div>' +
+          '<div class="ecodimension-content">' +
+          '<div class="titulo">' + ecoCampana.tipo + '</div>' +
+          '<div class="imagen"><img src="' + (imagen ? imagen.link() : '/img/no_image_available.jpg') + '"/></div>' +
+          '</div>' +
+          '<div class="fecha">' + moment(notificacion.fecha).format('DD/MM/yyyy HH:mm') + '</div>' +
+          '</div>',
+        esDecision: true,
+        methodAccept: "ECOCampana.AprobarNueva",
+        methodReject: "ECOCamapana.RechazarNueva",
         params: {
           notificacionId: notificacion._id
         }
