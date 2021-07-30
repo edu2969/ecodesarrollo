@@ -80,18 +80,20 @@
 						{{/each}}
 					</select>
 				</div>
-				<div class="entrada">
+				<div class="entrada{{#if errores.direccion}} is-invalid{{/if}}">
 					<span>Dirección</span>
-					<input id="input-direccion" class="campo" type="text" placeholder="Dirección" value="{{ecoSos.direccion}}">
+					{{#if errores.direccion}}<span class="mensaje"> (*{{errores.direccion}})</span>{{/if}}
+					<input id="input-direccion" class="campo" type="text" placeholder="Dirección" value="{{ecoSos.direccion}}" required="true" aria-label="Dirección">
 				</div>
-				<div class="entrada">
+				<div class="entrada{{#if errores.comuna}} is-invalid{{/if}}" style="position: relative;">
 					<span>Comuna</span>
-					{{> inputAutocomplete settings=settingsComunas id="input-comuna" class="campo" placeholder="Comuna..."
+					{{> inputAutocomplete settings=settingsComunas id="input-comuna" class="campo" placeholder="Comuna..." required="true" aria-label="Comuna"
 					autocomplete="off" value=ecoSos.comuna}}
 				</div>
-				<div class="entrada">
+				<div class="entrada{{#if errores.descripcion}} is-invalid{{/if}}">
 					<span>Descripción</span>
-					<textarea class="campo" id="input-descripcion" type="text" value="{{ecoSos.descripcion}}" rows="4"></textarea>
+					{{#if errores.descripcion}}<span class="mensaje"> (*{{errores.descripcion}})</span>{{/if}}
+					<textarea class="campo" id="input-descripcion" type="text" value="{{ecoSos.descripcion}}" rows="4" required="true" aria-label="Descripción"></textarea>
 				</div>
 				<div class="entrada imagenes-picker">
 					<div class="camara">
