@@ -10,7 +10,8 @@ Template.eco_organizaciones.onCreated(function () {
 	this.currentUpload = new ReactiveVar();
 	this.ecoOrganizacionSeleccionada = new ReactiveVar(false);
 	this.editando = ReactiveVar(false);
-	this.enListado = ReactiveVar(true);
+	this.enListado = ReactiveVar(true)
+	this.errores = ReactiveVar(false)
 });
 
 Template.eco_organizaciones.rendered = () => {
@@ -29,7 +30,7 @@ Template.eco_organizaciones.helpers({
 		return template.editando.get();
 	},
 	ecoOrganizaciones() {
-		return ECOOrganizaciones.find().map(ecoOrganizacion => {
+		return ECOOrganizaciones.find().map((ecoOrganizacion: any) => {
 			ecoOrganizacion.ultimaActividad = ecoOrganizacion.ultimaActualizacion;
 			const img = Images.findOne({
 				$or: [{
@@ -63,10 +64,11 @@ Template.eco_organizaciones.helpers({
 				"meta.tipo": "ecoorganizacion"
 			}]
 		});
-		ecoOrganizacion.avatar = img ? img.link() : '/img/no_image_available.jpg';
+		ecoOrganizacion.avatar = img ? img.link() : '/img/no_image_available.jpg'
+		ecoOrganizacion.tieneAvatar = img ? true : ""
 		ecoOrganizacion.ultimaActividad = ecoOrganizacion.ultimaActualizacion;
 		ecoOrganizacion.integrantes = 0;
-		ecoOrganizacion.donaciones = 0;
+		ecoOrganizacion.donaciones = 0
 		return ecoOrganizacion;
 	},
 	cantidad() {
@@ -74,11 +76,17 @@ Template.eco_organizaciones.helpers({
 	},
 	currentUpload() {
 		return Template.instance().currentUpload.get();
+	},
+	errores() {
+		return Template.instance().errores.get()
+	},
+	enLogin() {
+		return Meteor.userId()
 	}
 });
 
 Template.eco_organizaciones.events({
-	"click .marco-entidad"(e, template) {
+	"click .marco-entidad"(e: any, template: Blaze.TemplateInstance) {
 		const id = e.currentTarget.id;
 		const entidad = ECOOrganizaciones.findOne({ _id: id });
 		template.enListado.set(false);
@@ -87,7 +95,7 @@ Template.eco_organizaciones.events({
 		UIUtils.toggle("carrousel", "detalle");
 		UIUtils.toggle("navegacion-atras", "activo");
 	},
-	"click #btn-nuevo"(e, template) {
+	"click #btn-nuevo"(e: any, template: Blaze.TemplateInstance) {
 		template.ecoOrganizacionSeleccionada.set({});
 		template.editando.set(true);
 		template.enListado.set(false);
@@ -95,14 +103,19 @@ Template.eco_organizaciones.events({
 		UIUtils.toggle("carrousel", "detalle");
 		UIUtils.toggle("navegacion-atras", "activo");
 	},
-	"click #btn-guardar"(e, template) {
+	"click #btn-guardar"(e: any, template: Blaze.TemplateInstance) {
+		const invalido = FormUtils.invalid()
 		const doc = FormUtils.getFields();
 		const ecoOrganizacion = template.ecoOrganizacionSeleccionada.get();
 		if (ecoOrganizacion._id) {
 			doc._id = ecoOrganizacion._id;
 		} else {
-			doc.usuarioId = Meteor.userId();
 			doc.ultimaActualizacion = new Date();
+		}
+		template.ecoOrganizacionSeleccionada.set(doc)
+		if (invalido) {
+			template.errores.set(invalido)
+			return false
 		}
 		Meteor.call("ECOOrganizaciones.Actualizar", doc, function (err, resp) {
 			if (!err) {
@@ -117,7 +130,7 @@ Template.eco_organizaciones.events({
 			}
 		})
 	},
-	"click #btn-editar, click #btn-cancelar"(e, template) {
+	"click #btn-editar, click #btn-cancelar"(e: any, template: Blaze.TemplateInstance) {
 		const editando = template.editando.get();
 		template.editando.set(!editando);
 	},
@@ -130,23 +143,21 @@ Template.eco_organizaciones.events({
 		template.enListado.set(true);
 		$(".detalle").scrollTop(0);
 	},
-
-
-	"dragover .marco-upload": function (e, t) {
+	"dragover .marco-upload": function (e: any, t: Blaze.TemplateInstance) {
 		e.stopPropagation();
 		e.preventDefault();
 		t.$(".marco-drop").addClass("activo");
 	},
-	"dragleave .marco-upload": function (e, t) {
+	"dragleave .marco-upload": function (e: any, t: Blaze.TemplateInstance) {
 		e.stopPropagation();
 		e.preventDefault();
 		t.$(".marco-drop").removeClass("activo");
 	},
-	"dragenter .marco-upload": function (e, t) {
+	"dragenter .marco-upload": function (e: any, t: Blaze.TemplateInstance) {
 		e.preventDefault();
 		e.stopPropagation();
 	},
-	"drop .marco-upload": function (e, template) {
+	"drop .marco-upload": function (e: any, template: Blaze.TemplateInstance) {
 		e.stopPropagation();
 		e.preventDefault();
 		var ecoOrganizacion = template.ecoOrganizacionSeleccionada.get();
@@ -162,7 +173,7 @@ Template.eco_organizaciones.events({
 			} else {
 				img = Images.findOne({
 					userId: Meteor.userId(),
-					"meta.ecoOrganizacion": ecoOrganizacion._id,
+					"meta.ecoOrganizacionId": ecoOrganizacion._id,
 					"meta.tipo": "ecoorganizacion"
 				});
 				meta = {
@@ -194,10 +205,10 @@ Template.eco_organizaciones.events({
 			upload.start();
 		}
 	},
-	"click .marco-upload"(e) {
+	"click .marco-upload"(e: any) {
 		$("#upload-image").click();
 	},
-	"change #upload-image"(e, template) {
+	"change #upload-image"(e: any, template: Blaze.TemplateInstance) {
 		var ecoOrganizacion = template.ecoOrganizacionSeleccionada.get();
 		if (e.currentTarget.files && e.currentTarget.files[0]) {
 			let meta = {};
@@ -233,10 +244,5 @@ Template.eco_organizaciones.events({
 
 			upload.start();
 		}
-	},
-
-
-
-
-
+	}
 });

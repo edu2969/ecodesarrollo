@@ -6,9 +6,11 @@
 		<div class="contenido-titulo">
 			{{#if enListado}}
 			<p>ECO_Organizaciones <small>({{cantidad}})</small></p>
+			{{#if enLogin}}
 			<button class="btn" id="btn-nuevo">
 				<i class="material-icons">add</i><span>Nuevo</span>
 			</button>
+			{{/if}}
 			{{else}}
 			<p>{{#if ecoOrganizacion.nombre}}{{ecoOrganizacion.nombre}}{{else}}Nueva ECO_Organizacion{{/if}}{{#if editando}}
 				<small>(editando)</small>{{/if}}
@@ -58,38 +60,44 @@
 		<div class="detalle custom-scroll">
 			{{#if editando}}
 			<div class="formulario">
-				<div class="entrada">
+				<div class="entrada{{#if errores.nombre}} is-invalid{{/if}}">
 					<span>Nombre</span>
-					<input class="campo" id="input-nombre" type="text" placeholder="e.j: Corazones service"
-						value="{{ecoOrganizacion.nombre}}">
+					{{#if errores.nombre}}<span class="mensaje"> (*{{errores.nombre}})</span>{{/if}}
+					<input class="campo" id="input-nombre" type="text" placeholder="e.j: Corazones service" required="true"
+						aria-label="Nombre" value="{{ecoOrganizacion.nombre}}">
 				</div>
 				<div class="flex">
-					<div class="entrada">
+					<div class="entrada{{#if errores.tipo}} is-invalid{{/if}}">
 						<span>Tipo</span>
-						<input class="campo autocomplete" id="input-tipo" type="text" placeholder="e.j: Familia"
-							value="{{ecoOrganizacion.tipo}}">
+						{{#if errores.tipo}}<span class="mensaje"> (*{{errores.tipo}})</span>{{/if}}
+						<input class="campo autocomplete" id="input-tipo" type="text" placeholder="e.j: Familia" required="true"
+							aria-label="Tipo" value="{{ecoOrganizacion.tipo}}">
 					</div>
-					<div class="entrada">
+					<div class="entrada{{#if errores.subtipo}} is-invalid{{/if}}">
 						<span>Sub-tipo</span>
+						{{#if errores.subtipo}}<span class="mensaje"> (*{{errores.subtipo}})</span>{{/if}}
 						<input class="campo autocomplete" id="input-subtipo" type="text" placeholder="e.j: Varias familias"
-							value="{{ecoOrganizacion.subtipo}}">
+							required="true" aria-label="Subtipo" value="{{ecoOrganizacion.subtipo}}">
 					</div>
 				</div>
 				<div class="flex">
-					<div class="entrada">
+					<div class="entrada{{#if errores.telefono}} is-invalid{{/if}}">
 						<span>Teléfono</span>
-						<input class="campo" id="input-telefono" type="text" placeholder="+56 9 1234 5678"
-							value="{{ecoOrganizacion.telefono}}">
+						{{#if errores.telefono}}<span class="mensaje"> (*{{errores.telefono}})</span>{{/if}}
+						<input class="campo" id="input-telefono" type="text" placeholder="+56 9 1234 5678" required="true"
+							aria-label="Telefono" value="{{ecoOrganizacion.telefono}}">
 					</div>
-					<div class="entrada">
+					<div class="entrada{{#if errores.contacto}} is-invalid{{/if}}">
 						<span>e-mail contacto</span>
-						<input class="campo" id="input-contacto" type="email" placeholder="contacto@dominio.cl"
-							value="{{ecoOrganizacion.contacto}}">
+						{{#if errores.contacto}}<span class="mensaje"> (*{{errores.contacto}})</span>{{/if}}
+						<input class="campo" id="input-contacto" type="email" placeholder="contacto@dominio.cl" required="true"
+							aria-label="Contacto" value="{{ecoOrganizacion.contacto}}">
 					</div>
 				</div>
 				<div class="flex">
-					<div class="entrada avatar">
+					<div class="entrada avatar{{#if errores.tieneAvatar}} is-invalid{{/if}}">
 						<span>Avatar</span>
+						{{#if errores.tieneAvatar}}<span class="mensaje"> (*{{errores.tieneAvatar}})</span>{{/if}}
 						<div class="marco-upload">
 							<div class="marco-foto">
 								{{#if ecoOrganizacion.avatar}}
@@ -102,10 +110,14 @@
 							</div>
 						</div>
 						<input id="upload-image" type="file" style="display: none">
+						<input id="input-tieneAvatar" class="campo" required="true" aria-label=""
+							value="{{ecoOrganizacion.tieneAvatar}}" style="display: none;">
 					</div>
-					<div class="entrada">
+					<div class="entrada{{#if errores.resena}} is-invalid{{/if}}">
 						<span>Reseña</span>
-						<textarea class="campo" id="input-resena" rows="4" value="{{ecoOrganizacion.resena}}"></textarea>
+						{{#if errores.resena}}<span class="mensaje"> (*{{errores.resena}})</span>{{/if}}
+						<textarea class="campo" id="input-resena" rows="4" required="true" aria-label="Reseña"
+							value="{{ecoOrganizacion.resena}}"></textarea>
 					</div>
 				</div>
 				<div class="flex">

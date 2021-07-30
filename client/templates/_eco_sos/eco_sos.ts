@@ -156,6 +156,9 @@ Template.eco_sos.helpers({
 			]
 		};
 	},
+	enLogin() {
+		return Meteor.userId()
+	},
 	errores() {
 		return Template.instance().errores.get()
 	}

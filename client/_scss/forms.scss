@@ -40,6 +40,10 @@
 			margin-top: 4px;
 			border: 2px solid white;
 			border-radius: 3px;
+
+			&.lleno {
+				background-color: rgba(255, 255, 255, 0.4);
+			}
 		}
 	}
 
@@ -71,6 +75,11 @@
 		}
 
 		&.avatar {
+			&.is-invalid {
+				.marco-upload {
+					border: 2px solid orangered;
+				}
+			}
 			.marco-upload {
 				display: block;
 				position: relative;
@@ -86,7 +95,7 @@
 				.marco-avatar {
 					width: 132px;
 					height: 132px;
-					border-radius: 6px;
+					border-radius: 4px;
 					background-size: 100% auto;
 					background-position: center;
 				}
