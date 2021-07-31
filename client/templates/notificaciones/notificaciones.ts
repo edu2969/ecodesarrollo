@@ -39,7 +39,7 @@ Template.notificaciones.helpers({
 })
 
 Template.notificaciones.events({
-  "click .notificacion"(e, template) {
+  "click .notificacion"(e: any, template) {
     const id = e.currentTarget.id
     const notificacion = Notificaciones.findOne({ _id: id })
     const avatar = Images.findOne({ userId: notificacion.usuarioId, meta: {} })

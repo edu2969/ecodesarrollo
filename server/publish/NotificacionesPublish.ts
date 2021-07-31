@@ -50,7 +50,7 @@ Meteor.publishComposite('Notificaciones.listado', function () {
           return Images.find({ userId: notificacion.usuarioId, meta: {} }).cursor
         }
       }]
-      if (notificacion.tipo == NotificacionType.NuevoUsuario) {
+      if (notificacion.tipo === NotificacionType.NuevoUsuario) {
         respuesta.push({
           find(notificacion: any) {
             return Depositos.find({ usuarioId: notificacion.usuarioId, pendiente: true })
@@ -60,7 +60,7 @@ Meteor.publishComposite('Notificaciones.listado', function () {
             return Images.find({ userId: notificacion.usuarioId, "meta.tipo": "deposito" }).cursor
           }
         })
-      } else if (notificacion.tipo == NotificacionType.NuevaECOOrganizacion) {
+      } else if (notificacion.tipo === NotificacionType.NuevaECOOrganizacion) {
         respuesta.push({
           find(notificacion: any) {
             return ECOOrganizaciones.find({ _id: notificacion.ecoOrganizacionId })
@@ -70,7 +70,7 @@ Meteor.publishComposite('Notificaciones.listado', function () {
             return Images.find({ userId: notificacion.usuarioId, "meta.tipo": "ecoorganizacion" }).cursor
           }
         })
-      } else if (notificacion.tipo == NotificacionType.NuevaECOCapana) {
+      } else if (notificacion.tipo === NotificacionType.NuevaECOCampana) {
         respuesta.push({
           find(notificacion: any) {
             return ECOCampanas.find({ _id: notificacion.ecoCampanaId })
@@ -80,7 +80,7 @@ Meteor.publishComposite('Notificaciones.listado', function () {
             return Images.find({ userId: notificacion.usuarioId, "meta.tipo": "ecocampana" }).cursor
           }
         })
-      } else if (notificacion.tipo == NotificacionType.NuevoECODesarrollo) {
+      } else if (notificacion.tipo === NotificacionType.NuevoECODesarrollo) {
         respuesta.push({
           find(notificacion: any) {
             return ECODesarrollos.find({ _id: notificacion.ecoDesarrolloId })
@@ -90,7 +90,7 @@ Meteor.publishComposite('Notificaciones.listado', function () {
             return Images.find({ userId: notificacion.usuarioId, "meta.tipo": "ecodesarrollo" }).cursor
           }
         })
-      } else if (notificacion.tipo == NotificacionType.NuevoECOSOS) {
+      } else if (notificacion.tipo === NotificacionType.NuevoECOSOS) {
         respuesta.push({
           find(notificacion: any) {
             return ECOSos.find({ _id: notificacion.ecoSosId })
