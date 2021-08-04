@@ -26,7 +26,8 @@ Template.eco_desarrollos.rendered = () => {
 	Tracker.autorun(() => {
 		Meteor.subscribe('eco_desarrollos');
 		Meteor.subscribe('eco_desarrollos.imagenes');
-		Meteor.subscribe('eco_desarrollos.documentos');
+		Meteor.subscribe('eco_desarrollos.documentos')
+		Meteor.subscribe('eco_desarrollos.participantes')
 	});
 	Meteor.subscribe('lugares.comunas')
 	Meteor.subscribe('usuarios.coordinadores')
@@ -77,7 +78,7 @@ Template.eco_desarrollos.helpers({
 		});
 		ecoDesarrollo.avatar = img ? img.link() : '/img/no_image_available.jpg';
 		ecoDesarrollo.ultimaActividad = ecoDesarrollo.ultimaActualizacion;
-		ecoDesarrollo.integrantes = 10;
+		ecoDesarrollo.integrantes = 1 + (ecoDesarrollo.participantes ? ecoDesarrollo.participantes.length : 0)
 		ecoDesarrollo.donaciones = 0
 
 		let selector = {};
@@ -119,6 +120,32 @@ Template.eco_desarrollos.helpers({
 		if (imagenes.count()) {
 			ecoDesarrollo.tieneImagenes = true
 		}
+
+		let participantes = ecoDesarrollo.participantesId ? ecoDesarrollo.participantesId : []
+		participantes.push(ecoDesarrollo.usuarioId)
+		ecoDesarrollo.participantes = participantes.map((usuarioId: string) => {
+			const ownerImage = Images.findOne({
+				userId: usuarioId,
+				meta: {}
+			})
+			let participante: any = {
+				usuarioId: usuarioId,
+			}
+			if (ecoDesarrollo.usuarioId === participante.usuarioId) {
+				participante.isOwner = true
+			}
+			const usuario = Meteor.users.findOne({ _id: ecoDesarrollo.usuarioId })
+			const nombre = usuario.profile.nombre
+			participante.nombre = nombre
+			if (ownerImage) {
+				participante.imagen = ownerImage.link()
+			} else {
+				const separado = nombre.split(" ")
+				const iniciales = separado[0].charAt(0) + (separado.length > 1 ? separado[1].charAt(0) : "")
+				participante.iniciales = iniciales
+			}
+			return participante
+		})
 
 		return ecoDesarrollo;
 	},
@@ -172,7 +199,6 @@ Template.eco_desarrollos.helpers({
 		};
 	},
 	documentos() {
-		debugger
 		const template = Template.instance();
 		const ecoDesarrollo = template.ecoDesarrolloSeleccionado.get();
 		let selector = {};

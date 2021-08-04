@@ -167,15 +167,19 @@
 				</div>
 				<div class="titulo-presentacion">Participantes</div>
 				<div class="participantes">
+					{{#each participantes}}
 					<div class="avatar-participante">
-						<img src="/img/avatares/avatar01.png"><br />
-						<span>EdUTroN</span>
+						{{#if imagen}}
+						<img src="/img/avatares/avatar01.png">
+						{{else}}
+						<div class="no-imagen">{{iniciales}}</div>
+						{{/if}}
+						<span>{{nombre}}</span>
+						{{#if isOwner}}
 						<i class="material-icons">star</i>
+						{{/if}}
 					</div>
-					<div class="avatar-participante">
-						<img src="/img/avatares/avatar02.jpg"><br />
-						<span>Miriam</span>
-					</div>
+					{{/each}}
 				</div>
 				<div class="titulo-presentacion">Total en donaciones</div>
 				<div class="donaciones">

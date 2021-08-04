@@ -5,7 +5,7 @@ import { Nivel } from '../utils/nivel'
 import { ECOActividades } from '../../lib/ECOActividades'
 import { UIUtils } from '../utils/utils';
 
-const menuPrincipal = (template) => {
+const menuPrincipal = () => {
 	UIUtils.toggle("cruz-principal", "oculto");
 	$(".tombola").removeClass("flotalatombola2x");
 	$(".tombola").removeClass("flotalatombola5x");
@@ -28,6 +28,38 @@ const menuPrincipal = (template) => {
 		}]);
 		UIUtils.toggle("tombola", "reaparece");
 		UIUtils.toggle("tombola", "desaparece");
+		setTimeout(function () {
+			UIUtils.toggle("tombola", "reaparece");
+		}, 500);
+	}, 500);
+}
+
+const menuECODimensiones = () => {
+	UIUtils.toggle("tombola", "desaparece");
+	UIUtils.toggle("tombola", "flotalatombola2x");
+	setTimeout(function () {
+		UIUtils.toggle("tombola", "flotalatombola5x");
+		ECOActividades.set([{
+			nombre: "eco_organizaciones",
+			icono: "share",
+			activo: true,
+			accion: "ECO Organizaciones"
+		}, {
+			nombre: "eco_campanas",
+			icono: "campaign",
+			accion: "ECO Campañas"
+		}, {
+			nombre: "eco_desarrollos",
+			icono: "architecture",
+			accion: "ECO Desarrollos"
+		}, {
+			nombre: "eco_sos",
+			icono: "support",
+			accion: "ECO S.O.S."
+		}]);
+		UIUtils.toggle("tombola", "reaparece");
+		UIUtils.toggle("tombola", "desaparece");
+		UIUtils.toggle("cruz-principal", "oculto");
 		setTimeout(function () {
 			UIUtils.toggle("tombola", "reaparece");
 		}, 500);
@@ -134,51 +166,27 @@ Template.ecopasaporte.events({
 	"click .actividad"(e, template) {
 		let actividad = e.currentTarget.classList.value;
 		if (actividad.indexOf("sabermas") != -1) {
-			UIUtils.toggle("tombola", "desaparece");
-			UIUtils.toggle("tombola", "flotalatombola2x");
-			setTimeout(function () {
-				UIUtils.toggle("tombola", "flotalatombola5x");
-				ECOActividades.set([{
-					nombre: "eco_organizaciones",
-					icono: "share",
-					activo: true,
-					accion: "ECO Organizaciones"
-				}, {
-					nombre: "eco_campanas",
-					icono: "campaign",
-					accion: "ECO Campañas"
-				}, {
-					nombre: "eco_desarrollos",
-					icono: "architecture",
-					accion: "ECO Desarrollos"
-				}, {
-					nombre: "eco_sos",
-					icono: "support",
-					accion: "ECO S.O.S."
-				}]);
-				UIUtils.toggle("tombola", "reaparece");
-				UIUtils.toggle("tombola", "desaparece");
-				UIUtils.toggle("cruz-principal", "oculto");
-				setTimeout(function () {
-					UIUtils.toggle("tombola", "reaparece");
-				}, 500);
-			}, 500);
+			menuECODimensiones()
 		} else if (actividad.indexOf("identificate") != -1) {
-			template.panel.set({
-				clase: "identificate",
-				color: "verde",
-				esIdentificate: true
-			});
-			UIUtils.toggle("eco-panel", "activo");
-			setTimeout(function () {
-				if (Meteor.userId()) {
-					$(".tipo-identificacion").removeClass("oculto");
-					$(".contendor-identificate").addClass("oculto");
-				} else {
-					$(".contendor-identificate").removeClass("oculto");
-					$(".tipo-identificacion").addClass("oculto");
-				}
-			}, 300);
+			if (Meteor.userId()) {
+				menuECODimensiones()
+			} else {
+				template.panel.set({
+					clase: "identificate",
+					color: "verde",
+					esIdentificate: true
+				});
+				UIUtils.toggle("eco-panel", "activo");
+				setTimeout(function () {
+					if (Meteor.userId()) {
+						$(".tipo-identificacion").removeClass("oculto");
+						$(".contendor-identificate").addClass("oculto");
+					} else {
+						$(".contendor-identificate").removeClass("oculto");
+						$(".tipo-identificacion").addClass("oculto");
+					}
+				}, 300);
+			}
 		} else if (actividad.indexOf("eco_organizaciones") != -1) {
 			template.panel.set({
 				clase: "eco_organizaciones",
@@ -217,13 +225,13 @@ Template.ecopasaporte.events({
 			template.panel.set(false);
 		}, 500);
 	},
-	"click .cruz-principal"(e, template) {
-		menuPrincipal(template);
+	"click .cruz-principal"() {
+		menuPrincipal();
 	},
-	"click .menu-preferencias"(e, template) {
+	"click .menu-preferencias"() {
 		$(".panel-preferencias").toggleClass("activo");
 	},
-	"click .opcion-perfil"(e, template) {
+	"click .opcion-perfil"(e: any, template) {
 		template.panel.set({
 			clase: "perfil",
 			color: "rojo",
@@ -232,13 +240,13 @@ Template.ecopasaporte.events({
 		UIUtils.toggle("eco-panel", "activo");
 		$(".panel-preferencias").toggleClass("activo");
 	},
-	"click .opcion-logout"(e, template) {
+	"click .opcion-logout"(e) {
 		$(".menu-preferencias").addClass("oculto");
 		$(".panel-preferencias").toggleClass("activo");
 		Meteor.logout();
-		menuPrincipal(template);
+		menuPrincipal();
 	},
-	"click .opcion-notificaciones"(e, template) {
+	"click .opcion-notificaciones"(e: any, template) {
 		template.panel.set({
 			clase: "notificaciones",
 			color: "rojo",

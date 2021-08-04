@@ -3,6 +3,7 @@ import SimpleSchema from 'simpl-schema'
 import { ValidatedMethod } from 'meteor/mdg:validated-method'
 import { Images } from '/lib/collections/FilesCollections'
 import { Notificaciones } from '../../../lib/collections/BaseCollections'
+import { NotificacionType } from '/lib/types/NotificacionType'
 import { EstadoType } from '/lib/types/EstadoType'
 const { ECOOrganizaciones } = require('/lib/collections/ECODimensionesCollections')
 const NoficacionesServices = require('../services/NotificacionesServices')
@@ -77,7 +78,7 @@ export const AprobarNueva = new ValidatedMethod({
   }).validator({
     clean: true
   }),
-  run(doc) {
+  run(doc: any) {
     const usuarioId = Meteor.userId()
     const notificacion = Notificaciones.findOne({ _id: doc.notificacionId })
     let historial = notificacion.historial
@@ -106,7 +107,7 @@ export const RechazarNueva = new ValidatedMethod({
   }).validator({
     clean: true
   }),
-  run(doc) {
+  run(doc: any) {
     const usuarioId = Meteor.userId()
     const notificacion = Notificaciones.findOne({ _id: doc.notificacionId })
     let historial = notificacion.historial
@@ -117,6 +118,106 @@ export const RechazarNueva = new ValidatedMethod({
     Notificaciones.update({
       _id: doc.notificacionId
     }, {
+      $set: {
+        estado: EstadoType.Rechazado,
+        historial: historial
+      }
+    })
+    return true
+  }
+})
+
+export const SolicitarEntrar = new ValidatedMethod({
+  name: 'ECOOrganizaciones.SolicitarEntrar',
+  validate: new SimpleSchema({
+    ecoOrganizacionId: {
+      type: String
+    },
+    usuarioId: {
+      type: String
+    }
+  }).validator({
+    clean: true
+  }),
+  run(doc: any) {
+    const usuarioId = Meteor.userId()
+    if (usuarioId !== doc.usuarioId) {
+      throw new Meteor.Error("Algo anda mal. Suplantación de identidad")
+    }
+    const ecoOrganizacion = ECOOrganizaciones.findOne({ _id: doc.ecoOrganizacionId })
+    Notificaciones.insert({
+      usuarioId: ecoOrganizacion.usuarioId,
+      solicitanteId: doc.usuarioId,
+      ecoOrganizacionId: doc.ecoOrganizacionId,
+      tipo: NotificacionType.EntrarECOOrganizacion,
+      estado: EstadoType.Pendiente,
+      fecha: new Date(),
+      historial: [{
+        estado: EstadoType.Pendiente,
+        fecha: new Date(),
+      }]
+    })
+    return true
+  }
+})
+
+export const AprobarIncorporacion = new ValidatedMethod({
+  name: 'ECOOrganizaciones.AprobarIncorporacion',
+  validate: new SimpleSchema({
+    notificacionId: {
+      type: String
+    }
+  }).validator({
+    clean: true
+  }),
+  run(doc: any) {
+    const notificacion = Notificaciones.findOne({ _id: doc.notificacionId })
+    const ecoOrganizacion = ECOOrganizaciones.findOne({ _id: notificacion.ecoOrganizacionId })
+    if (!ecoOrganizacion.integrantes) {
+      ecoOrganizacion.integrantes = []
+    }
+    ecoOrganizacion.integrantes.push({
+      usuarioId: notificacion.solicitanteId,
+      fecha: new Date()
+    })
+    ECOOrganizaciones.update({ _id: ecoOrganizacion._id }, {
+      $set: {
+        integrantes: ecoOrganizacion.integrantes,
+        ultimaActualizacion: new Date(),
+      }
+    })
+    const historial = notificacion.historial
+    historial.push({
+      estado: EstadoType.Aprobado,
+      fecha: new Date()
+    })
+    Notificaciones.update({ _id: doc.notificacionId }, {
+      $set: {
+        estado: EstadoType.Aprobado,
+        historial: historial
+      }
+    })
+    return true
+  }
+})
+
+export const RechazarIncorporacion = new ValidatedMethod({
+  name: 'ECOOrganizaciones.RechazarIncorporacion',
+  validate: new SimpleSchema({
+    notificacionId: {
+      type: String
+    }
+  }).validator({
+    clean: true
+  }),
+  run(doc: any) {
+    const notificacion = Notificaciones.findOne({ _id: doc.notificacionId })
+    const historial = notificacion.historial
+    historial.push({
+      estado: EstadoType.Rechazado,
+      fecha: new Date()
+    })
+    Notificaciones.update({ _id: doc.notificacionId }, {
       $set: {
         estado: EstadoType.Rechazado,
         historial: historial
