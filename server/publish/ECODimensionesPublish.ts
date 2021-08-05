@@ -20,12 +20,12 @@ Meteor.publish('eco_organizaciones.imagenes', function () {
 
 Meteor.publishComposite('eco_organizaciones.participantes', function () {
 	let participantes = []
-	ECOOrganizaciones.find().forEach((ecoorganizacion) => {
+	ECOOrganizaciones.find().forEach((ecoorganizacion: any) => {
 		if (participantes.indexOf(ecoorganizacion.usuarioId) == -1) {
 			participantes.push(ecoorganizacion.usuarioId)
-			ecoorganizacion.participantes && ecoorganizacion.participantes.forEach((participanteId) => {
-				if (participantes.indexOf(participanteId) == -1) {
-					participantes.push(participanteId)
+			ecoorganizacion.integrantes && ecoorganizacion.integrantes.forEach((integrante) => {
+				if (participantes.indexOf(integrante.usuarioId) == -1) {
+					participantes.push(integrante.usuarioIds)
 				}
 			})
 		}
@@ -74,12 +74,12 @@ Meteor.publish('eco_desarrollos.imagenes', function () {
 
 Meteor.publishComposite('eco_desarrollos.participantes', function () {
 	let participantes = []
-	ECODesarrollos.find().forEach((ecodesarrollo) => {
+	ECODesarrollos.find().forEach((ecodesarrollo: any) => {
 		if (participantes.indexOf(ecodesarrollo.usuarioId) == -1) {
 			participantes.push(ecodesarrollo.usuarioId)
-			ecodesarrollo.participantes && ecodesarrollo.participantes.forEach((participanteId) => {
-				if (participantes.indexOf(participanteId) == -1) {
-					participantes.push(participanteId)
+			ecodesarrollo.integrantes && ecodesarrollo.integrantes.forEach((integrante) => {
+				if (participantes.indexOf(integrante.usuarioId) == -1) {
+					participantes.push(integrante.usuarioIds)
 				}
 			})
 		}

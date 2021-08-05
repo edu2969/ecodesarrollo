@@ -55,14 +55,18 @@ Template.eco_desarrollos.helpers({
 				}]
 			});
 			ecoDesarrollo.avatar = img ? img.link() : '/img/no_image_available.jpg';
-			ecoDesarrollo.integrantes = 0;
-			ecoDesarrollo.donaciones = 0;
+			ecoDesarrollo.cantidadIntegrantes = 1
+			ecoDesarrollo.donaciones = 0
 			return ecoDesarrollo;
 		});
 	},
 	ecoDesarrollo() {
-		const template = Template.instance();
-		let ecoDesarrollo = template.ecoDesarrolloSeleccionado.get();
+		const template = Template.instance()
+		const ref = template.ecoDesarrolloSeleccionado.get()
+		let ecoDesarrollo = JSON.parse(JSON.stringify(ref))
+		if (!ecoDesarrollo.usuarioId) {
+			ecoDesarrollo.usuarioId = Meteor.userId()
+		}
 		if (!ecoDesarrollo) return;
 		const userId = Meteor.userId();
 		if (userId == ecoDesarrollo.userId) {
@@ -78,7 +82,7 @@ Template.eco_desarrollos.helpers({
 		});
 		ecoDesarrollo.avatar = img ? img.link() : '/img/no_image_available.jpg';
 		ecoDesarrollo.ultimaActividad = ecoDesarrollo.ultimaActualizacion;
-		ecoDesarrollo.integrantes = 1 + (ecoDesarrollo.participantes ? ecoDesarrollo.participantes.length : 0)
+		ecoDesarrollo.cantidadIntegrantes = 1 + (ecoDesarrollo.integrantes ? ecoDesarrollo.integrantes.length : 0)
 		ecoDesarrollo.donaciones = 0
 
 		let selector = {};
@@ -120,31 +124,33 @@ Template.eco_desarrollos.helpers({
 		if (imagenes.count()) {
 			ecoDesarrollo.tieneImagenes = true
 		}
-
-		let participantes = ecoDesarrollo.participantesId ? ecoDesarrollo.participantesId : []
-		participantes.push(ecoDesarrollo.usuarioId)
-		ecoDesarrollo.participantes = participantes.map((usuarioId: string) => {
+		let participantes = ecoDesarrollo.integrantes ? ecoDesarrollo.integrantes : []
+		participantes.push({
+			usuarioId: ecoDesarrollo.usuarioId,
+			fecha: ecoDesarrollo.createdAt,
+		})
+		ecoDesarrollo.participantes = participantes.map((integrante) => {
 			const ownerImage = Images.findOne({
-				userId: usuarioId,
+				userId: integrante.usuarioId,
 				meta: {}
 			})
-			let participante: any = {
-				usuarioId: usuarioId,
+			let resultado: any = {
+				usuarioId: integrante.usuarioId,
 			}
-			if (ecoDesarrollo.usuarioId === participante.usuarioId) {
-				participante.isOwner = true
+			if (ecoDesarrollo.usuarioId === integrante.usuarioId) {
+				resultado.isOwner = true
 			}
 			const usuario = Meteor.users.findOne({ _id: ecoDesarrollo.usuarioId })
 			const nombre = usuario.profile.nombre
-			participante.nombre = nombre
+			resultado.nombre = nombre
 			if (ownerImage) {
-				participante.imagen = ownerImage.link()
+				resultado.imagen = ownerImage.link()
 			} else {
 				const separado = nombre.split(" ")
 				const iniciales = separado[0].charAt(0) + (separado.length > 1 ? separado[1].charAt(0) : "")
-				participante.iniciales = iniciales
+				resultado.iniciales = iniciales
 			}
-			return participante
+			return resultado
 		})
 
 		return ecoDesarrollo;

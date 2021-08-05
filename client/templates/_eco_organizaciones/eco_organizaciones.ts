@@ -43,15 +43,19 @@ Template.eco_organizaciones.helpers({
 				}]
 			});
 			ecoOrganizacion.avatar = img ? img.link() : '/img/no_image_available.jpg';
-			ecoOrganizacion.integrantes = 1 + (ecoOrganizacion.participantes ? ecoOrganizacion.participantes.length : 0);
+			ecoOrganizacion.cantidadIntegrantes = 1 + (ecoOrganizacion.integrantes ? ecoOrganizacion.integrantes.length : 0);
 			ecoOrganizacion.donaciones = 0;
 			return ecoOrganizacion;
 		});
 	},
 	ecoOrganizacion() {
 		const template = Template.instance();
-		let ecoOrganizacion = template.ecoOrganizacionSeleccionada.get();
-		if (!ecoOrganizacion) return;
+		var ref = template.ecoOrganizacionSeleccionada.get()
+		var ecoOrganizacion = JSON.parse(JSON.stringify(ref))
+		if (!ecoOrganizacion.usuarioId) {
+			ecoOrganizacion.usuarioId = Meteor.userId()
+		}
+		if (!ecoOrganizacion) return
 		const usuarioId = Meteor.userId();
 		if (usuarioId == ecoOrganizacion.usuarioId) {
 			ecoOrganizacion.esPropia = true;
@@ -68,35 +72,37 @@ Template.eco_organizaciones.helpers({
 		ecoOrganizacion.avatar = img ? img.link() : '/img/no_image_available.jpg'
 		ecoOrganizacion.tieneAvatar = img ? true : ""
 		ecoOrganizacion.ultimaActividad = ecoOrganizacion.ultimaActualizacion;
-		ecoOrganizacion.integrantes = 1 + (ecoOrganizacion.participantes ? ecoOrganizacion.participantes.length : 0);
+		ecoOrganizacion.cantidadIntegrantes = 1 + (ecoOrganizacion.integrantes ? ecoOrganizacion.integrantes.length : 0);
 		ecoOrganizacion.donaciones = 0
-
-		let participantes = ecoOrganizacion.participantesId ? ecoOrganizacion.participantesId : []
-		participantes.push(ecoOrganizacion.usuarioId)
-		ecoOrganizacion.participantes = participantes.map((usuarioId: string) => {
+		var integrantes = ecoOrganizacion.integrantes ? ecoOrganizacion.integrantes : []
+		integrantes.push({
+			usuarioId: ecoOrganizacion.usuarioId,
+			fecha: ecoOrganizacion.createdAt
+		})
+		ecoOrganizacion.participantes = integrantes.map((integrante: any) => {
 			const ownerImage = Images.findOne({
-				userId: usuarioId,
+				userId: integrante.usuarioId,
 				meta: {}
 			})
-			let participante: any = {
-				usuarioId: usuarioId,
+			let resultado: any = {
+				usuarioId: integrante.usuarioId,
 			}
-			if (ecoOrganizacion.usuarioId === participante.usuarioId) {
-				participante.isOwner = true
+			if (ecoOrganizacion.usuarioId === integrante.usuarioId) {
+				resultado.isOwner = true
 			}
-			const usuario = Meteor.users.findOne({ _id: ecoOrganizacion.usuarioId })
+			const usuario = Meteor.users.findOne({ _id: integrante.usuarioId })
 			const nombre = usuario.profile.nombre
-			participante.nombre = nombre
+			resultado.nombre = nombre
 			if (ownerImage) {
-				participante.imagen = ownerImage.link()
+				resultado.imagen = ownerImage.link()
 			} else {
 				const separado = nombre.split(" ")
 				const iniciales = separado[0].charAt(0) + (separado.length > 1 ? separado[1].charAt(0) : "")
-				participante.iniciales = iniciales
+				resultado.iniciales = iniciales
 			}
-			return participante
+			return resultado
 		})
-		return ecoOrganizacion;
+		return ecoOrganizacion
 	},
 	cantidad() {
 		return ECOOrganizaciones.find().count();
@@ -113,9 +119,9 @@ Template.eco_organizaciones.helpers({
 });
 
 Template.eco_organizaciones.events({
-	"click .marco-entidad"(e: any, template: Blaze.TemplateInstance) {
+	"click .marco-entidad"(e: any, template: any) {
 		const id = e.currentTarget.id;
-		const entidad = ECOOrganizaciones.findOne({ _id: id });
+		var entidad = ECOOrganizaciones.findOne({ _id: id });
 		template.enListado.set(false);
 		template.ecoOrganizacionSeleccionada.set(entidad);
 		UIUtils.toggle("carrousel", "modo-listado");
