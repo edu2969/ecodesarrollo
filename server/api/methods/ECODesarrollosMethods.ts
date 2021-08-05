@@ -37,6 +37,7 @@ export const Actualizar = new ValidatedMethod({
     } else {
       doc.pendiente = true
       const usuarioId = Meteor.userId()
+      doc.usuarioId = usuarioId
       const ecoDesarrolloId = ECODesarrollos.insert(doc);
       NoficacionesServices.nuevoECODesarrollo(usuarioId, ecoDesarrolloId)
       const img = Images.findOne({

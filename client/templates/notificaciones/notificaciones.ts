@@ -27,7 +27,13 @@ Template.notificaciones.helpers({
       const usuario = Meteor.users.findOne(notificacion.usuarioId)
       const nombre = usuario.profile.nombre
       const email = usuario.emails[0].address
-      notificacion.descripcion = '<b>' + nombre + '</b><br/>' + email
+      if (notificacion.tipo === NotificacionType.EntrarECOOrganizacion) {
+        const solicitante = Meteor.users.findOne({ _id: notificacion.solicitanteId })
+        const emailSolicitante = solicitante.emails[0].address
+        notificacion.descripcion = '<b>Solicita: ' + solicitante.profile.nombre + '</b><br/>' + emailSolicitante
+      } else {
+        notificacion.descripcion = '<b>' + nombre + '</b><br/>' + email
+      }
       return notificacion
     })
   },
@@ -40,7 +46,7 @@ Template.notificaciones.helpers({
 })
 
 Template.notificaciones.events({
-  "click .notificacion"(e, template) {
+  "click .notificacion"(e: any, template) {
     const id = e.currentTarget.id
     const notificacion = Notificaciones.findOne({ _id: id })
     const avatar = Images.findOne({ userId: notificacion.usuarioId, meta: {} })
@@ -216,6 +222,43 @@ Template.notificaciones.events({
         esDecision: true,
         methodAccept: "ECOCampana.AprobarNueva",
         methodReject: "ECOCamapana.RechazarNueva",
+        params: {
+          notificacionId: notificacion._id
+        }
+      }
+    } if (notificacion.tipo == NotificacionType.EntrarECOOrganizacion) {
+      const ecoOrganizacion = ECOOrganizaciones.findOne({
+        _id: notificacion.ecoOrganizacionId
+      })
+      let avatarHTML
+      const solicitante = Meteor.users.findOne({ _id: notificacion.solicitanteId })
+      const avatarSolicitante = Images.findOne({ userId: solicitante._id })
+      const nombreSolicitante = solicitante.profile.nombre
+      if (avatar) {
+        avatarHTML = '<img src="' + avatarSolicitante.link() + '">'
+      } else {
+        const iniciales = nombreSolicitante[0].charAt(0)
+          + (nombreSolicitante.length > 1 ? nombreSolicitante[1].charAt(0) : "")
+        avatarHTML = '<div class="no-image">' + iniciales + '</div>'
+      }
+      const imagen = Images.findOne({
+        "meta.ecoOrganizacionId": ecoOrganizacion._id,
+        "meta.tipo": "ecoorganizacion"
+      })
+      params = {
+        titulo: NotificacionesTraductor[notificacion.tipo].glosa,
+        texto: '<div class="notificacion-content">' +
+          '<div class="avatar">' + avatarHTML + '</div>' +
+          '<div class="texto">Solicitante: ' + nombreSolicitante + '</div>' +
+          '<div class="texto">Quiere ingresar a:' + ecoOrganizacion.nombre + '</div>' +
+          '<div class="ecodimension-content">' +
+          '<div class="imagen-avatar"><img src="' + (imagen ? imagen.link() : '/img/no_image_available.jpg') + '"/></div>' +
+          '</div>' +
+          '<div class="fecha">' + moment(notificacion.fecha).format('DD/MM/yyyy HH:mm') + '</div>' +
+          '</div>',
+        esDecision: true,
+        methodAccept: "ECOOrganizaciones.AprobarIncorporacion",
+        methodReject: "ECOOrganizaciones.RechazarIncorporacion",
         params: {
           notificacionId: notificacion._id
         }

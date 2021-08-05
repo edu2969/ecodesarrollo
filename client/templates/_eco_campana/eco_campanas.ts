@@ -4,7 +4,7 @@ import { Template } from 'meteor/templating'
 import { Tracker } from 'meteor/tracker'
 import { ReactiveVar } from 'meteor/reactive-var'
 import { Session } from 'meteor/session'
-import { UIUtils, FormUtils } from '../../utils/utils'
+import { UIUtils, FormUtils, IsEmpty } from '../../utils/utils'
 import { ECOCampanas, ECOOrganizaciones } from '../../../lib/collections/ECODimensionesCollections'
 const { Comunas } = require('../../../lib/collections/BaseCollections')
 const { Images } = require('../../../lib/collections/FilesCollections')
@@ -253,8 +253,7 @@ Template.eco_campanas.events({
 		const id = e.currentTarget.id;
 		const entidad = ECOCampanas.findOne({ _id: id });
 		template.enListado.set(false);
-		template.ecoCampanaSeleccionada.set(entidad);
-		//Session.set("ECOCampanaSeleccionado", entidad);
+		template.ecoCampanaSeleccionada.set(entidad)
 		UIUtils.toggle("carrousel", "grilla");
 		UIUtils.toggle("carrousel", "detalle");
 		UIUtils.toggle("navegacion-atras", "activo");
@@ -270,7 +269,24 @@ Template.eco_campanas.events({
 		iniciarTimePickers()
 	},
 	"click #btn-guardar"(e: any, template: Blaze.TemplateInstance) {
-		const invalido = FormUtils.invalid()
+		const customValidation = (invalido) {
+			const fi = $("#input-fechaInicio").val()
+			const ff = $("#input-fechaFin").val()
+			if (IsEmpty(fi) || IsEmpty(ff)) {
+				return invalido
+			}
+			const fechaInicio = moment(fi, 'DD/MM/YYYY')
+			const fechaFin = moment(ff, 'DD/MM/YYYY')
+			if (fechaInicio.isAfter(fechaFin)) {
+				if (!invalido) {
+					invalido = {}
+				}
+				invalido.fechaFin = "Debe ser mayor que la fecha inicial"
+			}
+			return invalido
+		}
+
+		let invalido = FormUtils.invalid()
 		const doc = FormUtils.getFields()
 		const ecoCampana = template.ecoCampanaSeleccionada.get()
 
@@ -285,6 +301,8 @@ Template.eco_campanas.events({
 		}
 
 		template.ecoCampanaSeleccionada.set(doc)
+
+		invalido = customValidation(invalido)
 
 		if (invalido) {
 			template.errores.set(invalido)

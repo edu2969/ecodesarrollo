@@ -3,7 +3,7 @@ export const VERSION = "2.0"
 import { Images } from '../../lib/collections/FilesCollections'
 
 export const IsEmpty = (valor) => {
-  return (Object.keys(valor).length === 0 && valor.constructor === Object) || (valor == "")
+  return (valor == "" || valor == undefined) || (Object.keys(valor).length === 0 && valor.constructor === Object)
 }
 
 export const UIUtils = {

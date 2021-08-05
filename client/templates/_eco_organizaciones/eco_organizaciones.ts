@@ -18,7 +18,8 @@ Template.eco_organizaciones.rendered = () => {
 	Tracker.autorun(() => {
 		Meteor.subscribe('eco_organizaciones');
 		Meteor.subscribe('eco_organizaciones.imagenes');
-	});
+		Meteor.subscribe('eco_organizaciones.participantes')
+	})
 }
 
 Template.eco_organizaciones.helpers({
@@ -42,7 +43,7 @@ Template.eco_organizaciones.helpers({
 				}]
 			});
 			ecoOrganizacion.avatar = img ? img.link() : '/img/no_image_available.jpg';
-			ecoOrganizacion.integrantes = 0;
+			ecoOrganizacion.integrantes = 1 + (ecoOrganizacion.participantes ? ecoOrganizacion.participantes.length : 0);
 			ecoOrganizacion.donaciones = 0;
 			return ecoOrganizacion;
 		});
@@ -67,8 +68,34 @@ Template.eco_organizaciones.helpers({
 		ecoOrganizacion.avatar = img ? img.link() : '/img/no_image_available.jpg'
 		ecoOrganizacion.tieneAvatar = img ? true : ""
 		ecoOrganizacion.ultimaActividad = ecoOrganizacion.ultimaActualizacion;
-		ecoOrganizacion.integrantes = 0;
+		ecoOrganizacion.integrantes = 1 + (ecoOrganizacion.participantes ? ecoOrganizacion.participantes.length : 0);
 		ecoOrganizacion.donaciones = 0
+
+		let participantes = ecoOrganizacion.participantesId ? ecoOrganizacion.participantesId : []
+		participantes.push(ecoOrganizacion.usuarioId)
+		ecoOrganizacion.participantes = participantes.map((usuarioId: string) => {
+			const ownerImage = Images.findOne({
+				userId: usuarioId,
+				meta: {}
+			})
+			let participante: any = {
+				usuarioId: usuarioId,
+			}
+			if (ecoOrganizacion.usuarioId === participante.usuarioId) {
+				participante.isOwner = true
+			}
+			const usuario = Meteor.users.findOne({ _id: ecoOrganizacion.usuarioId })
+			const nombre = usuario.profile.nombre
+			participante.nombre = nombre
+			if (ownerImage) {
+				participante.imagen = ownerImage.link()
+			} else {
+				const separado = nombre.split(" ")
+				const iniciales = separado[0].charAt(0) + (separado.length > 1 ? separado[1].charAt(0) : "")
+				participante.iniciales = iniciales
+			}
+			return participante
+		})
 		return ecoOrganizacion;
 	},
 	cantidad() {
@@ -244,5 +271,25 @@ Template.eco_organizaciones.events({
 
 			upload.start();
 		}
+	},
+	"click #btn-unirse"(e: any, template: Blaze.TemplateInstance) {
+		var ecoOrganizacion = template.ecoOrganizacionSeleccionada.get();
+		const params = {
+			titulo: 'Solicitud para unirse',
+			texto: '<div class="notificacion-content">' +
+				'<p>Esta solicitando unirte a <b>' + ecoOrganizacion.nombre + '</b></p>' +
+				'<p>Una solicitud será enviada al coordinador. ' +
+				'Te informaremos si la aprueba o la rechaza en tus notificaciones.</p>' +
+				'<p>¿Estás seguro?</p>' +
+				'</div>',
+			esConfirmacion: true,
+			method: "ECOOrganizaciones.SolicitarEntrar",
+			params: {
+				ecoOrganizacionId: ecoOrganizacion._id,
+				usuarioId: Meteor.userId(),
+			}
+		}
+		Session.set("ModalParams", params)
+		$("#modalgeneral").modal("show")
 	}
 });
