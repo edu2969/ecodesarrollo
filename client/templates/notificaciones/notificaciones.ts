@@ -11,6 +11,7 @@ import {
 import { NotificacionesTraductor } from '../../../lib/NotificacionesUtils'
 import { Images } from '../../../lib/collections/FilesCollections'
 import { NotificacionType } from '/lib/types/NotificacionType'
+const { ECO_SOS } = require('../../../lib/constantes')
 
 Template.notificaciones.rendered = function () {
   this.autorun(function () {
@@ -111,6 +112,7 @@ Template.notificaciones.events({
         }
       }
     } else if (notificacion.tipo == NotificacionType.NuevoECOSos) {
+      //debugger;
       const ecoSos = ECOSos.findOne({
         _id: notificacion.ecoSosId
       })
@@ -132,7 +134,10 @@ Template.notificaciones.events({
           '<div class="texto">Creador: ' + nombre + '</div>' +
           '<div class="nombre">' + usuario.profile.nombre + '</div>' +
           '<div class="ecodimension-content">' +
-          '<div class="titulo">' + ecoSos.tipo + '</div>' +
+          '<div class="titulo"> Tipo : ' +'<strong>'+ ECO_SOS.TIPOS[ecoSos.tipo] +'</strong>'+ '</div>' +
+          '<div class="titulo"> Afectado : '+ '<strong>' + ECO_SOS.AFECTADO[ecoSos.afectado] + '</strong>'+ '</div>' +
+          '<div class="titulo"> Tipo LLamado : ' + '<strong>' + ECO_SOS.PROBLEMA[ecoSos.problema].etiqueta + '</strong>'+ '</div>' +
+          '<div class="contenido">Descripcion :' + '<strong>'+  ecoSos.descripcion +'</strong>' + '</div>' +
           '<div class="imagen"><img src="' + (imagen ? imagen.link() : '/img/no_image_available.jpg') + '"/></div>' +
           '</div>' +
           '<div class="fecha">' + moment(notificacion.fecha).format('DD/MM/yyyy HH:mm') + '</div>' +
@@ -157,7 +162,7 @@ Template.notificaciones.events({
         avatarHTML = '<div class="no-image">' + iniciales + '</div>'
       }
       const imagen = Images.findOne({
-        "meta.ecoDesarrollosId": ecoDesarrollo._id
+        "meta.ecoDesarrolloId": ecoDesarrollo._id
       })
       params = {
         titulo: NotificacionesTraductor[notificacion.tipo].glosa,
@@ -166,7 +171,10 @@ Template.notificaciones.events({
           '<div class="texto">Creador: ' + nombre + '</div>' +
           '<div class="nombre">' + usuario.profile.nombre + '</div>' +
           '<div class="ecodimension-content">' +
-          '<div class="titulo">' + ecoDesarrollo.nombre + '</div>' +
+          '<div class="contenido">Titulo Eco Desarrollo :'+'<strong>' + ecoDesarrollo.titulo +'</strong>'+ '</div>' +
+          '<div class="contenido">Direccion :' + '<strong>' + ecoDesarrollo.direccion +'</strong>' + '</div>' +
+          '<div class="contenido">Comuna :' + '<strong>' + ecoDesarrollo.comuna +'</strong>' + '</div>' +
+          '<div class="contenido">Descripcion :' + '<strong>'+  ecoDesarrollo.descripcion +'</strong>' + '</div>' +
           '<div class="imagen"><img src="' + (imagen ? imagen.link() : '/img/no_image_available.jpg') + '"/></div>' +
           '</div>' +
           '<div class="fecha">' + moment(notificacion.fecha).format('DD/MM/yyyy HH:mm') + '</div>' +

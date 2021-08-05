@@ -30,7 +30,8 @@ Meteor.publishComposite('Notificaciones.listado', function () {
         tipos = [
           NotificacionType.EntrarECOOrganizacion,
           NotificacionType.EntrarECOCampana,
-          NotificacionType.EntrarECOdesarrollo
+          NotificacionType.EntrarECOdesarrollo,
+          NotificacionType.EntrarECOSos
         ]
         query.usuarioId = usuario._id
       }
@@ -70,7 +71,7 @@ Meteor.publishComposite('Notificaciones.listado', function () {
             return Images.find({ userId: notificacion.usuarioId, "meta.tipo": "ecoorganizacion" }).cursor
           }
         })
-      } else if (notificacion.tipo == NotificacionType.NuevaECOCapana) {
+      } else if (notificacion.tipo == NotificacionType.NuevaECOCampana) {
         respuesta.push({
           find(notificacion: any) {
             return ECOCampanas.find({ _id: notificacion.ecoCampanaId })
@@ -90,7 +91,8 @@ Meteor.publishComposite('Notificaciones.listado', function () {
             return Images.find({ userId: notificacion.usuarioId, "meta.tipo": "ecodesarrollo" }).cursor
           }
         })
-      } else if (notificacion.tipo == NotificacionType.NuevoECOSOS) {
+      } else if (notificacion.tipo == NotificacionType.NuevoECOSos) {
+
         respuesta.push({
           find(notificacion: any) {
             return ECOSos.find({ _id: notificacion.ecoSosId })

@@ -172,7 +172,7 @@ Template.eco_desarrollos.helpers({
 		};
 	},
 	documentos() {
-		debugger
+		//debugger
 		const template = Template.instance();
 		const ecoDesarrollo = template.ecoDesarrolloSeleccionado.get();
 		let selector = {};
