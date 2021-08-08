@@ -140,10 +140,10 @@ Template.notificaciones.events({
           '<div class="texto">Creador: ' + nombre + '</div>' +
           '<div class="nombre">' + usuario.profile.nombre + '</div>' +
           '<div class="ecodimension-content">' +
-          '<div class="titulo"> Tipo : ' +'<strong>'+ ECO_SOS.TIPOS[ecoSos.tipo] +'</strong>'+ '</div>' +
-          '<div class="titulo"> Afectado : '+ '<strong>' + ECO_SOS.AFECTADO[ecoSos.afectado] + '</strong>'+ '</div>' +
-          '<div class="titulo"> Tipo LLamado : ' + '<strong>' + ECO_SOS.PROBLEMA[ecoSos.problema].etiqueta + '</strong>'+ '</div>' +
-          '<div class="contenido">Descripcion :' + '<strong>'+  ecoSos.descripcion +'</strong>' + '</div>' +
+          '<div class="titulo"> Tipo : ' + '<strong>' + ECO_SOS.TIPOS[ecoSos.tipo] + '</strong>' + '</div>' +
+          '<div class="titulo"> Afectado : ' + '<strong>' + ECO_SOS.AFECTADO[ecoSos.afectado] + '</strong>' + '</div>' +
+          '<div class="titulo"> Tipo LLamado : ' + '<strong>' + ECO_SOS.PROBLEMA[ecoSos.problema].etiqueta + '</strong>' + '</div>' +
+          '<div class="contenido">Descripcion :' + '<strong>' + ecoSos.descripcion + '</strong>' + '</div>' +
           '<div class="imagen"><img src="' + (imagen ? imagen.link() : '/img/no_image_available.jpg') + '"/></div>' +
           '</div>' +
           '<div class="fecha">' + moment(notificacion.fecha).format('DD/MM/yyyy HH:mm') + '</div>' +
@@ -177,10 +177,10 @@ Template.notificaciones.events({
           '<div class="texto">Creador: ' + nombre + '</div>' +
           '<div class="nombre">' + usuario.profile.nombre + '</div>' +
           '<div class="ecodimension-content">' +
-          '<div class="contenido">Titulo Eco Desarrollo :'+'<strong>' + ecoDesarrollo.titulo +'</strong>'+ '</div>' +
-          '<div class="contenido">Direccion :' + '<strong>' + ecoDesarrollo.direccion +'</strong>' + '</div>' +
-          '<div class="contenido">Comuna :' + '<strong>' + ecoDesarrollo.comuna +'</strong>' + '</div>' +
-          '<div class="contenido">Descripcion :' + '<strong>'+  ecoDesarrollo.descripcion +'</strong>' + '</div>' +
+          '<div class="contenido">Titulo Eco Desarrollo :' + '<strong>' + ecoDesarrollo.titulo + '</strong>' + '</div>' +
+          '<div class="contenido">Direccion :' + '<strong>' + ecoDesarrollo.direccion + '</strong>' + '</div>' +
+          '<div class="contenido">Comuna :' + '<strong>' + ecoDesarrollo.comuna + '</strong>' + '</div>' +
+          '<div class="contenido">Descripcion :' + '<strong>' + ecoDesarrollo.descripcion + '</strong>' + '</div>' +
           '<div class="imagen"><img src="' + (imagen ? imagen.link() : '/img/no_image_available.jpg') + '"/></div>' +
           '</div>' +
           '<div class="fecha">' + moment(notificacion.fecha).format('DD/MM/yyyy HH:mm') + '</div>' +

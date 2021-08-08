@@ -6,7 +6,6 @@ import { ECOActividades } from '../../lib/ECOActividades'
 import { UIUtils } from '../utils/utils';
 
 const menuPrincipal = () => {
-	UIUtils.toggle("cruz-principal", "oculto");
 	$(".tombola").removeClass("flotalatombola2x");
 	$(".tombola").removeClass("flotalatombola5x");
 	$(".tombola").addClass("flotalatombola2x");
@@ -78,7 +77,11 @@ const setDesecho = (template) => {
 	$(".desecho img").addClass("rotando")
 	$(".desecho").addClass("lanzamiento")
 	$(".desecho").removeClass("golpe")
-	$(".expresion img").attr("src", "/img/corazon/corazon_verde_cara_02.png")
+	setTimeout(() => {
+		const usuario = Meteor.user()
+		const cara = usuario ? (usuario.profile.corazonVerde.nivel + 1) : 1
+		$(".expresion img").attr("src", "/img/corazon/corazon_verde_cara_0" + cara + ".png")
+	}, 500)
 }
 
 const setGolpe = (template) => {
@@ -124,7 +127,8 @@ Template.ecopasaporte.helpers({
 		return ECOActividades.get();
 	},
 	panel() {
-		return Template.instance().panel.get();
+		console.log("PANEL", Template.instance().panel.get())
+		return Template.instance().panel.get()
 	},
 	corazonVerde() {
 		const usuario = Meteor.user();
@@ -169,7 +173,21 @@ Template.ecopasaporte.events({
 			menuECODimensiones()
 		} else if (actividad.indexOf("identificate") != -1) {
 			if (Meteor.userId()) {
-				menuECODimensiones()
+				const nivel = Nivel.get()
+				if (nivel.nivel4 && nivel.nivel4.actual) {
+					menuECODimensiones()
+				} else {
+					template.panel.set({
+						clase: "identificate",
+						color: "verde",
+						esIdentificate: true
+					});
+					UIUtils.toggle("eco-panel", "activo")
+					setTimeout(function () {
+						$(".tipo-identificacion").removeClass("oculto")
+						$(".contendor-identificate").addClass("oculto")
+					}, 300)
+				}
 			} else {
 				template.panel.set({
 					clase: "identificate",
@@ -224,9 +242,6 @@ Template.ecopasaporte.events({
 			$(".tipo-identificacion").removeClass("oculto");
 			template.panel.set(false);
 		}, 500);
-	},
-	"click .cruz-principal"() {
-		menuPrincipal();
 	},
 	"click .menu-preferencias"() {
 		$(".panel-preferencias").toggleClass("activo");

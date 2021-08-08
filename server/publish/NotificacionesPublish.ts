@@ -54,7 +54,7 @@ Meteor.publishComposite('Notificaciones.listado', function () {
       if (notificacion.tipo === NotificacionType.NuevoUsuario) {
         respuesta.push({
           find(notificacion: any) {
-            return Depositos.find({ usuarioId: notificacion.usuarioId, pendiente: true })
+            return Depositos.find({ usuarioId: notificacion.usuarioId, estado: EstadoType.Pendiente })
           }
         }, {
           find(notificacion: any) {

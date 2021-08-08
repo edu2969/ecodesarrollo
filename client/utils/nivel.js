@@ -4,7 +4,7 @@ const { EstadoType } = require("../../lib/types/EstadoType")
 const Nivel = {
   setNivelUsuario() {
     const nivel = {};
-    for (let i = 1; i <= 4; i++) {
+    for (let i = 1; i <= 3; i++) {
       nivel["nivel" + i] = false;
     }
     const usuario = Meteor.user();
@@ -23,7 +23,7 @@ const Nivel = {
         porcentaje: 0,
         actual: true
       }
-      const depositoInicial = Depositos.findOne();
+      const depositoInicial = Depositos.findOne({ usuarioId: usuario._id });
       if (depositoInicial) {
         if (depositoInicial.estado === EstadoType.Pendiente) {
           nivel.nivel2 = {

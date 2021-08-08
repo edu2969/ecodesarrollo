@@ -29,7 +29,11 @@ export const IngresarDepositoNoConfirmado = new ValidatedMethod({
     }
     doc.usuarioId = this.userId;
     doc.fecha = new Date();
-    doc.pendiente = true;
+    doc.estado = EstadoType.Pendiente
+    doc.historial = [{
+      estado: doc.estado,
+      fecha: doc.fecha
+    }]
     NotificacionesServices.nuevoUsuario(this.userId)
     return Depositos.insert(doc);
   }
@@ -131,11 +135,20 @@ export const AprobarDeposito = new ValidatedMethod({
     clean: true
   }),
   run(doc) {
-    const usuarioId = Meteor.userId()
-    Depositos.update({ usuarioId: usuarioId, pendiente: true }, { $unset: { pendiente: 1 } })
     const notificacion = Notificaciones.findOne({ _id: doc.notificacionId })
-    let historial = notificacion.historial
-    historial.push({
+    const deposito = Depositos.findOne({ usuarioId: notificacion.usuarioId, estado: EstadoType.Pendiente })
+    deposito.historial.push({
+      estado: EstadoType.Aprobado,
+      fecha: new Date()
+    })
+    Depositos.update({
+      _id: deposito._id
+    }, {
+      $set: {
+        estado: EstadoType.Aprobado, historial: deposito.historial
+      }
+    })
+    notificacion.historial.push({
       estado: EstadoType.Aprobado,
       fecha: new Date()
     })
@@ -144,7 +157,7 @@ export const AprobarDeposito = new ValidatedMethod({
     }, {
       $set: {
         estado: EstadoType.Aprobado,
-        historial: historial
+        historial: notificacion.historial
       }
     })
     // @TODO enviar mail con el codigo secreto
