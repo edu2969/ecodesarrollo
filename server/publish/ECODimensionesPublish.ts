@@ -6,10 +6,18 @@ const {
 	ECODesarrollos,
 	ECOSos
 } = require('../../lib/collections/ECODimensionesCollections')
+import { EstadoType } from '../../lib/types/EstadoType'
 import { Comunas } from '../../lib/collections/BaseCollections'
 
 Meteor.publish('eco_organizaciones', function () {
-	return ECOOrganizaciones.find();
+	return ECOOrganizaciones.find({
+		$or: [{
+			estado: EstadoType.Aprobado
+		}, {
+			usuarioId: this.userId,
+			estado: { $ne: EstadoType.Aprobado }
+		}]
+	});
 });
 
 Meteor.publish('eco_organizaciones.imagenes', function () {
@@ -25,7 +33,7 @@ Meteor.publishComposite('eco_organizaciones.participantes', function () {
 			participantes.push(ecoorganizacion.usuarioId)
 			ecoorganizacion.integrantes && ecoorganizacion.integrantes.forEach((integrante) => {
 				if (participantes.indexOf(integrante.usuarioId) == -1) {
-					participantes.push(integrante.usuarioIds)
+					participantes.push(integrante.usuarioId)
 				}
 			})
 		}

@@ -47,9 +47,14 @@ export const Actualizar = new ValidatedMethod({
       delete doc._id;
       ECOOrganizaciones.update({ _id: id }, { $set: doc });
     } else {
-      doc.pendiente = true
-      const usuarioId = Meteor.userId()
+      doc.estado = EstadoType.Pendiente
+      const usuarioId = this.userId
+      doc.usuarioId = usuarioId
       doc.createdAt = new Date()
+      doc.historial = [{
+        estado: EstadoType.Pendiente,
+        fecha: doc.createdAt,
+      }]
       const ecoOrganizacionId = ECOOrganizaciones.insert(doc);
       NoficacionesServices.nuevaECOOrganizacion(usuarioId, ecoOrganizacionId)
       const img = Images.findOne({
@@ -95,6 +100,17 @@ export const AprobarNueva = new ValidatedMethod({
         historial: historial
       }
     })
+    const ecoOrganizacion = ECOOrganizaciones.findOne({ _id: notificacion.ecoOrganizacionId })
+    ecoOrganizacion.historial.push({
+      estado: EstadoType.Aprobado,
+      fecha: new Date(),
+    })
+    ECOOrganizaciones.update({ _id: notificacion.ecoOrganizacionId }, {
+      $set: {
+        estado: EstadoType.Aprobado,
+        historial: ecoOrganizacion.historial
+      }
+    })
     return true
   }
 })
@@ -122,6 +138,17 @@ export const RechazarNueva = new ValidatedMethod({
       $set: {
         estado: EstadoType.Rechazado,
         historial: historial
+      }
+    })
+    const ecoOrganizacion = ECOOrganizaciones.findOne({ _id: notificacion.ecoOrganizacionId })
+    ecoOrganizacion.historial.push({
+      estado: EstadoType.Rechazado,
+      fecha: new Date(),
+    })
+    ECOOrganizaciones.update({ _id: notificacion.ecoOrganizacionId }, {
+      $set: {
+        estado: EstadoType.Rechazado,
+        historial: ecoOrganizacion.historial
       }
     })
     return true

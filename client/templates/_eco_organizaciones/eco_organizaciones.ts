@@ -5,6 +5,7 @@ import { ReactiveVar } from 'meteor/reactive-var'
 import { UIUtils, FormUtils } from '../../utils/utils'
 import { Images } from '../../../lib/collections/FilesCollections'
 import { ECOOrganizaciones } from '../../../lib/collections/ECODimensionesCollections'
+import { EstadoType } from '../../../lib/types/EstadoType'
 
 Template.eco_organizaciones.onCreated(function () {
 	this.currentUpload = new ReactiveVar();
@@ -44,7 +45,10 @@ Template.eco_organizaciones.helpers({
 			});
 			ecoOrganizacion.avatar = img ? img.link() : '/img/no_image_available.jpg';
 			ecoOrganizacion.cantidadIntegrantes = 1 + (ecoOrganizacion.integrantes ? ecoOrganizacion.integrantes.length : 0);
-			ecoOrganizacion.donaciones = 0;
+			ecoOrganizacion.donaciones = 0
+			if (ecoOrganizacion.estado === EstadoType.Pendiente) {
+				ecoOrganizacion.estaPendiente = true
+			}
 			return ecoOrganizacion;
 		});
 	},

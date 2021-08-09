@@ -234,7 +234,7 @@ Template.notificaciones.events({
       const solicitante = Meteor.users.findOne({ _id: notificacion.solicitanteId })
       const avatarSolicitante = Images.findOne({ userId: solicitante._id })
       const nombreSolicitante = solicitante.profile.nombre
-      if (avatar) {
+      if (avatarSolicitante) {
         avatarHTML = '<img src="' + avatarSolicitante.link() + '">'
       } else {
         const iniciales = nombreSolicitante[0].charAt(0)
