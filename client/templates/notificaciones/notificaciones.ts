@@ -149,8 +149,8 @@ Template.notificaciones.events({
           '<div class="fecha">' + moment(notificacion.fecha).format('DD/MM/yyyy HH:mm') + '</div>' +
           '</div>',
         esDecision: true,
-        methodAccept: "ECOSos.AprobarNueva",
-        methodReject: "ECOSos.RechazarNueva",
+        methodAccept: "ECOSos.AprobarNuevo",
+        methodReject: "ECOSos.RechazarNuevo",
         params: {
           notificacionId: notificacion._id
         }
@@ -186,8 +186,8 @@ Template.notificaciones.events({
           '<div class="fecha">' + moment(notificacion.fecha).format('DD/MM/yyyy HH:mm') + '</div>' +
           '</div>',
         esDecision: true,
-        methodAccept: "ECODesarrollo.AprobarNueva",
-        methodReject: "ECODesarrollo.RechazarNueva",
+        methodAccept: "ECODesarrollo.AprobarNuevo",
+        methodReject: "ECODesarrollo.RechazarNuevo",
         params: {
           notificacionId: notificacion._id
         }

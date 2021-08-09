@@ -4,6 +4,8 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method'
 import { Images } from '/lib/collections/FilesCollections'
 const { ECOCampanas } = require('/lib/collections/ECODimensionesCollections')
 const NotificacionesServices = require('../services/NotificacionesServices')
+import { EstadoType } from '../../../lib/types/EstadoType'
+import { Notificaciones } from '../../../lib/collections/BaseCollections'
 
 export const Actualizar = new ValidatedMethod({
   name: 'ECOCampanas.Actualizar',
@@ -55,9 +57,14 @@ export const Actualizar = new ValidatedMethod({
       delete doc._id;
       ECOCampanas.update({ _id: id }, { $set: doc });
     } else {
-      doc.pendiente = true
-      const usuarioId = Meteor.userId()
+      const usuarioId = this.userId
       doc.usuarioId = usuarioId
+      doc.estado = EstadoType.Pendiente
+      doc.createdAt = new Date()
+      doc.historial = [{
+        estado: EstadoType.Pendiente,
+        fecha: doc.createdAt,
+      }]
       const ecoCampanaId = ECOCampanas.insert(doc);
       NotificacionesServices.nuevaECOCampana(usuarioId, ecoCampanaId)
       const imagenes = Images.find({
@@ -77,6 +84,7 @@ export const Actualizar = new ValidatedMethod({
     }
   }
 });
+
 export const AprobarNueva = new ValidatedMethod({
   name: 'ECOCampanas.AprobarNueva',
   validate: new SimpleSchema({
@@ -87,7 +95,7 @@ export const AprobarNueva = new ValidatedMethod({
     clean: true
   }),
   run(doc) {
-    const usuarioId = Meteor.userId()
+    const usuarioId = this.userId
     const notificacion = Notificaciones.findOne({ _id: doc.notificacionId })
     let historial = notificacion.historial
     historial.push({
@@ -102,12 +110,23 @@ export const AprobarNueva = new ValidatedMethod({
         historial: historial
       }
     })
+    const ecoCampana = ECOCampanas.findOne({ _id: notificacion.ecoCampanaId })
+    ecoCampana.historial.push({
+      estado: EstadoType.Aprobado,
+      fecha: new Date(),
+    })
+    ECOCampanas.update({ _id: ecoCampana._id }, {
+      $set: {
+        estado: EstadoType.Aprobado,
+        historial: ecoCampana.historial,
+      }
+    })
     return true
   }
 })
 
 export const RechazarNueva = new ValidatedMethod({
-  name: 'ECOCampanas.Rechazar',
+  name: 'ECOCampanas.RechazarNueva',
   validate: new SimpleSchema({
     notificacionId: {
       type: String
@@ -129,6 +148,17 @@ export const RechazarNueva = new ValidatedMethod({
       $set: {
         estado: EstadoType.Rechazado,
         historial: historial
+      }
+    })
+    const ecoCampana = ECOCampanas.findOne({ _id: notificacion.ecoCampanaId })
+    ecoCampana.historial.push({
+      estado: EstadoType.Rechazado,
+      fecha: new Date(),
+    })
+    ECOCampanas.update({ _id: ecoCampana._id }, {
+      $set: {
+        estado: EstadoType.Rechazado,
+        historial: ecoCampana.historial,
       }
     })
     return true

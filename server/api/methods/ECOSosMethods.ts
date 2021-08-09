@@ -43,8 +43,13 @@ export const Actualizar = new ValidatedMethod({
       delete doc._id;
       ECOSos.update({ _id: id }, { $set: doc });
     } else {
-      doc.pendiente = true
-      const usuarioId = Meteor.userId()
+      doc.estado = EstadoType.Pendiente
+      doc.createdAt = new Date()
+      doc.historial = [{
+        estado: EstadoType.Pendiente,
+        fecha: doc.createdAt,
+      }]
+      const usuarioId = this.userId
       const ecoSosId = ECOSos.insert(doc);
       NoficacionesServices.nuevoECOSos(usuarioId, ecoSosId)
       const img = Images.findOne({
@@ -65,8 +70,8 @@ export const Actualizar = new ValidatedMethod({
   }
 
 });
-export const AprobarNueva = new ValidatedMethod({
-  name: 'ECOSos.AprobarNueva',
+export const AprobarNuevo = new ValidatedMethod({
+  name: 'ECOSos.AprobarNuevo',
   validate: new SimpleSchema({
     notificacionId: {
       type: String
@@ -90,12 +95,23 @@ export const AprobarNueva = new ValidatedMethod({
         historial: historial
       }
     })
+    const ecoSos = ECOSos.findOne({ _id: notificacion.ecoSosId })
+    ecoSos.historial.push({
+      estado: EstadoType.Aprobado,
+      fecha: new Date(),
+    })
+    ECOSos.update({ _id: ecoSos._id }, {
+      $set: {
+        estado: EstadoType.Aprobado,
+        historial: ecoSos.historial,
+      }
+    })
     return true
   }
 })
 
-export const RechazarNueva = new ValidatedMethod({
-  name: 'ECOSos.Rechazar',
+export const RechazarNuevo = new ValidatedMethod({
+  name: 'ECOSos.RechazarNuevo',
   validate: new SimpleSchema({
     notificacionId: {
       type: String
@@ -117,6 +133,17 @@ export const RechazarNueva = new ValidatedMethod({
       $set: {
         estado: EstadoType.Rechazado,
         historial: historial
+      }
+    })
+    const ecoSos = ECOSos.findOne({ _id: notificacion.ecoSosId })
+    ecoSos.historial.push({
+      estado: EstadoType.Rechazado,
+      fecha: new Date(),
+    })
+    ECOSos.update({ _id: ecoSos._id }, {
+      $set: {
+        estado: EstadoType.Rechazado,
+        historial: ecoSos.historial,
       }
     })
     return true

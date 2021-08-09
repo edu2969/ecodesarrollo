@@ -1,10 +1,11 @@
 const { CHILE } = require('../lib/lugares/lugares_CL')
+import { Regiones, Comunas } from '../lib/collections/BaseCollections'
 
 Meteor.methods({
 	// ECOOrganizaciones
 
 	ActualizarECOCampana(doc) {
-		if(doc._id) {
+		if (doc._id) {
 			//debugger;
 			const id = doc._id;
 			delete doc._id;
@@ -14,21 +15,21 @@ Meteor.methods({
 			Images.find({
 				userId: Meteor.userId(),
 				"meta.tipo": "ecocampana",
-				"meta.pendiente": true	
-			}).fetch().forEach(function(imagen) {
-						Images.update({ _id: imagen._id }, {
-						$set: {
-							"meta.ecoCampanaId": ecoCampanaId
-						},
-						$unset: {
-							"meta.pendiente": true
-						}
-					});
-				})
-			}
-		},
+				"meta.pendiente": true
+			}).fetch().forEach(function (imagen) {
+				Images.update({ _id: imagen._id }, {
+					$set: {
+						"meta.ecoCampanaId": ecoCampanaId
+					},
+					$unset: {
+						"meta.pendiente": true
+					}
+				});
+			})
+		}
+	},
 	ActualizarECOSos(doc) {
-		if(doc._id) {
+		if (doc._id) {
 			//debugger;
 			const id = doc._id;
 			delete doc._id;
@@ -38,8 +39,8 @@ Meteor.methods({
 			Images.find({
 				userId: Meteor.userId(),
 				"meta.tipo": "ecosos",
-				"meta.pendiente": true	
-			}).fetch().forEach(function(imagen) {
+				"meta.pendiente": true
+			}).fetch().forEach(function (imagen) {
 				Images.update({ _id: imagen._id }, {
 					$set: {
 						"meta.ecoSosId": ecoSosId
@@ -52,18 +53,18 @@ Meteor.methods({
 		}
 	},
 	ActualizarECODesarrollo(doc) {
-		if(doc._id) {
+		if (doc._id) {
 			const id = doc._id;
 			delete doc._id;
 			ECODesarrollos.update({ _id: id }, { $set: doc });
-		} 
+		}
 		else {
 			const ecoDesarrolloId = ECODesarrollos.insert(doc);
 			Images.find({
 				userId: Meteor.userId(),
 				"meta.tipo": "ecodesarrollo",
-				"meta.pendiente": true	
-			}).fetch().forEach(function(imagen) {
+				"meta.pendiente": true
+			}).fetch().forEach(function (imagen) {
 				Images.update({ _id: imagen._id }, {
 					$set: {
 						"meta.ecoDesarrolloId": ecoDesarrolloId
@@ -76,8 +77,8 @@ Meteor.methods({
 			Documents.find({
 				userId: Meteor.userId(),
 				"meta.tipo": "ecodesarrollo",
-				"meta.pendiente": true	
-			}).fetch().forEach(function(archivo) {
+				"meta.pendiente": true
+			}).fetch().forEach(function (archivo) {
 				Documents.update({ _id: archivo._id }, {
 					$set: {
 						"meta.ecoDesarrolloId": ecoDesarrolloId
@@ -89,10 +90,10 @@ Meteor.methods({
 			})
 		}
 	},
-	
+
 	// TEST
 	_DatosIniciales() {
-		Meteor.users.find().forEach(function(usuario) {
+		Meteor.users.find().forEach(function (usuario) {
 			Meteor.users.remove({ _id: usuario._id });
 		})
 		const defecto = [{
@@ -113,7 +114,7 @@ Meteor.methods({
 			Regiones.insert(region)
 		})
 
-		CHILE.COMUNAS.forEach((comuna)=>{
+		CHILE.COMUNAS.forEach((comuna) => {
 			Comunas.insert(comuna);
 		})
 

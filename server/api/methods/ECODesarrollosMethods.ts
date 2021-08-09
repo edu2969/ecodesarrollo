@@ -2,8 +2,10 @@ import { Meteor } from 'meteor/meteor'
 import SimpleSchema from 'simpl-schema'
 import { ValidatedMethod } from 'meteor/mdg:validated-method'
 import { Images } from '/lib/collections/FilesCollections'
+import { EstadoType } from '../../../lib/types/EstadoType'
 const { ECODesarrollos } = require('/lib/collections/ECODimensionesCollections')
 const NoficacionesServices = require('../services/NotificacionesServices')
+import { Notificaciones } from '../../../lib/collections/BaseCollections'
 
 export const Actualizar = new ValidatedMethod({
   name: 'ECODesarrollos.Actualizar',
@@ -35,9 +37,14 @@ export const Actualizar = new ValidatedMethod({
       delete doc._id;
       ECODesarrollos.update({ _id: id }, { $set: doc });
     } else {
-      doc.pendiente = true
-      const usuarioId = Meteor.userId()
+      doc.estado = EstadoType.Pendiente
+      const usuarioId = this.userId
       doc.usuarioId = usuarioId
+      doc.createdAt = new Date()
+      doc.historial = [{
+        estado: EstadoType.Pendiente,
+        fecha: doc.createdAt,
+      }]
       const ecoDesarrolloId = ECODesarrollos.insert(doc);
       NoficacionesServices.nuevoECODesarrollo(usuarioId, ecoDesarrolloId)
       const img = Images.findOne({
@@ -57,3 +64,83 @@ export const Actualizar = new ValidatedMethod({
     }
   }
 });
+
+export const AprobarNuevo = new ValidatedMethod({
+  name: 'ECODesarrollos.AprobarNuevo',
+  validate: new SimpleSchema({
+    notificacionId: {
+      type: String
+    }
+  }).validator({
+    clean: true
+  }),
+  run(doc) {
+    const usuarioId = this.userId
+    const notificacion = Notificaciones.findOne({ _id: doc.notificacionId })
+    let historial = notificacion.historial
+    historial.push({
+      estado: EstadoType.Aprobado,
+      fecha: new Date()
+    })
+    Notificaciones.update({
+      _id: doc.notificacionId
+    }, {
+      $set: {
+        estado: EstadoType.Aprobado,
+        historial: historial
+      }
+    })
+    const ecoDesarrollo = ECODesarrollos.findOne({ _id: notificacion.ecoDesarrolloId })
+    ecoDesarrollo.historial.push({
+      estado: EstadoType.Aprobado,
+      fecha: new Date(),
+    })
+    ECODesarrollos.update({ _id: ecoDesarrollo._id }, {
+      $set: {
+        estado: EstadoType.Aprobado,
+        historial: ecoDesarrollo.historial,
+      }
+    })
+    return true
+  }
+})
+
+export const RechazarNuevo = new ValidatedMethod({
+  name: 'ECODesarrollos.RechazarNuevo',
+  validate: new SimpleSchema({
+    notificacionId: {
+      type: String
+    }
+  }).validator({
+    clean: true
+  }),
+  run(doc) {
+    const usuarioId = Meteor.userId()
+    const notificacion = Notificaciones.findOne({ _id: doc.notificacionId })
+    let historial = notificacion.historial
+    historial.push({
+      estado: EstadoType.Rechazado,
+      fecha: new Date()
+    })
+    Notificaciones.update({
+      _id: doc.notificacionId
+    }, {
+      $set: {
+        estado: EstadoType.Rechazado,
+        historial: historial
+      }
+    })
+    const ecoDesarrollo = ECODesarrollos.findOne({ _id: notificacion.ecoDesarrolloId })
+    ecoDesarrollo.historial.push({
+      estado: EstadoType.Rechazado,
+      fecha: new Date(),
+    })
+    ECODesarrollos.update({ _id: ecoDesarrollo._id }, {
+      $set: {
+        estado: EstadoType.Rechazado,
+        historial: ecoDesarrollo.historial,
+      }
+    })
+    return true
+  }
+})
