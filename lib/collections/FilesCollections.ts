@@ -10,7 +10,6 @@ export const Images = new FilesCollection({
       Meteor.absoluteUrl().indexOf('ecodesarrollo.cl') != -1 ?
         "/home/ecousuario/uploads/images" : "/home/ecousuario/uploads/images";
   },
-  transport: 'http',
   onBeforeUpload(file) {
     if (file.size <= 10485760 && /png|jpg|jpeg/i.test(file.extension)) {
       return true;
@@ -28,7 +27,6 @@ export const Documents = new FilesCollection({
       Meteor.absoluteUrl().indexOf('ecodesarrollo.cl') != -1 ?
         "/home/ecousuario/uploads/documents" : "/home/ecousuario/uploads/documents";
   },
-  transport: 'http',
   onBeforeUpload(file) {
     if (file.size <= 10485760 && /pdf|doc|docx|xls|xlsx/i.test(file.extension)) {
       return true;
