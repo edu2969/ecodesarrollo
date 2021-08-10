@@ -1,8 +1,6 @@
 import { FilesCollection } from 'meteor/ostrio:files'
 import { Meteor } from 'meteor/meteor'
 
-var HomePath = process.env.PWD ? process.env.PWD : process.cwd();
-
 export const Images = new FilesCollection({
   collectionName: 'Images',
   allowClientCode: true,
@@ -12,8 +10,7 @@ export const Images = new FilesCollection({
       Meteor.absoluteUrl().indexOf('ecodesarrollo.cl') != -1 ?
         "/home/ecousuario/uploads/images" : "/home/ecousuario/uploads/images";
   },
-  /*transport: Meteor.absoluteUrl().indexOf('localhost:3000') != -1 ? 'http' : 'https',
-   */
+  transport: 'http',
   onBeforeUpload(file) {
     if (file.size <= 10485760 && /png|jpg|jpeg/i.test(file.extension)) {
       return true;
@@ -31,8 +28,7 @@ export const Documents = new FilesCollection({
       Meteor.absoluteUrl().indexOf('ecodesarrollo.cl') != -1 ?
         "/home/ecousuario/uploads/documents" : "/home/ecousuario/uploads/documents";
   },
-  /*transport: Meteor.absoluteUrl().indexOf('localhost:3000') != -1 ? 'http' : 'https',
-   */
+  transport: 'http',
   onBeforeUpload(file) {
     if (file.size <= 10485760 && /pdf|doc|docx|xls|xlsx/i.test(file.extension)) {
       return true;
