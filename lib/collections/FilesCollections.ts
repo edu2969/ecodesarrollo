@@ -4,6 +4,8 @@ import { Meteor } from 'meteor/meteor'
 export const Images = new FilesCollection({
   collectionName: 'Images',
   allowClientCode: true,
+  permissions: 0777,
+  parentDirPermissions: 0777,
   storagePath: () => {
     return Meteor.absoluteUrl().indexOf('localhost:3000') != -1 ?
       `../../../../../uploads/images` :
@@ -21,6 +23,8 @@ export const Images = new FilesCollection({
 export const Documents = new FilesCollection({
   collectionName: 'Documents',
   allowClientCode: true,
+  permissions: 0777,
+  parentDirPermissions: 0777,
   storagePath: () => {
     return Meteor.absoluteUrl().indexOf('localhost:3000') != -1 ?
       `../../../../../uploads/documents` :
