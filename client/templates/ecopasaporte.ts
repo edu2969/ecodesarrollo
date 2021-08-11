@@ -127,7 +127,6 @@ Template.ecopasaporte.helpers({
 		return ECOActividades.get();
 	},
 	panel() {
-		console.log("PANEL", Template.instance().panel.get())
 		return Template.instance().panel.get()
 	},
 	corazonVerde() {

@@ -463,5 +463,89 @@
 			margin: 1em auto;
 			width: 120px;
 		}
+
+		.caluguero {
+			border: 2px solid white;
+			border-radius: 8px;
+			background-color: rgba(255, 255, 255, 0.2);
+			padding: 1em;
+			margin-bottom: 0.5em;
+
+			.caluga {
+				border: 2px solid yellow;
+				background-color: yellowgreen;
+				color: black;
+				border-radius: 4px;
+				padding: 0.3em 0.75em;
+				margin: 0.3em;
+
+				&.seleccionado {
+					filter: opacity(0.4);
+				}
+			}
+		}
+
+		.selectores-presentacion {
+			display: flex;
+			.marco-agente-seleccionable {
+				display: block;
+				width: 225px;
+				position: relative;
+				height: 340px;
+				padding: 20px;
+				border: 2px solid white;
+				border-radius: 16px;
+				margin: 1.5em;
+				background-color: rgba(255, 255, 255, 0.7);
+				.imagen {
+					display: block;
+					position: absolute;
+					width: 230px;
+					height: 500px;
+					background-repeat: no-repeat;
+					&.cuerpo {
+						background-image: url(/img/corazon/corazon_verde.png);
+						background-size: 185px 158px;
+						z-index: 5;
+					}
+					&.piernas {
+						background-image: url(/img/corazon/corazon_verde_piernas.png);
+						background-size: 166px 194px;
+						background-position: 10px 120px;
+						z-index: 1;
+					}
+					&.brazo-izq {
+						background-image: url(/img/corazon/corazon_verde_brazo_izq.png);
+						background-size: 66px 133px;
+						background-position: 130px 90px;
+						z-index: 6;
+					}
+					&.brazo-der {
+						background-image: url(/img/corazon/corazon_verde_brazo_der.png);
+						background-size: 43px 100px;
+						background-position: 10px 90px;
+						z-index: 2;
+					}
+					&.cara-a {
+						background-image: url(/img/corazon/corazon_verde_cara_01.png);
+						background-size: 96px 75px;
+						background-position: 38px 40px;
+						z-index: 6;
+					}
+					&.cara-b {
+						background-image: url(/img/corazon/corazon_verde_cara_b01.png);
+						background-size: 60px 69px;
+						background-position: 48px 40px;
+						z-index: 6;
+					}
+					&.rosa {
+						background-image: url(/img/corazon/corazon_verde_rosa.png);
+						background-size: 58px 63px;
+						background-position: 128px 0px;
+						z-index: 6;
+					}
+				}
+			}
+		}
 	}
 }

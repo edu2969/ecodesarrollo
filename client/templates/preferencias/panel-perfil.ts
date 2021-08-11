@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 import { Template } from 'meteor/templating'
 import { ReactiveVar } from 'meteor/reactive-var'
+import { INTERESES } from '../../../lib/constantes'
 const { Images } = require('/lib/collections/FilesCollections')
 
 Template.panelPerfil.onCreated(function () {
@@ -26,7 +27,13 @@ Template.panelPerfil.helpers({
       perfil.avatar = avatar.link();
     }
     if (perfil.rol == 1) perfil.esAdmin = true
-    return perfil;
+    perfil.intereses = INTERESES.map((interes) => {
+      return {
+        etiqueta: interes,
+        seleccionado: false,
+      }
+    })
+    return perfil
   }
 })
 

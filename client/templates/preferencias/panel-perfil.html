@@ -34,10 +34,47 @@
     <div class="formulario-edicion" style="display: none">
       <div class="formulario">
         <div class="entrada">
-          <span>Direccion</span>
+          <span>Dirección</span>
           <input type="text" id="input-direccion" class="campo" value="{{perfil.direccion}}">
         </div>
-        <div class="flex">
+        <div class="entrada">
+          <span>RUT</span>
+          <input type="text" id="input-rut" class="campo" value="{{perfil.rut}}">
+        </div>
+        <div class="entrada">
+          <span>Fecha de nacimiento</span>
+          <input type="text" id="input-fechaNacimiento" class="campo datetimepicker-component"
+            value="{{perfil.fechaNacimiento}}">
+        </div>
+        <div class="entrada">
+          <span>Intereses</span>
+          <div class="caluguero">
+            {{#each perfil.intereses}}
+            <span class="caluga{{#if seleccionado}} activo{{/if}}">{{etiqueta}}</span>
+            {{/each}}
+          </div>
+        </div>
+        <div class="entrada">
+          <span>Te presentas como</span>
+          <div class="selectores-presentacion">
+            <div class="marco-agente-seleccionable">
+              <div class="imagen cuerpo"></div>
+              <div class="imagen piernas"></div>
+              <div class="imagen brazo-izq"></div>
+              <div class="imagen brazo-der"></div>
+              <div class="imagen cara-a"></div>
+            </div>
+            <div class="marco-agente-seleccionable">
+              <div class="imagen cuerpo"></div>
+              <div class="imagen piernas"></div>
+              <div class="imagen brazo-izq"></div>
+              <div class="imagen brazo-der"></div>
+              <div class="imagen cara-b"></div>
+              <div class="imagen rosa"></div>
+            </div>
+          </div>
+        </div>
+        <div class="flex" style="width: 100%; justify-content: center;">
           <div class="neuromorph boton redondo rojo" id="btn-cancelar">
             <i class="material-icons">clear</i>
           </div>
