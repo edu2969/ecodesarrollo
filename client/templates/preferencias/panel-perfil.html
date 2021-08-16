@@ -31,20 +31,22 @@
         <div class="valor">{{perfil.direccion}}</div>
       </div>
     </div>
-    <div class="formulario-edicion" style="display: none">
+    <div class="formulario-edicion custom-scroll" style="display: none">
       <div class="formulario">
         <div class="entrada">
           <span>Dirección</span>
           <input type="text" id="input-direccion" class="campo" value="{{perfil.direccion}}">
         </div>
-        <div class="entrada">
-          <span>RUT</span>
-          <input type="text" id="input-rut" class="campo" value="{{perfil.rut}}">
-        </div>
-        <div class="entrada">
-          <span>Fecha de nacimiento</span>
-          <input type="text" id="input-fechaNacimiento" class="campo datetimepicker-component"
-            value="{{perfil.fechaNacimiento}}">
+        <div class="flex">
+          <div class="entrada">
+            <span>RUT</span>
+            <input type="text" id="input-rut" class="campo" value="{{perfil.rut}}">
+          </div>
+          <div class="entrada">
+            <span>Fecha de nacimiento</span>
+            <input type="text" id="input-fechaNacimiento" class="campo datetimepicker-component"
+              value="{{perfil.fechaNacimiento}}">
+          </div>
         </div>
         <div class="entrada">
           <span>Intereses</span>
@@ -73,6 +75,11 @@
               <div class="imagen rosa"></div>
             </div>
           </div>
+        </div>
+        <div class="entrada">
+          <span>Cuentanos de ti</span>
+          <textarea class="campo" id="input-resena" rows="4"
+            placeholder="Motivaciones, sueños, reseña, tu historia"></textarea>
         </div>
         <div class="flex" style="width: 100%; justify-content: center;">
           <div class="neuromorph boton redondo rojo" id="btn-cancelar">

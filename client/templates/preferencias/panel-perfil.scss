@@ -1,7 +1,6 @@
 .marco-perfil {
   .marco-foto-perfil {
     display: block;
-    width: 240px;
     height: 290px;
     background-color: rgba(255, 255, 255, 0.2);
     border-radius: 8px;
@@ -60,8 +59,8 @@
         }
 
         .avatar img {
-          width: 180px;
-          height: 180px;
+          width: calc(100% - 2em);
+          height: auto;
           border-radius: 50%;
           border: 2px solid white;
         }
@@ -103,6 +102,34 @@
   }
 
   .formulario-edicion {
-    margin-top: 2em;
+    margin-top: 3.5em;
+    margin-bottom: 0.5em;
+    height: calc(100vh - 6em);
+    overflow-y: scroll;
+    padding-right: 1em;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .marco-perfil {
+    .marco-foto-perfil {
+      width: 100%; 
+    }
+
+    .formulario-edicion {
+      width: 100%;
+    }
+  }
+}
+
+@media screen and (min-width: 651px) {
+  .marco-perfil {
+    .marco-foto-perfil {
+      width: 30%;
+    }
+
+    .formulario-edicion {
+      width: 70%;
+    }
   }
 }
