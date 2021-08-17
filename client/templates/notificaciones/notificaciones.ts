@@ -118,7 +118,6 @@ Template.notificaciones.events({
         }
       }
     } else if (notificacion.tipo == NotificacionType.NuevoECOSos) {
-      //debugger;
       const ecoSos = ECOSos.findOne({
         _id: notificacion.ecoSosId
       })
@@ -144,7 +143,7 @@ Template.notificaciones.events({
           '<div class="titulo"> Afectado : ' + '<strong>' + ECO_SOS.AFECTADO[ecoSos.afectado] + '</strong>' + '</div>' +
           '<div class="titulo"> Tipo LLamado : ' + '<strong>' + ECO_SOS.PROBLEMA[ecoSos.problema].etiqueta + '</strong>' + '</div>' +
           '<div class="contenido">Descripcion :' + '<strong>' + ecoSos.descripcion + '</strong>' + '</div>' +
-          '<div class="imagen"><img src="' + (imagen ? imagen.link() : '/img/no_image_available.jpg') + '"/></div>' +
+          '<div class="imagen-avatar"><img src="' + (imagen ? imagen.link() : '/img/no_image_available.jpg') + '"/></div>' +
           '</div>' +
           '<div class="fecha">' + moment(notificacion.fecha).format('DD/MM/yyyy HH:mm') + '</div>' +
           '</div>',
@@ -186,8 +185,8 @@ Template.notificaciones.events({
           '<div class="fecha">' + moment(notificacion.fecha).format('DD/MM/yyyy HH:mm') + '</div>' +
           '</div>',
         esDecision: true,
-        methodAccept: "ECODesarrollo.AprobarNuevo",
-        methodReject: "ECODesarrollo.RechazarNuevo",
+        methodAccept: "ECODesarrollos.AprobarNuevo",
+        methodReject: "ECODesarrollos.RechazarNuevo",
         params: {
           notificacionId: notificacion._id
         }
@@ -215,13 +214,13 @@ Template.notificaciones.events({
           '<div class="nombre">' + usuario.profile.nombre + '</div>' +
           '<div class="ecodimension-content">' +
           '<div class="titulo">' + ecoCampana.tipo + '</div>' +
-          '<div class="imagen"><img src="' + (imagen ? imagen.link() : '/img/no_image_available.jpg') + '"/></div>' +
+          '<div class="imagen-avatar"><img src="' + (imagen ? imagen.link() : '/img/no_image_available.jpg') + '"/></div>' +
           '</div>' +
           '<div class="fecha">' + moment(notificacion.fecha).format('DD/MM/yyyy HH:mm') + '</div>' +
           '</div>',
         esDecision: true,
-        methodAccept: "ECOCampana.AprobarNueva",
-        methodReject: "ECOCamapana.RechazarNueva",
+        methodAccept: "ECOCampanas.AprobarNueva",
+        methodReject: "ECOCampanas.RechazarNueva",
         params: {
           notificacionId: notificacion._id
         }

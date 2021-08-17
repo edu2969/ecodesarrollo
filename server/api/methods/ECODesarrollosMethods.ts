@@ -75,7 +75,6 @@ export const AprobarNuevo = new ValidatedMethod({
     clean: true
   }),
   run(doc) {
-    const usuarioId = this.userId
     const notificacion = Notificaciones.findOne({ _id: doc.notificacionId })
     let historial = notificacion.historial
     historial.push({
@@ -115,7 +114,6 @@ export const RechazarNuevo = new ValidatedMethod({
     clean: true
   }),
   run(doc) {
-    const usuarioId = Meteor.userId()
     const notificacion = Notificaciones.findOne({ _id: doc.notificacionId })
     let historial = notificacion.historial
     historial.push({

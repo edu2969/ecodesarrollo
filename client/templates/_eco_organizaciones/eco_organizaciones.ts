@@ -73,7 +73,7 @@ Template.eco_organizaciones.helpers({
 				"meta.tipo": "ecoorganizacion"
 			}]
 		});
-		ecoOrganizacion.avatar = img ? img.link() : '/img/no_image_available.jpg'
+		ecoOrganizacion.avatar = img ? img.link() : false
 		ecoOrganizacion.tieneAvatar = img ? true : ""
 		ecoOrganizacion.ultimaActividad = ecoOrganizacion.ultimaActualizacion;
 		ecoOrganizacion.cantidadIntegrantes = 1 + (ecoOrganizacion.integrantes ? ecoOrganizacion.integrantes.length : 0);
@@ -206,7 +206,10 @@ Template.eco_organizaciones.events({
 					userId: Meteor.userId(),
 					"meta.pendiente": true
 				});
-				meta = { pendiente: true };
+				meta = {
+					pendiente: true,
+					tipo: "ecoorganizacion",
+				}
 			} else {
 				img = Images.findOne({
 					userId: Meteor.userId(),

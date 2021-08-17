@@ -247,22 +247,23 @@ Template.eco_sos.events({
 		e.preventDefault();
 		var ecoSos = template.ecoSosSeleccionada.get();
 		if (e.originalEvent.dataTransfer.files && e.originalEvent.dataTransfer.files[0]) {
+			let meta = {}
 			var img;
-			var meta = {
-				tipo: "ecosos"
-			}
 			if (!ecoSos._id) {
-				meta.pendiente = true;
+				meta = {
+					pendiente: true,
+					tipo: "ecosos",
+				}
 			} else {
-				meta.ecoSosId = ecoSos._id;
+				meta = {
+					ecoSosId: ecoSos._id,
+					tipo: "ecosos"
+				};
 			}
-
 			const upload = Images.insert({
 				file: e.originalEvent.dataTransfer.files[0],
-				//streams: 'dynamic',
-				//chunkSize: 'dynamic',
 				meta: meta
-			}, false);
+			}, false)
 
 			upload.on('start', function () {
 				template.currentUpload.set(this);

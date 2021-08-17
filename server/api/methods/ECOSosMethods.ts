@@ -50,14 +50,16 @@ export const Actualizar = new ValidatedMethod({
         fecha: doc.createdAt,
       }]
       const usuarioId = this.userId
+      doc.usuarioId = usuarioId
       const ecoSosId = ECOSos.insert(doc);
       NoficacionesServices.nuevoECOSos(usuarioId, ecoSosId)
-      const img = Images.findOne({
+      const imagenes = Images.find({
         userId: usuarioId,
+        "meta.tipo": "ecosos",
         "meta.pendiente": true
       });
-      if (img) {
-        Images.update({ _id: img._id }, {
+      imagenes.forEach((imagen) => {
+        Images.update({ _id: imagen._id }, {
           $set: {
             "meta.ecoSosId": ecoSosId
           },
@@ -65,7 +67,7 @@ export const Actualizar = new ValidatedMethod({
             "meta.pendiente": true
           }
         });
-      }
+      })
     }
   }
 
