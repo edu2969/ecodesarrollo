@@ -3,6 +3,7 @@ import { Template } from 'meteor/templating'
 import { ReactiveVar } from 'meteor/reactive-var'
 import { INTERESES } from '../../../lib/constantes'
 const { Images } = require('/lib/collections/FilesCollections')
+import { FormUtils, MaskPrice } from '../../utils/utils'
 
 Template.panelPerfil.onCreated(function () {
   this.currentUpload = new ReactiveVar(false);
@@ -10,6 +11,11 @@ Template.panelPerfil.onCreated(function () {
 
 Template.panelPerfil.rendered = function () {
   Meteor.subscribe('usuarios.profile')
+  $("#input-fechaNacimiento").datetimepicker({
+    locale: moment.locale("es"),
+    format: "DD/MM/YYYY",
+    defaultDate: moment().startOf("day").hour(8).subtract(18, "years"),
+  });
 }
 
 Template.panelPerfil.helpers({
@@ -125,4 +131,14 @@ Template.panelPerfil.events({
       upload.start();
     }
   },
+  "click .caluga"(e, template) {
+    e.currentTarget.classList.toggle("seleccionado")
+  },
+  "focusout #input-rut"(e) {
+    let rut = e.currentTarget.value
+    rut = rut.replace(/\./g, "").replace(/\-/, "")
+    const dv = rut.substring(rut.length - 1)
+    const nuevoRut = MaskPrice(rut.substring(0, rut.length - 1)) + "-" + dv
+    $("#input-rut").val(nuevoRut)
+  }
 })

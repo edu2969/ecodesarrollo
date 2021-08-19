@@ -111,15 +111,40 @@ export const ModificarCuenta = new ValidatedMethod({
   name: 'Usuarios.ModificarCuenta',
   validate: new SimpleSchema({
     direccion: {
+      type: String,
+      optional: true,
+    },
+    calugas: {
+      type: Array,
+      optional: true,
+    },
+    'calugas.$': {
       type: String
+    },
+    rut: {
+      type: String,
+      optional: true,
+    },
+    fechaNacimiento: {
+      type: Date,
+      optional: true,
+    },
+    resena: {
+      type: String,
+      optional: true,
     }
   }).validator({
     clean: true
   }),
   run(doc) {
+    console.log(doc)
     const usuarioId = Meteor.userId()
     const usuario = {
-      "profile.direccion": doc.direccion
+      "profile.direccion": doc.direccion,
+      "profile.intereses": doc.calugas,
+      "profile.rut": doc.rut,
+      "profile.fechaNacimiento": moment(doc.fechaNacimiento, "DD/MM/YYYY").toDate(),
+      "profile.resena": doc.resena
     }
     Meteor.users.update({ _id: usuarioId }, { $set: usuario })
   }

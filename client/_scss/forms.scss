@@ -480,10 +480,11 @@
 				border-radius: 4px;
 				padding: 0.3em 0.75em;
 				margin: 0.3em;
+				filter: opacity(0.4);
 				cursor: pointer;
 
 				&.seleccionado {
-					filter: opacity(0.4);
+					filter: opacity(1);
 				}
 			}
 		}

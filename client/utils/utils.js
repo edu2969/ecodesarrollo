@@ -48,6 +48,15 @@ export const FormUtils = {
         doc[nombreCampo] = moment(campo.value, 'DD/MM/YYYY').toDate()
       } else doc[nombreCampo] = campo.value
     })
+    $(".formulario .caluga").each((indice, campo) => {
+      const seleccionado = campo.classList.value.indexOf('seleccionado') != -1
+      if (seleccionado) {
+        if (!doc.calugas) {
+          doc.calugas = []
+        }
+        doc.calugas.push(campo.innerHTML)
+      }
+    })
     return doc;
   },
   invalid() {
@@ -68,4 +77,25 @@ export const FormUtils = {
     }
     return doc
   }
+}
+
+export const MaskPrice = function (str, moneda) {
+  var parts = (str + '').split('.'),
+    main = parts[0],
+    len = main.length,
+    output = '',
+    i = len - 1
+
+  while (i >= 0) {
+    output = main.charAt(i) + output
+    if ((len - i) % 3 === 0 && i > 0) {
+      output = '.' + output
+    }
+    --i
+  }
+  // put decimal part back
+  if (moneda == 'UF $' && parts.length > 1) {
+    output += ',' + parts[1].substr(0, 2)
+  }
+  return (moneda ? moneda + ' ' : '') + output
 }

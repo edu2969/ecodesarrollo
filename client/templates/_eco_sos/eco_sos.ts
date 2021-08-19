@@ -65,7 +65,7 @@ Template.eco_sos.helpers({
 		let ecoSos = template.ecoSosSeleccionada.get();
 		if (!ecoSos) return;
 		const userId = Meteor.userId();
-		if (userId == ecoSos.userId) {
+		if (userId == ecoSos.usuarioId) {
 			ecoSos.esPropia = true;
 		}
 		const img = Images.findOne({
