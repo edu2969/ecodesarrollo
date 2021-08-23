@@ -33,10 +33,11 @@ Template.panelPerfil.helpers({
       perfil.avatar = avatar.link();
     }
     if (perfil.rol == 1) perfil.esAdmin = true
+    const intereses = perfil.intereses
     perfil.intereses = INTERESES.map((interes) => {
       return {
         etiqueta: interes,
-        seleccionado: false,
+        seleccionado: intereses.indexOf(interes) != -1,
       }
     })
     return perfil
@@ -140,5 +141,11 @@ Template.panelPerfil.events({
     const dv = rut.substring(rut.length - 1)
     const nuevoRut = MaskPrice(rut.substring(0, rut.length - 1)) + "-" + dv
     $("#input-rut").val(nuevoRut)
+  },
+  "click .marco-agente-seleccionable"(e) {
+    let sexo = e.currentTarget.attributes["sexo"].value
+    $("#input-sexo").val(sexo)
+    $(".marco-agente-seleccionable").removeClass("seleccionado")
+    e.currentTarget.classList.toggle("seleccionado")
   }
 })

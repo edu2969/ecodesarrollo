@@ -129,6 +129,10 @@ export const ModificarCuenta = new ValidatedMethod({
       type: Date,
       optional: true,
     },
+    sexo: {
+      type: String,
+      optional: true,
+    },
     resena: {
       type: String,
       optional: true,
@@ -144,7 +148,8 @@ export const ModificarCuenta = new ValidatedMethod({
       "profile.intereses": doc.calugas,
       "profile.rut": doc.rut,
       "profile.fechaNacimiento": moment(doc.fechaNacimiento, "DD/MM/YYYY").toDate(),
-      "profile.resena": doc.resena
+      "profile.sexo": doc.sexo,
+      "profile.resena": doc.resena,
     }
     Meteor.users.update({ _id: usuarioId }, { $set: usuario })
   }

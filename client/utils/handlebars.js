@@ -31,3 +31,7 @@ Handlebars.registerHelper("traductorSOSProblemas", (codigo) => {
 Handlebars.registerHelper("traductorCAMPANASTipos", (codigo) => {
 	return ECO_CAMPANAS.TIPOS[codigo];
 });
+
+Handlebars.registerHelper('sonIguales', function (val1, val2) {
+	return val1 === val2
+})
