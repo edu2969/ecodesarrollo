@@ -1,11 +1,11 @@
 <template name="panelPerfil">
-  <div class="marco-perfil" style="display: flex;">
+  <div class="marco-perfil">
     <div class="marco-foto-perfil">
       <div class="marco-foto">
         <div class="marco-avatar">
           {{#if perfil.avatar}}
-          <div class="avatar">
-            <img src="{{perfil.avatar}}" />
+          <div class="avatar" style="background-image: url({{perfil.avatar}})">
+            <div class="inner"></div>
           </div>
           {{else}}
           <div class="no-imagen">{{perfil.iniciales}}</div>
@@ -25,10 +25,57 @@
       </div>
       <input type="file" id="upload-image" style="display: none;">
     </div>
-    <div class="marco-informacion">
+    <div class="marco-informacion custom-scroll">
       <div class="linea">
         <div class="etiqueta">Direccion</div>
         <div class="valor">{{perfil.direccion}}</div>
+      </div>
+      <div class="linea">
+        <div class="etiqueta">RUT</div>
+        <div class="valor">{{perfil.rut}}</div>
+      </div>
+      <div class="linea">
+        <div class="etiqueta">Fecha nacimiento</div>
+        <div class="valor">{{formatoFecha perfil.fechaNacimiento 'DD/MM/YYYY'}}</div>
+      </div>
+      <div class="linea">
+        <div class="etiqueta">Intereses</div>
+        <div class="valor contenedor-intereses">
+          {{#each perfil.intereses}}
+          {{#if seleccionado}}
+          <span class="interes">{{etiqueta}}</span>
+          {{/if}}
+          {{/each}}
+        </div>
+      </div>
+      <div class="linea">
+        <div class="etiqueta">Te presentas como</div>
+      </div>
+      <div class="linea">
+        <div class="recuadro-presentacion">
+          {{#if sonIguales perfil.sexo 'M'}}
+          <div class="marco-agente-seleccionable seleccionado">
+            <div class="imagen cuerpo"></div>
+            <div class="imagen piernas"></div>
+            <div class="imagen brazo-izq"></div>
+            <div class="imagen brazo-der"></div>
+            <div class="imagen cara-a"></div>
+          </div>
+          {{else}}
+          <div class="marco-agente-seleccionable seleccionado">
+            <div class="imagen cuerpo"></div>
+            <div class="imagen piernas"></div>
+            <div class="imagen brazo-izq"></div>
+            <div class="imagen brazo-der"></div>
+            <div class="imagen cara-b"></div>
+            <div class="imagen rosa"></div>
+          </div>
+          {{/if}}
+        </div>
+      </div>
+      <div class="linea">
+        <div class="etiqueta">Reseña</div>
+        <div class="valor">{{perfil.resena}}</div>
       </div>
     </div>
     <div class="formulario-edicion custom-scroll" style="display: none">
@@ -43,7 +90,7 @@
             <input type="text" id="input-rut" class="campo" value="{{perfil.rut}}">
           </div>
           <div class="entrada">
-            <span>Fecha de nacimiento</span>
+            <span>Fecha nacimiento</span>
             <input type="text" id="input-fechaNacimiento" class="campo datetimepicker-component"
               value="{{perfil.fechaNacimiento}}">
           </div>
@@ -52,21 +99,21 @@
           <span>Intereses</span>
           <div class="caluguero">
             {{#each perfil.intereses}}
-            <span class="caluga{{#if seleccionado}} activo{{/if}}">{{etiqueta}}</span>
+            <span class="caluga{{#if seleccionado}} seleccionado{{/if}}">{{etiqueta}}</span>
             {{/each}}
           </div>
         </div>
         <div class="entrada">
           <span>Te presentas como</span>
           <div class="selectores-presentacion">
-            <div class="marco-agente-seleccionable">
+            <div class="marco-agente-seleccionable{{#if sonIguales perfil.sexo 'M'}} seleccionado{{/if}}" sexo="M">
               <div class="imagen cuerpo"></div>
               <div class="imagen piernas"></div>
               <div class="imagen brazo-izq"></div>
               <div class="imagen brazo-der"></div>
               <div class="imagen cara-a"></div>
             </div>
-            <div class="marco-agente-seleccionable">
+            <div class="marco-agente-seleccionable{{#if sonIguales perfil.sexo 'F'}} seleccionado{{/if}}" sexo="F">
               <div class="imagen cuerpo"></div>
               <div class="imagen piernas"></div>
               <div class="imagen brazo-izq"></div>
@@ -75,11 +122,12 @@
               <div class="imagen rosa"></div>
             </div>
           </div>
+          <input class="campo" id="input-sexo" value="{{perfil.sexo}}" style="display: none">
         </div>
         <div class="entrada">
           <span>Cuentanos de ti</span>
           <textarea class="campo" id="input-resena" rows="4"
-            placeholder="Motivaciones, sueños, reseña, tu historia"></textarea>
+            placeholder="Motivaciones, sueños, reseña, tu historia">{{perfil.resena}}</textarea>
         </div>
         <div class="flex" style="width: 100%; justify-content: center;">
           <div class="neuromorph boton redondo rojo" id="btn-cancelar">

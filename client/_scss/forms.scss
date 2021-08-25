@@ -480,10 +480,11 @@
 				border-radius: 4px;
 				padding: 0.3em 0.75em;
 				margin: 0.3em;
+				filter: opacity(0.4);
 				cursor: pointer;
 
 				&.seleccionado {
-					filter: opacity(0.4);
+					filter: opacity(1);
 				}
 			}
 		}
@@ -500,7 +501,7 @@
 				border-radius: 16px;
 				margin: 1.5em;
 				background-color: skyblue;
-				opacity: 0.6;
+				opacity: 0.3;
 				cursor: pointer;
 
 				&:hover {
@@ -515,7 +516,7 @@
 					display: block;
 					position: absolute;
 					width: 153px;
-					height: 333px;
+					height: 254px;
 					background-repeat: no-repeat;
 					&.cuerpo {
 						background-image: url(/img/corazon/corazon_verde.png);
