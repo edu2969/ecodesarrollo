@@ -4,6 +4,7 @@ import { Template } from 'meteor/templating'
 import { Tracker } from 'meteor/tracker'
 import { ReactiveVar } from 'meteor/reactive-var'
 import { Session } from 'meteor/session'
+import { EstadoType } from '../../../lib/types/EstadoType'
 const { Comunas } = require('../../../lib/collections/BaseCollections')
 const { ECOSos } = require('../../../lib/collections/ECODimensionesCollections')
 const { Images } = require('../../../lib/collections/FilesCollections')
@@ -57,6 +58,9 @@ Template.eco_sos.helpers({
 			ecosos.avatar = img ? img.link() : '/img/no_image_available.jpg';
 			ecosos.integrantes = 0;
 			ecosos.donaciones = 0;
+			if (ecosos.estado === EstadoType.Pendiente) {
+				ecosos.estaPendiente = true
+			}
 			return ecosos;
 		});
 	},

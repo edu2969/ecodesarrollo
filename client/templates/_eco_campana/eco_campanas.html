@@ -29,7 +29,7 @@
 		<div class="grilla custom-scroll">
 			<div class="contenedor-entidades contenedor-campanas">
 				{{#each eco_campanas}}
-				<div class="marco-entidad neuromorph azul" style="background-image: url({{avatar}})" id="{{_id}}">
+				<div class="marco-entidad neuromorph purpura{{#if estaPendiente}} pendiente{{/if}}" style="background-image: url({{avatar}})" id="{{_id}}">
 					<div class="overlay"></div>
 					<div class="titulo">
 						{{traductorCAMPANASTipos tipo}}

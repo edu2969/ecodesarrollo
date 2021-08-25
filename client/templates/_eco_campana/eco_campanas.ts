@@ -6,6 +6,7 @@ import { ReactiveVar } from 'meteor/reactive-var'
 import { Session } from 'meteor/session'
 import { UIUtils, FormUtils, IsEmpty } from '../../utils/utils'
 import { ECOCampanas, ECOOrganizaciones } from '../../../lib/collections/ECODimensionesCollections'
+import { EstadoType } from '../../../lib/types/EstadoType'
 const { Comunas } = require('../../../lib/collections/BaseCollections')
 const { Images } = require('../../../lib/collections/FilesCollections')
 const { ECO_CAMPANAS } = require('../../../lib/constantes')
@@ -65,6 +66,9 @@ Template.eco_campanas.helpers({
 			ecoCampana.avatar = img ? img.link() : '/img/no_image_available.jpg';
 			ecoCampana.integrantes = 0;
 			ecoCampana.donaciones = 0;
+			if (ecoCampana.estado === EstadoType.Pendiente) {
+				ecoCampana.estaPendiente = true
+			}
 			return ecoCampana;
 		});
 	},
