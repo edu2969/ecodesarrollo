@@ -58,7 +58,8 @@
 			.integrantes {
 				position: relative;
 				top: -96px;
-				right: -150px;
+				right: -70px;
+				text-align: center;
 				.cantidad {
 					font-size: 26px;
 				}
@@ -85,7 +86,7 @@
 				}
 			}
 
-			.donaciones {
+			.puntos {
 				position: relative;
 				top: 6px;
 
@@ -180,7 +181,7 @@
 			}
 		}
 		
-		.donaciones {
+		.puntos {
 			position: relative;
 			top: 6px;
 			height: 100px;

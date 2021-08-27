@@ -18,7 +18,7 @@
         position: absolute;
         display: block;
         right: 20%;
-        bottom: 20%;
+        bottom: 40%;
 
         .material-icons {
           font-size: 32px;
@@ -28,6 +28,7 @@
           padding: 4px;
         }
       }
+
       .marco-editar {
         position: absolute;
         border-radius: 4px;
@@ -42,14 +43,14 @@
           color: limegreen;
         }
       }
+
       .nombre {
-        position:  absolute;
         font-size: 22px;
         background-color: white;
         color: orangered;
         border-radius: 8px;
         padding: 0 1em;
-        top: 180px;
+        margin-top: 1em;
       }
       
       .marco-avatar {
@@ -102,6 +103,17 @@
           &.drop {
             opacity: 1;
           }
+        }
+      }
+
+      .puntaje {
+        display: flex;
+        .material-icons {
+          font-size: 72px;
+          color: limegreen;
+        }
+        .cantidad {
+          font-size: 56px;
         }
       }
     }

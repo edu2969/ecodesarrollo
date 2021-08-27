@@ -5,6 +5,12 @@ import { Nivel } from '../utils/nivel'
 import { ECOActividades } from '../../lib/ECOActividades'
 import { UIUtils } from '../utils/utils';
 
+const frases = [
+	"Pensar que reciclando todo el plástico, tenemos botellas para 2000 años",
+	"Se me viene a la mente que hoy se hacen calles con botellas plasticas en Alemania",
+	"No tenia idea que hay una molecula que se come el plastico"
+]
+
 const menuPrincipal = () => {
 	$(".tombola").removeClass("flotalatombola2x");
 	$(".tombola").removeClass("flotalatombola5x");
@@ -69,6 +75,7 @@ Template.ecopasaporte.onCreated(function () {
 	ECOActividades.init();
 	this.panel = new ReactiveVar(false);
 	this.desecho = new ReactiveVar(false)
+	this.numeroFrase = new ReactiveVar(0)
 });
 
 const setDesecho = (template) => {
@@ -120,6 +127,15 @@ Template.ecopasaporte.rendered = function () {
 			setGolpe(template)
 		}, 2500)
 	}, 2750)
+
+	setInterval(function () {
+		let numeroFrase = template.numeroFrase.get()
+		numeroFrase++
+		if (numeroFrase > frases.length) {
+			numeroFrase = 0
+		}
+		template.numeroFrase.set(numeroFrase)
+	}, 10000)
 }
 
 Template.ecopasaporte.helpers({
@@ -162,6 +178,9 @@ Template.ecopasaporte.helpers({
 	},
 	enLogin() {
 		return Meteor.userId()
+	},
+	frase() {
+		return frases[Template.instance().numeroFrase.get()]
 	}
 })
 

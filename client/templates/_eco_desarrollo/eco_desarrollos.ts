@@ -57,7 +57,7 @@ Template.eco_desarrollos.helpers({
 			});
 			ecoDesarrollo.avatar = img ? img.link() : '/img/no_image_available.jpg';
 			ecoDesarrollo.cantidadIntegrantes = 1
-			ecoDesarrollo.donaciones = 0
+			ecoDesarrollo.puntos = 12
 			if (ecoDesarrollo.estado === EstadoType.Pendiente) {
 				ecoDesarrollo.estaPendiente = true
 			}
@@ -87,7 +87,7 @@ Template.eco_desarrollos.helpers({
 		ecoDesarrollo.avatar = img ? img.link() : '/img/no_image_available.jpg';
 		ecoDesarrollo.ultimaActividad = ecoDesarrollo.ultimaActualizacion;
 		ecoDesarrollo.cantidadIntegrantes = 1 + (ecoDesarrollo.integrantes ? ecoDesarrollo.integrantes.length : 0)
-		ecoDesarrollo.donaciones = 0
+		ecoDesarrollo.puntos = 0
 
 		let selector = {};
 		if (ecoDesarrollo._id) {

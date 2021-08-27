@@ -45,7 +45,7 @@ Template.eco_organizaciones.helpers({
 			});
 			ecoOrganizacion.avatar = img ? img.link() : '/img/no_image_available.jpg';
 			ecoOrganizacion.cantidadIntegrantes = 1 + (ecoOrganizacion.integrantes ? ecoOrganizacion.integrantes.length : 0);
-			ecoOrganizacion.donaciones = 0
+			ecoOrganizacion.puntos = 0
 			if (ecoOrganizacion.estado === EstadoType.Pendiente) {
 				ecoOrganizacion.estaPendiente = true
 			}
@@ -77,7 +77,7 @@ Template.eco_organizaciones.helpers({
 		ecoOrganizacion.tieneAvatar = img ? true : ""
 		ecoOrganizacion.ultimaActividad = ecoOrganizacion.ultimaActualizacion;
 		ecoOrganizacion.cantidadIntegrantes = 1 + (ecoOrganizacion.integrantes ? ecoOrganizacion.integrantes.length : 0);
-		ecoOrganizacion.donaciones = 0
+		ecoOrganizacion.puntos = 0
 		var integrantes = ecoOrganizacion.integrantes ? ecoOrganizacion.integrantes : []
 		integrantes.push({
 			usuarioId: ecoOrganizacion.usuarioId,

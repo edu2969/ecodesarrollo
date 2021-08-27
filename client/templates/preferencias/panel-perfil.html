@@ -12,8 +12,6 @@
           {{/if}}
           <div class="marco-drop"></div>
         </div>
-        <div class="nombre">{{perfil.nombre}}</div>
-        <div class="pseudonimo">{{perfil.pseudonimo}}</div>
         <div class="marco-editar">
           <i class="material-icons">edit</i>
         </div>
@@ -22,6 +20,12 @@
           <i class="material-icons">star</i>
         </div>
         {{/if}}
+        <div class="nombre">{{perfil.nombre}}</div>
+        <div class="pseudonimo">{{perfil.pseudonimo}}</div>
+        <div class="puntaje">
+          <i class="material-icons">favorite</i>
+          <div class="cantidad">{{puntaje}}98<small> pts.</small></div>
+        </div>
       </div>
       <input type="file" id="upload-image" style="display: none;">
     </div>
