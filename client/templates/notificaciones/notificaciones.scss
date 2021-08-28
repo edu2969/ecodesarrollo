@@ -11,74 +11,77 @@
       font-size: 14px;
     }
   }
-  .contenedor-listado {
-    display: flex;
-    flex-wrap: wrap;
-    overflow-y: scroll;
+  .marco-scroll-notificaciones {
     height: calc(100vh - 6em);
-
-    .notificacion {
-      position: relative;
-      height: 92px;
-      padding: 1em;
-      margin: 1em;
-      border-radius: 8px;
-      cursor: pointer;
-
-      @media screen and (max-width: 800px) {
-        width: calc(100% - 4em);
-      }
-
-      @media screen and (min-width: 801px) and (max-width: 1280px) {
-        width: calc(50% - 4em);
-      }
-
-      @media screen and (min-width: 1281px) {
-        width: calc(33.333333% - 4em);
-      }
-
-      .material-icons {
-        position: absolute;
-        font-size: 46px;
-        background-color: rgba(255, 255, 255, 0.2);
-        padding: 8px;
-        border-radius: 50%;
-      }
-      .titulo {
-        position: absolute;
-        font-size: 20px;
-        left: 92px;
-      }
-      .descripcion {
-        position: absolute;
-        font-size: 14px;
-        left: 92px;
-        top: 42px;
-      }
-      .estado {
-        position: absolute;
-        font-size: 14px;
-        left: 0px;
-        text-align: right;
-        width: 100%;
-        padding-right: 0.5em;
-        top: 48px;
-      }
-      .contenido {
-        position: absolute;
-        font-size: 50px;
-        left: 92px;
-        color : green;
-      }
-      .fecha {
-        position: absolute;
-        font-style: italic;
-        top: 64px;
-        left: 0px;
-        width: 100%;
-        padding-right: 0.5em;
-        text-align: right;
+    overflow-y: scroll;
+    .contenedor-listado {
+      display: flex;
+      flex-wrap: wrap;
+  
+      .notificacion {
+        position: relative;
+        height: 92px;
+        padding: 1em;
+        margin: 1em;
+        border-radius: 8px;
+        cursor: pointer;
+  
+        @media screen and (max-width: 800px) {
+          width: calc(100% - 4em);
+        }
+  
+        @media screen and (min-width: 801px) and (max-width: 1280px) {
+          width: calc(50% - 4em);
+        }
+  
+        @media screen and (min-width: 1281px) {
+          width: calc(33.333333% - 4em);
+        }
+  
+        .material-icons {
+          position: absolute;
+          font-size: 46px;
+          background-color: rgba(255, 255, 255, 0.2);
+          padding: 8px;
+          border-radius: 50%;
+        }
+        .titulo {
+          position: absolute;
+          font-size: 20px;
+          left: 92px;
+        }
+        .descripcion {
+          position: absolute;
+          font-size: 14px;
+          left: 92px;
+          top: 42px;
+        }
+        .estado {
+          position: absolute;
+          font-size: 14px;
+          left: 0px;
+          text-align: right;
+          width: 100%;
+          padding-right: 0.5em;
+          top: 48px;
+        }
+        .contenido {
+          position: absolute;
+          font-size: 50px;
+          left: 92px;
+          color : green;
+        }
+        .fecha {
+          position: absolute;
+          font-style: italic;
+          top: 64px;
+          left: 0px;
+          width: 100%;
+          padding-right: 0.5em;
+          text-align: right;
+        }
       }
     }
   }
+  
 }

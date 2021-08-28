@@ -4,21 +4,23 @@
       <div class="titulo">Notificaciones</div>
       <div class="pendientes"> ({{cantidad.pendientes}})</div>
     </div>
-    <div class="contenedor-listado custom-scroll">
-      {{#each listado}}
-      <div class="notificacion neuromorph rojo" id="{{_id}}">
-        <i class="material-icons">{{icono}}</i>
-        <div class="titulo">{{tipoTraducido}}</div>
-        <div class="descripcion">{{{descripcion}}}</div>
-        <div class="estado">{{estado}}</div>
-        <div class="fecha">{{formatoFecha fecha 'DD/MM/yyyy'}}</div>
+    <div class="marco-scroll-notificaciones custom-scroll">
+      <div class="contenedor-listado">
+        {{#each listado}}
+        <div class="notificacion neuromorph rojo" id="{{_id}}">
+          <i class="material-icons">{{icono}}</i>
+          <div class="titulo">{{tipoTraducido}}</div>
+          <div class="descripcion">{{{descripcion}}}</div>
+          <div class="estado">{{estado}}</div>
+          <div class="fecha">{{formatoFecha fecha 'DD/MM/yyyy'}}</div>
+        </div>
+        {{else}}
+        <div class="no-content">
+          <i class="material-icons">notifications_off</i>
+          <p>Sin notificaciones para resolver</p>
+        </div>
+        {{/each}}
       </div>
-      {{else}}
-      <div class="no-content">
-        <i class="material-icons">notifications_off</i>
-        <p>Sin notificaciones para resolver</p>
-      </div>
-      {{/each}}
     </div>
   </div>
 </template>
