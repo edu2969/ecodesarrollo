@@ -14,6 +14,8 @@
   .contenedor-listado {
     display: flex;
     flex-wrap: wrap;
+    overflow-y: scroll;
+    height: calc(100vh - 6em);
 
     .notificacion {
       position: relative;

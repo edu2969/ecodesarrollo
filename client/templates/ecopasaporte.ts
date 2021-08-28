@@ -7,7 +7,7 @@ import { UIUtils } from '../utils/utils';
 
 const frases = [
 	"Pensar que reciclando todo el plástico, tenemos botellas para 2000 años",
-	"Se me viene a la mente que hoy se hacen calles con botellas plasticas en Alemania",
+	"Pensar que hoy se hacen calles con botellas plasticas en Alemania",
 	"No tenia idea que hay una molecula que se come el plastico"
 ]
 
@@ -131,7 +131,7 @@ Template.ecopasaporte.rendered = function () {
 	setInterval(function () {
 		let numeroFrase = template.numeroFrase.get()
 		numeroFrase++
-		if (numeroFrase > frases.length) {
+		if (numeroFrase >= frases.length) {
 			numeroFrase = 0
 		}
 		template.numeroFrase.set(numeroFrase)
