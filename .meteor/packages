@@ -12,7 +12,6 @@ typescript@4.2.2
 shell-server@0.5.0           
 fortawesome:fontawesome
 kadira:blaze-layout
-d3js:d3
 session@1.2.0
 accounts-base@1.9.0
 accounts-password@1.7.0

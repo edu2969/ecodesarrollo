@@ -1,5 +1,5 @@
-<template name="mundoCorazones">
-  <div class="marco-info">
+<template name="mundocorazones">
+  <div class="marco-info custom-scroll">
     <div class="info-ecodimensiones">
       <div class="cuadro-indicador neuromorph rojo">
         <p class="valor">10</p>
@@ -23,13 +23,24 @@
       </div>
       <div class="cuadro-indicador neuromorph rojo">
         <p class="valor">10</p>
-        <i class="material-icons">attach_money</i>
-        <span class="titulo">Donaciones</span>
-      </div>
-      <div class="cuadro-indicador neuromorph rojo">
-        <p class="valor">10</p>
         <i class="material-icons">groups</i>
         <span class="titulo">Impactados</span>
+      </div>
+      <div class="cuadro-grafico neuromorph rojo">
+        <p class="titulo">Toneladas recicladas</p>
+        <p class="subtitulo">Por mes entre tres categorías</p>
+        <ul class="legenda">
+          <li>
+            <div class="marca"></div> Compost
+          </li>
+          <li>
+            <div class="marca"></div> Plásticos
+          </li>
+          <li>
+            <div class="marca"></div> Otros
+          </li>
+        </ul>
+        <div id="chart-wraper"></div>
       </div>
     </div>
   </div>
