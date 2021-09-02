@@ -33,7 +33,7 @@ Template.panelPerfil.helpers({
       perfil.avatar = avatar.link();
     }
     if (perfil.rol == 1) perfil.esAdmin = true
-    const intereses = perfil.intereses
+    const intereses = perfil.intereses || [];
     perfil.intereses = INTERESES.map((interes) => {
       return {
         etiqueta: interes,

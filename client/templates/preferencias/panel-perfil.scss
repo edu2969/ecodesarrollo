@@ -7,7 +7,7 @@
     padding-bottom: 1em;
     border-radius: 8px;
     box-sizing: border-box;
-    
+
     .marco-foto {
       display: block;
       position: absolute;
@@ -37,7 +37,7 @@
         top: 10%;
         padding: 2px 2px 0px 2px;
         background-color: black;
-          
+
         cursor: pointer;
         .material-icons {
           color: limegreen;
@@ -52,7 +52,7 @@
         padding: 0 1em;
         margin-top: 1em;
       }
-      
+
       .marco-avatar {
         position: relative;
         display: block;
@@ -62,7 +62,6 @@
 
         .no-imagen {
           width: 100%;
-          height: 100%;
           border-radius: 50%;
           border: 2px solid white;
           background-color: blueviolet;
@@ -70,10 +69,11 @@
           font-size: 72px;
           left: 15px;
           text-align: center;
-          padding-top: 36px;
+
+          .inner {
+            padding: calc(50% - 36px) 0;
+          }
         }
-
-
 
         .avatar {
           display: block;
@@ -84,16 +84,15 @@
           .inner {
             padding: 50%;
           }
-        } 
-        
+        }
 
         .marco-drop {
           position: absolute;
           opacity: 0;
           width: 180px;
           height: 180px;
-          background-image: url(/img/drag-and-drop.png);				
-          background-size: cover;					
+          background-image: url(/img/drag-and-drop.png);
+          background-size: cover;
           background-position: center;
           border-radius: 50%;
           top: 0px;
@@ -134,13 +133,13 @@
       .valor {
         width: 100%;
         &::before {
-          content: ': ';
+          content: ": ";
         }
       }
 
       .contenedor-intereses {
         margin-bottom: 0.75em;
-  
+
         .interes {
           display: inline-flex;
           flex-wrap: wrap;
@@ -154,78 +153,78 @@
     }
 
     .recuadro-presentacion {
-			display: flex;
-			.marco-agente-seleccionable {
-				display: block;
-				width: 175px;
-				position: relative;
-				height: 254px;
-				padding: 20px;
-				border: 2px solid white;
-				border-radius: 16px;
-				margin: 1.5em;
-				background-color: skyblue;
-				opacity: 0.3;
-				cursor: pointer;
+      display: flex;
+      .marco-agente-seleccionable {
+        display: block;
+        width: 175px;
+        position: relative;
+        height: 254px;
+        padding: 20px;
+        border: 2px solid white;
+        border-radius: 16px;
+        margin: 1.5em;
+        background-color: skyblue;
+        opacity: 0.3;
+        cursor: pointer;
 
-				&:hover {
-					opacity: 0.8;
-				}
+        &:hover {
+          opacity: 0.8;
+        }
 
-				&.seleccionado {
-					opacity: 1;
-				}
+        &.seleccionado {
+          opacity: 1;
+        }
 
-				.imagen {
-					display: block;
-					position: absolute;
-					width: 153px;
-					height: 254px;
-					background-repeat: no-repeat;
-					&.cuerpo {
-						background-image: url(/img/corazon/corazon_verde.png);
-						background-size: 124px 105px;
-						z-index: 5;
-					}
-					&.piernas {
-						background-image: url(/img/corazon/corazon_verde_piernas.png);
-						background-size: 111px 129px;
-						background-position: 7px 80px;
-						z-index: 1;
-					}
-					&.brazo-izq {
-						background-image: url(/img/corazon/corazon_verde_brazo_izq.png);
-						background-size: 44px 89px;
-						background-position: 83px 50px;
-						z-index: 6;
-					}
-					&.brazo-der {
-						background-image: url(/img/corazon/corazon_verde_brazo_der.png);
-						background-size: 29px 67px;
-						background-position: 7px 60px;
-						z-index: 2;
-					}
-					&.cara-a {
-						background-image: url(/img/corazon/corazon_verde_cara_01.png);
-						background-size: 64px 50px;
-						background-position: 26px 27px;
-						z-index: 6;
-					}
-					&.cara-b {
-						background-image: url(/img/corazon/corazon_verde_cara_b01.png);
-						background-size: 40px 46px;
-						background-position: 32px 27px;
-						z-index: 6;
-					}
-					&.rosa {
-						background-image: url(/img/corazon/corazon_verde_rosa.png);
-						background-size: 39px 42px;
-						background-position: 85px 0px;
-						z-index: 6;
-					}
-				}
-			}
-		}
+        .imagen {
+          display: block;
+          position: absolute;
+          width: 153px;
+          height: 254px;
+          background-repeat: no-repeat;
+          &.cuerpo {
+            background-image: url(/img/corazon/corazon_verde.png);
+            background-size: 124px 105px;
+            z-index: 5;
+          }
+          &.piernas {
+            background-image: url(/img/corazon/corazon_verde_piernas.png);
+            background-size: 111px 129px;
+            background-position: 7px 80px;
+            z-index: 1;
+          }
+          &.brazo-izq {
+            background-image: url(/img/corazon/corazon_verde_brazo_izq.png);
+            background-size: 44px 89px;
+            background-position: 83px 50px;
+            z-index: 6;
+          }
+          &.brazo-der {
+            background-image: url(/img/corazon/corazon_verde_brazo_der.png);
+            background-size: 29px 67px;
+            background-position: 7px 60px;
+            z-index: 2;
+          }
+          &.cara-a {
+            background-image: url(/img/corazon/corazon_verde_cara_01.png);
+            background-size: 64px 50px;
+            background-position: 26px 27px;
+            z-index: 6;
+          }
+          &.cara-b {
+            background-image: url(/img/corazon/corazon_verde_cara_b01.png);
+            background-size: 40px 46px;
+            background-position: 32px 27px;
+            z-index: 6;
+          }
+          &.rosa {
+            background-image: url(/img/corazon/corazon_verde_rosa.png);
+            background-size: 39px 42px;
+            background-position: 85px 0px;
+            z-index: 6;
+          }
+        }
+      }
+    }
   }
 
   .formulario-edicion {
@@ -245,8 +244,8 @@
       margin: 4em;
 
       .marco-foto {
-        width: 60%;       
-      } 
+        width: 60%;
+      }
     }
 
     .formulario-edicion {
