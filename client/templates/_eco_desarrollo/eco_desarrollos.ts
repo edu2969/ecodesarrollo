@@ -77,7 +77,6 @@ Template.eco_desarrollos.helpers({
 			ecoDesarrollo.esPropia = true;
 		}
 		const img = Images.findOne({
-			userId: Meteor.userId(),
 			$or: [{
 				"meta.ecoDesarrolloId": ecoDesarrollo._id
 			}, {
@@ -171,7 +170,6 @@ Template.eco_desarrollos.helpers({
 		let selector = {};
 		if (ecoDesarrollo._id) {
 			selector = {
-				userId: Meteor.userId(),
 				"meta.ecoDesarrolloId": ecoDesarrollo._id,
 				"meta.tipo": "ecodesarrollo"
 			}

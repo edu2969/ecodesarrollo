@@ -1,0 +1,57 @@
+.carrousel-imagenes {
+  display: block;
+  width: 100%;
+  height: 400px;
+
+  .visor-imagenes {
+    position: absolute;
+    width: 100%;
+    height: 400px;
+    margin-bottom: 400px;
+    overflow: hidden;
+    display: block;
+
+    .flecha {
+      position: absolute;
+      display: block;
+      width: 80px;
+      height: 80px;
+      z-index: 3;
+      top: 162px;
+      cursor: pointer;
+
+      .material-icons {
+        font-size: 72px;
+      }
+
+      &.flecha-derecha {
+        right: 4px;
+      }
+
+      &.flecha-izquierda {
+        left: 4px;
+      }
+    }
+
+    .imagenes {
+      display: flex;
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      height: 400px;
+      z-index: 2;
+      margin: 0 auto;
+      transition: all 0.1s ease;
+
+      .imagen {
+        width: 100hw;
+        height: 400px;
+
+        img {
+          margin: 0 auto;
+          height: 400px;
+        }
+      }
+    }
+  }
+}

@@ -32,7 +32,8 @@ Template.eco_campanas.onCreated(function () {
 	this.ecoCampanaSeleccionada = new ReactiveVar(false);
 	this.editando = ReactiveVar(false);
 	this.enListado = ReactiveVar(true)
-	this.errores = ReactiveVar(false)
+	this.errores = ReactiveVar(false);
+	this.indiceImagen = ReactiveVar(0);
 });
 
 Template.eco_campanas.rendered = () => {
@@ -92,7 +93,7 @@ Template.eco_campanas.helpers({
 		ecoCampana.tieneImagenes = img.count() > 0 ? "true" : ""
 		ecoCampana.ultimaActividad = ecoCampana.ultimaActualizacion
 		ecoCampana.integrantes = 0
-		ecoCampana.donaciones = 0
+		ecoCampana.puntos = 0
 
 		if (ecoCampana.organizadorId) {
 			const organizador = Meteor.users.findOne({ _id: ecoCampana.organizadorId })
@@ -164,7 +165,6 @@ Template.eco_campanas.helpers({
 		let selector = {};
 		if (ecoCampana._id) {
 			selector = {
-				userId: Meteor.userId(),
 				"meta.ecoCampanaId": ecoCampana._id,
 				"meta.tipo": "ecocampana"
 			}
@@ -249,6 +249,20 @@ Template.eco_campanas.helpers({
 	},
 	enLogin() {
 		return Meteor.userId()
+	},
+	carrousel() {
+		const instance = Template.instance();
+		const ecoCampana = instance.ecoCampanaSeleccionada.get();
+		const counter = Images.find({
+			"meta.ecoCampanaId": ecoCampana._id,
+			"meta.tipo": "ecocampana"
+		}).count();
+		const indiceImagen = instance.indiceImagen.get();
+		return {
+			total: ( counter * 100 ) + '%',
+			ancho: ( 100 / counter ) + '%',
+			left: ( indiceImagen * -100 ) + '%'
+		}
 	}
 })
 
@@ -474,4 +488,21 @@ Template.eco_campanas.events({
 		ecoCampana.cuadrillasId = cuadrillasId.join()
 		template.ecoCampanaSeleccionada.set(ecoCampana)
 	},
+	"click .flecha-derecha, click .fecla-izquierda"(e, template) {
+		const ecoCampana = template.ecoCampanaSeleccionada.get();
+		const counter = Images.find({
+			"meta.ecoCampanaId": ecoCampana._id,
+			"meta.tipo": "ecocampana"
+		}).count();
+		let indiceImagen = template.indiceImagen.get();
+		const esIzq = e.currentTarget.classList.value.indexOf("izquierda") != -1;
+		indiceImagen = indiceImagen + ( esIzq ? -1 : +1);
+		if(indiceImagen == -1) {
+			indiceImagen = counter - 1;
+		}
+		if(indiceImagen == counter) {
+			indiceImagen = 0;
+		}
+		template.indiceImagen.set(indiceImagen);
+	}
 })

@@ -85,8 +85,8 @@ const setDesecho = (template) => {
 	$(".desecho").addClass("lanzamiento")
 	$(".desecho").removeClass("golpe")
 	setTimeout(() => {
-		const usuario = Meteor.user()
-		const cara = usuario ? (usuario.profile.corazonVerde.nivel + 1) : 1
+		const usuario = Meteor.user();
+		const cara = usuario && usuario.profile.corazonVerde ? (usuario.profile.corazonVerde.nivel + 1) : 1
 		$(".expresion img").attr("src", "/img/corazon/corazon_verde_cara_0" + cara + ".png")
 	}, 500)
 }

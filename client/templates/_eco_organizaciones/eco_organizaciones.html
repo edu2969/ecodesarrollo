@@ -135,6 +135,10 @@
 			<div class="presentacion">
 				<div class="avatar" style="background-image: url({{avatar}})"></div>
 				<div class="ultima-actividad"><i>ultimaActividad: </i>{{formatoFecha ultimaActividad 'DD/MMM/YYYY HH:mm'}}</div>
+				<div class="titulo-presentacion">Reseña histórica</div>
+				<div class="resena">
+					<p>{{ecoOrganizacion.resena}}</p>
+				</div>
 				<div class="titulo-presentacion">Participantes</div>
 				<div class="participantes">
 					{{#each participantes}}
@@ -157,10 +161,6 @@
 					<div class="cantidad">
 						{{puntos}}<small> pts.</small>
 					</div>
-				</div>
-				<div class="titulo-presentacion">Reseña histórica</div>
-				<div class="resena">
-					<p>{{ecoOrganizacion.resena}}</p>
 				</div>
 				{{#unless ecoOrganizacion.esPropia}}
 				<div class="titulo-presentacion">Solicitar unirse</div>

@@ -29,7 +29,8 @@
 		<div class="grilla custom-scroll">
 			<div class="contenedor-entidades contenedor-campanas">
 				{{#each eco_campanas}}
-				<div class="marco-entidad neuromorph purpura{{#if estaPendiente}} pendiente{{/if}}" style="background-image: url({{avatar}})" id="{{_id}}">
+				<div class="marco-entidad neuromorph purpura{{#if estaPendiente}} pendiente{{/if}}"
+					style="background-image: url({{avatar}})" id="{{_id}}">
 					<div class="overlay"></div>
 					<div class="titulo">
 						{{traductorCAMPANASTipos tipo}}
@@ -216,18 +217,30 @@
 				<div class="ultima-actividad"><i>ultimaActividad: </i>{{formatoFecha ultimaActividad 'DD/MMM/YYYY HH:mm'}}
 				</div>
 				<div class="titulo-presentacion">Imagenes</div>
-				<div class="entrada imagenes-picker">
-					<div class="imagenes">
-						{{#each imagenes}}
-						<div class="imagen" id={{_id}}>
-							<div class="marco-imagen">
-								<img src="{{imagen}}">
-							</div>
+				<div class="carrousel-imagenes">
+					<div class="visor-imagenes">
+						<div class="flecha flecha-izquierda">
+							<i class="material-icons">chevron_left</i>
 						</div>
-						{{else}}
-						<h3>No hay Imágenes</h3>
-						{{/each}}
+						<div class="flecha flecha-derecha">
+							<i class="material-icons">chevron_right</i>
+						</div>
+						<div class="imagenes" style="width: {{carrousel.total}}; left: {{carrousel.left}}">
+							{{#each imagenes}}
+							<div class="imagen" id="{{_id}}" style="width: {{carrousel.ancho}};">
+								<div class="marco-imagen">
+									<img src="{{imagen}}">
+								</div>
+							</div>
+							{{else}}
+							<h3>No hay Imágenes</h3>
+							{{/each}}
+						</div>
 					</div>
+				</div>
+				<div class="titulo-presentacion">Reseña histórica</div>
+				<div class="resena">
+					<p>{{ecoCampana.descripcion}}</p>
 				</div>
 				<div class="titulo-presentacion">Participantes</div>
 				<div class="participantes">
@@ -241,16 +254,12 @@
 						<span>Miriam</span>
 					</div>
 				</div>
-				<div class="titulo-presentacion">Total en donaciones</div>
-				<div class="donaciones">
-					<i class="material-icons">request_quote</i>
+				<div class="titulo-presentacion">Puntos reunidos</div>
+				<div class="puntos">
+					<i class="material-icons">favorite</i>
 					<div class="cantidad">
-						<small>CLP </small>$ {{donaciones}}<small> M</small>
+						{{puntos}}<small> puntos</small>
 					</div>
-				</div>
-				<div class="titulo-presentacion">Reseña histórica</div>
-				<div class="resena">
-					<p>{{ecoCampana.descripcion}}</p>
 				</div>
 				<div class="titulo-presentacion">Solicitar unirse</div>
 				<div class="neuromorph boton redondo azul">
