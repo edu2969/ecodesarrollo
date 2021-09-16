@@ -75,7 +75,11 @@ Template.ecopasaporte.onCreated(function () {
 	ECOActividades.init();
 	this.panel = new ReactiveVar(false);
 	this.desecho = new ReactiveVar(false)
-	this.numeroFrase = new ReactiveVar(0)
+	this.numeroFrase = new ReactiveVar(0);
+	Tracker.autorun(() => {
+		Meteor.subscribe('usuarios.perfil');
+    Meteor.subscribe('usuarios.depositos');
+  });
 });
 
 const setDesecho = (template) => {
@@ -191,7 +195,8 @@ Template.ecopasaporte.events({
 			menuECODimensiones()
 		} else if (actividad.indexOf("identificate") != -1) {
 			if (Meteor.userId()) {
-				const nivel = Nivel.get()
+				const nivel = Nivel.get();
+				console.log("NIVEL", nivel);
 				if (nivel.nivel4 && nivel.nivel4.actual) {
 					menuECODimensiones()
 				} else {

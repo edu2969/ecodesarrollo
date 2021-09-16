@@ -38,3 +38,10 @@ Meteor.publishComposite('usuarios.coordinadores', function () {
     }]
   }
 })
+
+Meteor.publish('usuarios.perfil', function () {
+  const usuarioId = this.userId;
+  return Meteor.users.find({
+    _id: usuarioId
+  });
+})
