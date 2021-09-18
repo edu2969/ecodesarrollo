@@ -36,6 +36,8 @@ Template.eco_campanas.onCreated(function () {
 	this.indiceImagen = ReactiveVar(0);
 });
 
+var handler;
+
 Template.eco_campanas.rendered = () => {
 	Tracker.autorun(() => {
 		Meteor.subscribe('eco_campanas');
@@ -45,7 +47,18 @@ Template.eco_campanas.rendered = () => {
 	Meteor.subscribe('lugares.comunas')
 	Meteor.subscribe('usuarios.coordinadores')
 	Meteor.subscribe('eco_organizaciones')
-	Meteor.subscribe('eco_organizaciones.imagenes')
+	Meteor.subscribe('eco_organizaciones.imagenes');
+
+	const instance = Template.instance();
+	handler = ECOCampanas.find();
+	handler.observeChanges({
+		changed(id, fields) {
+			const ecoCampana = instance.ecoCampanaSeleccionada.get();
+			if(id === ecoCampana._id) {
+				instance.ecoCampanaSeleccionada.set(ECOCampanas.findOne(id));
+			}
+		}
+	})
 }
 
 Template.eco_campanas.helpers({
@@ -287,6 +300,12 @@ Template.eco_campanas.helpers({
 		const ecoCampana = instance.ecoCampanaSeleccionada.get();
 		const userId = Meteor.userId();
 		return ecoCampana.usuarioId === userId || ecoCampana.participantes?.indexOf(userId)!=-1;
+	},
+	puedeCerrar() {
+		const instance = Template.instance();
+		const userId = Meteor.userId();
+		const ecoCampana = instance.ecoCampanaSeleccionada.get();
+		return ecoCampana.usuarioId === userId && ecoCampana.estado !== EstadoType.Cerrado;
 	}
 })
 
@@ -547,5 +566,24 @@ Template.eco_campanas.events({
 		}
 		Session.set("ModalParams", params)
     $("#modalgeneral").modal("show");
-	}
+	},
+	"click #btn-cerrar"(e, template) {
+		const ecoCampana = template.ecoCampanaSeleccionada.get();
+		let params = {
+			titulo: "Cierre de campaña",
+			texto: '<div>' +
+				'<div><p>Estás por dar cerrada ésta campaña. ' + 
+				' Luego de ésto, podrás indicar quiénes participaron.</p>' + 
+				'<h3>¿Estás seguro de darla por cerrada?.</h3></div>' +
+				'</div>' +
+				'</div>',
+			esConfirmacion: true,
+			method: "ECOCampanas.Cerrar",
+			params: {
+				ecoCampanaId: ecoCampana._id
+			}
+		}
+		Session.set("ModalParams", params)
+    $("#modalgeneral").modal("show");
+	},
 })

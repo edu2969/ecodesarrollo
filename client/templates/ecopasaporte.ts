@@ -196,7 +196,6 @@ Template.ecopasaporte.events({
 		} else if (actividad.indexOf("identificate") != -1) {
 			if (Meteor.userId()) {
 				const nivel = Nivel.get();
-				console.log("NIVEL", nivel);
 				if (nivel.nivel4 && nivel.nivel4.actual) {
 					menuECODimensiones()
 				} else {

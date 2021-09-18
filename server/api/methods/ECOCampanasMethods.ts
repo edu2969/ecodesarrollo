@@ -186,4 +186,31 @@ export const Participar = new ValidatedMethod({
     })
     return true;
   }
-})
+});
+
+export const Cerrar = new ValidatedMethod({
+  name: 'ECOCampanas.Cerrar',
+  validate: new SimpleSchema({
+    ecoCampanaId: {
+      type: String
+    }
+  }).validator({
+    clean: true
+  }),
+  run(doc) {
+    const ecoCampana = ECOCampanas.findOne({ _id: doc.ecoCampanaId });
+    const usuarioId = this.userId;
+    let historial = ecoCampana.historial;
+    historial.push({
+      estado: EstadoType.Cerrado,
+      fecha: new Date()
+    });
+    ECOCampanas.update({ _id: doc.ecoCampanaId }, {
+      $set: {
+        estado: EstadoType.Cerrado,
+        historial: historial,
+      }
+    })
+    return true;
+  }
+});
