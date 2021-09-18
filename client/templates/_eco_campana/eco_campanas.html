@@ -244,14 +244,20 @@
 				</div>
 				<div class="titulo-presentacion">Participantes</div>
 				<div class="participantes">
-					<div class="avatar-participante">
-						<img src="/img/avatares/avatar01.png"><br />
-						<span>EdUTroN</span>
-						<i class="material-icons">star</i>
-					</div>
-					<div class="avatar-participante">
-						<img src="/img/avatares/avatar02.jpg"><br />
-						<span>Miriam</span>
+					<div class="participantes">
+						{{#each participantes}}
+						<div class="avatar-participante">
+							{{#if imagen}}
+							<img src="{{imagen}}">
+							{{else}}
+							<div class="no-imagen">{{iniciales}}</div>
+							{{/if}}
+							<span>{{nombre}}</span>
+							{{#if isOwner}}
+							<i class="material-icons">star</i>
+							{{/if}}
+						</div>
+						{{/each}}
 					</div>
 				</div>
 				<div class="titulo-presentacion">Puntos reunidos</div>
@@ -261,10 +267,12 @@
 						{{puntos}}<small> puntos</small>
 					</div>
 				</div>
+				{{#unless participa}}
 				<div class="titulo-presentacion">Solicitar unirse</div>
-				<div class="neuromorph boton redondo azul">
+				<div id="btn-unirse" class="neuromorph boton redondo azul">
 					<i class="material-icons">login</i>
 				</div>
+				{{/unless}}
 			</div>
 			{{/with}}
 			{{/if}}

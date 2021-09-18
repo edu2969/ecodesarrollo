@@ -40,6 +40,7 @@ Template.eco_campanas.rendered = () => {
 	Tracker.autorun(() => {
 		Meteor.subscribe('eco_campanas');
 		Meteor.subscribe('eco_campanas.imagenes');
+		Meteor.subscribe('eco_campanas.participantes');
 	});
 	Meteor.subscribe('lugares.comunas')
 	Meteor.subscribe('usuarios.coordinadores')
@@ -75,7 +76,7 @@ Template.eco_campanas.helpers({
 	},
 	ecoCampana() {
 		const template = Template.instance();
-		let ecoCampana = template.ecoCampanaSeleccionada.get();
+		let ecoCampana = JSON.parse(JSON.stringify(template.ecoCampanaSeleccionada.get()));
 		if (!ecoCampana) return;
 		const userId = Meteor.userId();
 		if (userId == ecoCampana.usuarioId) {
@@ -141,6 +142,23 @@ Template.eco_campanas.helpers({
 				}
 			})
 		}
+		
+		ecoCampana.participantes = ecoCampana.participantes && 
+		ecoCampana.participantes.map((participanteId)=>{
+			var resultado = {};
+			const participante = Meteor.users.findOne({ _id: participanteId })
+			const nombre = participante.profile.nombre
+			resultado.nombre = nombre
+			const imgParticipante = Images.findOne({ userId: participanteId, meta: {} })
+			if (imgParticipante) {
+				resultado.imagen = imgParticipante.link()
+			} else {
+				const separado = nombre.split(" ")
+				const iniciales = separado[0].charAt(0) + (separado.length > 1 ? separado[1].charAt(0) : "")
+				resultado.iniciales = iniciales
+			}
+			return resultado;
+		})
 
 		return ecoCampana
 	},
@@ -263,6 +281,12 @@ Template.eco_campanas.helpers({
 			ancho: ( 100 / counter ) + '%',
 			left: ( indiceImagen * -100 ) + '%'
 		}
+	},
+	participa() {
+		const instance = Template.instance();
+		const ecoCampana = instance.ecoCampanaSeleccionada.get();
+		const userId = Meteor.userId();
+		return ecoCampana.usuarioId === userId || ecoCampana.participantes?.indexOf(userId)!=-1;
 	}
 })
 
@@ -488,7 +512,7 @@ Template.eco_campanas.events({
 		ecoCampana.cuadrillasId = cuadrillasId.join()
 		template.ecoCampanaSeleccionada.set(ecoCampana)
 	},
-	"click .flecha-derecha, click .fecla-izquierda"(e, template) {
+	"click .flecha-derecha, click .flecha-izquierda"(e, template) {
 		const ecoCampana = template.ecoCampanaSeleccionada.get();
 		const counter = Images.find({
 			"meta.ecoCampanaId": ecoCampana._id,
@@ -504,5 +528,24 @@ Template.eco_campanas.events({
 			indiceImagen = 0;
 		}
 		template.indiceImagen.set(indiceImagen);
+	},
+	"click #btn-unirse"(e, template) {
+		const ecoCampana = template.ecoCampanaSeleccionada.get();
+		let params = {
+			titulo: "Solicitud de participación",
+			texto: '<div>' +
+				'<div><p>Estas solicitando unirte a ésta campaña. ' + 
+				' Esto requiere de tu seriedad y compromiso.</p>' + 
+				'<h3>¿Estás seguro de participar?.</h3></div>' +
+				'</div>' +
+				'</div>',
+			esConfirmacion: true,
+			method: "ECOCampanas.Participar",
+			params: {
+				ecoCampanaId: ecoCampana._id
+			}
+		}
+		Session.set("ModalParams", params)
+    $("#modalgeneral").modal("show");
 	}
 })

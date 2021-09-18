@@ -60,6 +60,28 @@ Meteor.publish('eco_campanas.imagenes', function () {
 	}).cursor;
 });
 
+Meteor.publishComposite('eco_campanas.participantes', function () {
+	let participantes = []
+	ECOCampanas.find().forEach((ecocampana: any) => {
+		const participantes = ecocampana.participantes || [];
+		participantes.forEach((participanteId)=>{
+			if (participantes.indexOf(participanteId) == -1) {
+				participantes.push(participanteId);
+			}
+		})
+	})
+	return {
+		find() {
+			return Meteor.users.find({ _id: { $in: participantes } })
+		},
+		children: [{
+			find(usuario: any) {
+				return Images.find({ userId: usuario._id, meta: {} }).cursor
+			}
+		}]
+	}
+});
+
 Meteor.publish('eco_sos', function () {
 	return ECOSos.find();
 });

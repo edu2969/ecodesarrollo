@@ -162,3 +162,28 @@ export const RechazarNueva = new ValidatedMethod({
     return true
   }
 })
+
+export const Participar = new ValidatedMethod({
+  name: 'ECOCampanas.Participar',
+  validate: new SimpleSchema({
+    ecoCampanaId: {
+      type: String
+    }
+  }).validator({
+    clean: true
+  }),
+  run(doc) {
+    const ecoCampana = ECOCampanas.findOne({ _id: doc.ecoCampanaId });
+    const usuarioId = this.userId;
+    const participantes = ecoCampana.participantes || [];
+    if(participantes.indexOf(usuarioId)==-1) {
+      participantes.push(usuarioId);
+    }
+    ECOCampanas.update({ _id: doc.ecoCampanaId }, {
+      $set: {
+        participantes: participantes
+      }
+    })
+    return true;
+  }
+})
