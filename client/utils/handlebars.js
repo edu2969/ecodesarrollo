@@ -34,4 +34,9 @@ Handlebars.registerHelper("traductorCAMPANASTipos", (codigo) => {
 
 Handlebars.registerHelper('sonIguales', function (val1, val2) {
 	return val1 === val2
-})
+});
+
+Handlebars.registerHelper('or', function (val1, val2) {
+	return val1 || val2;
+});
+

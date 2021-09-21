@@ -126,7 +126,7 @@ export const ModificarCuenta = new ValidatedMethod({
       optional: true,
     },
     fechaNacimiento: {
-      type: Date,
+      type: String,
       optional: true,
     },
     sexo: {

@@ -5,7 +5,7 @@ import { Tracker } from 'meteor/tracker'
 import { ReactiveVar } from 'meteor/reactive-var'
 import { Session } from 'meteor/session'
 import { UIUtils, FormUtils, IsEmpty } from '../../utils/utils'
-import { ECOCampanas, ECOOrganizaciones } from '../../../lib/collections/ECODimensionesCollections'
+import { ECOCampanas, ECOOrganizaciones, Participaciones } from '../../../lib/collections/ECODimensionesCollections'
 import { EstadoType } from '../../../lib/types/EstadoType'
 const { Comunas } = require('../../../lib/collections/BaseCollections')
 const { Images } = require('../../../lib/collections/FilesCollections')
@@ -43,6 +43,7 @@ Template.eco_campanas.rendered = () => {
 		Meteor.subscribe('eco_campanas');
 		Meteor.subscribe('eco_campanas.imagenes');
 		Meteor.subscribe('eco_campanas.participantes');
+		Meteor.subscribe('eco_campanas.participaciones');
 	});
 	Meteor.subscribe('lugares.comunas')
 	Meteor.subscribe('usuarios.coordinadores')
@@ -106,7 +107,7 @@ Template.eco_campanas.helpers({
 		})
 		ecoCampana.tieneImagenes = img.count() > 0 ? "true" : ""
 		ecoCampana.ultimaActividad = ecoCampana.ultimaActualizacion
-		ecoCampana.integrantes = 0
+		ecoCampana.integrantes = 1 + ( ecoCampana.participantes ? ecoCampana.participantes.length : 0 );
 		ecoCampana.puntos = 0
 
 		if (ecoCampana.organizadorId) {
@@ -162,13 +163,25 @@ Template.eco_campanas.helpers({
 			const participante = Meteor.users.findOne({ _id: participanteId })
 			const nombre = participante.profile.nombre
 			resultado.nombre = nombre
-			const imgParticipante = Images.findOne({ userId: participanteId, meta: {} })
+			const imgParticipante = Images.findOne({ userId: participanteId, meta: {} });
 			if (imgParticipante) {
 				resultado.imagen = imgParticipante.link()
 			} else {
 				const separado = nombre.split(" ")
 				const iniciales = separado[0].charAt(0) + (separado.length > 1 ? separado[1].charAt(0) : "")
 				resultado.iniciales = iniciales
+			}
+			resultado.participanteId = participanteId;
+			const participacion = Participaciones.findOne({
+				ecoCampanaId: ecoCampana._id,
+				participanteId: participanteId,
+			});
+			if(!participacion) {
+				resultado.sinRegistro = true;
+			} else if(participacion.participa) {
+				resultado.siParticipa = true;
+			} else {
+				resultado.noParticipa = true;
 			}
 			return resultado;
 		})
@@ -299,13 +312,20 @@ Template.eco_campanas.helpers({
 		const instance = Template.instance();
 		const ecoCampana = instance.ecoCampanaSeleccionada.get();
 		const userId = Meteor.userId();
-		return ecoCampana.usuarioId === userId || ecoCampana.participantes?.indexOf(userId)!=-1;
+		const participantes = ecoCampana.participantes || [];
+		return ecoCampana.usuarioId === userId || participantes.indexOf(userId)!=-1;
 	},
 	puedeCerrar() {
 		const instance = Template.instance();
 		const userId = Meteor.userId();
 		const ecoCampana = instance.ecoCampanaSeleccionada.get();
 		return ecoCampana.usuarioId === userId && ecoCampana.estado !== EstadoType.Cerrado;
+	},
+	cerrada() {
+		const instance = Template.instance();
+		const userId = Meteor.userId();
+		const ecoCampana = instance.ecoCampanaSeleccionada.get();
+		return ecoCampana.usuarioId === userId && ecoCampana.estado === EstadoType.Cerrado;
 	}
 })
 
@@ -586,4 +606,29 @@ Template.eco_campanas.events({
 		Session.set("ModalParams", params)
     $("#modalgeneral").modal("show");
 	},
+	"click .btn-si, click .btn-no"(e, template) {
+		const ecoCampana = template.ecoCampanaSeleccionada.get();
+		const participanteId = e.currentTarget.parentNode.id;
+		const participa = e.currentTarget.classList.value.indexOf('btn-si')!=-1;
+		const participante = Meteor.users.findOne({ _id: participanteId });
+		const nombreParticipante = participante.profile.nombre;
+		let params = {
+			titulo: "Participación",
+			texto: '<div>' +
+				'<div><p>Estás señalando que <b>' + nombreParticipante + ' ' + ( participa ? 'SI' : 'NO' ) + '</b>' +
+				' ha participado en ésta camapaña.</p>' + 
+				'<h3>¿Estás seguro de ésto?.</h3></div>' +
+				'</div>' +
+				'</div>',
+			esConfirmacion: true,
+			method: "ECOCampanas.IndicarParticipacion",
+			params: {
+				ecoCampanaId: ecoCampana._id,
+				participanteId: participanteId,
+				participa: participa,
+			}
+		}
+		Session.set("ModalParams", params)
+    $("#modalgeneral").modal("show");
+	}
 })

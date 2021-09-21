@@ -3,7 +3,7 @@ import d3 from '/client/utils/d3'
 const initChart = () => {
   const margin = ({ top: 20, right: 30, bottom: 30, left: 40 })
 
-  const height = 500
+  const height = 240
   const width = 500
 
   const svg = d3.select("#chart-wraper").append("svg")
@@ -83,6 +83,18 @@ const initChart = () => {
 Template.mundocorazones.rendered = () => {
   initChart()
 }
+
+Template.mundocorazones.helpers({
+  stats() {
+    return {
+      ecoOrganizaciones: 8,
+      ecoCampanas: 14,
+      ecoDesarrollos: 98,
+      ecoSos: 198,
+      impactados: '1.2k',
+    }
+  }
+})
 
 const data = [{
   "date": new Date("2019-07-01T00:00:00.000Z"),

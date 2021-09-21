@@ -6,6 +6,7 @@ const { ECOCampanas } = require('/lib/collections/ECODimensionesCollections')
 const NotificacionesServices = require('../services/NotificacionesServices')
 import { EstadoType } from '../../../lib/types/EstadoType'
 import { Notificaciones } from '../../../lib/collections/BaseCollections'
+import { Participaciones } from '../../../lib/collections/ECODimensionesCollections'
 
 export const Actualizar = new ValidatedMethod({
   name: 'ECOCampanas.Actualizar',
@@ -199,7 +200,6 @@ export const Cerrar = new ValidatedMethod({
   }),
   run(doc) {
     const ecoCampana = ECOCampanas.findOne({ _id: doc.ecoCampanaId });
-    const usuarioId = this.userId;
     let historial = ecoCampana.historial;
     historial.push({
       estado: EstadoType.Cerrado,
@@ -211,6 +211,28 @@ export const Cerrar = new ValidatedMethod({
         historial: historial,
       }
     })
+    return true;
+  }
+});
+
+export const IndicarParticipacion = new ValidatedMethod({
+  name: 'ECOCampanas.IndicarParticipacion',
+  validate: new SimpleSchema({
+    ecoCampanaId: {
+      type: String
+    },
+    participanteId: {
+      type: String,
+    },
+    participa: {
+      type: Boolean,
+    }
+  }).validator({
+    clean: true
+  }),
+  run(doc) {
+    doc.fecha = new Date();
+    Participaciones.insert(doc);
     return true;
   }
 });

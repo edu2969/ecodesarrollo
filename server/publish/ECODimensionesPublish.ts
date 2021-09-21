@@ -8,6 +8,7 @@ const {
 } = require('../../lib/collections/ECODimensionesCollections')
 import { EstadoType } from '../../lib/types/EstadoType'
 import { Comunas } from '../../lib/collections/BaseCollections'
+import { Participaciones } from '../../lib/collections/ECODimensionesCollections'
 
 Meteor.publish('eco_organizaciones', function () {
 	return ECOOrganizaciones.find({
@@ -81,6 +82,10 @@ Meteor.publishComposite('eco_campanas.participantes', function () {
 		}]
 	}
 });
+
+Meteor.publish('eco_campanas.participaciones', function() {
+	return Participaciones.find();
+})
 
 Meteor.publish('eco_sos', function () {
 	return ECOSos.find();

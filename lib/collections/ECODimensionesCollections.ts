@@ -51,3 +51,16 @@ ECODesarrollos.allow({
     return false;
   }
 });
+
+export const Participaciones = new Meteor.Collection("participaciones");
+Participaciones.allow({
+  insert() {
+    return false;
+  },
+  update() {
+    return false;
+  },
+  remove() {
+    return false;
+  }
+});

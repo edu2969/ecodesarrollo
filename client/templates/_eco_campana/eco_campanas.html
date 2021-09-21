@@ -246,15 +246,22 @@
 				<div class="participantes">
 					<div class="participantes">
 						{{#each participantes}}
-						<div class="avatar-participante">
+						<div class="avatar-participante{{#if noParticipa}} no-participa{{/if}}" id="{{participanteId}}">
 							{{#if imagen}}
 							<img src="{{imagen}}">
 							{{else}}
 							<div class="no-imagen">{{iniciales}}</div>
 							{{/if}}
 							<span>{{nombre}}</span>
-							{{#if isOwner}}
-							<i class="material-icons">star</i>
+							{{#if cerrada}}
+							{{#if sinRegistro}}
+							<div class="btn-si{{#if siParticipa}} activo{{/if}}">
+								<i class="material-icons">check_circle_outline</i>
+							</div>
+							<div class="btn-no">
+								<i class="material-icons">remove_circle_outline</i>
+							</div>
+							{{/if}}
 							{{/if}}
 						</div>
 						{{/each}}
