@@ -52,7 +52,14 @@ Meteor.publishComposite('eco_organizaciones.participantes', function () {
 });
 
 Meteor.publish('eco_campanas', function () {
-	return ECOCampanas.find();
+	return ECOCampanas.find({
+		$or: [{
+			estado: EstadoType.Aprobado
+		}, {
+			usuarioId: this.userId,
+			estado: { $ne: EstadoType.Aprobado }
+		}]
+	});
 });
 
 Meteor.publish('eco_campanas.imagenes', function () {
@@ -88,7 +95,14 @@ Meteor.publish('eco_campanas.participaciones', function() {
 })
 
 Meteor.publish('eco_sos', function () {
-	return ECOSos.find();
+	return ECOSos.find({
+		$or: [{
+			estado: EstadoType.Aprobado
+		}, {
+			usuarioId: this.userId,
+			estado: { $ne: EstadoType.Aprobado }
+		}]
+	});
 });
 
 Meteor.publish('eco_sos.imagenes', function () {
@@ -98,7 +112,14 @@ Meteor.publish('eco_sos.imagenes', function () {
 });
 
 Meteor.publish('eco_desarrollos', function () {
-	return ECODesarrollos.find();
+	return ECODesarrollos.find({
+		$or: [{
+			estado: EstadoType.Aprobado
+		}, {
+			usuarioId: this.userId,
+			estado: { $ne: EstadoType.Aprobado }
+		}]
+	});
 });
 
 Meteor.publish('eco_desarrollos.imagenes', function () {

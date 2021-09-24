@@ -46,8 +46,8 @@ Template.panelPerfil.helpers({
 
 Template.panelPerfil.events({
   "click .marco-editar"() {
-    $(".marco-informacion").hide()
-    $(".formulario-edicion").show()
+    $(".marco-informacion").hide();
+    $(".formulario-edicion").show();
   },
   "click #btn-cancelar"() {
     $(".marco-informacion").show()
