@@ -192,7 +192,12 @@ Template.ecopasaporte.events({
 	"click .actividad"(e, template) {
 		let actividad = e.currentTarget.classList.value;
 		if (actividad.indexOf("sabermas") != -1) {
-			menuECODimensiones()
+			template.panel.set({
+				clase: "sabermas",
+				color: "amarillo",
+				esSabermas: true
+			});
+			UIUtils.toggle("eco-panel", "activo");
 		} else if (actividad.indexOf("identificate") != -1) {
 			if (Meteor.userId()) {
 				const nivel = Nivel.get();
