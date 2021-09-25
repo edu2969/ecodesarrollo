@@ -91,7 +91,7 @@ Meteor.publishComposite('Notificaciones.listado', function () {
             return Images.find({ userId: notificacion.usuarioId, "meta.tipo": "ecodesarrollo" }).cursor
           }
         })
-      } else if (notificacion.tipo === NotificacionType.NuevoECOSOS) {
+      } else if (notificacion.tipo === NotificacionType.NuevoECOSos) {
         respuesta.push({
           find(notificacion: any) {
             return ECOSos.find({ _id: notificacion.ecoSosId })
