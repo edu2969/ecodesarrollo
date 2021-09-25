@@ -1,566 +1,577 @@
 .formulario {
-	.entrada.is-invalid {
-		.mensaje {
-			color: orangered;
-		}
-		.campo {
-			border: 2px solid orangered;
-		}
-	}
-	
+  .entrada.is-invalid {
+    .mensaje {
+      color: orangered;
+    }
+    .campo {
+      border: 2px solid orangered;
+    }
+  }
 
-	&.flex {
-		display: flex;
+  &.flex {
+    display: flex;
 
-		.entrada:nth-child(2) {
-			margin-left: 10px;
-		}
-	}
+    .entrada:nth-child(2) {
+      margin-left: 10px;
+    }
+  }
 
-	.flex {
-		display: flex;
+  .flex {
+    display: flex;
 
-		.entrada:nth-child(1) {
-			margin-right: 20px;
-		}
-	}
+    .entrada:nth-child(1) {
+      margin-right: 20px;
+    }
+  }
 
-	.barra-seguridad {
-		display: flex;
+  .barra-seguridad {
+    display: flex;
 
-		span {
-			margin-left: 8px;
-		}
+    span {
+      margin-left: 8px;
+    }
 
-		.segmento {
-			display: block;
-			width: 23px;
-			height: 12px;
-			margin-right: 2px;
-			margin-top: 4px;
-			border: 2px solid white;
-			border-radius: 3px;
+    .segmento {
+      display: block;
+      width: 23px;
+      height: 12px;
+      margin-right: 2px;
+      margin-top: 4px;
+      border: 2px solid white;
+      border-radius: 3px;
 
-			&.lleno {
-				background-color: rgba(255, 255, 255, 0.4);
-			}
-		}
-	}
+      &.lleno {
+        background-color: rgba(255, 255, 255, 0.4);
+      }
+    }
+  }
 
-	.entrada {
-		border-radius: 10px;
+  .entrada {
+    border-radius: 10px;
+    &.disabled {
+      color: grey;
+    }
 
-		&.geo {
-			text-align: center;
-			padding: 10px;
-			width: 180px;
-			height: 140px;
+    &.geo {
+      text-align: center;
+      padding: 10px;
+      width: 180px;
+      height: 140px;
+      cursor: pointer;
 
-			.icono {
-				.material-icons {
-					font-size: 50px;
-				}
+      .icono {
+        .material-icons {
+          margin-top: 12px;
+          font-size: 50px;
+          margin-bottom: 16px;
+        }
 
-				.share-location {
-					position: relative;
-					top: -10px;
-					font-size: 18px;
-				}
+        .share-location {
+          position: relative;
+          top: -10px;
+          font-size: 18px;
+        }
 
-				.detalle {
-					position: relative;
-					top: -18px;
-				}
-			}
-		}
+        .detalle {
+          position: relative;
+          top: -18px;
+        }
 
-		&.avatar {
-			&.is-invalid {
-				.marco-upload {
-					border: 2px solid orangered;
-				}
-			}
-			.marco-upload {
-				display: block;
-				position: relative;
-				width: 136px;
-				height: 136px;
-				border: 2px solid white;
-				border-radius: 6px;
-				font-size: 12px;
-				margin-top: 4px;
-				text-align: center;
-				z-index: 0;
-				
-				.marco-avatar {
-					width: 132px;
-					height: 132px;
-					border-radius: 4px;
-					background-size: 100% auto;
-					background-position: center;
-				}
+        .circle {
+          position: relative;
+          top: -20px;
+          left: calc(50% - 14px);
+        }
+      }
+    }
 
-				.marco-drop {
-					position: absolute;
-					opacity: 0;
-					width: 136px;
-					height: 136px;
-					background-image: url(/img/drag-and-drop.png);				
-					background-size: cover;					
-					background-position: center;
-					border-radius: 6px;
-					top: 0px;
-					left: 0px;
-					z-index: 1;
+    &.avatar {
+      &.is-invalid {
+        .marco-upload {
+          border: 2px solid orangered;
+        }
+      }
+      .marco-upload {
+        display: block;
+        position: relative;
+        width: 136px;
+        height: 136px;
+        border: 2px solid white;
+        border-radius: 6px;
+        font-size: 12px;
+        margin-top: 4px;
+        text-align: center;
+        z-index: 0;
 
-					&.activo {
-						opacity: 1;
-					}
-				}
+        .marco-avatar {
+          width: 132px;
+          height: 132px;
+          border-radius: 4px;
+          background-size: 100% auto;
+          background-position: center;
+        }
 
-				i {
-					width: 45px;
-					height: 45px;
-					border: 2px solid white;
-					border-radius: 50%;
-					margin-top: 30px;
-					padding-top: 2px;
-					margin-bottom: 10px;
-					font-size: 38px;
-					color: white;
-				}
-			}
-		}
+        .marco-drop {
+          position: absolute;
+          opacity: 0;
+          width: 136px;
+          height: 136px;
+          background-image: url(/img/drag-and-drop.png);
+          background-size: cover;
+          background-position: center;
+          border-radius: 6px;
+          top: 0px;
+          left: 0px;
+          z-index: 1;
 
-		&.usuario-picker {
-			display: inline-flex;
-			width: 100%;
+          &.activo {
+            opacity: 1;
+          }
+        }
 
-			.campo-entrada {
-				width: 50%;
-			}
+        i {
+          width: 45px;
+          height: 45px;
+          border: 2px solid white;
+          border-radius: 50%;
+          margin-top: 30px;
+          padding-top: 2px;
+          margin-bottom: 10px;
+          font-size: 38px;
+          color: white;
+        }
+      }
+    }
 
-			.avatar {
-				width: 120px;
-				padding-top: 10px;
-				padding-left: 20px;
+    &.usuario-picker {
+      display: inline-flex;
+      width: 100%;
 
-				p {
-					width: 100%;
-					display: inline-block;
-					white-space: nowrap;
-					overflow: hidden !important;
-					text-overflow: ellipsis;
-					text-align: center;
-				}
+      .campo-entrada {
+        width: 50%;
+      }
 
-				img {
-					width: 80px;
-					height: 80px;
-					border-radius: 50%;
-				}
+      .avatar {
+        width: 120px;
+        padding-top: 10px;
+        padding-left: 20px;
 
-				.no-imagen {
-					display: block;
-					width: 80px;
-					height: 80px;
-					border-radius: 50%;
-					background-color: purple;
-					color: white;
-					font-size: 36px;
-					font-weight: bolder;
-					padding-top: 16px;
-					text-align: center;
-				}
+        p {
+          width: 100%;
+          display: inline-block;
+          white-space: nowrap;
+          overflow: hidden !important;
+          text-overflow: ellipsis;
+          text-align: center;
+        }
 
-				.material-icons {
-					position: absolute;
-					left: 80px;
-					top: 30px;
-					background-color: salmon;
-					color: white;
-					border-radius: 50%;
-					cursor: pointer;
-				}
-			}
-		}
+        img {
+          width: 80px;
+          height: 80px;
+          border-radius: 50%;
+        }
 
-		&.cuadrilla-picker {
-			display: inline-flex;
-			width: 100%;
+        .no-imagen {
+          display: block;
+          width: 80px;
+          height: 80px;
+          border-radius: 50%;
+          background-color: purple;
+          color: white;
+          font-size: 36px;
+          font-weight: bolder;
+          padding-top: 16px;
+          text-align: center;
+        }
 
-			.campo-entrada {
-				width: 50%;
-			}
+        .material-icons {
+          position: absolute;
+          left: 80px;
+          top: 30px;
+          background-color: salmon;
+          color: white;
+          border-radius: 50%;
+          cursor: pointer;
+        }
+      }
+    }
 
-			.avatar {
-				width: 120px;
-				padding-top: 10px;
-				padding-left: 20px;
+    &.cuadrilla-picker {
+      display: inline-flex;
+      width: 100%;
 
-				p {
-					width: 100%;
-					display: inline-block;
-					white-space: nowrap;
-					overflow: hidden !important;
-					text-overflow: ellipsis;
-					text-align: center;
-				}
+      .campo-entrada {
+        width: 50%;
+      }
 
-				img {
-					width: 80px;
-					height: 80px;
-					border-radius: 50%;
-				}
+      .avatar {
+        width: 120px;
+        padding-top: 10px;
+        padding-left: 20px;
 
-				.no-imagen {
-					display: block;
-					width: 80px;
-					height: 80px;
-					border-radius: 50%;
-					background-color: purple;
-					color: white;
-					font-size: 36px;
-					font-weight: bolder;
-					padding-top: 16px;
-					text-align: center;
-				}
+        p {
+          width: 100%;
+          display: inline-block;
+          white-space: nowrap;
+          overflow: hidden !important;
+          text-overflow: ellipsis;
+          text-align: center;
+        }
 
-				.material-icons {
-					position: relative;
-					left: 50px;
-					top: -120px;
-					background-color: salmon;
-					color: white;
-					border-radius: 50%;
-					cursor: pointer;
-				}
-			}
-		}
+        img {
+          width: 80px;
+          height: 80px;
+          border-radius: 50%;
+        }
 
-		&.documentos-picker {
-			display: flex;
-			flex-wrap: wrap;
+        .no-imagen {
+          display: block;
+          width: 80px;
+          height: 80px;
+          border-radius: 50%;
+          background-color: purple;
+          color: white;
+          font-size: 36px;
+          font-weight: bolder;
+          padding-top: 16px;
+          text-align: center;
+        }
 
-			.archivo {
-				.marco-upload {
-					.material-icons {
-						font-size: 32px;
-						margin-top: 18px;
-					}
+        .material-icons {
+          position: relative;
+          left: 50px;
+          top: -120px;
+          background-color: salmon;
+          color: white;
+          border-radius: 50%;
+          cursor: pointer;
+        }
+      }
+    }
 
-					display: block;
-					position: relative;
-					width: 106px;
-					height: 106px;
-					margin: 15px;
-					background-color: rgba(255, 255, 255, 0.4);
-					border-radius: 6px;
-					font-size: 12px;
-					margin-top: 4px;
-					text-align: center;
-					z-index: 0;
-	
-					.marco-drop {
-						position: absolute;
-						opacity: 0;
-						width: 106px;
-						height: 106px;
-						background-image: url(/img/drag-and-drop.png);				
-						background-size: cover;					
-						background-position: center;
-						border-radius: 6px;
-						top: 0px;
-						left: 0px;
-						z-index: 1;
-	
-						&.activo {
-							opacity: 1;
-						}
-					}
-				}
-			}
+    &.documentos-picker {
+      display: flex;
+      flex-wrap: wrap;
 
-			.documentos {
-				display: flex;
-				flex-wrap: wrap;
-				
-				.archivo {
-					width: 160px;
-						
-					.marco-documento {
-						padding-top: 20px;
-						padding-left: 20px;
+      .archivo {
+        .marco-upload {
+          .material-icons {
+            font-size: 32px;
+            margin-top: 18px;
+          }
 
-						.nombre {				
-							background-color: rgba(255, 255, 255, 0.4);
-							border-radius: 8px;
-							padding: 0px 4px;
-							color: blue;
-							text-decoration: underline;
-							width: 100%;
-							white-space: nowrap;
-							overflow: hidden !important;
-							text-overflow: ellipsis;
-							margin-bottom: 0px;
-						}
+          display: block;
+          position: relative;
+          width: 106px;
+          height: 106px;
+          margin: 15px;
+          background-color: rgba(255, 255, 255, 0.4);
+          border-radius: 6px;
+          font-size: 12px;
+          margin-top: 4px;
+          text-align: center;
+          z-index: 0;
 
-						.eliminar {
-							display: flex;
-							font-size: 10px;
-							background-color: salmon;
-							border-radius: 3px;
-							padding: 2px;
-							margin-left: 8px;
-							width: 51px;
-							cursor: pointer;
+          .marco-drop {
+            position: absolute;
+            opacity: 0;
+            width: 106px;
+            height: 106px;
+            background-image: url(/img/drag-and-drop.png);
+            background-size: cover;
+            background-position: center;
+            border-radius: 6px;
+            top: 0px;
+            left: 0px;
+            z-index: 1;
 
-							.material-icons {
-								font-size: 10px;
-							}
-							
-							span {
-								position: relative;
-								top: -1px;
-								width: 100%;
-								white-space: nowrap;
-								overflow: hidden !important;
-								text-overflow: ellipsis;
-							}
-						}
-					}
-				}
-			}
-		}
-		
-		&.imagenes-picker {
-			display: inline-flex;
-			width: 100%;
-			margin-bottom: 12px;
+            &.activo {
+              opacity: 1;
+            }
+          }
+        }
+      }
 
-			.camara {
-				.material-icons {
-					font-size: 32px;
-					margin-top: 18px;
-				}
+      .documentos {
+        display: flex;
+        flex-wrap: wrap;
 
-				.marco-upload {
-					display: block;
-					position: relative;
-					width: 106px;
-					height: 106px;
-					margin: 15px;
-					background-color: rgba(255, 255, 255, 0.4);
-					border-radius: 6px;
-					font-size: 12px;
-					margin-top: 4px;
-					text-align: center;
-					z-index: 0;
+        .archivo {
+          width: 160px;
 
-					&.is-invalid {
-						border: 2px solid orangered;
-						color: orangered;
-					}
-	
-					.marco-drop {
-						position: absolute;
-						opacity: 0;
-						width: 106px;
-						height: 106px;
-						background-image: url(/img/drag-and-drop.png);				
-						background-size: cover;					
-						background-position: center;
-						border-radius: 6px;
-						top: 0px;
-						left: 0px;
-						z-index: 1;
-	
-						&.activo {
-							opacity: 1;
-						}
-					}
-				}
-			}
+          .marco-documento {
+            padding-top: 20px;
+            padding-left: 20px;
 
-			.dispimagen {
-				display: flex;
-				flex-wrap: wrap;
-				margin-left: 1px;
+            .nombre {
+              background-color: rgba(255, 255, 255, 0.4);
+              border-radius: 8px;
+              padding: 0px 4px;
+              color: blue;
+              text-decoration: underline;
+              width: 100%;
+              white-space: nowrap;
+              overflow: hidden !important;
+              text-overflow: ellipsis;
+              margin-bottom: 0px;
+            }
 
-				.dispimagenes {
-					.marco-dispimagen {
-						width: 20px;
-						padding-top: 10px;
-						padding-left: 10px;
-						text-align: center;
+            .eliminar {
+              display: flex;
+              font-size: 10px;
+              background-color: salmon;
+              border-radius: 3px;
+              padding: 2px;
+              margin-left: 8px;
+              width: 51px;
+              cursor: pointer;
 
-						dispimg {
-							width: 20px;
-							height: auto;
-							border-radius: 4px;
-							margin: 4px;
-							padding-left: 150px;
-						}
-					}
-				}
-			}
-			.imagenes {
-				display: flex;
-				flex-wrap: wrap;
-				margin-left: 10px;
-				
-				.imagen {
-					.marco-imagen {
-						width: 100px;
-						padding-top: 20px;
-						padding-left: 20px;
-						text-align: center;
-						
-						img {
-							width: 96px;
-							height: auto;
-							border-radius: 4px;
-							margin: 4px;
-						}
+              .material-icons {
+                font-size: 10px;
+              }
 
-						.eliminar {
-							display: inline-flex;
-							font-size: 10px;
-							background-color: salmon;
-							border-radius: 3px;
-							padding: 2px;
-							margin-left: -3px;
-							cursor: pointer;
-							.material-icons {
-								font-size: 10px;
-							}
-							span {
-								position: relative;
-								top: -1px;
-								width: 100%;
-								white-space: nowrap;
-								overflow: hidden !important;
-								text-overflow: ellipsis;
-							}
-						}
-					}
-				}
-			}
-		}
+              span {
+                position: relative;
+                top: -1px;
+                width: 100%;
+                white-space: nowrap;
+                overflow: hidden !important;
+                text-overflow: ellipsis;
+              }
+            }
+          }
+        }
+      }
+    }
 
-		&.selector-radio {
-			justify-content: center;
-			font-size: 18px;
-			input[type="radio"] {
-				margin: 5px 5px 0 20px;
-				padding-right: 10px;
-				width: 18px;
-				height: 18px;
-			}
-		}
+    &.imagenes-picker {
+      display: inline-flex;
+      width: 100%;
+      margin-bottom: 12px;
 
-		&.codigo-secreto {
-			margin: 1em auto;
-			width: 120px;
-		}
+      .camara {
+        .material-icons {
+          font-size: 32px;
+          margin-top: 18px;
+        }
 
-		.caluguero {
-			border: 2px solid white;
-			border-radius: 8px;
-			background-color: rgba(255, 255, 255, 0.2);
-			padding: 1em;
-			margin-bottom: 0.5em;
+        .marco-upload {
+          display: block;
+          position: relative;
+          width: 106px;
+          height: 106px;
+          margin: 15px;
+          background-color: rgba(255, 255, 255, 0.4);
+          border-radius: 6px;
+          font-size: 12px;
+          margin-top: 4px;
+          text-align: center;
+          z-index: 0;
 
-			.caluga {
-				display: inline-flex;
-				flex-wrap: wrap;
-				border: 2px solid yellow;
-				background-color: yellowgreen;
-				color: black;
-				border-radius: 4px;
-				padding: 0.3em 0.75em;
-				margin: 0.3em;
-				filter: opacity(0.4);
-				cursor: pointer;
+          &.is-invalid {
+            border: 2px solid orangered;
+            color: orangered;
+          }
 
-				&.seleccionado {
-					filter: opacity(1);
-				}
-			}
-		}
+          .marco-drop {
+            position: absolute;
+            opacity: 0;
+            width: 106px;
+            height: 106px;
+            background-image: url(/img/drag-and-drop.png);
+            background-size: cover;
+            background-position: center;
+            border-radius: 6px;
+            top: 0px;
+            left: 0px;
+            z-index: 1;
 
-		.selectores-presentacion {
-			display: flex;
-			.marco-agente-seleccionable {
-				display: block;
-				width: 175px;
-				position: relative;
-				height: 254px;
-				padding: 20px;
-				border: 2px solid white;
-				border-radius: 16px;
-				margin: 1.5em;
-				background-color: skyblue;
-				opacity: 0.3;
-				cursor: pointer;
+            &.activo {
+              opacity: 1;
+            }
+          }
+        }
+      }
 
-				&:hover {
-					opacity: 0.8;
-				}
+      .dispimagen {
+        display: flex;
+        flex-wrap: wrap;
+        margin-left: 1px;
 
-				&.seleccionado {
-					opacity: 1;
-				}
+        .dispimagenes {
+          .marco-dispimagen {
+            width: 20px;
+            padding-top: 10px;
+            padding-left: 10px;
+            text-align: center;
 
-				.imagen {
-					display: block;
-					position: absolute;
-					width: 153px;
-					height: 254px;
-					background-repeat: no-repeat;
-					&.cuerpo {
-						background-image: url(/img/corazon/corazon_verde.png);
-						background-size: 124px 105px;
-						z-index: 5;
-					}
-					&.piernas {
-						background-image: url(/img/corazon/corazon_verde_piernas.png);
-						background-size: 111px 129px;
-						background-position: 7px 80px;
-						z-index: 1;
-					}
-					&.brazo-izq {
-						background-image: url(/img/corazon/corazon_verde_brazo_izq.png);
-						background-size: 44px 89px;
-						background-position: 83px 50px;
-						z-index: 6;
-					}
-					&.brazo-der {
-						background-image: url(/img/corazon/corazon_verde_brazo_der.png);
-						background-size: 29px 67px;
-						background-position: 7px 60px;
-						z-index: 2;
-					}
-					&.cara-a {
-						background-image: url(/img/corazon/corazon_verde_cara_01.png);
-						background-size: 64px 50px;
-						background-position: 26px 27px;
-						z-index: 6;
-					}
-					&.cara-b {
-						background-image: url(/img/corazon/corazon_verde_cara_b01.png);
-						background-size: 40px 46px;
-						background-position: 32px 27px;
-						z-index: 6;
-					}
-					&.rosa {
-						background-image: url(/img/corazon/corazon_verde_rosa.png);
-						background-size: 39px 42px;
-						background-position: 85px 0px;
-						z-index: 6;
-					}
-				}
-			}
-		}
-	}
+            dispimg {
+              width: 20px;
+              height: auto;
+              border-radius: 4px;
+              margin: 4px;
+              padding-left: 150px;
+            }
+          }
+        }
+      }
+      .imagenes {
+        display: flex;
+        flex-wrap: wrap;
+        margin-left: 10px;
+
+        .imagen {
+          .marco-imagen {
+            width: 100px;
+            padding-top: 20px;
+            padding-left: 20px;
+            text-align: center;
+
+            img {
+              width: 96px;
+              height: auto;
+              border-radius: 4px;
+              margin: 4px;
+            }
+
+            .eliminar {
+              display: inline-flex;
+              font-size: 10px;
+              background-color: salmon;
+              border-radius: 3px;
+              padding: 2px;
+              margin-left: -3px;
+              cursor: pointer;
+              .material-icons {
+                font-size: 10px;
+              }
+              span {
+                position: relative;
+                top: -1px;
+                width: 100%;
+                white-space: nowrap;
+                overflow: hidden !important;
+                text-overflow: ellipsis;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    &.selector-radio {
+      justify-content: center;
+      font-size: 18px;
+      input[type="radio"] {
+        margin: 5px 5px 0 20px;
+        padding-right: 10px;
+        width: 18px;
+        height: 18px;
+      }
+    }
+
+    &.codigo-secreto {
+      margin: 1em auto;
+      width: 120px;
+    }
+
+    .caluguero {
+      border: 2px solid white;
+      border-radius: 8px;
+      background-color: rgba(255, 255, 255, 0.2);
+      padding: 1em;
+      margin-bottom: 0.5em;
+
+      .caluga {
+        display: inline-flex;
+        flex-wrap: wrap;
+        border: 2px solid yellow;
+        background-color: yellowgreen;
+        color: black;
+        border-radius: 4px;
+        padding: 0.3em 0.75em;
+        margin: 0.3em;
+        filter: opacity(0.4);
+        cursor: pointer;
+
+        &.seleccionado {
+          filter: opacity(1);
+        }
+      }
+    }
+
+    .selectores-presentacion {
+      display: flex;
+      .marco-agente-seleccionable {
+        display: block;
+        width: 175px;
+        position: relative;
+        height: 254px;
+        padding: 20px;
+        border: 2px solid white;
+        border-radius: 16px;
+        margin: 1.5em;
+        background-color: skyblue;
+        opacity: 0.3;
+        cursor: pointer;
+
+        &:hover {
+          opacity: 0.8;
+        }
+
+        &.seleccionado {
+          opacity: 1;
+        }
+
+        .imagen {
+          display: block;
+          position: absolute;
+          width: 153px;
+          height: 254px;
+          background-repeat: no-repeat;
+          &.cuerpo {
+            background-image: url(/img/corazon/corazon_verde.png);
+            background-size: 124px 105px;
+            z-index: 5;
+          }
+          &.piernas {
+            background-image: url(/img/corazon/corazon_verde_piernas.png);
+            background-size: 111px 129px;
+            background-position: 7px 80px;
+            z-index: 1;
+          }
+          &.brazo-izq {
+            background-image: url(/img/corazon/corazon_verde_brazo_izq.png);
+            background-size: 44px 89px;
+            background-position: 83px 50px;
+            z-index: 6;
+          }
+          &.brazo-der {
+            background-image: url(/img/corazon/corazon_verde_brazo_der.png);
+            background-size: 29px 67px;
+            background-position: 7px 60px;
+            z-index: 2;
+          }
+          &.cara-a {
+            background-image: url(/img/corazon/corazon_verde_cara_01.png);
+            background-size: 64px 50px;
+            background-position: 26px 27px;
+            z-index: 6;
+          }
+          &.cara-b {
+            background-image: url(/img/corazon/corazon_verde_cara_b01.png);
+            background-size: 40px 46px;
+            background-position: 32px 27px;
+            z-index: 6;
+          }
+          &.rosa {
+            background-image: url(/img/corazon/corazon_verde_rosa.png);
+            background-size: 39px 42px;
+            background-position: 85px 0px;
+            z-index: 6;
+          }
+        }
+      }
+    }
+  }
 }

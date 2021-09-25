@@ -1,19 +1,19 @@
 @font-face {
   font-family: BebasNeue Regular;
   font-weigth: normal;
-  src: url('font/BabasNeue/BebasNeue-Regular.woff');
+  src: url("font/BabasNeue/BebasNeue-Regular.woff");
 }
 
 @font-face {
   font-family: BebasNeue Bold;
   font-weigth: bold;
-  src: url('font/BabasNeue/BebasNeue-Bold.woff');
+  src: url("font/BabasNeue/BebasNeue-Bold.woff");
 }
 
 @font-face {
   font-family: ArcadeClasic;
   font-weigth: normal;
-  src: url('font/ArcadeClasic.ttf');
+  src: url("font/ArcadeClasic.ttf");
 }
 
 body {
@@ -46,14 +46,14 @@ input[type="text"],
 input[type="email"],
 textarea {
   border: 2px solid #ccc;
-  border-radius: 2em;  
+  border-radius: 2em;
   font-size: 20px;
   background: transparent;
   background-color: rgba(255, 255, 255, 0.8);
   color: black;
-	margin-bottom: 4px;
-	padding: 12px 24px 12px 24px;
-	width: 100%;
+  margin-bottom: 4px;
+  padding: 12px 24px 12px 24px;
+  width: 100%;
 }
 
 small {
@@ -61,14 +61,13 @@ small {
 }
 
 a {
-	color: skyblue;
-	font-size: 11px;
+  color: skyblue;
+  font-size: 11px;
 }
-
 
 select {
   border: 2px solid #ccc;
-  border-radius: 2em;  
+  border-radius: 2em;
   font-size: 12px;
   padding: 12px 16px;
   background: transparent;
@@ -81,29 +80,68 @@ h4 {
 }
 
 .errores {
-	color: orangered;
-	font-size: 12px;
+  color: orangered;
+  font-size: 12px;
 }
 
 .boton {
-	&.redondo {
-		width: 80px;
-		height: 80px;
-		padding: 20px;
-		margin: 1em auto;
-		border-radius: 50%;
-		
-		i {
-			font-size: 38px;
-		}
-	}
-	
-	&.deshabilitado {
-		color: darkgrey;
-	}
+  &.redondo {
+    width: 80px;
+    height: 80px;
+    padding: 20px;
+    margin: 1em auto;
+    border-radius: 50%;
+
+    i {
+      font-size: 38px;
+    }
+  }
+
+  &.deshabilitado {
+    color: darkgrey;
+  }
 }
 
 .bootstrap-datetimepicker-widget {
   background-color: white;
   color: black;
+}
+
+.circle {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.circle::before {
+  content: "";
+  width: 14px;
+  height: 14px;
+  position: absolute;
+  border: 3px solid transparent;
+  border-top-color: white;
+  border-right-color: white;
+  border-radius: 50%;
+  -webkit-animation: rotateAnimation 1s linear infinite;
+  animation: rotateAnimation 1s linear infinite;
+}
+
+.circle.naranjo::before {
+  border-top-color: #f59f26 !important;
+  border-right-color: #f59f26 !important;
+}
+
+@-webkit-keyframes rotateAnimation {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes rotateAnimation {
+  100% {
+    transform: rotate(360deg);
+  }
 }

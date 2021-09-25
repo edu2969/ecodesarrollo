@@ -26,3 +26,5 @@ tsega:bootstrap3-datetimepicker
 reywood:publish-composite
 mdg:validated-method
 mizzao:autocomplete
+
+mdg:geolocation
