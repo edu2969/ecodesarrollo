@@ -24,10 +24,6 @@ Handlebars.registerHelper("traductorSOSAfectados", (codigo) => {
 	return ECO_SOS.AFECTADO[codigo];
 });
 
-Handlebars.registerHelper("traductorSOSProblemas", (codigo) => {
-	return ECO_SOS.PROBLEMA[codigo].etiqueta;
-});
-
 Handlebars.registerHelper("traductorCAMPANASTipos", (codigo) => {
 	return ECO_CAMPANAS.TIPOS[codigo];
 });

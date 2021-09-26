@@ -31,7 +31,7 @@
 			<div class="contenedor-entidades contenedor-soss">
 				{{#each eco_soss}}
 				<div class="marco-entidad neuromorph amarillo{{#if estaPendiente}} pendiente{{/if}}"
-				 		style="background-image: url({{avatar}})" id="{{_id}}">
+					style="background-image: url({{avatar}})" id="{{_id}}">
 					<div class="overlay"></div>
 					<div class="tipo">
 						{{traductorSOSTipos tipo}}
@@ -46,8 +46,7 @@
 							<span>{{traductorSOSAfectados afectado}}</span>
 						</div>
 						<div class="problema">
-							<span>{{traductorSOSProblemas problema}}</span>
-							<i class="material-icons">{{icono}}</i>
+							<span>{{problema}}</span>
 						</div>
 					</div>
 				</div>
@@ -75,26 +74,27 @@
 				</div>
 				<div class="entrada">
 					<span>Problema</span>
-					<select id="input-problema" class="campo">
-						{{#each problemas}}
-						<option value="{{id}}" {{selectValor id ecoSos.problema}}>{{etiqueta}}</option>
-						{{/each}}
-					</select>
+					{{#if errores.problema}}<span class="mensaje"> (*{{errores.problema}})</span>{{/if}}
+					<input id="input-problema" class="campo" type="text" placeholder="Problema" value="{{ecoSos.problema}}"
+						required="true" aria-label="Problema">
 				</div>
 				<div class="entrada{{#if errores.direccion}} is-invalid{{/if}}">
 					<span>Dirección</span>
 					{{#if errores.direccion}}<span class="mensaje"> (*{{errores.direccion}})</span>{{/if}}
-					<input id="input-direccion" class="campo" type="text" placeholder="Dirección" value="{{ecoSos.direccion}}" required="true" aria-label="Dirección">
+					<input id="input-direccion" class="campo" type="text" placeholder="Dirección" value="{{ecoSos.direccion}}"
+						required="true" aria-label="Dirección">
 				</div>
 				<div class="entrada{{#if errores.comuna}} is-invalid{{/if}}" style="position: relative;">
 					<span>Comuna</span>
-					{{> inputAutocomplete settings=settingsComunas id="input-comuna" class="campo" placeholder="Comuna..." required="true" aria-label="Comuna"
+					{{> inputAutocomplete settings=settingsComunas id="input-comuna" class="campo" placeholder="Comuna..."
+					required="true" aria-label="Comuna"
 					autocomplete="off" value=ecoSos.comuna}}
 				</div>
 				<div class="entrada{{#if errores.descripcion}} is-invalid{{/if}}">
 					<span>Descripción</span>
 					{{#if errores.descripcion}}<span class="mensaje"> (*{{errores.descripcion}})</span>{{/if}}
-					<textarea class="campo" id="input-descripcion" type="text" value="{{ecoSos.descripcion}}" rows="4" required="true" aria-label="Descripción"></textarea>
+					<textarea class="campo" id="input-descripcion" type="text" value="{{ecoSos.descripcion}}" rows="4"
+						required="true" aria-label="Descripción"></textarea>
 				</div>
 				<div class="entrada imagenes-picker">
 					<div class="camara">
@@ -136,17 +136,25 @@
 			<div class="presentacion">
 				<div class="ultima-actividad"><i>ultimaActividad: </i>{{formatoFecha ultimaActividad 'DD/MMM/YYYY HH:mm'}}</div>
 				<div class="titulo-presentacion">Imagenes</div>
-				<div class="entrada imagenes-picker">
-					<div class="imagenes">
-						{{#each imagenes}}
-						<div class="imagen" id={{_id}}>
-							<div class="marco-imagen">
-								<img src="{{imagen}}">
-							</div>
+				<div class="carrousel-imagenes">
+					<div class="visor-imagenes">
+						<div class="flecha flecha-izquierda">
+							<i class="material-icons">chevron_left</i>
 						</div>
-						{{else}}
-						<h3>No hay Imágenes</h3>
-						{{/each}}
+						<div class="flecha flecha-derecha">
+							<i class="material-icons">chevron_right</i>
+						</div>
+						<div class="imagenes" style="width: {{carrousel.total}}; left: {{carrousel.left}}">
+							{{#each imagenes}}
+							<div class="imagen" id="{{_id}}" style="width: {{carrousel.ancho}};">
+								<div class="marco-imagen">
+									<img src="{{imagen}}">
+								</div>
+							</div>
+							{{else}}
+							<h3>No hay Imágenes</h3>
+							{{/each}}
+						</div>
 					</div>
 				</div>
 				<div class="titulo-presentacion">Participantes</div>
