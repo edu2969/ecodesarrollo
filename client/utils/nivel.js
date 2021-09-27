@@ -36,8 +36,7 @@ const getNivelUsuario = () => {
           porcentaje: 100
         }
         nivel.nivel3 = {
-          porcentaje: 0,
-          actual: true
+          porcentaje: 0
         }
         if (usuario.profile.codigoSecretoOK) {
           nivel.nivel3.porcentaje = 100;
@@ -46,6 +45,8 @@ const getNivelUsuario = () => {
             actual: true,
             puntos: 0
           }
+        } else {
+          nivel.nivel3.actual = true;
         }
       }
     }

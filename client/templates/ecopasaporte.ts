@@ -4,11 +4,15 @@ import { ReactiveVar } from 'meteor/reactive-var'
 import { Nivel } from '../utils/nivel'
 import { ECOActividades } from '../../lib/ECOActividades'
 import { UIUtils } from '../utils/utils';
+import { EsAdmin, EsEquipoBase } from '/lib/RoleInspector';
 
 const frases = [
-	"Pensar que reciclando todo el plástico, tenemos botellas para 2000 años",
-	"Pensar que hoy se hacen calles con botellas plasticas en Alemania",
-	"No tenia idea que hay una molecula que se come el plastico"
+	"Pensar que cada minuto se usan 1 millón de bolsas de plástico...",
+	"Abrigándonos del frío, reducimos emisión de CO2 en calefacción.",
+	"Solo el 5% de bolsas son recicladas",
+	"La basura más recurrente en los mares son el plástico y las colillas.",
+	"Los países que más CO2 emiten son EEUU, India, Rusia y China.",
+	"La bombilla emite 90% de la energía en calor, y no luz. Mal Edison ahí.",
 ]
 
 const menuPrincipal = () => {
@@ -185,6 +189,9 @@ Template.ecopasaporte.helpers({
 	},
 	frase() {
 		return frases[Template.instance().numeroFrase.get()]
+	},
+	revisaAcciones() {
+		return EsAdmin() || EsEquipoBase();
 	}
 })
 
@@ -302,6 +309,15 @@ Template.ecopasaporte.events({
 			clase: "mundo-corazones",
 			color: "rojo",
 			esMundoCorazones: true
+		});
+		UIUtils.toggle("eco-panel", "activo");
+		$(".panel-preferencias").toggleClass("activo");
+	},
+	"click .opcion-acciones"(e, template) {
+		template.panel.set({
+			clase: "acciones",
+			color: "rojo",
+			esAcciones: true
 		});
 		UIUtils.toggle("eco-panel", "activo");
 		$(".panel-preferencias").toggleClass("activo");

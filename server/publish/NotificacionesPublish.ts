@@ -3,6 +3,7 @@ import { NotificacionType } from '/lib/types/NotificacionType'
 import { EstadoType } from '/lib/types/EstadoType'
 import { Depositos, Notificaciones } from '../../lib/collections/BaseCollections'
 import { Images } from '../../lib/collections/FilesCollections'
+import { EsAdmin } from '/lib/RoleInspector';
 import {
   ECOOrganizaciones,
   ECOCampanas,
@@ -17,7 +18,7 @@ Meteor.publishComposite('Notificaciones.listado', function () {
       if (!usuario) return false
       let tipos: Array<string>
       let query: any = {}
-      if (usuario.profile.rol == 1) {
+      if (EsAdmin(usuario.profile.rol)) {
         tipos = [
           NotificacionType.NuevoUsuario,
           NotificacionType.Donacion,
