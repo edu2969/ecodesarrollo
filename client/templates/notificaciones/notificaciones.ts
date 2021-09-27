@@ -8,10 +8,12 @@ import {
   ECOSos,
   ECODesarrollos
 } from '../../../lib/collections/ECODimensionesCollections'
+import { UIUtils, FormUtils, IsEmpty } from '../../utils/utils'
 import { NotificacionesTraductor } from '../../../lib/NotificacionesUtils'
 import { Images } from '../../../lib/collections/FilesCollections'
 import { NotificacionType } from '/lib/types/NotificacionType'
 const { ECO_SOS } = require('../../../lib/constantes')
+const { ECO_CAMPANAS } = require('../../../lib/constantes')
 
 Template.notificaciones.rendered = function () {
   this.autorun(function () {
@@ -213,7 +215,9 @@ Template.notificaciones.events({
           '<div class="texto">Creador: ' + nombre + '</div>' +
           '<div class="nombre">' + usuario.profile.nombre + '</div>' +
           '<div class="ecodimension-content">' +
-          '<div class="titulo">' + ecoCampana.tipo + '</div>' +
+          '<div class="titulo">' + ECO_CAMPANAS.TIPOS[ecoCampana.tipo] + '</div>' +
+          '<div class="contenido">Descripcion :' + '<strong>' + ecoCampana.descripcion + '</strong>' + '</div>' +
+          '<div class="contenido">Lugar :' + '<strong>' + ecoCampana.descripcionLugar + '</strong>' + '</div>' +
           '<div class="imagen-avatar"><img src="' + (imagen ? imagen.link() : '/img/no_image_available.jpg') + '"/></div>' +
           '</div>' +
           '<div class="fecha">' + moment(notificacion.fecha).format('DD/MM/yyyy HH:mm') + '</div>' +
