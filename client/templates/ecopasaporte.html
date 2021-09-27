@@ -102,6 +102,12 @@
 		{{#if panel.esMundoCorazones}}
 		{{> mundocorazones}}
 		{{/if}}
+		{{#if panel.esAcciones}}
+		{{> acciones}}
+		{{/if}}
+		{{#if panel.esSabermas}}
+		{{> sabermas}}
+		{{/if}}
 	</div>
 
 	<div class="panel-preferencias">
@@ -114,6 +120,12 @@
 				<div class="icono"><i class="material-icons">notifications</i></div>
 				<div class="texto">Notificaciones</div>
 			</div>
+			{{#if revisaAcciones}}
+			<div class="opcion-preferencia opcion-acciones">
+				<div class="icono"><i class="material-icons">fingerprint</i></div>
+				<div class="texto">Acciones</div>
+			</div>
+			{{/if}}
 			<div class="opcion-preferencia opcion-info">
 				<div class="icono"><i class="material-icons">info</i></div>
 				<div class="texto">Mundo de Corazones</div>

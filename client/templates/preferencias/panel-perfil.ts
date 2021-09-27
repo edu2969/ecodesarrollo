@@ -3,7 +3,8 @@ import { Template } from 'meteor/templating'
 import { ReactiveVar } from 'meteor/reactive-var'
 import { INTERESES } from '../../../lib/constantes'
 const { Images } = require('/lib/collections/FilesCollections')
-import { FormUtils, MaskPrice } from '../../utils/utils'
+import { FormUtils, MaskPrice } from '../../utils/utils';
+import { EsAdmin } from '/lib/RoleInspector';
 
 Template.panelPerfil.onCreated(function () {
   this.currentUpload = new ReactiveVar(false);
@@ -32,7 +33,7 @@ Template.panelPerfil.helpers({
     if (avatar) {
       perfil.avatar = avatar.link();
     }
-    if (perfil.rol == 1) perfil.esAdmin = true
+    if (EsAdmin(perfil.rol)) perfil.esAdmin = true;
     const intereses = perfil.intereses || [];
     perfil.intereses = INTERESES.map((interes) => {
       return {
@@ -46,8 +47,8 @@ Template.panelPerfil.helpers({
 
 Template.panelPerfil.events({
   "click .marco-editar"() {
-    $(".marco-informacion").hide()
-    $(".formulario-edicion").show()
+    $(".marco-informacion").hide();
+    $(".formulario-edicion").show();
   },
   "click #btn-cancelar"() {
     $(".marco-informacion").show()

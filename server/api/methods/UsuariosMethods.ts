@@ -4,7 +4,15 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method'
 import { Depositos } from '/lib/collections/BaseCollections'
 import NotificacionesServices from '../services/NotificacionesServices'
 import { Notificaciones } from '../../../lib/collections/BaseCollections'
-import { EstadoType } from '/lib/types/EstadoType'
+import { EstadoType } from '/lib/types/EstadoType';
+
+/*
+Modelo de perfiles
+1. Admin
+2. Equipo base
+4. Lider de campañas
+64. Corazón verde
+*/
 
 export const IngresarDepositoNoConfirmado = new ValidatedMethod({
   name: 'Usuarios.IngresarDepositoNoConfirmado',

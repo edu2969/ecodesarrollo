@@ -1,0 +1,10 @@
+.marco-acciones {
+  width: 100%;
+  height: calc(100% - 3em);
+  margin-top: 3em;
+  overflow-y: scroll;
+
+  .content-acciones {
+    padding: 2em;
+  }
+}

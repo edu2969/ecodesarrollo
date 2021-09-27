@@ -1,0 +1,21 @@
+.contenedor-sabermas {
+  .marco-scroll-sabermas {
+    width: 100%;
+    display: block;
+    padding: 0 4em;
+    height: calc(100vh - 4em);
+    overflow-y: scroll;
+
+    .foto1 {
+      display: flex;
+      p {
+        font-size: 16px;
+      }
+      img {
+        width: 400px;
+        border-radius: 20px;
+        margin-left: 4em;
+      }
+    }
+  }
+}

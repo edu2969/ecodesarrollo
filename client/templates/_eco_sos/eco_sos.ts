@@ -19,7 +19,8 @@ Template.eco_sos.onCreated(function () {
 	this.ecoSosSeleccionada = new ReactiveVar(false);
 	this.editando = ReactiveVar(false);
 	this.enListado = ReactiveVar(true);
-	this.errores = ReactiveVar(false)
+	this.errores = ReactiveVar(false);
+	this.indiceImagen = ReactiveVar(0);
 });
 
 Template.eco_sos.rendered = () => {
@@ -44,7 +45,6 @@ Template.eco_sos.helpers({
 	},
 	eco_soss() {
 		return ECOSos.find().map(ecosos => {
-			ecosos.icono = ECO_SOS.PROBLEMA[ecosos.problema].icono;
 			const img = Images.findOne({
 				$or: [{
 					"meta.ecoSosId": ecosos._id,
@@ -85,7 +85,6 @@ Template.eco_sos.helpers({
 		ecoSos.donaciones = 0;
 		return ecoSos;
 	},
-
 	tipos() {
 		const keys = Object.keys(ECO_SOS.TIPOS);
 		return keys.map((key) => {
@@ -165,7 +164,21 @@ Template.eco_sos.helpers({
 	},
 	errores() {
 		return Template.instance().errores.get()
-	}
+	},
+	carrousel() {
+		const instance = Template.instance();
+		const ecoSos = instance.ecoSosSeleccionada.get();
+		const counter = Images.find({
+			"meta.ecoSosId": ecoSos._id,
+			"meta.tipo": "ecosos"
+		}).count();
+		const indiceImagen = instance.indiceImagen.get();
+		return {
+			total: ( counter * 100 ) + '%',
+			ancho: ( 100 / counter ) + '%',
+			left: ( indiceImagen * -100 ) + '%'
+		}
+	},
 });
 
 Template.eco_sos.events({
@@ -325,5 +338,22 @@ Template.eco_sos.events({
 		var ecoSos = template.ecoSosSeleccionada.get();
 		ecoSos.comundaId = doc._id
 		template.ecoSosSeleccionada.set(ecoSos)
-	}
+	},
+	"click .flecha-derecha, click .flecha-izquierda"(e, template) {
+		const ecoSos = template.ecoSosSeleccionada.get();
+		const counter = Images.find({
+			"meta.ecoSosId": ecoSos._id,
+			"meta.tipo": "ecosos"
+		}).count();
+		let indiceImagen = template.indiceImagen.get();
+		const esIzq = e.currentTarget.classList.value.indexOf("izquierda") != -1;
+		indiceImagen = indiceImagen + ( esIzq ? -1 : +1);
+		if(indiceImagen == -1) {
+			indiceImagen = counter - 1;
+		}
+		if(indiceImagen == counter) {
+			indiceImagen = 0;
+		}
+		template.indiceImagen.set(indiceImagen);
+	},
 })

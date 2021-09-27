@@ -11,6 +11,7 @@
     "@babel/runtime": "^7.12.5",
     "bcrypt": "^5.0.0",
     "boostrap": "^2.0.0",
+    "dotenv": "^10.0.0",
     "meteor-bootstrap-npm": "^1.0.0",
     "meteor-node-stubs": "^1.0.0",
     "simpl-schema": "^1.12.0",

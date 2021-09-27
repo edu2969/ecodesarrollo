@@ -2,7 +2,9 @@
 import { Meteor } from 'meteor/meteor'
 import { Template } from 'meteor/templating'
 import { ReactiveVar } from 'meteor/reactive-var'
-import { Session } from 'meteor/session'
+import { Session } from 'meteor/session';
+import { Tracker } from 'meteor/tracker';
+
 const {
 	UIUtils
 } = require('../../utils/utils')
@@ -213,5 +215,19 @@ Template.registrame.events({
 			valor = 6
 		}
 		template.passwordStrength.set(valor)
+	},
+	"click .btn-share-location"(e) {
+		$(".circle").show();
+		Tracker.autorun((computation)=>{
+			const location = Geolocation.currentLocation();
+			if(location!=null) {
+				console.log(location);
+				$(".btn-share-location").removeClass("disabled");
+				$(".share-location").text("Localización OK");
+				$(".circle").hide();
+				computation.stop();
+			}
+		})
 	}
 })
+
