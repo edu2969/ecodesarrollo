@@ -52,6 +52,19 @@ ECODesarrollos.allow({
   }
 });
 
+export const ECOAcciones = new Meteor.Collection("ecoacciones");
+ECOAcciones.allow({
+  insert() {
+    return false;
+  },
+  update() {
+    return false;
+  },
+  remove() {
+    return false;
+  }
+});
+
 export const Participaciones = new Meteor.Collection("participaciones");
 Participaciones.allow({
   insert() {

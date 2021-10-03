@@ -65,6 +65,10 @@ const menuECODimensiones = () => {
 			nombre: "eco_sos",
 			icono: "support",
 			accion: "ECO S.O.S."
+		}, {
+			nombre: "eco_acciones",
+			icono: "favorite",
+			accion: "ECO Acciones"
 		}]);
 		UIUtils.toggle("tombola", "reaparece");
 		UIUtils.toggle("tombola", "desaparece");
@@ -265,6 +269,13 @@ Template.ecopasaporte.events({
 				clase: "eco_sos",
 				esECOSOS: true,
 				color: "amarillo"
+			});
+			UIUtils.toggle("eco-panel", "activo");
+		} else if (actividad.indexOf("eco_acciones") != -1) {
+			template.panel.set({
+				clase: "eco_acciones",
+				esECOAcciones: true,
+				color: "rojo"
 			});
 			UIUtils.toggle("eco-panel", "activo");
 		}

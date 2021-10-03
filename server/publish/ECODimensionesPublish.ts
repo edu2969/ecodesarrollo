@@ -4,7 +4,8 @@ const {
 	ECOOrganizaciones,
 	ECOCampanas,
 	ECODesarrollos,
-	ECOSos
+	ECOSos,
+	ECOAcciones,
 } = require('../../lib/collections/ECODimensionesCollections')
 import { EstadoType } from '../../lib/types/EstadoType'
 import { Comunas } from '../../lib/collections/BaseCollections'
@@ -156,6 +157,47 @@ Meteor.publish('eco_desarrollos.documentos', function () {
 	return Documents.find({
 		"meta.tipo": "ecodesarrollo"
 	}).cursor;
+});
+
+Meteor.publish('eco_acciones', function () {
+	return ECOAcciones.find({
+		$or: [{
+			estado: EstadoType.Aprobado
+		}, {
+			usuarioId: this.userId,
+			estado: { $ne: EstadoType.Aprobado }
+		}]
+	});
+});
+
+Meteor.publish('eco_acciones.imagenes', function () {
+	return Images.find({
+		"meta.tipo": "ecoacciones"
+	}).cursor;
+});
+
+Meteor.publishComposite('eco_acciones.participantes', function () {
+	let participantes = []
+	ECOAcciones.find().forEach((ecoservicio: any) => {
+		if (participantes.indexOf(ecoservicio.usuarioId) == -1) {
+			participantes.push(ecoservicio.usuarioId)
+			ecoservicio.integrantes && ecoservicio.integrantes.forEach((integrante) => {
+				if (participantes.indexOf(integrante.usuarioId) == -1) {
+					participantes.push(integrante.usuarioId)
+				}
+			})
+		}
+	})
+	return {
+		find() {
+			return Meteor.users.find({ _id: { $in: participantes } })
+		},
+		children: [{
+			find(usuario: any) {
+				return Images.find({ userId: usuario._id, meta: {} }).cursor
+			}
+		}]
+	}
 });
 
 Meteor.publish('lugares.comunas', function () {
