@@ -29,7 +29,11 @@ const iniciarTombola = (template) => {
       nombre: "eco_sos",
       icono: "support",
       accion: "ECO S.O.S."
-    }]);
+    }, {
+			nombre: "eco_acciones",
+			icono: "favorite",
+			accion: "ECO Acciones"
+		}]);
     UIUtils.toggle("tombola", "reaparece");
     UIUtils.toggle("tombola", "desaparece");
     setTimeout(function () {

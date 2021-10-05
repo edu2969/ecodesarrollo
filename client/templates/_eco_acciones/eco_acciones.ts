@@ -22,12 +22,12 @@ const iniciarTimePickers = () => {
 }
 
 Template.eco_acciones.onCreated(function () {
-	this.currentUpload = new ReactiveVar();
 	this.ecoAccionSeleccionada = new ReactiveVar(false);
 	this.editando = ReactiveVar(false);
 	this.enListado = ReactiveVar(true)
 	this.errores = ReactiveVar(false);
 	this.indiceImagen = ReactiveVar(0);
+	this.currentUpload = new ReactiveVar(false);
 });
 
 var handler;
@@ -35,16 +35,15 @@ var handler;
 Template.eco_acciones.rendered = () => {
 	Tracker.autorun(() => {
 		Meteor.subscribe('eco_acciones');
-		Meteor.subscribe('eco_acciones.imagenes');
-		Meteor.subscribe('eco_acciones.participantes');
-		Meteor.subscribe('eco_acciones.participaciones');
+		Meteor.subscribe('eco_acciones.celulas');
+		Meteor.subscribe('eco_acciones.donaciones');
 	});
 	Meteor.subscribe('lugares.comunas')
 	Meteor.subscribe('usuarios.coordinadores')
 	Meteor.subscribe('eco_organizaciones')
 	Meteor.subscribe('eco_organizaciones.imagenes');
 
-	const instance = Template.instance();
+	/*const instance = Template.instance();
 	handler = ECOAcciones.find();
 	handler.observeChanges({
 		changed(id, fields) {
@@ -53,7 +52,7 @@ Template.eco_acciones.rendered = () => {
 				instance.ecoAccionSeleccionada.set(ECOAcciones.findOne(id));
 			}
 		}
-	})
+	})*/
 }
 
 Template.eco_acciones.helpers({
@@ -67,15 +66,6 @@ Template.eco_acciones.helpers({
 	eco_acciones() {
 		return ECOAcciones.find().map(ecoAccion => {
 			ecoAccion.ultimaActividad = ecoAccion.ultimaActualizacion;
-			const img = Images.findOne({
-				$or: [{
-					"meta.ecoAccionId": ecoAccion._id,
-					"meta.tipo": "ecoAccion",
-				}]
-			});
-			ecoAccion.avatar = img ? img.link() : '/img/no_image_available.jpg';
-			ecoAccion.integrantes = 0;
-			ecoAccion.donaciones = 0;
 			if (ecoAccion.estado === EstadoType.Pendiente) {
 				ecoAccion.estaPendiente = true
 			}
@@ -90,23 +80,13 @@ Template.eco_acciones.helpers({
 		if (userId == ecoAccion.usuarioId) {
 			ecoAccion.esPropia = true;
 		}
-		const img = Images.find({
-			$or: [{
-				"meta.tipo": "ecoAccion",
-				"meta.ecoAccionId": ecoAccion._id
-			}, {
-				"meta.tipo": "ecoAccion",
-				"meta.pendiente": true
-			}]
-		})
-		ecoAccion.tieneImagenes = img.count() > 0 ? "true" : ""
 		ecoAccion.ultimaActividad = ecoAccion.ultimaActualizacion
 		ecoAccion.integrantes = 1 + ( ecoAccion.participantes ? ecoAccion.participantes.length : 0 );
 		ecoAccion.puntos = 0;
+		if(!ecoAccion.tipo) ecoAccion.tipo = 'RM';
 
 		if (ecoAccion.cuadrillasId) {
 			const cuadrillasId = ecoAccion.cuadrillasId.split(",")
-			let cuadrillas = []
 			ecoAccion.cuadrillas = cuadrillasId.map((id: string) => {
 				const img = Images.findOne({
 					"meta.ecoOrganizacionId": id,
@@ -121,13 +101,13 @@ Template.eco_acciones.helpers({
 			})
 		}
 		
-		ecoAccion.participantes = ecoAccion.participantes && 
-		ecoAccion.participantes.map((participanteId)=>{
+		ecoAccion.celula = ecoAccion.celula && 
+		ecoAccion.celula.map((integranteId)=>{
 			var resultado = {};
-			const participante = Meteor.users.findOne({ _id: participanteId })
+			const participante = Meteor.users.findOne({ _id: integranteId })
 			const nombre = participante.profile.nombre
 			resultado.nombre = nombre
-			const imgParticipante = Images.findOne({ userId: participanteId, meta: {} });
+			const imgParticipante = Images.findOne({ userId: integranteId, meta: {} });
 			if (imgParticipante) {
 				resultado.imagen = imgParticipante.link()
 			} else {
@@ -135,10 +115,10 @@ Template.eco_acciones.helpers({
 				const iniciales = separado[0].charAt(0) + (separado.length > 1 ? separado[1].charAt(0) : "")
 				resultado.iniciales = iniciales
 			}
-			resultado.participanteId = participanteId;
+			resultado.integranteId = integranteId;
 			const participacion = Participaciones.findOne({
 				ecoAccionId: ecoAccion._id,
-				participanteId: participanteId,
+				integranteId: integranteId,
 			});
 			if(!participacion) {
 				resultado.sinRegistro = true;
@@ -182,9 +162,6 @@ Template.eco_acciones.helpers({
 			etiqueta: "Vidrios",
 		}]
 	},
-	currentUpload() {
-		return Template.instance().currentUpload.get();
-	},
 	settingsComunas() {
 		return {
 			position: "bottom",
@@ -221,6 +198,15 @@ Template.eco_acciones.helpers({
 	enLogin() {
 		return Meteor.userId()
 	},
+  currentUpload() {
+    return Template.instance().currentUpload.get();
+  },
+  comprobante() {
+    const img = Images.findOne({
+      "meta.tipo": "donacion"
+    }, { sort: { fecha: -1 } });
+    return img ? img.link() : false;
+  },
 })
 
 Template.eco_acciones.events({
@@ -336,4 +322,83 @@ Template.eco_acciones.events({
 		ecoAccion.cuadrillasId = cuadrillasId.join()
 		template.ecoAccionSeleccionada.set(ecoAccion)
 	},
+	"change #input-tipo"(e, template) {
+		const tipo = e.currentTarget.value;
+		var ecoAccion = template.ecoAccionSeleccionada.get();
+		ecoAccion.tipo = tipo;
+		template.ecoAccionSeleccionada.set(ecoAccion);
+	},
+
+	"click input[name='tipo']"(e) {
+    const value = e.currentTarget.value;
+    $(".sector-tipo-comprobate .entrada").hide();
+    $("#tipo-" + value).show();
+  },
+
+
+  "dragover .camara .marco-upload": function (e, t) {
+    e.stopPropagation();
+    e.preventDefault();
+    t.$(".camara .marco-drop").addClass("activo");
+  },
+  "dragleave .camara .marco-upload": function (e, t) {
+    e.stopPropagation();
+    e.preventDefault();
+    t.$(".camara .marco-drop").removeClass("activo");
+  },
+  "dragenter .camara .marco-upload": function (e, t) {
+    e.preventDefault();
+    e.stopPropagation();
+  },
+  "drop .camara .marco-upload": function (e, template) {
+    e.stopPropagation();
+    e.preventDefault();
+    if (e.originalEvent.dataTransfer.files && e.originalEvent.dataTransfer.files[0]) {
+      const upload = Images.insert({
+        file: e.originalEvent.dataTransfer.files[0],
+        meta: {
+          tipo: "donacion"
+        }
+      }, false);
+
+      upload.on('start', function () {
+        template.currentUpload.set(this);
+      });
+
+      upload.on('end', function (error, fileObj) {
+        if (error) {
+          alert('Error during upload: ' + error);
+        } else {
+          //console.log("FileImage", fileObj);
+        }
+        template.currentUpload.set(false);
+        template.$(".camara .marco-drop").removeClass("activo");
+      });
+      upload.start();
+    }
+  },
+  "click .camara .marco-upload"(e) {
+    $("#upload-image").click();
+  },
+  "change #upload-image"(e, template) {
+    if (e.currentTarget.files && e.currentTarget.files[0]) {
+      const upload = Images.insert({
+        file: e.currentTarget.files[0],
+        meta: {
+          tipo: "donacion"
+        }
+      }, false);
+
+      upload.on('start', function () {
+        template.currentUpload.set(this);
+      });
+
+      upload.on('end', function (error, fileObj) {
+        template.currentUpload.set(false);
+        template.$(".camara .marco-drop").removeClass("activo");
+      });
+
+      upload.start();
+    }
+  },
 })

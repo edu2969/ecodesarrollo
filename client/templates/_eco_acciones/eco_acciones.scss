@@ -108,3 +108,37 @@
     }
   }
 }
+
+.cuadro-datos-deposito {
+  margin: 10px 4em;
+  padding: 2em;
+  border-radius: 1em;
+
+  .linea {
+    display: flex;
+    font-size: 14px;
+    .etiqueta {
+      width: 180px;
+      font-weight: bolder;
+      .material-icons {
+        font-size: 80px;
+      }
+    }
+    .valor {
+      p {
+        font-size: 30px;
+        font-weight: bolder;
+      }
+      span {
+        font-size: 16px;
+      }
+    }
+  }
+}
+
+.sector-tipo-comprobate {
+  width: 460px;
+  border-radius: 1em;
+  padding: 1em;
+  margin: 1em auto;
+}

@@ -74,27 +74,34 @@
       <div class="formulario">
         <div class="flex">
           <div class="entrada">
-            <span>Tipo de Accion</span><br />
+            <span>Tipo de Accion</span>
+            <br />
             <select id="input-tipo" class="campo">
               {{#each tipos}}
               <option value="{{id}}" {{selectValor id eco_accion.tipo}}>{{etiqueta}}</option>
               {{/each}}
             </select>
           </div>
-          {{#unless sonIguales eco_accion.tipo 'RM'}}
+          {{#if sonIguales ecoAccion.tipo 'RM'}}
           <div class="entrada{{#if errores.descripcion}} is-invalid{{/if}}">
             <span>Qué se retiraría</span>
             {{#if errores.materias}}<span class="mensaje"> (*{{errores.materias}})</span>{{/if}}
             <div class="entrada checkboxes">
               <ul>
                 {{#each materias}}
-                <li><input type="checkbox" value="{{id}}">{{etiqueta}}</li>
+                <li><input type="checkbox" name="materias" value="{{id}}">{{etiqueta}}</li>
                 {{/each}}
               </ul>
             </div>
           </div>
-          {{/unless}}
+          {{else}}
+          <div class="subtitulo">Debes depositar a la cuenta a continuación y enviar una foto de
+            comprobante o bien, el detalle de tu deposito (fecha, número deposito y banco) y tu
+            depósito será revisado en un plazo de 24 horas.
+          </div>
+          {{/if}}
         </div>
+        {{#if sonIguales ecoAccion.tipo 'RM'}}
         <div class="entrada{{#if errores.direccion}} is-invalid{{/if}}">
           <span>Dirección</span>
           {{#if errores.direccion}}<span class="mensaje"> (*{{errores.direccion}})</span>{{/if}}
@@ -144,7 +151,6 @@
             autocomplete="off"}}
             <input id="input-cuadrillasId" class="campo" value="{{ecoAccion.cuadrillasId}}" style="display: none">
           </div>
-
           {{#each ecoAccion.cuadrillas}}
           <div class="avatar">
             <img src="{{imagen}}">
@@ -152,8 +158,62 @@
             <i id="reasignar-cuadrilla" class="material-icons" cuadrillaId="{{id}}">clear</i>
           </div>
           {{/each}}
-
         </div>
+        {{else}}
+        <div class="cuadro-datos-deposito neuromorph rojo">
+          <div class="linea">
+            <div class="etiqueta">Banco</div>
+            <div class="valor">Banco de Chile</div>
+          </div>
+          <div class="linea">
+            <div class="etiqueta">N° Cuenta Corriente</div>
+            <div class="valor">80077664723</div>
+          </div>
+          <div class="linea">
+            <div class="etiqueta">e-mail</div>
+            <div class="valor">donaciones@ecopasaporte.cl</div>
+          </div>
+        </div>
+        <div class="formulario">
+          <div class="entrada selector-radio flex">
+            <input type="radio" name="tipo" value="foto" checked>Foto de comprobante
+            <input type="radio" name="tipo" value="texto">Texto detalle
+          </div>
+          <div class="sector-tipo-comprobate neuromorph rojo">
+            <div class="entrada" id="tipo-foto">
+              <div class="entrada imagenes-picker">
+                <div class="camara">
+                  <div class="marco-upload">
+                    <i class="material-icons">photo_camera</i><br />
+                    <p>Tomar / Arrastrar<br />fotografía</p>
+                    <div class="marco-drop"></div>
+                  </div>
+                  <input id="upload-image" type="file" style="display: none">
+                </div>
+                <div class="imagenes">
+                  {{#with comprobante}}
+                  <div class="imagen" id={{_id}}>
+                    <div class="marco-imagen">
+                      <img src="{{this}}">
+                      <div class="eliminar" id="{{_id}}">
+                        <i class="material-icons">clear</i>
+                        <span>Eliminar</span>
+                      </div>
+                    </div>
+                  </div>
+                  {{else}}
+                  <h3>No hay Comprobante</h3>
+                  {{/with}}
+                </div>
+              </div>
+            </div>
+            <div class="entrada" id="tipo-texto" style="display: none">
+              <span>Detalle de tu comprobante</span>
+              <textarea class="campo" id="input-detalle-deposito" rows="4"></textarea>
+            </div>
+          </div>
+        </div>
+        {{/if}}
         <div class="flex">
           <div class="neuromorph boton redondo rojo" id="btn-cancelar">
             <i class="material-icons">clear</i>

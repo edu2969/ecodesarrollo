@@ -161,36 +161,30 @@ Meteor.publish('eco_desarrollos.documentos', function () {
 
 Meteor.publish('eco_acciones', function () {
 	return ECOAcciones.find({
-		$or: [{
-			estado: EstadoType.Aprobado
-		}, {
-			usuarioId: this.userId,
-			estado: { $ne: EstadoType.Aprobado }
-		}]
+		usuarioId: this.userId
 	});
 });
 
-Meteor.publish('eco_acciones.imagenes', function () {
+Meteor.publish('eco_acciones.donaciones', function () {
+	const usuarioId = this.userId;
 	return Images.find({
-		"meta.tipo": "ecoacciones"
+		userId: usuarioId,
+		"meta.tipo": "donaciones"
 	}).cursor;
 });
 
-Meteor.publishComposite('eco_acciones.participantes', function () {
-	let participantes = []
+Meteor.publishComposite('eco_acciones.celulas', function () {
+	let integrantes = []
 	ECOAcciones.find().forEach((ecoservicio: any) => {
-		if (participantes.indexOf(ecoservicio.usuarioId) == -1) {
-			participantes.push(ecoservicio.usuarioId)
-			ecoservicio.integrantes && ecoservicio.integrantes.forEach((integrante) => {
-				if (participantes.indexOf(integrante.usuarioId) == -1) {
-					participantes.push(integrante.usuarioId)
-				}
-			})
-		}
+		ecoservicio.celula && ecoservicio.celula.forEach((integranteId) => {
+			if (integrantes.indexOf(integranteId) == -1) {
+				integrantes.push(integranteId)
+			}
+		})
 	})
 	return {
 		find() {
-			return Meteor.users.find({ _id: { $in: participantes } })
+			return Meteor.users.find({ _id: { $in: integrantes } })
 		},
 		children: [{
 			find(usuario: any) {
