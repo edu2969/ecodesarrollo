@@ -1,6 +1,9 @@
 <template name="ecopasaporte">
-	<div class="mundo" style="background-image: url(/img/fondos/ciudad_00{{corazonVerde.nivel}}.jpg);">
 
+
+
+	<div class="mundo" style="background-image: url(/img/fondos/ciudad_00{{corazonVerde.nivel}}.jpg);">
+		{{> juego}}
 		<section id="ecopasaporte" name="eco-actividades" class="ecopasaporte">
 			<div class="logo">
 				<img src="/img/logo_panel.png">
@@ -22,8 +25,10 @@
 			</div>
 		</section>
 
+
+
 		<!-- CORAZON VERDE -->
-		<div class="marco-agente nivel{{corazonVerde.nivel}}">
+		<!--div class="marco-agente nivel{{corazonVerde.nivel}}">
 			<div class="corazon cuerpo">
 				<img src="/img/corazon/corazon_verde.png">
 			</div>
@@ -39,17 +44,17 @@
 			<div class="piernas">
 				<img src="/img/corazon/corazon_verde_piernas.png">
 			</div>
-		</div>
+		</div-->
 		<!-- FIN CORAZON VERDE -->
 
-		<div class="pensamiento reflexivo">
+		<!--div class="pensamiento reflexivo">
 			<div class="nube"></div>
 			<div class="frase">{{frase}}</div>
-		</div>
+		</div-->
 
-		<div class="desecho">
+		<!--div class="desecho">
 			<img class="" src="/img/desechos/{{desecho}}.png">
-		</div>
+		</div-->
 
 		{{#if corazonVerde}}
 		<div class="puntaje">

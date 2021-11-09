@@ -113,6 +113,7 @@ const setGolpe = (template) => {
 }
 
 Template.ecopasaporte.rendered = function () {
+	/*
 	setInterval(function () {
 		setTimeout(function () {
 			UIUtils.toggle("cuerpo", "latido");
@@ -130,8 +131,9 @@ Template.ecopasaporte.rendered = function () {
 			UIUtils.toggle("cuerpo", "latido");
 		}, 950);
 
-	}, 1500);
+	}, 1500);*/
 
+	/*
 	const template = Template.instance()
 	setInterval(function () {
 		setDesecho(template)
@@ -139,7 +141,9 @@ Template.ecopasaporte.rendered = function () {
 			setGolpe(template)
 		}, 2500)
 	}, 2750)
+	*/
 
+	/*
 	setInterval(function () {
 		let numeroFrase = template.numeroFrase.get()
 		numeroFrase++
@@ -148,6 +152,7 @@ Template.ecopasaporte.rendered = function () {
 		}
 		template.numeroFrase.set(numeroFrase)
 	}, 10000)
+	*/
 }
 
 Template.ecopasaporte.helpers({
