@@ -6,7 +6,8 @@ import {
   ECOOrganizaciones,
   ECOCampanas,
   ECOSos,
-  ECODesarrollos
+  ECODesarrollos,
+  ECOAcciones
 } from '../../../lib/collections/ECODimensionesCollections'
 import { UIUtils, FormUtils, IsEmpty } from '../../utils/utils'
 import { NotificacionesTraductor } from '../../../lib/NotificacionesUtils'
@@ -262,6 +263,47 @@ Template.notificaciones.events({
         esDecision: true,
         methodAccept: "ECOOrganizaciones.AprobarIncorporacion",
         methodReject: "ECOOrganizaciones.RechazarIncorporacion",
+        params: {
+          notificacionId: notificacion._id
+        }
+      }
+    }if (notificacion.tipo == NotificacionType.NuevaEcoAccion) {
+      
+      const ecoAccion = ECOAcciones.findOne({
+        _id: notificacion.ecoAccionId
+      })
+      let avatarHTML
+
+      const solicitante = Meteor.users.findOne({ _id: ecoAccion.usuarioId })
+      //console.log(solicitante)
+      const avatarSolicitante = Images.findOne({ userId: solicitante.usuarioId })
+
+      const nombreSolicitante = solicitante.profile.nombre
+      if (avatarSolicitante) {
+        avatarHTML = '<img src="' + avatarSolicitante.link() + '">'
+      } else {
+        const iniciales = nombreSolicitante[0].charAt(0)
+          + (nombreSolicitante.length > 1 ? nombreSolicitante[1].charAt(0) : "")
+        avatarHTML = '<div class="no-image">' + iniciales + '</div>'
+      }
+      const imagen = Images.findOne({
+        "meta.ecoAccionId": ecoAccion._id,
+        "meta.tipo": "ecoaccion"
+      })
+      params = {
+        titulo: NotificacionesTraductor[notificacion.tipo].glosa,
+        texto: '<div class="notificacion-content">' +
+          '<div class="avatar">' + avatarHTML + '</div>' +
+          '<div class="texto">Solicitante: ' + nombreSolicitante + '</div>' +
+           '<div class="texto">Carta: ' + ecoAccion.carta + '</div>' +
+          '<div class="ecodimension-content">' +
+          '<div class="imagen-avatar"><img src="' + (imagen ? imagen.link() : '/img/no_image_available.jpg') + '"/></div>' +
+          '</div>' +
+          '<div class="fecha">' + moment(notificacion.fecha).format('DD/MM/yyyy HH:mm') + '</div>' +
+          '</div>',
+        esDecision: true,
+        methodAccept: "ECOAcciones.AprobarNueva",
+        methodReject: "ECOAcciones.RechazarNuevaAccion",
         params: {
           notificacionId: notificacion._id
         }

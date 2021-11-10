@@ -8,7 +8,8 @@ import {
   ECOOrganizaciones,
   ECOCampanas,
   ECODesarrollos,
-  ECOSos
+  ECOSos,
+  ECOAcciones
 } from '../../lib/collections/ECODimensionesCollections'
 
 Meteor.publishComposite('Notificaciones.listado', function () {
@@ -25,14 +26,16 @@ Meteor.publishComposite('Notificaciones.listado', function () {
           NotificacionType.NuevaECOCampana,
           NotificacionType.NuevaECOOrganizacion,
           NotificacionType.NuevoECODesarrollo,
-          NotificacionType.NuevoECOSos
+          NotificacionType.NuevoECOSos,
+          NotificacionType.NuevaEcoAccion
         ]
       } else {
         tipos = [
           NotificacionType.EntrarECOOrganizacion,
           NotificacionType.EntrarECOCampana,
           NotificacionType.EntrarECOdesarrollo,
-          NotificacionType.EntrarECOSos
+          NotificacionType.EntrarECOSos,
+          NotificacionType.NuevaEcoAccion
         ]
         query.usuarioId = usuario._id
       }
@@ -121,6 +124,16 @@ Meteor.publishComposite('Notificaciones.listado', function () {
               userId: notificacion.usuarioId,
               "meta.ecoOrganizacionId": notificacion.ecoOrganizacionId
             }).cursor
+          }
+        })
+      } else if (notificacion.tipo === NotificacionType.NuevaEcoAccion) {
+        respuesta.push({
+          find(notificacion: any) {
+            return ECOAcciones.find({ _id: notificacion.ecoAccionId })
+          }
+        }, {
+          find(notificacion: any) {
+            return Images.find({ userId: notificacion.usuarioId, "meta.tipo": "RM" }).cursor
           }
         })
       }

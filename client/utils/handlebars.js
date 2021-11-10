@@ -1,6 +1,10 @@
 const { ECO_SOS } = require("../../lib/constantes");
 const { ECO_CAMPANAS } = require("../../lib/constantes");
 
+const { ECO_ACCIONES } = require("../../lib/constantes");
+const { PERIODICIDAD_ACCIONES } = require("../../lib/constantes");
+
+
 Handlebars.registerHelper("formatoFecha", function (date, mask = 'dd/MM/yyyy') {
 	if (!date) return '--/--';
 	var m = moment(date);
@@ -28,6 +32,12 @@ Handlebars.registerHelper("traductorCAMPANASTipos", (codigo) => {
 	return ECO_CAMPANAS.TIPOS[codigo];
 });
 
+Handlebars.registerHelper("traductorACCIONESTipos", (codigo) => {
+	return ECO_ACCIONES.TIPOS[codigo];
+});
+Handlebars.registerHelper("traductorACCIONESPeriodicidad", (codigo) => {
+	return PERIODICIDAD_ACCIONES.TIPOS[codigo];
+});
 Handlebars.registerHelper('sonIguales', function (val1, val2) {
 	return val1 === val2
 });

@@ -369,6 +369,8 @@ Template.eco_campanas.events({
 
 		let invalido = FormUtils.invalid()
 		const doc = FormUtils.getFields()
+	
+		
 		const ecoCampana = template.ecoCampanaSeleccionada.get()
 
 		if (ecoCampana._id) {

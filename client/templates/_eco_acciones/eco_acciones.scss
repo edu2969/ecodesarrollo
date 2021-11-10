@@ -4,28 +4,7 @@
   padding-left: 10px;
   width: 100%;
 
-  .marco-accion {
-    position: relative;
-    width: 240px;
-    height: 240px;
-    background-size: cover;
-    margin-right: 20px;
-    margin-bottom: 20px;
-    border-radius: 8px;
-    text-align: center;
-    padding: 1em;
-    cursor: pointer;
-
-    .material-icons {
-      font-size: 64px;
-    }
-
-    .titulo {
-      font-size: 24px;
-      font-weight: bold;
-    }
-  }
-
+  
   .marco-entidad {
     position: relative;
     width: 222px;
@@ -42,12 +21,11 @@
       background-color: rgba(0, 0, 0, 0.2);
       border-radius: 8px;
     }
-
-    .tipo {
+    .titulo {
       position: relative;
       top: -210px;
       left: 10px;
-      background-color: yellow;
+      background-color: rojo;
       color: black;
       border-radius: 3px;
       font-size: 14px;
@@ -56,6 +34,75 @@
       font-weight: bolder;
     }
 
+    .tipo {
+      position: relative;
+      top: -210px;
+      left: 10px;
+      background-color: rojo;
+      color: black;
+      border-radius: 3px;
+      font-size: 14px;
+      width: 200px;
+      padding: 3px 8px;
+      font-weight: bolder;
+    }
+    
+    .participantes {
+      width: 100%;
+      height: auto;
+      display: flex;
+      flex-wrap: wrap;
+
+      .avatar-participante {
+        width: 80px;
+        padding-top: 20px;
+        padding-left: 20px;
+        height: 90px;
+
+        &.no-participa {
+          opacity: 0.3;
+        }
+
+        span {
+          display: inline-block;
+          width: 100%;
+          white-space: nowrap;
+          overflow: hidden !important;
+          text-overflow: ellipsis;
+        }
+
+        i {
+          color: lightgoldenrodyellow;
+          position: relative;
+          left: 25px;
+          top: -72px;
+        }
+
+        img {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+        }
+
+        .no-imagen {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          text-align: center;
+          background-color: purple;
+          padding-top: 9px;
+        }
+
+        .btn-si,
+        .btn-no {
+          .material-icons {
+            margin-left: 7px;
+            color: orange;
+          }
+          cursor: pointer;
+        }
+      }
+    }
     .banda {
       position: relative;
       top: -131px;
@@ -93,7 +140,19 @@
         }
       }
 
-      .comuna {
+      .nomcomuna {
+        padding: 4px 8px;
+        position: relative;
+        top: -25px;
+        .comuna  {
+          font-weight: bolder;
+        }
+        .comunai {
+          font-size: 14px;
+        }
+        
+      }
+      .direccion {
         display: inline-flex;
         position: relative;
         top: 5px;

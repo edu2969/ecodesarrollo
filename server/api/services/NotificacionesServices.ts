@@ -69,6 +69,19 @@ export const nuevoECOSos = (usuarioId: string, ecoSosId: string) {
     }]
   })
 }
+export const nuevaECOAccion = (usuarioId: string, ecoAccionId: string) {
+  Notificaciones.insert({
+    tipo: NotificacionType.NuevaEcoAccion,
+    fecha: new Date(),
+    estado: EstadoType.Pendiente,
+    usuarioId: usuarioId,
+    ecoAccionId: ecoAccionId,
+    historial: [{
+      estado: EstadoType.Pendiente,
+      fecha: new Date()
+    }]
+  })
+}
 
 const cambiarEstadoNotificacion = (id: string, estado: EstadoType) {
   const notificacion = Notificaciones.findOne(id);

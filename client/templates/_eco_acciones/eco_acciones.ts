@@ -10,7 +10,7 @@ import { EstadoType } from '../../../lib/types/EstadoType'
 const { Comunas } = require('../../../lib/collections/BaseCollections')
 const { Images } = require('../../../lib/collections/FilesCollections')
 const { ECO_ACCIONES } = require('../../../lib/constantes')
-
+const { PERIODICIDAD_ACCIONES} = require('../../../lib/constantes')
 const iniciarTimePickers = () => {
 	setTimeout(function () {
 		$("#input-fechaRetiro").datetimepicker({
@@ -144,6 +144,15 @@ Template.eco_acciones.helpers({
 			}
 		});
 	},
+	tipos_periodicidad() {
+		const keys = Object.keys(PERIODICIDAD_ACCIONES.TIPOS);
+		return keys.map((key) => {
+			return {
+				id: key,
+				etiqueta: PERIODICIDAD_ACCIONES.TIPOS[key]
+			}
+		});
+	},
 	materias() {
 		return [{
 			id: "PET1",
@@ -249,7 +258,17 @@ Template.eco_acciones.events({
 
 		let invalido = FormUtils.invalid()
 		const doc = FormUtils.getFields()
+	
 		const ecoAccion = template.ecoAccionSeleccionada.get()
+//var selected = template.findAll( "input[type=checkbox]:checked");
+
+   var array = _.map(selected, function(item) {
+     return item.defaultValue;
+   });
+
+   console.log(array);
+
+
 
 		if (ecoAccion._id) {
 			doc._id = ecoAccion._id
@@ -271,6 +290,7 @@ Template.eco_acciones.events({
 		}
 
 		Meteor.call("ECOAcciones.Actualizar", doc, function (err: Meteor.error, resp: boolean) {
+	
 			if (!err) {
 				UIUtils.toggle("carrousel", "modo-listado");
 				UIUtils.toggle("carrousel", "detalle");
@@ -314,13 +334,19 @@ Template.eco_acciones.events({
 		$("#input-cuadrilla").val("")
 	},
 	"click #reasignar-cuadrilla"(event: any, template: Blaze.TemplateInstance) {
+		debugger;
 		const id = event.currentTarget.attributes["cuadrillaId"].value
 		var ecoAccion = template.ecoAccionSeleccionada.get()
+		var id_ecoaacion = ecoAccion._id
 		var cuadrillasId = ecoAccion.cuadrillasId.split(",")
 		const indice = cuadrillasId.indexOf(id)
 		cuadrillasId.splice(indice, 1)
+		//
+
+		
 		ecoAccion.cuadrillasId = cuadrillasId.join()
-		template.ecoAccionSeleccionada.set(ecoAccion)
+		delete ecoAccion.cuadrillasId
+		template.ecoCuadrillaSeleccionada.set(ecoCampana)
 	},
 	"change #input-tipo"(e, template) {
 		const tipo = e.currentTarget.value;
@@ -377,6 +403,11 @@ Template.eco_acciones.events({
       upload.start();
     }
   },
+  "click #reasignar-coordinador"(event: any, template: Blaze.TemplateInstance) {
+		var ecoCampana = template.ecoCampanaSeleccionada.get()
+		delete ecoCampana.coordinadorId
+		template.ecoCampanaSeleccionada.set(ecoCampana)
+	},
   "click .camara .marco-upload"(e) {
     $("#upload-image").click();
   },

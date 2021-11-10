@@ -1,7 +1,9 @@
+import { Meteor } from 'meteor/meteor'
 import SimpleSchema from 'simpl-schema'
 import { ValidatedMethod } from 'meteor/mdg:validated-method'
 import { Images } from '/lib/collections/FilesCollections'
 import { EstadoType } from '../../../lib/types/EstadoType'
+import { NotificacionType } from '/lib/types/NotificacionType'
 const { ECOAcciones } = require('/lib/collections/ECODimensionesCollections');
 const NoficacionesServices = require('../services/NotificacionesServices');
 import { Notificaciones } from '../../../lib/collections/BaseCollections';
@@ -43,11 +45,11 @@ export const Actualizar = new ValidatedMethod({
       type: String,
       optional: true,
     },
-    cuadrillas: {
+    cuadrillasId: {
       type: String,
       optional: true,
     },
-    'cuadrillas.$': {
+    'cuadrillasId.$': {
       type: String
     },
     celula: {
@@ -79,8 +81,8 @@ export const Actualizar = new ValidatedMethod({
         estado: EstadoType.Pendiente,
         fecha: doc.createdAt,
       }]
-      const ecoDesarrolloId = ECOAcciones.insert(doc);
-      NoficacionesServices.nuevaECOAccion(usuarioId, ecoDesarrolloId)
+      const ecoAccionId = ECOAcciones.insert(doc);
+      NoficacionesServices.nuevaECOAccion(usuarioId, ecoAccionId)
       const img = Images.findOne({
         userId: usuarioId,
         "meta.pendiente": true
@@ -88,7 +90,7 @@ export const Actualizar = new ValidatedMethod({
       if (img) {
         Images.update({ _id: img._id }, {
           $set: {
-            "meta.ecoDesarrolloId": ecoDesarrolloId
+            "meta.ecoAccionId": ecoAccionId
           },
           $unset: {
             "meta.pendiente": true
@@ -99,8 +101,8 @@ export const Actualizar = new ValidatedMethod({
   }
 });
 
-export const AprobarNuevo = new ValidatedMethod({
-  name: 'ECOAcciones.AprobarNuevo',
+export const AprobarNuevaAccion = new ValidatedMethod({
+  name: 'ECOAcciones.AprobarNueva',
   validate: new SimpleSchema({
     notificacionId: {
       type: String
@@ -123,23 +125,23 @@ export const AprobarNuevo = new ValidatedMethod({
         historial: historial
       }
     })
-    const ecoDesarrollo = ECOAcciones.findOne({ _id: notificacion.ecoDesarrolloId })
-    ecoDesarrollo.historial.push({
+    const ecoAccion = ECOAcciones.findOne({ _id: notificacion.ecoAccionId })
+    ecoAccion.historial.push({
       estado: EstadoType.Aprobado,
       fecha: new Date(),
     })
-    ECOAcciones.update({ _id: ecoDesarrollo._id }, {
+    ECOAcciones.update({ _id: ecoAccion._id }, {
       $set: {
         estado: EstadoType.Aprobado,
-        historial: ecoDesarrollo.historial,
+        historial: ecoAccion.historial,
       }
     })
     return true
   }
 })
 
-export const RechazarNuevo = new ValidatedMethod({
-  name: 'ECOAcciones.RechazarNuevo',
+export const RechazarNuevaAccion = new ValidatedMethod({
+  name: 'ECOAcciones.RechazarNuevaAccion',
   validate: new SimpleSchema({
     notificacionId: {
       type: String
@@ -162,15 +164,15 @@ export const RechazarNuevo = new ValidatedMethod({
         historial: historial
       }
     })
-    const ecoDesarrollo = ECOAcciones.findOne({ _id: notificacion.ecoDesarrolloId })
-    ecoDesarrollo.historial.push({
+    const ecoAccion = ECOAcciones.findOne({ _id: notificacion.ecoAccionId })
+    ecoAccion.historial.push({
       estado: EstadoType.Rechazado,
       fecha: new Date(),
     })
-    ECOAcciones.update({ _id: ecoDesarrollo._id }, {
+    ECOAcciones.update({ _id: ecoAccion._id }, {
       $set: {
         estado: EstadoType.Rechazado,
-        historial: ecoDesarrollo.historial,
+        historial: ecoAccion.historial,
       }
     })
     return true

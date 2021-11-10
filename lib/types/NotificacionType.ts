@@ -8,5 +8,6 @@ export const NotificacionType = {
   EntrarECODesarrollo: "EntrarECODesarrollo",
   EntrarECOSos: "EntrarECOSos",
   ParticiparECOCamapa: "ParticiparECOCamapa",
-  Donacion: "Donacion"
+  Donacion: "Donacion",
+  NuevaEcoAccion: "NuevaEcoAccion"
 }

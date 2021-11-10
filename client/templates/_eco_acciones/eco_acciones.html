@@ -13,7 +13,7 @@
       {{/if}}
       {{else}}
       <p>
-        {{#if ecoAccion.tipo}}{{traductorCAMPANASTipos ecoAccion.tipo}}{{else}}Nueva ECO_Accion
+        {{#if ecoAccion.tipo}}{{traductorACCIONESTipos ecoAccion.tipo}}{{else}}Nueva ECO_Accion
         {{/if}}{{#if editando}}<small>(editando) </small>{{/if}}</p>
       {{#if ecoAccion.esPropia}}
       {{#unless editando}}
@@ -29,30 +29,26 @@
     <div class="grilla custom-scroll">
       <div class="contenedor-entidades contenedor-acciones">
         {{#each eco_acciones}}
-        <div class="marco-entidad neuromorph purpura{{#if estaPendiente}} pendiente{{/if}}"
+        <div class="marco-entidad neuromorph rojo{{#if estaPendiente}} pendiente{{/if}}"
           style="background-image: url({{avatar}})" id="{{_id}}">
-          <div class="overlay"></div>
-          <div class="titulo">
-            {{traductorCAMPANASTipos tipo}}
-          </div>
-          <div class="banda">
-            <div class="fechas">
-              <div class="fechainicio">Fecha Inicio</div>
-              <div class="fechai">{{formatoFecha fechaInicio 'DD/MM/YYYY'}}</div>
+            <div class="overlay"></div>
+            <div class="titulo">
+              {{traductorACCIONESTipos tipo}}
             </div>
-            <div class="fecha">
-              <div class="fechainicio">Fecha Termino</div>
-              <div class="fechai">{{formatoFecha fechaFin 'DD/MM/YYYY'}}</div>
+            <div class="banda">
+              <div class="fechas">
+                <div class="fechainicio">Fecha Inicio Accion :</div>
+                <div class="fechai">{{formatoFecha fechaRetiro 'DD/MM/YYYY'}}</div>
+              </div>
+              <div class="direccion">
+                <div class="direccion">Direccion :</div>
+                <div class="direccion">{{direccion}}</div>
+              </div>
+              <div class="comuna">
+                <div class="comuna">Comuna :</div>
+                <div class="comuna">{{comuna}}</div>
+              </div>
             </div>
-            <div class="nomcomuna">
-              <div class="comuna">Comuna</div>
-              <div class="comunai">{{comuna}}</div>
-            </div>
-            <div class="nomorganizador">
-              <div class="organizdor">Organizador</div>
-              <div class="organizdori">{{organizador}}</div>
-            </div>
-          </div>
         </div>
         {{else}}
         <div class="marco-accion neuromorph rojo">
@@ -134,15 +130,14 @@
           <div class="entrada{{#if errores.periodicidad}} is-invalid{{/if}}">
             <span>Periodicidad</span><br />
             {{#if errores.periodicidad}}<span class="mensaje"> (*{{errores.periodicidad}})</span>{{/if}}
-            <select id="input-periodicidad">
-              <option>Seleccione uno</option>
-              <option id="S">Semanal</option>
-              <option id="Q">Quincenal</option>
-              <option id="M">Mensual</option>
+            <select id="input-periodicidad" class="campo">
+              {{#each tipos_periodicidad}}
+              <option value="{{id}}" {{selectValor id ecoAccion.periodicidad}}>{{etiqueta}}</option>
+              {{/each}}
             </select>
           </div>
         </div>
-        <div class="entrada cuadrilla-picker">
+       <div class="entrada cuadrilla-picker">
           <div class="campo-entrada" style="position: relative;">
             <span>Cuadrillas relacionadas</span>
             <br />
@@ -151,6 +146,7 @@
             autocomplete="off"}}
             <input id="input-cuadrillasId" class="campo" value="{{ecoAccion.cuadrillasId}}" style="display: none">
           </div>
+
           {{#each ecoAccion.cuadrillas}}
           <div class="avatar">
             <img src="{{imagen}}">
@@ -158,6 +154,7 @@
             <i id="reasignar-cuadrilla" class="material-icons" cuadrillaId="{{id}}">clear</i>
           </div>
           {{/each}}
+
         </div>
         {{else}}
         <div class="cuadro-datos-deposito neuromorph rojo">
@@ -229,48 +226,33 @@
         <div class="ultima-actividad">
           <i>ultimaActividad: </i>{{formatoFecha ultimaActividad 'DD/MMM/YYYY HH:mm'}}
         </div>
-        <div class="titulo-presentacion">Reseña histórica</div>
+        <div class="overlay"></div>
+        <div class="titulo">
+          {{traductorACCIONESTipos tipo}}
+        </div>
+        <div class="titulo-presentacion">Presentacion Carta</div>
         <div class="resena">
-          <p>{{ecoAccion.descripcion}}</p>
+          <p>{{ecoAccion.carta}}</p>
         </div>
-        <div class="titulo-presentacion">Participantes</div>
-        <div class="participantes">
-          <div class="participantes">
-            {{#each participantes}}
-            <div class="avatar-participante{{#if noParticipa}} no-participa{{/if}}" id="{{participanteId}}">
-              {{#if imagen}}
-              <img src="{{imagen}}">
-              {{else}}
-              <div class="no-imagen">{{iniciales}}</div>
-              {{/if}}
-              <span>{{nombre}}</span>
-              {{#if cerrada}}
-              {{#if sinRegistro}}
-              <div class="btn-si{{#if siParticipa}} activo{{/if}}">
-                <i class="material-icons">check_circle_outline</i>
-              </div>
-              <div class="btn-no">
-                <i class="material-icons">remove_circle_outline</i>
-              </div>
-              {{/if}}
-              {{/if}}
-            </div>
-            {{/each}}
+        <div class="titulo-presentacion">Fecha Inicio</div>
+        <div class="titulo">
+            {{formatoFecha ecoAccion.fechaRetiro 'DD/MMM/YYYY'}}
+        </div>
+        <div class="titulo-presentacion">Periodicidad</div>
+        <div class="titulo">
+            {{traductorACCIONESPeriodicidad ecoAccion.periodicidad}}
+        </div>
+       <div class="titulo-presentacion">Participantes</div>
+       <div class="participantes">
+       {{#each ecoAccion.cuadrillas}}
+          <div class="avatar-participante">
+            <img src="{{imagen}}">
+            <p>{{nombre}}</p>
+           
           </div>
+        {{/each}}
         </div>
-        <div class="titulo-presentacion">Puntos reunidos</div>
-        <div class="puntos">
-          <i class="material-icons">favorite</i>
-          <div class="cantidad">
-            {{puntos}}<small> puntos</small>
-          </div>
-        </div>
-        {{#unless participa}}
-        <div class="titulo-presentacion">Solicitar unirse</div>
-        <div id="btn-unirse" class="neuromorph boton redondo azul">
-          <i class="material-icons">login</i>
-        </div>
-        {{/unless}}
+       
         {{#if puedeCerrar}}
         <div class="titulo-presentacion">Cerrar campaña</div>
         <div id="btn-cerrar" class="neuromorph boton redondo azul">

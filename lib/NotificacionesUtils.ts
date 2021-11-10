@@ -39,4 +39,8 @@ export const NotificacionesTraductor = {
     glosa: "Donación",
     icono: "monetization_on",
   },
+  NuevaEcoAccion: {
+    glosa: "Retiro de Materiales",
+    icono: "monetization_on",
+  },
 }
