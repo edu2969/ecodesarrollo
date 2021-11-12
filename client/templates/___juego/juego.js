@@ -1,7 +1,7 @@
 let gameframe = 0, ctx, canvas;
 var screen_width, screen_heigh;
-var corazon, desecho, scoring;
-var premios = [], textos = [];
+var corazon, scoring;
+var premios = [], textos = [], desechos = [];
 
 screen_width = window.innerWidth;
 screen_heigh = window.innerHeight;
@@ -9,22 +9,22 @@ screen_heigh = window.innerHeight;
 const PI = Math.PI;
 
 const textos_premiados = [
-  ["Constante", "Bien", "Eso", "Ok", "Hecho", "Tuyo", "Yes", "Bueno"],
+  ["Principiante", "Bien", "Eso", "Ok", "Hecho", "Tuyo", "Yes", "Bueno"],
   ["Intermedio", "Muy Bien", "Eso es", "Ok", "Sigue", "Ufa", "WoW", "Amazing"],
-  /*["Crack", "Oiga", "Con todo", "Vamos", "Sigue", "Buena", "Huy", "Buenisima"],
+  ["Crack", "Oiga", "Con todo", "Vamos", "Sigue", "Buena", "Huy", "Buenisima"],
   ["Moustruoso", "Impresionante", "De lujo", "Colosal", "Destacable", "Alucinante", "Increible"],
   ["Profesional", "Potente", "Grandioso", "Cool", "Hermoso", "Despampanante", "Fenomenal"],
-  ["Bestial", "Destacado", "Top", "Grandisimo", "Evolucionado", "Total", "OMG", "Yeah!", "Guau"],
+  ["Bestial", "Destacado", "Top", "Grandisimo", "Evolucionado", "Total", "OMG", "Yeah!", "Guau", "Letal"],
   ["Capitan", "Fenomeno", "Maginifico", "Irreal", "Astral", "Topisimo", "Potente"],
   ["Maestro", "Espectacular", "Excepcional", "Loquisimo", "Infartante", "Durisimo", "Descuadrado"],
   ["Heroe", "Increible", "Awesome", "Killer", "Total", "Inparable", "Owned", "Magnanimo", "Talentoso"],
-  ["Paranormal", "Fantasma", "Gigante", "Increible", "Para"],
-  ["Anomalo", "Descuadrado"],
+  ["Paranormal", "Fantasma", "Gigante", "Increible", "Para", "Anonadadante"],
+  ["Anomalo", "Descuadrado", "Detente", "Cuantico", "Caotico", "Revolucionario", "The One", "Perplejante"],
   ["Exorbitante", "Exhuberante", "Ensalsable", "Exotico", "Turbiante", "Ticky"],
   ["Mundial", "Continental", "Unico", "Excepcional", "Titanico"],
-  ["Espacial", "Estelar", "Nebuloso", "Explosivo"],
+  ["Espacial", "Estelar", "Nebuloso", "Explosivo", "Atomico", "Nuclear"],
   ["Extraterreste", "Marciano", "Avanzado", "Alienigena", "UFO"],
-  ["Universal", "Lactico", "MetaVersal", "Paralelo", "Metafisico", "Luz", "Todo"],*/
+  ["Universal", "Lactico", "MetaVersal", "Paralelo", "Metafisico", "Luz", "Todo"],
 ]
 
 // Resources
@@ -158,7 +158,7 @@ class CorazonVerde {
   }
 }
 
-var desechos = [
+var resourceDesechos = [
   [55, 81],
   [49, 118],
   [50, 119],
@@ -200,9 +200,9 @@ class Desecho {
 
   setImage() {
     const numeroDesecho = Math.floor(Math.random() * 12);
-    this.imagen = desechos[numeroDesecho].img;
-    this.spriteWidth = desechos[numeroDesecho].w;
-    this.spriteHeight = desechos[numeroDesecho].h;
+    this.imagen = resourceDesechos[numeroDesecho].img;
+    this.spriteWidth = resourceDesechos[numeroDesecho].w;
+    this.spriteHeight = resourceDesechos[numeroDesecho].h;
   }
 
   update() {
@@ -385,9 +385,15 @@ class Scoring {
 
   draw() {
     ctx.fillStyle = 'white';
-    ctx.font = 'bold 20px ArcadeClasic';
+    ctx.font = 'normal 20px ArcadeClasic';
     const nivel = textos_premiados[this.nivel][0];
-    ctx.fillText("Score: " + this.hits + " | Nivel: " + nivel + " | Record: " + this.record, this.x, this.y);
+    ctx.fillText("Nivel ", this.x, this.y);
+    ctx.fillText("Score ", this.x, this.y + 16);
+    ctx.fillText("Record", this.x, this.y + 32);
+    ctx.fillStyle = 'yellow';
+    ctx.fillText(nivel, this.x + 120, this.y);
+    ctx.fillText(this.hits, this.x + 120, this.y + 16);
+    ctx.fillText(this.record, this.x + 120, this.y + 32);
   }
 }
 
@@ -401,7 +407,7 @@ Template.juego.rendered = () => {
   scoring = new Scoring();
 
   corazon = new CorazonVerde("F");
-  desecho = new Desecho();
+  desechos.push(new Desecho());
   textos.push(new Textos());
 
   const animate = () => {
@@ -409,7 +415,9 @@ Template.juego.rendered = () => {
 
     // Updates
     corazon.update();
-    desecho.update();
+    desechos.forEach((desecho, index) => {
+      desecho.update();
+    })
     premios.forEach((premio, index) => {
       premio.update();
       if (premio.frame > 400) {
@@ -426,13 +434,15 @@ Template.juego.rendered = () => {
 
     // Draws
     corazon.draw();
-    desecho.draw();
     premios.forEach((premio) => {
       premio.draw();
     })
     textos.forEach((texto) => {
       texto.draw();
     });
+    desechos.forEach((desecho) => {
+      desecho.draw();
+    })
     scoring.draw();
     //console.log(corazon.x, desecho.x, corazon.atrapa, desecho.atrapable);
     requestAnimationFrame(animate);
