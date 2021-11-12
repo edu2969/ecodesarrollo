@@ -1,7 +1,7 @@
 let gameframe = 0, ctx, canvas;
 var screen_width, screen_heigh;
 var corazon, scoring;
-var premios = [], textos = [], desechos = [];
+var premios = [], textos = [], desechos = [], golpes = [];
 
 screen_width = window.innerWidth;
 screen_heigh = window.innerHeight;
@@ -195,7 +195,8 @@ class Desecho {
     this.impacto = false;
     this.factor;
     this.atrapable = false;
-    this.atrapado = false;
+    this.velocidad = Math.random() * 5;
+    this.velocidadRotacion = (Math.floor(Math.random() * 3 + 5)) / 100;
   }
 
   setImage() {
@@ -208,78 +209,64 @@ class Desecho {
   update() {
     const max = this.spriteWidth > this.spriteHeight ? this.spriteWidth : this.spriteHeight;
     const radio = PI * max * max;
-    ctx.clearRect(this.x - radio / 2, this.y - radio / 2,
-      radio + this.factor, radio + this.factor);
+    ctx.clearRect(this.x - radio / 2, this.y - radio / 2, radio, radio);
 
-    if (!this.impacto && !this.atrapado) {
-      this.x += 5;
-      this.angle += 0.025;
-
-      if (this.x > screen_width) {
-        this.x = 0;
-        this.setImage();
-      }
+    if (!this.impacto) {
+      this.x += this.velocidad;
+      this.angle += this.velocidadRotacion;
 
       if (this.angle >= 360) {
         this.angle = 0;
       }
 
       if (this.x > (corazon.x - 280) && this.x < (corazon.x - 50)) {
-        if (corazon.atrapa && !this.atrapado) {
-          this.atrapado = true;
+        if (corazon.atrapa) {
           premios.push(new Premio());
           scoring.acierto();
           textos.push(new Textos(scoring.nivel));
         }
       }
-
-      if (this.x >= corazon.x) {
-        this.impacto = true;
-        this.angle = 0;
-        this.imagen = new Image();
-        this.imagen.src = '/img/desechos/golpe.png';
-        this.spriteWidth = 188;
-        this.spriteHeight = 174;
-        scoring.resetear();
-      }
-    }
-
-    if (!this.atrapado && this.impacto) {
-      this.frame++;
-      this.factor = 80 * Math.abs(Math.sin((50 - (this.frame % 50)) / 50));
-
-      if (this.frame >= 100) {
-        this.frame = 0;
-        this.impacto = false;
-        this.x = 0;
-        this.factor = 0;
-        this.setImage();
-      }
-    }
-
-    if (this.atrapado) {
-      this.frame++;
-      if (this.frame > 500) {
-        this.frame = 0;
-        this.x = 0;
-        this.angle = 0;
-        this.atrapado = false;
-        this.setImage();
-      }
     }
   }
 
   draw() {
-    if (!this.atrapado) {
-      ctx.save();
-      ctx.translate(this.x - this.factor / 2, this.y - this.factor / 2);
-      ctx.rotate(this.angle);
-      ctx.drawImage(this.imagen,
-        0, 0, this.spriteWidth, this.spriteHeight,
-        0 - this.spriteWidth / 2, 0 - this.spriteHeight / 2,
-        this.spriteWidth + this.factor, this.spriteHeight + this.factor);
-      ctx.restore();
-    }
+    ctx.save();
+    ctx.translate(this.x, this.y);
+    ctx.rotate(this.angle);
+    ctx.drawImage(this.imagen,
+      0, 0, this.spriteWidth, this.spriteHeight,
+      0 - this.spriteWidth / 2, 0 - this.spriteHeight / 2,
+      this.spriteWidth, this.spriteHeight);
+    ctx.restore();
+  }
+}
+
+class Golpe {
+  constructor() {
+    this.frame = 0;
+    this.x = corazon.x - 200;
+    this.y = corazon.y - 200;
+    this.spriteWidth = 188;
+    this.spriteHeight = 174;
+    this.factor = 0;
+  }
+
+  update() {
+    ctx.clearReact(this.x - this.factor / 2, this.y - this.factor / 2,
+      this.spriteWidth + this.factor / 2, this.spriteHeight + this.factor / 2);
+    this.frame++;
+    this.factor = 80 * Math.abs(Math.sin((50 - (this.frame % 50)) / 50));
+  }
+
+  draw() {
+    this.impacto = true;
+    this.angle = 0;
+    this.imagen = new Image();
+    this.imagen.src = '/img/desechos/golpe.png';
+    ctx.drawImage(this.imagen,
+      0, 0, this.spriteWidth - this.factor / 2, this.spriteHeight - this.factor / 2,
+      0 - this.spriteWidth / 2, 0 - this.spriteHeight / 2,
+      this.spriteWidth + this.factor, this.spriteHeight + this.factor);
   }
 }
 
@@ -386,7 +373,8 @@ class Scoring {
   draw() {
     ctx.fillStyle = 'white';
     ctx.font = 'normal 20px ArcadeClasic';
-    const nivel = textos_premiados[this.nivel][0];
+    const clave = this.nivel > textos_premiados.length - 1 ? textos_premiados.length - 1 : scoring.nivel;
+    const nivel = textos_premiados[clave][0];
     ctx.fillText("Nivel ", this.x, this.y);
     ctx.fillText("Score ", this.x, this.y + 16);
     ctx.fillText("Record", this.x, this.y + 32);
@@ -409,14 +397,24 @@ Template.juego.rendered = () => {
   corazon = new CorazonVerde("F");
   desechos.push(new Desecho());
   textos.push(new Textos());
+  var nuevoDesecho = 100;
 
   const animate = () => {
     gameframe++;
+
+
+    if (gameframe % nuevoDesecho == 0) {
+      desechos.push(new Desecho());
+      nuevoDesecho = Math.floor(Math.random() * 500) + 100;
+    }
 
     // Updates
     corazon.update();
     desechos.forEach((desecho, index) => {
       desecho.update();
+      if (desecho.x >= corazon.x) {
+        desechos.splice(index, 1);
+      }
     })
     premios.forEach((premio, index) => {
       premio.update();
@@ -430,6 +428,12 @@ Template.juego.rendered = () => {
         textos.splice(index, 1);
       }
     });
+    golpes.forEach((golpe, index) => {
+      golpe.update();
+      if (golpe.frame > 400) {
+        golpes.splice(index, 1);
+      }
+    })
     scoring.update();
 
     // Draws
@@ -442,9 +446,11 @@ Template.juego.rendered = () => {
     });
     desechos.forEach((desecho) => {
       desecho.draw();
+    });
+    golpes.forEach((golpe) => {
+      golpe.draw();
     })
     scoring.draw();
-    //console.log(corazon.x, desecho.x, corazon.atrapa, desecho.atrapable);
     requestAnimationFrame(animate);
   }
 
