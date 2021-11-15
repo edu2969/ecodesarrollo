@@ -10,7 +10,7 @@ import { EstadoType } from '../../../lib/types/EstadoType'
 const { Comunas } = require('../../../lib/collections/BaseCollections')
 const { Images } = require('../../../lib/collections/FilesCollections')
 const { ECO_ACCIONES } = require('../../../lib/constantes')
-const { PERIODICIDAD_ACCIONES} = require('../../../lib/constantes')
+const { PERIODICIDAD_ACCIONES, LISTADO_MATERIALES } = require('../../../lib/constantes')
 const iniciarTimePickers = () => {
 	setTimeout(function () {
 		$("#input-fechaRetiro").datetimepicker({
@@ -130,6 +130,14 @@ Template.eco_acciones.helpers({
 			return resultado;
 		});
 
+		ecoAccion.materiales = LISTADO_MATERIALES.map((item)=>{
+			return {
+				id: item.id,
+				checked: ecoAccion.materiales.indexOf(item.id) != -1,
+				etiqueta: item.etiqueta
+			}
+		});
+
 		return ecoAccion
 	},
 	cantidad() {
@@ -154,22 +162,7 @@ Template.eco_acciones.helpers({
 		});
 	},
 	materias() {
-		return [{
-			id: "PET1",
-			etiqueta: "Plástico PET1",
-		}, {
-			id: "ORG",
-			etiqueta: "Residuo orgánico",
-		}, {
-			id: "LAT",
-			etiqueta: "Latas",
-		}, {
-			id: "CAR",
-			etiqueta: "Cartón",
-		}, {
-			id: "VID",
-			etiqueta: "Vidrios",
-		}]
+		return LISTADO_MATERIALES
 	},
 	settingsComunas() {
 		return {
@@ -257,18 +250,9 @@ Template.eco_acciones.events({
 		}
 
 		let invalido = FormUtils.invalid()
-		const doc = FormUtils.getFields()
+		const doc = FormUtils.getFields();
 	
-		const ecoAccion = template.ecoAccionSeleccionada.get()
-//var selected = template.findAll( "input[type=checkbox]:checked");
-
-   var array = _.map(selected, function(item) {
-     return item.defaultValue;
-   });
-
-   console.log(array);
-
-
+		const ecoAccion = template.ecoAccionSeleccionada.get();
 
 		if (ecoAccion._id) {
 			doc._id = ecoAccion._id

@@ -4,7 +4,28 @@
   padding-left: 10px;
   width: 100%;
 
-  
+  .marco-accion {
+    position: relative;
+    width: 240px;
+    height: 240px;
+    background-size: cover;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    text-align: center;
+    padding: 1em;
+    cursor: pointer;
+
+    .material-icons {
+      font-size: 64px;
+    }
+
+    .titulo {
+      font-size: 24px;
+      font-weight: bold;
+    }
+  }
+
   .marco-entidad {
     position: relative;
     width: 222px;
@@ -46,7 +67,7 @@
       padding: 3px 8px;
       font-weight: bolder;
     }
-    
+
     .participantes {
       width: 100%;
       height: auto;
@@ -144,13 +165,12 @@
         padding: 4px 8px;
         position: relative;
         top: -25px;
-        .comuna  {
+        .comuna {
           font-weight: bolder;
         }
         .comunai {
           font-size: 14px;
         }
-        
       }
       .direccion {
         display: inline-flex;

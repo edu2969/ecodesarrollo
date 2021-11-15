@@ -56,7 +56,15 @@ export const FormUtils = {
         }
         doc.calugas.push(campo.innerHTML)
       }
-    })
+    });
+    $(".formulario .checkboxes [type='checkbox']:checked").each((indice, campo) => {
+      if (!doc[campo.attributes["name"].value]) {
+        doc[campo.attributes["name"].value] = "";
+      }
+      doc[campo.attributes["name"].value] += campo.value
+        + (indice < $(".formulario .checkboxes [type='checkbox']:checked").length - 1 ? "," : "");
+    });
+    console.log(doc);
     return doc;
   },
   invalid() {

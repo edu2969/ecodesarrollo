@@ -1,10 +1,12 @@
 let gameframe = 0, ctx, canvas;
-var screen_width, screen_heigh;
+var screen_width, screen_height;
 var corazon, scoring;
 var premios = [], textos = [], desechos = [], golpes = [];
 
 screen_width = window.innerWidth;
-screen_heigh = window.innerHeight;
+screen_height = window.innerHeight;
+
+var s_f = screen_width / screen_height;
 
 const PI = Math.PI;
 
@@ -33,7 +35,7 @@ var resourceImages = {};
   { "cuerpo": { w: 371, h: 316, } }, { "brazo_der": { w: 85, h: 201, } },
   { "brazo_izq": { w: 133, h: 266, } }, { "piernas": { w: 333, h: 348, } },
   { "atrapa_01": { w: 204, h: 179, } }, { "atrapa_02": { w: 163, h: 176, } },
-  { "rosa": { w: 99, h: 107, } }, { "cara_01": { w: 194, h: 149, } },
+  { "rosa": { w: 192, h: 182, } }, { "cara_01": { w: 194, h: 149, } },
   { "cara_02": { w: 159, h: 165, } }, { "cara_03": { w: 176, h: 132, } },
   { "cara_04": { w: 173, h: 153, } }, { "cara_10": { w: 173, h: 151, } },
   { "cara_11": { w: 159, h: 199, } }, { "cara_12": { w: 174, h: 165, } },
@@ -54,8 +56,10 @@ var resourceImages = {};
 
 class CorazonVerde {
   constructor(sexo) {
-    this.x = screen_width - 240;
-    this.y = screen_heigh - 380;
+    this.sw_f = 200 * 200 / (812 * screen_width);
+    this.sh_f = 290 * 290 / (375 * screen_height);
+    this.x = screen_width * (0.75 - (screen_height / screen_width) * this.sw_f);
+    this.y = screen_height * 0.30;
     this.frame = 0;
     this.sexo = sexo;
     this.atrapando = false;
@@ -69,8 +73,7 @@ class CorazonVerde {
   }
 
   update() {
-    ctx.clearRect(this.x - 10, this.y - 10, 371 + 20, 316 + 20);
-
+    ctx.clearRect(this.x - 90, this.y - 10, 371 + 20, 316 + 20);
     if (this.atrapando) {
       this.frame++;
       if (this.frame < 25) {
@@ -88,18 +91,21 @@ class CorazonVerde {
   }
 
   draw() {
+    ctx.save();
+    ctx.translate(this.x, this.y);
+    ctx.scale(0.5, 0.5);
     // Piernas
     ctx.drawImage(resourceImages["piernas"].img,
-      0, 0, 333, 348,
-      this.x + 15, this.y + 130,
-      resourceImages["piernas"].w / 2, resourceImages["piernas"].h / 2);
+      0, 0, resourceImages["piernas"].w, resourceImages["piernas"].h,
+      15, 220,
+      resourceImages["piernas"].w, resourceImages["piernas"].h);
 
     // Brazo der o atrapando
     if (!this.atrapando) {
       ctx.drawImage(resourceImages["brazo_der"].img,
-        0, 0, 85, 201,
-        this.x + 5, this.y + 90,
-        resourceImages["brazo_der"].w / 2, resourceImages["brazo_der"].h / 2);
+        0, 0, resourceImages["brazo_der"].w, resourceImages["brazo_der"].h,
+        5, 190,
+        resourceImages["brazo_der"].w, resourceImages["brazo_der"].h);
     } else {
       var brazo;
       if (this.frame < 25) {
@@ -109,8 +115,8 @@ class CorazonVerde {
       }
       ctx.drawImage(resourceImages[brazo].img,
         0, 0, resourceImages[brazo].w, resourceImages[brazo].h,
-        this.x - resourceImages[brazo].w / 2 + 20, this.y + 80,
-        resourceImages[brazo].w / 2, resourceImages[brazo].h / 2);
+        -80, 180,
+        resourceImages[brazo].w, resourceImages[brazo].h);
     }
 
     // latido
@@ -127,34 +133,41 @@ class CorazonVerde {
       factor = 1 - (animacion % 25) / 5;
     }
 
+    // Cuerpo
     ctx.drawImage(resourceImages["cuerpo"].img,
-      0, 0, 371, 316,
-      this.x - factor / 2, this.y - factor / 2,
-      resourceImages["cuerpo"].w / 2 + factor, resourceImages["cuerpo"].h / 2 + factor);
+      0, 0, resourceImages["cuerpo"].w, resourceImages["cuerpo"].h,
+      - (factor / 2), - (factor / 2) * this.sh_f,
+      resourceImages["cuerpo"].w,
+      resourceImages["cuerpo"].h);
 
     // Brazo izq
     ctx.drawImage(resourceImages["brazo_izq"].img,
-      0, 0, 133, 266,
-      this.x + 135, this.y + 90,
-      resourceImages["brazo_izq"].w / 2, resourceImages["brazo_izq"].h / 2);
+      0, 0, resourceImages["brazo_izq"].w, resourceImages["brazo_izq"].h,
+      255,
+      170,
+      resourceImages["brazo_izq"].w, resourceImages["brazo_izq"].h);
 
     // Cara
     ctx.drawImage(resourceImages["cara_" + (this.sexo == "F" ? "f" : "") + "01"].img,
       0, 0,
       resourceImages["cara_" + (this.sexo == "F" ? "f" : "") + "01"].w,
       resourceImages["cara_" + (this.sexo == "F" ? "f" : "") + "01"].h,
-      this.x + resourceImages["cara_" + (this.sexo == "F" ? "f" : "") + "01"].w / 2 - 12,
-      this.y + 45,
-      resourceImages["cara_" + (this.sexo == "F" ? "f" : "") + "01"].w / 2,
-      resourceImages["cara_" + (this.sexo == "F" ? "f" : "") + "01"].h / 2);
+      102,
+      85,
+      resourceImages["cara_" + (this.sexo == "F" ? "f" : "") + "01"].w,
+      resourceImages["cara_" + (this.sexo == "F" ? "f" : "") + "01"].h);
 
     // Rosa
     if (this.sexo == "F") {
       ctx.drawImage(resourceImages["rosa"].img,
-        0, 0, 99, 107,
-        this.x + 108 - factor / 2, this.y - 25 - factor / 2,
-        resourceImages["rosa"].w + factor, resourceImages["rosa"].h + factor);
+        0, 0, resourceImages["rosa"].w, resourceImages["rosa"].h,
+        248 - factor / 2,
+        -15 - factor / 2,
+        resourceImages["rosa"].w + factor,
+        resourceImages["rosa"].h + factor);
     }
+
+    ctx.restore();
   }
 }
 
@@ -185,7 +198,7 @@ var resourceDesechos = [
 class Desecho {
   constructor() {
     this.x = 0;
-    this.y = screen_heigh - 280;
+    this.y = screen_height * 0.50;
     this.frame = 0;
     this.imagen = undefined;
     this.spriteHeight = 0;
@@ -195,7 +208,7 @@ class Desecho {
     this.impacto = false;
     this.factor;
     this.atrapable = false;
-    this.velocidad = Math.random() * 5;
+    this.velocidad = Math.random() * 5 + 1;
     this.velocidadRotacion = (Math.floor(Math.random() * 3 + 5)) / 100;
   }
 
@@ -218,14 +231,6 @@ class Desecho {
       if (this.angle >= 360) {
         this.angle = 0;
       }
-
-      if (this.x > (corazon.x - 280) && this.x < (corazon.x - 50)) {
-        if (corazon.atrapa) {
-          premios.push(new Premio());
-          scoring.acierto();
-          textos.push(new Textos(scoring.nivel));
-        }
-      }
     }
   }
 
@@ -244,15 +249,15 @@ class Desecho {
 class Golpe {
   constructor() {
     this.frame = 0;
-    this.x = corazon.x - 200;
-    this.y = corazon.y - 200;
+    this.x = corazon.x - 60;
+    this.y = corazon.y + 40;
     this.spriteWidth = 188;
     this.spriteHeight = 174;
     this.factor = 0;
   }
 
   update() {
-    ctx.clearReact(this.x - this.factor / 2, this.y - this.factor / 2,
+    ctx.clearRect(this.x - this.factor / 2, this.y - this.factor / 2,
       this.spriteWidth + this.factor / 2, this.spriteHeight + this.factor / 2);
     this.frame++;
     this.factor = 80 * Math.abs(Math.sin((50 - (this.frame % 50)) / 50));
@@ -264,16 +269,16 @@ class Golpe {
     this.imagen = new Image();
     this.imagen.src = '/img/desechos/golpe.png';
     ctx.drawImage(this.imagen,
-      0, 0, this.spriteWidth - this.factor / 2, this.spriteHeight - this.factor / 2,
-      0 - this.spriteWidth / 2, 0 - this.spriteHeight / 2,
-      this.spriteWidth + this.factor, this.spriteHeight + this.factor);
+      0, 0, this.spriteWidth, this.spriteHeight,
+      this.x - this.factor / 2, this.y - this.factor / 2,
+      this.spriteWidth + this.factor / 2, this.spriteHeight + this.factor / 2);
   }
 }
 
 class Premio {
   constructor() {
     this.x = corazon.x - 50;
-    this.y = screen_heigh - 260;
+    this.y = screen_height - 260;
     this.img = resourceImages["cuerpo"].img;
     this.spriteWidth = resourceImages["cuerpo"].w;
     this.spriteHeight = resourceImages["cuerpo"].h;
@@ -292,10 +297,10 @@ class Premio {
     if (this.direccionAngular == 0) {
       this.direccionAngular = Math.random() < 0.5 ? -1 : 1;
     }
-    if (this.angle < -0.25) {
+    if (this.angle < -0.55) {
       this.direccionAngular = 1;
     }
-    if (this.angle > 0.25) {
+    if (this.angle > 0.55) {
       this.direccionAngular = -1;
     }
     this.angle += this.direccionAngular * 0.01;
@@ -320,7 +325,7 @@ class Textos {
   constructor() {
     this.frame = 0;
     this.x = screen_width - 200;
-    this.y = screen_heigh - 400;
+    this.y = screen_height - 400;
     this.escala = 1;
     const clave = scoring.nivel > textos_premiados.length - 1 ? textos_premiados.length - 1 : scoring.nivel;
     const largo = textos_premiados[clave].length - 1;
@@ -335,7 +340,7 @@ class Textos {
   draw() {
     ctx.save();
     ctx.globalAlpha = (100 - this.frame) / 100;
-    ctx.font = 'bold ' + (48 + this.escala) + 'px Attack Of Monster';
+    ctx.font = 'bold ' + (1 + this.escala) + 'em Attack Of Monster';
     ctx.fillStyle = 'white';
     ctx.fillText(this.texto + " x" + scoring.hits, this.x - this.escala - this.texto.length * 24, this.y - this.escala * 2);
     ctx.restore();
@@ -390,7 +395,7 @@ Template.juego.rendered = () => {
   ctx = canvas.getContext('2d');
 
   canvas.width = screen_width;
-  canvas.height = screen_heigh;
+  canvas.height = screen_height;
 
   scoring = new Scoring();
 
@@ -405,15 +410,24 @@ Template.juego.rendered = () => {
 
     if (gameframe % nuevoDesecho == 0) {
       desechos.push(new Desecho());
-      nuevoDesecho = Math.floor(Math.random() * 500) + 100;
+      nuevoDesecho = Math.floor(Math.random() * 1500) + 400;
     }
 
     // Updates
     corazon.update();
     desechos.forEach((desecho, index) => {
       desecho.update();
+      if (desecho.x > (corazon.x - 280) && desecho.x < (corazon.x - 50)) {
+        if (corazon.atrapa) {
+          desechos.splice(index, 1);
+          premios.push(new Premio());
+          scoring.acierto();
+          textos.push(new Textos(scoring.nivel));
+        }
+      }
       if (desecho.x >= corazon.x) {
         desechos.splice(index, 1);
+        golpes.push(new Golpe());
       }
     })
     premios.forEach((premio, index) => {
@@ -430,7 +444,7 @@ Template.juego.rendered = () => {
     });
     golpes.forEach((golpe, index) => {
       golpe.update();
-      if (golpe.frame > 400) {
+      if (golpe.frame >= 40) {
         golpes.splice(index, 1);
       }
     })

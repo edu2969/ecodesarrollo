@@ -31,24 +31,24 @@
         {{#each eco_acciones}}
         <div class="marco-entidad neuromorph rojo{{#if estaPendiente}} pendiente{{/if}}"
           style="background-image: url({{avatar}})" id="{{_id}}">
-            <div class="overlay"></div>
-            <div class="titulo">
-              {{traductorACCIONESTipos tipo}}
+          <div class="overlay"></div>
+          <div class="titulo">
+            {{traductorACCIONESTipos tipo}}
+          </div>
+          <div class="banda">
+            <div class="fechas">
+              <div class="fechainicio">Fecha Inicio Accion :</div>
+              <div class="fechai">{{formatoFecha fechaRetiro 'DD/MM/YYYY'}}</div>
             </div>
-            <div class="banda">
-              <div class="fechas">
-                <div class="fechainicio">Fecha Inicio Accion :</div>
-                <div class="fechai">{{formatoFecha fechaRetiro 'DD/MM/YYYY'}}</div>
-              </div>
-              <div class="direccion">
-                <div class="direccion">Direccion :</div>
-                <div class="direccion">{{direccion}}</div>
-              </div>
-              <div class="comuna">
-                <div class="comuna">Comuna :</div>
-                <div class="comuna">{{comuna}}</div>
-              </div>
+            <div class="direccion">
+              <div class="direccion">Direccion :</div>
+              <div class="direccion">{{direccion}}</div>
             </div>
+            <div class="comuna">
+              <div class="comuna">Comuna :</div>
+              <div class="comuna">{{comuna}}</div>
+            </div>
+          </div>
         </div>
         {{else}}
         <div class="marco-accion neuromorph rojo">
@@ -81,11 +81,11 @@
           {{#if sonIguales ecoAccion.tipo 'RM'}}
           <div class="entrada{{#if errores.descripcion}} is-invalid{{/if}}">
             <span>Qué se retiraría</span>
-            {{#if errores.materias}}<span class="mensaje"> (*{{errores.materias}})</span>{{/if}}
+            {{#if errores.materiales}}<span class="mensaje"> (*{{errores.materiales}})</span>{{/if}}
             <div class="entrada checkboxes">
               <ul>
-                {{#each materias}}
-                <li><input type="checkbox" name="materias" value="{{id}}">{{etiqueta}}</li>
+                {{#each ecoAccion.materiales}}
+                <li><input type="checkbox" name="materiales" value="{{id}}" checked="{{checked}}">{{etiqueta}}</li>
                 {{/each}}
               </ul>
             </div>
@@ -137,7 +137,7 @@
             </select>
           </div>
         </div>
-       <div class="entrada cuadrilla-picker">
+        <div class="entrada cuadrilla-picker">
           <div class="campo-entrada" style="position: relative;">
             <span>Cuadrillas relacionadas</span>
             <br />
@@ -236,23 +236,23 @@
         </div>
         <div class="titulo-presentacion">Fecha Inicio</div>
         <div class="titulo">
-            {{formatoFecha ecoAccion.fechaRetiro 'DD/MMM/YYYY'}}
+          {{formatoFecha ecoAccion.fechaRetiro 'DD/MMM/YYYY'}}
         </div>
         <div class="titulo-presentacion">Periodicidad</div>
         <div class="titulo">
-            {{traductorACCIONESPeriodicidad ecoAccion.periodicidad}}
+          {{traductorACCIONESPeriodicidad ecoAccion.periodicidad}}
         </div>
-       <div class="titulo-presentacion">Participantes</div>
-       <div class="participantes">
-       {{#each ecoAccion.cuadrillas}}
+        <div class="titulo-presentacion">Participantes</div>
+        <div class="participantes">
+          {{#each ecoAccion.cuadrillas}}
           <div class="avatar-participante">
             <img src="{{imagen}}">
             <p>{{nombre}}</p>
-           
+
           </div>
-        {{/each}}
+          {{/each}}
         </div>
-       
+
         {{#if puedeCerrar}}
         <div class="titulo-presentacion">Cerrar campaña</div>
         <div id="btn-cerrar" class="neuromorph boton redondo azul">

@@ -214,17 +214,14 @@
   .puntaje {
     position: absolute;
     display: flex;
-    width: 440px;
-    bottom: -8px;
-    right: -25px;
+    width: 43vw;
+    right: 0px;
 
     p {
       position: relative;
-      top: -6px;
       color: white;
-      font-size: 32px;
-      width: 140px;
-      margin-left: 20px;
+      font-size: 1.5em;
+      margin-right: 0.4em;
       font-family: ArcadeClasic;
     }
 
@@ -233,9 +230,9 @@
       li {
         display: inline-flex;
         text-decoration: none;
-        width: 18px;
-        height: 28px;
-        background-size: 18px 28px;
+        width: 2vw;
+        height: 6vh;
+        background-size: 2vw 6vh;
 
         &.vacio {
           background-image: url(/img/corazon/barra_vacia.png);
@@ -244,6 +241,34 @@
         &.lleno {
           background-image: url(/img/corazon/barra_llena.png);
         }
+      }
+    }
+  }
+
+  @media (orientation: landscape) {
+    .puntaje {
+      width: 43vw;
+      bottom: -0.7em;
+      right: 0px;
+
+      li {
+        width: 2vw;
+        height: 0.7em;
+        background-size: 2vw 0.7em;
+      }
+    }
+  }
+
+  @media (orientation: portrait) {
+    .puntaje {
+      width: 60vw;
+      bottom: -0.7em;
+      right: 0px;
+
+      li {
+        width: 6vw;
+        height: 0.7em;
+        background-size: 6vw 0.7em;
       }
     }
   }
