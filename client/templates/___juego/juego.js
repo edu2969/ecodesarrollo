@@ -6,7 +6,7 @@ var premios = [], textos = [], desechos = [], golpes = [];
 screen_width = window.innerWidth;
 screen_height = window.innerHeight;
 
-var s_f = screen_width / screen_height;
+var s_f = 300 / 815 / screen_height;
 
 const PI = Math.PI;
 
@@ -56,9 +56,8 @@ var resourceImages = {};
 
 class CorazonVerde {
   constructor(sexo) {
-    this.sw_f = 200 * 200 / (812 * screen_width);
-    this.sh_f = 290 * 290 / (375 * screen_height);
-    this.x = screen_width * (0.75 - (screen_height / screen_width) * this.sw_f);
+    this.sh_f = screen_height / 1024;
+    this.x = screen_width - 2.25 * 200 * this.sh_f;
     this.y = screen_height * 0.30;
     this.frame = 0;
     this.sexo = sexo;
@@ -73,7 +72,12 @@ class CorazonVerde {
   }
 
   update() {
-    ctx.clearRect(this.x - 90, this.y - 10, 371 + 20, 316 + 20);
+    ctx.save();
+    ctx.translate(this.x - 80, this.y - 32);
+    ctx.scale(this.sh_f, this.sh_f);
+    ctx.clearRect(0, 0, 371 + 180, 316 + 320);
+    ctx.restore();
+
     if (this.atrapando) {
       this.frame++;
       if (this.frame < 25) {
@@ -93,7 +97,7 @@ class CorazonVerde {
   draw() {
     ctx.save();
     ctx.translate(this.x, this.y);
-    ctx.scale(0.5, 0.5);
+    ctx.scale(this.sh_f, this.sh_f);
     // Piernas
     ctx.drawImage(resourceImages["piernas"].img,
       0, 0, resourceImages["piernas"].w, resourceImages["piernas"].h,
@@ -326,7 +330,7 @@ class Textos {
     this.frame = 0;
     this.x = screen_width - 200;
     this.y = screen_height - 400;
-    this.escala = 1;
+    this.escala = screen_height / 360;
     const clave = scoring.nivel > textos_premiados.length - 1 ? textos_premiados.length - 1 : scoring.nivel;
     const largo = textos_premiados[clave].length - 1;
     this.texto = textos_premiados[clave][Math.floor((Math.random() * largo) + 1)];
@@ -340,7 +344,7 @@ class Textos {
   draw() {
     ctx.save();
     ctx.globalAlpha = (100 - this.frame) / 100;
-    ctx.font = 'bold ' + (1 + this.escala) + 'em Attack Of Monster';
+    ctx.font = 'bold ' + (32 + this.escala) + 'px Attack Of Monster';
     ctx.fillStyle = 'white';
     ctx.fillText(this.texto + " x" + scoring.hits, this.x - this.escala - this.texto.length * 24, this.y - this.escala * 2);
     ctx.restore();
@@ -349,11 +353,12 @@ class Textos {
 
 class Scoring {
   constructor() {
+    this.escala = screen_height / 640;
     this.hits = 0;
     this.nivel = 0;
     this.record = 0;
-    this.x = screen_width - 320;
-    this.y = 16;
+    this.x = screen_width - 240 * this.escala;
+    this.y = 16 * this.escala;
   }
 
   resetear() {
@@ -372,21 +377,29 @@ class Scoring {
   }
 
   update() {
-    ctx.clearRect(this.x, this.y, 100, 80);
+    ctx.save();
+    ctx.translate(this.x, this.y - 16);
+    ctx.scale(this.escala, this.escala);
+    ctx.clearRect(this.x, this.y, 240, 80);
+    ctx.restore();
   }
 
   draw() {
     ctx.fillStyle = 'white';
-    ctx.font = 'normal 20px ArcadeClasic';
+    ctx.font = 'normal 1.5em ArcadeClasic';
     const clave = this.nivel > textos_premiados.length - 1 ? textos_premiados.length - 1 : scoring.nivel;
     const nivel = textos_premiados[clave][0];
-    ctx.fillText("Nivel ", this.x, this.y);
-    ctx.fillText("Score ", this.x, this.y + 16);
-    ctx.fillText("Record", this.x, this.y + 32);
+    ctx.save();
+    ctx.translate(this.x, this.y);
+    ctx.scale(this.escala, this.escala);
+    ctx.fillText("Nivel ", 0, 0);
+    ctx.fillText("Score ", 0, 16);
+    ctx.fillText("Record", 0, 32);
     ctx.fillStyle = 'yellow';
-    ctx.fillText(nivel, this.x + 120, this.y);
-    ctx.fillText(this.hits, this.x + 120, this.y + 16);
-    ctx.fillText(this.record, this.x + 120, this.y + 32);
+    ctx.fillText(nivel, 80, 0);
+    ctx.fillText(this.hits, 80, 16);
+    ctx.fillText(this.record, 80, 32);
+    ctx.restore();
   }
 }
 
