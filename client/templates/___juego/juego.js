@@ -32,17 +32,27 @@ const textos_premiados = [
 // Resources
 var resourceImages = {};
 [
-  { "cuerpo": { w: 371, h: 316, } }, { "brazo_der": { w: 85, h: 201, } },
-  { "brazo_izq": { w: 133, h: 266, } }, { "piernas": { w: 333, h: 348, } },
-  { "atrapa_01": { w: 204, h: 179, } }, { "atrapa_02": { w: 163, h: 176, } },
-  { "rosa": { w: 192, h: 182, } }, { "cara_01": { w: 194, h: 149, } },
-  { "cara_02": { w: 159, h: 165, } }, { "cara_03": { w: 176, h: 132, } },
-  { "cara_04": { w: 173, h: 153, } }, { "cara_10": { w: 173, h: 151, } },
-  { "cara_11": { w: 159, h: 199, } }, { "cara_12": { w: 174, h: 165, } },
-  { "cara_f01": { w: 120, h: 137, } }, { "cara_f02": { w: 136, h: 134, } },
-  { "cara_f03": { w: 149, h: 119, } }, { "cara_f04": { w: 189, h: 171, } },
-  { "cara_f10": { w: 163, h: 154, } }, { "cara_f11": { w: 121, h: 135, } },
-  { "cara_f12": { w: 145, h: 142, } },]
+  { "cuerpo": { w: 371, h: 316, offset: [0, 0] } },
+  { "brazo_der": { w: 85, h: 201, offset: [5, 190] } },
+  { "brazo_izq": { w: 133, h: 266, offset: [255, 170] } },
+  { "piernas": { w: 333, h: 348, offset: [15, 220] } },
+  { "atrapa_01": { w: 204, h: 179, offset: [-80, 180] } },
+  { "atrapa_02": { w: 163, h: 176, offset: [-80, 180] } },
+  { "rosa": { w: 192, h: 182, offset: [0, 0] } },
+  { "cara_01": { w: 194, h: 149, offset: [85, 95] } },
+  { "cara_02": { w: 159, h: 165, offset: [80, -10] } },
+  { "cara_03": { w: 176, h: 132, offset: [0, 0] } },
+  { "cara_04": { w: 173, h: 153, offset: [0, 0] } },
+  { "cara_10": { w: 173, h: 151, offset: [-25, -15] } },
+  { "cara_11": { w: 159, h: 199, offset: [-20, -20] } },
+  { "cara_12": { w: 174, h: 165, offset: [-20, -20] } },
+  { "cara_f01": { w: 120, h: 137, offset: [98, 75] } },
+  { "cara_f02": { w: 136, h: 134, offset: [0, 0] } },
+  { "cara_f03": { w: 149, h: 119, offset: [0, 0] } },
+  { "cara_f04": { w: 189, h: 171, offset: [0, 0] } },
+  { "cara_f10": { w: 163, h: 154, offset: [-10, -20] } },
+  { "cara_f11": { w: 121, h: 135, offset: [0, 0] } },
+  { "cara_f12": { w: 145, h: 142, offset: [-10, 0] } },]
   .forEach((item) => {
     const llave = Object.keys(item)[0];
     var image = new Image();
@@ -51,6 +61,7 @@ var resourceImages = {};
       img: image,
       w: item[llave].w,
       h: item[llave].h,
+      offset: item[llave].offset,
     }
   });
 
@@ -63,11 +74,20 @@ class CorazonVerde {
     this.sexo = sexo;
     this.atrapando = false;
     this.atrapa = false;
+    this.preparado = false;
+    this.golpeado = false;
+    this.caraGolpe = 0;
+    this.frameGolpe = 0;
   }
 
   atrapar() {
     if (!this.atrapando) {
       this.atrapando = true;
+    } else if (this.preparado) {
+      this.preparado = false;
+      this.frame = 0;
+      this.atrapando = true;
+      this.atrapa = false;
     }
   }
 
@@ -84,32 +104,43 @@ class CorazonVerde {
         this.atrapa = true;
       } else this.atrapa = false;
       if (this.frame > 250) {
-        this.preparado();
+        this.frame = 0;
+        this.atrapando = false;
+        this.preparado = false;
+      }
+    }
+
+    if (this.golpeado) {
+      this.frameGolpe++;
+      if (this.frameGolpe > 200) {
+        this.frameGolpe = 0;
+        this.golpeado = false;
       }
     }
   }
 
-  preparado() {
-    this.frame = 0;
-    this.atrapando = false;
+  iniciarGolpe() {
+    this.golpeado = true;
+    this.frameGolpe = 0;
+    this.caraGolpe = Math.floor(Math.random() * 3) + 10;
   }
 
   draw() {
+    const drawImage = (key) => {
+      var resource = resourceImages[key];
+      console.log(resource);
+      ctx.drawImage(resource.img, 0, 0, resource.w, resource.h,
+        resource.offset[0], resource.offset[1], resource.w, resource.h);
+    }
+
     ctx.save();
     ctx.translate(this.x, this.y);
     ctx.scale(this.sh_f, this.sh_f);
-    // Piernas
-    ctx.drawImage(resourceImages["piernas"].img,
-      0, 0, resourceImages["piernas"].w, resourceImages["piernas"].h,
-      15, 220,
-      resourceImages["piernas"].w, resourceImages["piernas"].h);
+    drawImage("piernas");
 
     // Brazo der o atrapando
     if (!this.atrapando) {
-      ctx.drawImage(resourceImages["brazo_der"].img,
-        0, 0, resourceImages["brazo_der"].w, resourceImages["brazo_der"].h,
-        5, 190,
-        resourceImages["brazo_der"].w, resourceImages["brazo_der"].h);
+      drawImage("brazo_der");
     } else {
       var brazo;
       if (this.frame < 25) {
@@ -117,10 +148,7 @@ class CorazonVerde {
       } else {
         brazo = "atrapa_02";
       }
-      ctx.drawImage(resourceImages[brazo].img,
-        0, 0, resourceImages[brazo].w, resourceImages[brazo].h,
-        -80, 180,
-        resourceImages[brazo].w, resourceImages[brazo].h);
+      drawImage(brazo);
     }
 
     // latido
@@ -140,26 +168,27 @@ class CorazonVerde {
     // Cuerpo
     ctx.drawImage(resourceImages["cuerpo"].img,
       0, 0, resourceImages["cuerpo"].w, resourceImages["cuerpo"].h,
-      - (factor / 2), - (factor / 2) * this.sh_f,
-      resourceImages["cuerpo"].w,
-      resourceImages["cuerpo"].h);
+      - (factor / 2) * this.sh_f, - (factor / 2) * this.sh_f,
+      resourceImages["cuerpo"].w + (factor / 2) * this.sh_f,
+      resourceImages["cuerpo"].h + (factor / 2) * this.sh_f);
 
-    // Brazo izq
-    ctx.drawImage(resourceImages["brazo_izq"].img,
-      0, 0, resourceImages["brazo_izq"].w, resourceImages["brazo_izq"].h,
-      255,
-      170,
-      resourceImages["brazo_izq"].w, resourceImages["brazo_izq"].h);
+    drawImage("brazo_izq");
 
     // Cara
-    ctx.drawImage(resourceImages["cara_" + (this.sexo == "F" ? "f" : "") + "01"].img,
-      0, 0,
-      resourceImages["cara_" + (this.sexo == "F" ? "f" : "") + "01"].w,
-      resourceImages["cara_" + (this.sexo == "F" ? "f" : "") + "01"].h,
-      102,
-      85,
-      resourceImages["cara_" + (this.sexo == "F" ? "f" : "") + "01"].w,
-      resourceImages["cara_" + (this.sexo == "F" ? "f" : "") + "01"].h);
+    if (!this.golpeado) {
+      const resource = resourceImages["cara_" + (this.sexo == "F" ? "f" : "") + "01"];
+      ctx.drawImage(resource.img, 0, 0,
+        resource.w, resource.h,
+        resource.offset[0] - (factor / 2) * this.sh_f, resource.offset[1] - (factor / 2) * this.sh_f,
+        resource.w + (factor / 2) * this.sh_f, resource.h + (factor / 2) * this.sh_f);
+    } else {
+      const resource = resourceImages["cara_" + (this.sexo == "F" ? "f" : "") + this.caraGolpe];
+      const offset = resource.offset;
+      ctx.drawImage(resource.img, 0, 0, resource.w, resource.h,
+        102 + offset[0] - (factor / 2) * this.sh_f,
+        85 + offset[1] - (factor / 2) * this.sh_f,
+        resource.w + (factor / 2) * this.sh_f, resource.h + (factor / 2) * this.sh_f);
+    }
 
     // Rosa
     if (this.sexo == "F") {
@@ -405,6 +434,7 @@ class Scoring {
 
 Template.juego.rendered = () => {
   canvas = document.getElementById('canvas1');
+  canvas.onselectstart = function () { return false; }
   ctx = canvas.getContext('2d');
 
   canvas.width = screen_width;
@@ -423,7 +453,7 @@ Template.juego.rendered = () => {
 
     if (gameframe % nuevoDesecho == 0) {
       desechos.push(new Desecho());
-      nuevoDesecho = Math.floor(Math.random() * 1500) + 400;
+      nuevoDesecho = Math.floor(Math.random() * 500) + 400;
     }
 
     // Updates
@@ -436,11 +466,14 @@ Template.juego.rendered = () => {
           premios.push(new Premio());
           scoring.acierto();
           textos.push(new Textos(scoring.nivel));
+          corazon.preparado = true;
         }
       }
       if (desecho.x >= corazon.x) {
         desechos.splice(index, 1);
         golpes.push(new Golpe());
+        corazon.iniciarGolpe();
+        scoring.resetear();
       }
     })
     premios.forEach((premio, index) => {
