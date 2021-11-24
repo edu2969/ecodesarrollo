@@ -160,9 +160,14 @@ Meteor.publish('eco_desarrollos.documentos', function () {
 });
 
 Meteor.publish('eco_acciones', function () {
-	return ECOAcciones.find({
-		usuarioId: this.userId
-	});
+	const user = Meteor.user();
+	var query = {};
+	if(user.profile.rol != 255) {
+		query = {
+			usuarioId: user._id
+		}
+	}
+	return ECOAcciones.find(query);
 });
 
 Meteor.publish('eco_acciones.donaciones', function () {

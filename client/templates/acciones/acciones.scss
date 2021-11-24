@@ -1,10 +1,46 @@
 .marco-acciones {
   width: 100%;
   height: calc(100% - 3em);
-  margin-top: 3em;
   overflow-y: scroll;
 
   .content-acciones {
     padding: 2em;
+
+    .lista-resultado {
+      width: 100%;
+      margin: 0px;
+      ul {
+        width: 100%;
+        margin: 0px;
+        display: flex;
+        padding-left: 0px;
+        li {
+          width: 100%;
+          list-style: none;
+          text-align: center;
+        }
+        &:first-child {
+          font-size: medium;
+          background-color: white;
+          color: orangered;
+          border-top-left-radius: 4px;
+          border-top-right-radius: 4px;
+        }
+        &:not(:first-child):not(:last-child) {
+          border: 1px solid white;
+          border-bottom: 0px;
+        }
+        &:last-child {
+          border: 1px solid white;
+          border-bottom-left-radius: 4px;
+          border-bottom-right-radius: 4px;
+        }
+        &:not(:first-child):hover {
+          cursor: pointer;
+          background-color: rgba(255, 255, 255, 0.8);
+          color: orangered;
+        }
+      }
+    }
   }
 }

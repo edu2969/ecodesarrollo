@@ -69,6 +69,7 @@ Template.eco_acciones.helpers({
 			if (ecoAccion.estado === EstadoType.Pendiente) {
 				ecoAccion.estaPendiente = true
 			}
+			ecoAccion.fondo = ecoAccion.tipo == "RM" ? '/img/revalorizacion.jpg' : '/img/donaciones.jpg';
 			return ecoAccion;
 		});
 	},
@@ -133,7 +134,7 @@ Template.eco_acciones.helpers({
 		ecoAccion.materiales = LISTADO_MATERIALES.map((item)=>{
 			return {
 				id: item.id,
-				checked: ecoAccion.materiales.indexOf(item.id) != -1,
+				checked: ecoAccion.materiales?.indexOf(item.id) != -1,
 				etiqueta: item.etiqueta
 			}
 		});

@@ -594,5 +594,19 @@
         }
       }
     }
+
+    &.busqueda {
+      position: relative;
+      input {
+        padding-left: 48px;
+      }
+      .material-icons {
+        position: relative;
+        top: -50px;
+        left: 12px;
+        font-size: 38px;
+        color: gray;
+      }
+    }
   }
 }

@@ -30,7 +30,7 @@
       <div class="contenedor-entidades contenedor-acciones">
         {{#each eco_acciones}}
         <div class="marco-entidad neuromorph rojo{{#if estaPendiente}} pendiente{{/if}}"
-          style="background-image: url({{avatar}})" id="{{_id}}">
+          style="background-image: url({{fondo}})" id="{{_id}}">
           <div class="overlay"></div>
           <div class="titulo">
             {{traductorACCIONESTipos tipo}}
@@ -39,10 +39,6 @@
             <div class="fechas">
               <div class="fechainicio">Fecha Inicio Accion :</div>
               <div class="fechai">{{formatoFecha fechaRetiro 'DD/MM/YYYY'}}</div>
-            </div>
-            <div class="direccion">
-              <div class="direccion">Direccion :</div>
-              <div class="direccion">{{direccion}}</div>
             </div>
             <div class="comuna">
               <div class="comuna">Comuna :</div>

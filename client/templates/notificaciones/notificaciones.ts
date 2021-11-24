@@ -38,7 +38,7 @@ Template.notificaciones.helpers({
         notificacion.descripcion = '<b>' + nombre + '</b><br/>' + email
       }
       return notificacion
-    })
+    });
   },
   cantidad() {
     const pendientes = Notificaciones.find({ estado: "Pendiente" }).count()
@@ -144,7 +144,6 @@ Template.notificaciones.events({
           '<div class="ecodimension-content">' +
           '<div class="titulo"> Tipo : ' + '<strong>' + ECO_SOS.TIPOS[ecoSos.tipo] + '</strong>' + '</div>' +
           '<div class="titulo"> Afectado : ' + '<strong>' + ECO_SOS.AFECTADO[ecoSos.afectado] + '</strong>' + '</div>' +
-          '<div class="titulo"> Tipo LLamado : ' + '<strong>' + ECO_SOS.PROBLEMA[ecoSos.problema].etiqueta + '</strong>' + '</div>' +
           '<div class="contenido">Descripcion :' + '<strong>' + ecoSos.descripcion + '</strong>' + '</div>' +
           '<div class="imagen-avatar"><img src="' + (imagen ? imagen.link() : '/img/no_image_available.jpg') + '"/></div>' +
           '</div>' +
@@ -183,7 +182,7 @@ Template.notificaciones.events({
           '<div class="contenido">Direccion :' + '<strong>' + ecoDesarrollo.direccion + '</strong>' + '</div>' +
           '<div class="contenido">Comuna :' + '<strong>' + ecoDesarrollo.comuna + '</strong>' + '</div>' +
           '<div class="contenido">Descripcion :' + '<strong>' + ecoDesarrollo.descripcion + '</strong>' + '</div>' +
-          '<div class="imagen"><img src="' + (imagen ? imagen.link() : '/img/no_image_available.jpg') + '"/></div>' +
+          '<div class="imagen-avatar"><img src="' + (imagen ? imagen.link() : '/img/no_image_available.jpg') + '"/></div>' +
           '</div>' +
           '<div class="fecha">' + moment(notificacion.fecha).format('DD/MM/yyyy HH:mm') + '</div>' +
           '</div>',
@@ -267,8 +266,7 @@ Template.notificaciones.events({
           notificacionId: notificacion._id
         }
       }
-    }if (notificacion.tipo == NotificacionType.NuevaEcoAccion) {
-      
+    } else if (notificacion.tipo == NotificacionType.NuevaEcoAccion) {
       const ecoAccion = ECOAcciones.findOne({
         _id: notificacion.ecoAccionId
       })

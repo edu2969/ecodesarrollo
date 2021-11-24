@@ -2,10 +2,38 @@
   <div class="marco-acciones custom-scroll">
     <div class="content-acciones">
       <h1>Acciones</h1>
-      <p>Aca no se que poner, pero me imagino algo como una entrada de un corazon verde y que hizo, por ejemplo, entrega
-        tal donacion,
-        recicla kilos de algo, etc., y se le dan X puntos.
-      </p>
+      <p>Registre acciones, defina las celulas asignadas.</p>
+      <div class="formulario">
+        <div class="entrada busqueda">
+          <span>Busqueda</span>
+          {{> inputAutocomplete settings=settingsCuadrillas id="input-cuadrilla"
+          class="campo" placeholder="Cuadrillas..." aria-label="Comuna"
+          autocomplete="off"}}
+          <i class="material-icons">search</i>
+        </div>
+        {{#if resultado}}
+        <h3>{{nombreCuadrilla}}</h3>
+        <div class="lista-resultado">
+          <ul>
+            <li style="width: 80px;"><b>N°</b></li>
+            <li style="width: available;"><b>Próx.Retiro</b></li>
+            <li><b>Estado</b></li>
+            <li style="width: 220px;"><b>Acciones</b></li>
+          </ul>
+          {{#each resultado}}
+          <ul id="{{id}}">
+            <li style="width: 80px;">{{indice}}</li>
+            <li style="width: available;">{{fechaRetiro}}</li>
+            <li>{{estado}}</li>
+            <li style="width: 220px;"><i class="material-icons">settings</i></li>
+          </ul>
+          {{/each}}
+        </div>
+        {{/if}}
+        {{#unless resultado}}
+        <h1>Sin resultados</h1>
+        {{/unless}}
+      </div>
     </div>
   </div>
 </template>

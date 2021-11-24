@@ -128,7 +128,6 @@ class CorazonVerde {
   draw() {
     const drawImage = (key) => {
       var resource = resourceImages[key];
-      console.log(resource);
       ctx.drawImage(resource.img, 0, 0, resource.w, resource.h,
         resource.offset[0], resource.offset[1], resource.w, resource.h);
     }
@@ -442,7 +441,7 @@ Template.juego.rendered = () => {
 
   scoring = new Scoring();
 
-  corazon = new CorazonVerde("F");
+  corazon = new CorazonVerde("M");
   desechos.push(new Desecho());
   textos.push(new Textos());
   var nuevoDesecho = 100;

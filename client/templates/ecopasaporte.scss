@@ -558,11 +558,10 @@
 
   i {
     font-size: 40px;
-  }
-
-  &.verde i {
-    right: 10px;
-    color: limegreen;
+    &.verde {
+      right: 10px;
+      color: limegreen;
+    }
   }
 }
 
