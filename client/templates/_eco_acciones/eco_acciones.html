@@ -39,13 +39,13 @@
             <div class="info">
               <div class="fecha">Próx.retiro: <b>{{formatoFecha fechaProximoRetiro 'DD MMM \'YY'}}</b></div>
               <div class="comuna">{{comuna}}</div>
-              <div style="display: flex">
+              <div class="materiales">
                 {{#each materialesARetirar}}
                 {{#if sonIguales this 'PET1'}}<i class="material-icons">recycling</i>{{/if}}
                 {{#if sonIguales this 'VID'}}<i class="material-icons">liquor</i>{{/if}}
                 {{#if sonIguales this 'ORG'}}<i class="material-icons">compost</i>{{/if}}
                 {{#if sonIguales this 'CAR'}}<i class="material-icons">receipt_long</i>{{/if}}
-                {{#if sonIguales this 'LAT'}}<img src="/img/lata.png" style="filter: invert(100%);" width="24">{{/if}}
+                {{#if sonIguales this 'LAT'}}<img src="/img/lata.png" style="filter: invert(100%);" width="36">{{/if}}
                 {{/each}}
               </div>
             </div>
