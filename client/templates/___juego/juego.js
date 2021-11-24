@@ -281,8 +281,8 @@ class Desecho {
 class Golpe {
   constructor() {
     this.frame = 0;
-    this.x = corazon.x - 60;
-    this.y = corazon.y + 40;
+    this.x = corazon.x + 188 / 2 - 80;
+    this.y = corazon.y + 174 / 2;
     this.spriteWidth = 188;
     this.spriteHeight = 174;
     this.factor = 0;
@@ -291,8 +291,8 @@ class Golpe {
   update() {
     ctx.clearRect(this.x - this.factor / 2, this.y - this.factor / 2,
       this.spriteWidth + this.factor / 2, this.spriteHeight + this.factor / 2);
-    this.frame++;
-    this.factor = 80 * Math.abs(Math.sin((50 - (this.frame % 50)) / 50));
+    this.frame += 1;
+    this.factor = 40 - 40 * Math.abs(Math.sin((20 - (this.frame % 40)) / 20));
   }
 
   draw() {
@@ -300,10 +300,14 @@ class Golpe {
     this.angle = 0;
     this.imagen = new Image();
     this.imagen.src = '/img/desechos/golpe.png';
+    ctx.save();
+    ctx.translate(this.x - this.spriteWidth / 2 - this.factor / 2,
+      this.y - this.spriteHeight / 2 - this.factor / 2);
     ctx.drawImage(this.imagen,
       0, 0, this.spriteWidth, this.spriteHeight,
-      this.x - this.factor / 2, this.y - this.factor / 2,
-      this.spriteWidth + this.factor / 2, this.spriteHeight + this.factor / 2);
+      0, 0,
+      this.spriteWidth + this.factor, this.spriteHeight + this.factor);
+    ctx.restore();
   }
 }
 

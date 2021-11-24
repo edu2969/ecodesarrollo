@@ -12,11 +12,11 @@
           <i class="material-icons">search</i>
         </div>
         {{#if resultado}}
-        <h3>{{nombreCuadrilla}}</h3>
         <div class="lista-resultado">
           <ul>
             <li style="width: 80px;"><b>N°</b></li>
             <li style="width: available;"><b>Próx.Retiro</b></li>
+            <li><b>Cuadrilla</b></li>
             <li><b>Estado</b></li>
             <li style="width: 220px;"><b>Acciones</b></li>
           </ul>
@@ -24,6 +24,7 @@
           <ul id="{{id}}">
             <li style="width: 80px;">{{indice}}</li>
             <li style="width: available;">{{fechaRetiro}}</li>
+            <li><b>{{nombreCuadrilla}}</b></li>
             <li>{{estado}}</li>
             <li style="width: 220px;"><i class="material-icons">settings</i></li>
           </ul>

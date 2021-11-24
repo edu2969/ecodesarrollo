@@ -35,9 +35,10 @@ Template.acciones.helpers({
       const fr = moment(item.fechaRetiro);
       const dif = moment().diff(fr, item.periodicidad == "M" ? "month" : "week") + 1;
       const proxima = moment(fr).add(dif, item.periodicidad == "M" ? "month" : "week");
+      const cuadrilla = ECOOrganizaciones.findOne({ _id: item.cuadrillasId });
       return {
         id: item._id,
-        nombreCuadrilla: "Hi",
+        nombreCuadrilla: cuadrilla ? cuadrilla.nombre : "",
         indice: indice + 1,
         fechaRetiro: proxima.format("DD MMM'YY"),
         estado: item.estado,
