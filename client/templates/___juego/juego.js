@@ -289,7 +289,8 @@ class Golpe {
   }
 
   update() {
-    ctx.clearRect(this.x - this.factor / 2, this.y - this.factor / 2,
+    ctx.clearRect(this.x - this.spriteWidth / 2 - this.factor / 2,
+      this.y - this.spriteHeight / 2 - this.factor / 2,
       this.spriteWidth + this.factor / 2, this.spriteHeight + this.factor / 2);
     this.frame += 1;
     this.factor = 40 - 40 * Math.abs(Math.sin((20 - (this.frame % 40)) / 20));
@@ -463,7 +464,8 @@ Template.juego.rendered = () => {
     corazon.update();
     desechos.forEach((desecho, index) => {
       desecho.update();
-      if (desecho.x > (corazon.x - 280) && desecho.x < (corazon.x - 50)) {
+      // Rango de atrapado
+      if (desecho.x > (corazon.x - 100) && desecho.x < (corazon.x - 50)) {
         if (corazon.atrapa) {
           desechos.splice(index, 1);
           premios.push(new Premio());

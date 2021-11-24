@@ -70,6 +70,11 @@ Template.eco_acciones.helpers({
 				ecoAccion.estaPendiente = true
 			}
 			ecoAccion.fondo = ecoAccion.tipo == "RM" ? '/img/revalorizacion.jpg' : '/img/donaciones.jpg';
+			const fr = moment(ecoAccion.fechaRetiro);
+      const dif = moment().diff(fr, ecoAccion.periodicidad == "M" ? "month" : "week") + 1;
+      const proxima = moment(fr).add(dif, ecoAccion.periodicidad == "M" ? "month" : "week");
+			ecoAccion.fechaProximoRetiro = proxima;
+			ecoAccion.materialesARetirar = ecoAccion.materiales?.split(",");
 			return ecoAccion;
 		});
 	},
