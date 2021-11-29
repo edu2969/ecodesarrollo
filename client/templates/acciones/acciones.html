@@ -1,39 +1,118 @@
 <template name="acciones">
-  <div class="marco-acciones custom-scroll">
-    <div class="content-acciones">
-      <h1>Acciones</h1>
-      <p>Registre acciones, defina las celulas asignadas.</p>
-      <div class="formulario">
-        <div class="entrada busqueda">
-          <span>Busqueda</span>
-          {{> inputAutocomplete settings=settingsCuadrillas id="input-cuadrilla"
-          class="campo" placeholder="Cuadrillas..." aria-label="Comuna"
-          autocomplete="off"}}
-          <i class="material-icons">search</i>
+  <div class="navegacion-atras">
+    <i class="material-icons">arrow_back_ios</i>
+  </div>
+  <div class="titulo-grilla">
+    <div class="contenido-titulo">
+      <p>Acciones<br /><small>Registre acciones, defina las celulas asignadas.</small></p>
+    </div>
+  </div>
+  <div class="carrousel modo-listado">
+    <div class="grilla custom-scroll">
+      <div class="marco-acciones">
+        <div class="content-acciones">
+          <div class="formulario">
+            <div class="entrada busqueda">
+              <span>Busqueda</span>
+              {{> inputAutocomplete settings=settingsCuadrillas id="input-cuadrilla"
+              class="campo" placeholder="Cuadrillas..." aria-label="Comuna"
+              autocomplete="off"}}
+              <i class="material-icons">search</i>
+            </div>
+            {{#if resultado}}
+            <div class="lista-resultado">
+              <ul>
+                <li style="width: 80px;"><b>N°</b></li>
+                <li style="width: available;"><b>Próx.Retiro</b></li>
+                <li><b>Cuadrilla</b></li>
+                <li><b>Estado</b></li>
+                <li style="width: 220px;"><b>Acciones</b></li>
+              </ul>
+              {{#each resultado}}
+              <ul id="{{id}}">
+                <li style="width: 80px;">{{indice}}</li>
+                <li style="width: available;">{{fechaRetiro}}</li>
+                <li><b>{{nombreCuadrilla}}</b></li>
+                <li>{{estado}}</li>
+                <li style="width: 220px;"><i class="material-icons">settings</i></li>
+              </ul>
+              {{/each}}
+            </div>
+            {{/if}}
+            {{#unless resultado}}
+            <h1>Sin resultados</h1>
+            {{/unless}}
+          </div>
         </div>
-        {{#if resultado}}
-        <div class="lista-resultado">
-          <ul>
-            <li style="width: 80px;"><b>N°</b></li>
-            <li style="width: available;"><b>Próx.Retiro</b></li>
-            <li><b>Cuadrilla</b></li>
-            <li><b>Estado</b></li>
-            <li style="width: 220px;"><b>Acciones</b></li>
-          </ul>
-          {{#each resultado}}
-          <ul id="{{id}}">
-            <li style="width: 80px;">{{indice}}</li>
-            <li style="width: available;">{{fechaRetiro}}</li>
-            <li><b>{{nombreCuadrilla}}</b></li>
-            <li>{{estado}}</li>
-            <li style="width: 220px;"><i class="material-icons">settings</i></li>
-          </ul>
+      </div>
+    </div>
+
+    <div class="detalle custom-scroll">
+      <div class="presentacion">
+        {{#with accion}}
+        <div class="overlay"></div>
+        <div class="titulo-presentacion">Cuadrilla</div>
+        <div class="resumen">
+          <div class="fila">
+            <div class="imagen-avatar">
+              <img src="{{cuadrilla.avatar}}">
+            </div>
+            <div class="nombre-cuadrilla">{{cuadrilla.nombre}}</div>
+          </div>
+          <div class="fila">
+            <div class="etiqueta">Dirección</div>
+            <div class="valor">{{direccion}} {{comuna}}</div>
+          </div>
+        </div>
+        <div class="titulo-presentacion">Participantes</div>
+        <div class="participantes">
+          {{#each integrantes}}
+          <div class="avatar-participante">
+            <img src="{{avatar}}">
+            <p>{{nombre}}</p>
+          </div>
           {{/each}}
         </div>
-        {{/if}}
-        {{#unless resultado}}
-        <h1>Sin resultados</h1>
-        {{/unless}}
+        <div class="titulo-presentacion">Carta de presentacion</div>
+        <div class="resena">
+          <p>{{carta}}</p>
+        </div>
+        <div class="flex">
+          <div class="titulo-presentacion">Próximo retiro</div>
+          <div class="titulo">
+            <h1>{{proximoRetiro}}</h1>
+          </div>
+          <div class="titulo-presentacion">Materiales a retirar</div>
+          <div class="titulo">
+            <div class="materiales">
+              {{#each materiales}}
+              <div class="material">
+                {{#if sonIguales id 'PET1'}}<i class="material-icons">recycling</i>{{/if}}
+                {{#if sonIguales id 'VID'}}<i class="material-icons">liquor</i>{{/if}}
+                {{#if sonIguales id 'ORG'}}<i class="material-icons">compost</i>{{/if}}
+                {{#if sonIguales id 'CAR'}}<i class="material-icons">receipt_long</i>{{/if}}
+                {{#if sonIguales id 'LAT'}}<img src="/img/lata.png" style="filter: invert(100%);" width="54">{{/if}}
+                <br />{{etiqueta}}
+              </div>
+              {{/each}}
+            </div>
+          </div>
+        </div>
+        <div class="titulo-presentacion">Célula encargada</div>
+        <div class="participantes">
+          {{#each cuadrillas}}
+          <div class="avatar-participante">
+            <img src="{{imagen}}">
+            <p>{{nombre}}</p>
+          </div>
+          {{/each}}
+        </div>
+
+        <div class="titulo-presentacion">Registrar retiro</div>
+        <div id="btn-cerrar" class="neuromorph boton redondo rojo">
+          <i class="material-icons">fact_check</i>
+        </div>
+        {{/with}}
       </div>
     </div>
   </div>

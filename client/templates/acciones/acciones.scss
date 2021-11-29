@@ -1,10 +1,9 @@
 .marco-acciones {
   width: 100%;
   height: calc(100% - 3em);
-  overflow-y: scroll;
 
   .content-acciones {
-    padding: 2em;
+    padding: 0 2em;
 
     .lista-resultado {
       width: 100%;
@@ -40,6 +39,47 @@
           background-color: rgba(255, 255, 255, 0.8);
           color: orangered;
         }
+      }
+    }
+  }
+}
+
+.detalle {
+  .resumen {
+    .fila {
+      display: flex;
+      .nombre-cuadrilla {
+        font-size: 32px;
+        margin-top: 45px;
+        margin-left: 0.5em;
+      }
+      .imagen-avatar {
+        img {
+          width: 120px;
+          height: 120px;
+          margin: 0.5em;
+          border-radius: 50%;
+        }
+      }
+      .etiqueta {
+        width: 120px;
+        font-weight: bolder;
+      }
+      .valor::before {
+        content: ": ";
+      }
+    }
+  }
+  .materiales {
+    display: flex;
+    .material {
+      margin: 0.5em;
+      border: 2px solid white;
+      border-radius: 6px;
+      width: 110px;
+      text-align: center;
+      .material-icons {
+        font-size: 48px;
       }
     }
   }
