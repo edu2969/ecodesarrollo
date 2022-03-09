@@ -69,8 +69,17 @@
 
       .materiales {
         display: flex;
-        .material-icons {
-          font-size: 36px;
+        .material {
+          position: relative;
+          .material-icons {
+            font-size: 31px;
+          }
+          .sub {
+            position: absolute;
+            left: 12px;
+            top: 9px;
+            font-size: 12px;
+          }
         }
       }
     }

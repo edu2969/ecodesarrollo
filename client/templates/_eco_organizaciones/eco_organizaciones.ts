@@ -97,6 +97,7 @@ Template.eco_organizaciones.helpers({
 				"meta.ecoOrganizacionId": ecoOrganizacion._id,
 				"meta.tipo": "ecoorganizacion"
 			}, {
+				userId: Meteor.userId(),
 				"meta.pendiente": true,
 				"meta.tipo": "ecoorganizacion"
 			}]
@@ -133,7 +134,19 @@ Template.eco_organizaciones.helpers({
 				resultado.iniciales = iniciales
 			}
 			return resultado
-		})
+		});
+		if(ecoOrganizacion.encargadoId) {
+			const imagenEncargado = Images.findOne({
+				userId: ecoOrganizacion.encargadoId,
+				meta: {}
+			})
+			ecoOrganizacion.imagenEncargado = imagenEncargado ? imagenEncargado.link() : false;
+			if(!imagenEncargado) {
+				const encargado = Meteor.users.findOne({ _id: ecoOrganizacion.encargadoId });
+				const separado = encargado.profile.nombre.split(" ");
+				ecoOrganizacion.inicialesEncargado = separado[0].charAt(0) + (separado.length > 1 ? separado[1].charAt(0) : "");	
+			}
+		}
 		return ecoOrganizacion
 	},
 	cantidad() {

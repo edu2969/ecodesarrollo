@@ -41,11 +41,16 @@
               <div class="comuna">{{comuna}}</div>
               <div class="materiales">
                 {{#each materialesARetirar}}
-                {{#if sonIguales this 'PET1'}}<i class="material-icons">recycling</i>{{/if}}
-                {{#if sonIguales this 'VID'}}<i class="material-icons">liquor</i>{{/if}}
-                {{#if sonIguales this 'ORG'}}<i class="material-icons">compost</i>{{/if}}
-                {{#if sonIguales this 'CAR'}}<i class="material-icons">receipt_long</i>{{/if}}
-                {{#if sonIguales this 'LAT'}}<img src="/img/lata.png" style="filter: invert(100%);" width="36">{{/if}}
+                <div class="material">
+                  {{#if sonIguales this 'PET1'}}<i class="material-icons">recycling</i>{{/if}}
+                  {{#if sonIguales this 'VID'}}<i class="material-icons">liquor</i>{{/if}}
+                  {{#if sonIguales this 'ORG'}}<i class="material-icons">compost</i>{{/if}}
+                  {{#if sonIguales this 'CAR'}}<i class="material-icons">receipt_long</i>{{/if}}
+                  {{#if sonIguales this 'LAT'}}<img src="/img/lata.png" style="filter: invert(100%);" width="24">{{/if}}
+                  {{#if sonIguales this 'Pead2'}}<i class="material-icons">recycling</i><span
+                    class="sub">2</span>{{/if}}
+                  {{#if sonIguales this 'Tetra'}}<i class="material-icons">inventory_2</i>{{/if}}
+                </div>
                 {{/each}}
               </div>
             </div>

@@ -48,71 +48,189 @@
     </div>
 
     <div class="detalle custom-scroll">
-      <div class="presentacion">
-        {{#with accion}}
-        <div class="overlay"></div>
-        <div class="titulo-presentacion">Cuadrilla</div>
-        <div class="resumen">
-          <div class="fila">
-            <div class="imagen-avatar">
-              <img src="{{cuadrilla.avatar}}">
-            </div>
-            <div class="nombre-cuadrilla">{{cuadrilla.nombre}}</div>
-          </div>
-          <div class="fila">
-            <div class="etiqueta">Dirección</div>
-            <div class="valor">{{direccion}} {{comuna}}</div>
-          </div>
-        </div>
-        <div class="titulo-presentacion">Participantes</div>
-        <div class="participantes">
-          {{#each integrantes}}
-          <div class="avatar-participante">
-            <img src="{{avatar}}">
-            <p>{{nombre}}</p>
-          </div>
-          {{/each}}
-        </div>
-        <div class="titulo-presentacion">Carta de presentacion</div>
-        <div class="resena">
-          <p>{{carta}}</p>
-        </div>
-        <div class="flex">
-          <div class="titulo-presentacion">Próximo retiro</div>
-          <div class="titulo">
-            <h1>{{proximoRetiro}}</h1>
-          </div>
-          <div class="titulo-presentacion">Materiales a retirar</div>
-          <div class="titulo">
-            <div class="materiales">
-              {{#each materiales}}
-              <div class="material">
-                {{#if sonIguales id 'PET1'}}<i class="material-icons">recycling</i>{{/if}}
-                {{#if sonIguales id 'VID'}}<i class="material-icons">liquor</i>{{/if}}
-                {{#if sonIguales id 'ORG'}}<i class="material-icons">compost</i>{{/if}}
-                {{#if sonIguales id 'CAR'}}<i class="material-icons">receipt_long</i>{{/if}}
-                {{#if sonIguales id 'LAT'}}<img src="/img/lata.png" style="filter: invert(100%);" width="54">{{/if}}
-                <br />{{etiqueta}}
+
+      <div class="nav-tab">
+        <div class="tab" id="tab-plan">Plan de accion</div>
+        <div class="tab" id="tab-reloj">Reloj</div>
+        <div class="tab" id="tab-retiros">Grafico</div>
+      </div>
+
+      <div class="tab-reloj">
+        <div class="bitacora-registros">
+          <div class="registro-retiro">
+            <div class="fecha">02 may'21</div>
+            <div class="retiros">
+              <div class="retiro">
+                <div class="valor">15 kg</div>
+                <div class="material">
+                  <div class="glosa">PET</div>
+                  <div class="icono">
+                    <i class="material-icons">reciclying</i>
+                  </div>
+                </div>
               </div>
-              {{/each}}
+              <div class="retiro">
+                <div class="valor">15 kg</div>
+                <div class="material">
+                  <div class="glosa">PET</div>
+                  <div class="icono">
+                    <i class="material-icons">reciclying</i>
+                  </div>
+                </div>
+              </div>
+              <div class="retiro">
+                <div class="valor">15 kg</div>
+                <div class="material">
+                  <div class="glosa">PET</div>
+                  <div class="icono">
+                    <i class="material-icons">reciclying</i>
+                  </div>
+                </div>
+              </div>
             </div>
+            <div class="puntos">15</div>
+          </div>
+          <div class="registro-retiro">
+            <div class="fecha">02 may'21</div>
+            <div class="retiros">
+              <div class="retiro">
+                <div class="valor">15 kg</div>
+                <div class="material">
+                  <div class="glosa">PET</div>
+                  <div class="icono">
+                    <i class="material-icons">reciclying</i>
+                  </div>
+                </div>
+              </div>
+              <div class="retiro">
+                <div class="valor">15 kg</div>
+                <div class="material">
+                  <div class="glosa">PET</div>
+                  <div class="icono">
+                    <i class="material-icons">reciclying</i>
+                  </div>
+                </div>
+              </div>
+              <div class="retiro">
+                <div class="valor">15 kg</div>
+                <div class="material">
+                  <div class="glosa">PET</div>
+                  <div class="icono">
+                    <i class="material-icons">reciclying</i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="puntos">15</div>
+          </div>
+          <div class="registro-retiro">
+            <div class="fecha">02 may'21</div>
+            <div class="retiros">
+              <div class="retiro">
+                <div class="valor">15 kg</div>
+                <div class="material">
+                  <div class="glosa">PET</div>
+                  <div class="icono">
+                    <i class="material-icons">reciclying</i>
+                  </div>
+                </div>
+              </div>
+              <div class="retiro">
+                <div class="valor">15 kg</div>
+                <div class="material">
+                  <div class="glosa">PET</div>
+                  <div class="icono">
+                    <i class="material-icons">reciclying</i>
+                  </div>
+                </div>
+              </div>
+              <div class="retiro">
+                <div class="valor">15 kg</div>
+                <div class="material">
+                  <div class="glosa">PET</div>
+                  <div class="icono">
+                    <i class="material-icons">reciclying</i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="puntos">15</div>
           </div>
         </div>
-        <div class="titulo-presentacion">Célula encargada</div>
-        <div class="participantes">
-          {{#each cuadrillas}}
-          <div class="avatar-participante">
-            <img src="{{imagen}}">
-            <p>{{nombre}}</p>
+      </div>
+      <div class="tab-grafico">
+        <div id="hitorical-wraper"></div>
+      </div>
+
+      <div class="tab-plan">
+        <div class="presentacion">
+          {{#with accion}}
+          <div class="overlay"></div>
+          <div class="titulo-presentacion">Cuadrilla</div>
+          <div class="resumen">
+            <div class="fila">
+              <div class="imagen-avatar">
+                <img src="{{cuadrilla.avatar}}">
+              </div>
+              <div class="nombre-cuadrilla">{{cuadrilla.nombre}}</div>
+            </div>
+            <div class="fila">
+              <div class="etiqueta">Dirección</div>
+              <div class="valor">{{direccion}} {{comuna}}</div>
+            </div>
           </div>
-          {{/each}}
+          <div class="titulo-presentacion">Participantes</div>
+          <div class="participantes">
+            {{#each integrantes}}
+            <div class="avatar-participante">
+              <img src="{{avatar}}">
+              <p>{{nombre}}</p>
+            </div>
+            {{/each}}
+          </div>
+          <div class="titulo-presentacion">Carta de presentacion</div>
+          <div class="resena">
+            <p>{{carta}}</p>
+          </div>
+          <div class="flex">
+            <div class="titulo-presentacion">Próximo retiro</div>
+            <div class="titulo">
+              <h1>{{proximoRetiro}}</h1>
+            </div>
+            <div class="titulo-presentacion">Materiales a retirar</div>
+            <div class="titulo">
+              <div class="materiales">
+                {{#each materiales}}
+                <div class="material">
+                  {{#if sonIguales id 'PET1'}}<i class="material-icons">recycling</i>{{/if}}
+                  {{#if sonIguales id 'VID'}}<i class="material-icons">liquor</i>{{/if}}
+                  {{#if sonIguales id 'ORG'}}<i class="material-icons">compost</i>{{/if}}
+                  {{#if sonIguales id 'CAR'}}<i class="material-icons">receipt_long</i>{{/if}}
+                  {{#if sonIguales id 'LAT'}}<img src="/img/lata.png" style="filter: invert(100%);" width="54">{{/if}}
+                  <br />{{etiqueta}}
+                </div>
+                {{/each}}
+              </div>
+            </div>
+          </div>
+          <div class="titulo-presentacion">Célula encargada</div>
+          <div class="participantes">
+            {{#each cuadrillas}}
+            <div class="avatar-participante">
+              <img src="{{imagen}}">
+              <p>{{nombre}}</p>
+            </div>
+            {{/each}}
+          </div>
+
+          <div class="titulo-presentacion">Registrar retiro</div>
+          <div id="btn-registrar-accion" class="neuromorph boton redondo rojo">
+            <i class="material-icons">fact_check</i>
+          </div>
+          {{/with}}
         </div>
 
-        <div class="titulo-presentacion">Registrar retiro</div>
-        <div id="btn-cerrar" class="neuromorph boton redondo rojo">
-          <i class="material-icons">fact_check</i>
-        </div>
-        {{/with}}
+
       </div>
     </div>
   </div>

@@ -127,4 +127,19 @@ Template.acciones.events({
     template.enListado.set(true);
     $(".detalle").scrollTop(0);
   },
+  "click #btn-registrar-accion"(e, template) {
+    $("#modalregistroacciones").modal("show");
+  }
+
+  /*
+  @TODO
+
+  Al registra la accion, registra
+  fecha: fecha que selecciono
+  arreglo de par material-cantidad revalorizada, ej: { material: "LAT", cantidad: 2 }
+  puntos: cantidad de puntos que arbitrariamente asigna el corazon semilla o encargado ( no se)
+  obs: Al llamar al metodo que guarda la accion, tiene que registrar tambien la fecha created_at, que es la fecha de creacion
+
+  Meteor.call("Acciones.RegistrarAccion", parametros, callback (oculta el modal))
+  */
 })

@@ -109,7 +109,7 @@ Template.notificaciones.events({
           '<div class="nombre">' + usuario.profile.nombre + '</div>' +
           '<div class="ecodimension-content">' +
           '<div class="titulo">' + ecoOrganizacion.nombre + '</div>' +
-          '<div class="imagen"><img src="' + (imagen ? imagen.link() : '/img/no_image_available.jpg') + '"/></div>' +
+          '<div class="imagen-avatar"><img src="' + (imagen ? imagen.link() : '/img/no_image_available.jpg') + '"/></div>' +
           '</div>' +
           '<div class="fecha">' + moment(notificacion.fecha).format('DD/MM/yyyy HH:mm') + '</div>' +
           '</div>',

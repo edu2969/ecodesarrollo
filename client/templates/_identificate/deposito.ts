@@ -24,6 +24,7 @@ Template.deposito.helpers({
   },
   comprobante() {
     const img = Images.findOne({
+      userId: Meteor.userId(),
       "meta.tipo": "deposito"
     }, { sort: { fecha: -1 } });
     return img ? img.link() : false;

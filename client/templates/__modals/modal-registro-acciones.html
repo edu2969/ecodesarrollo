@@ -1,0 +1,43 @@
+<template name="modalregistroacciones">
+  <div class="modal fade" id="modalregistroacciones" tabindex="-1" role="dialog" aria-labelledby="modalregistroacciones"
+    aria-hidden="true" style="visibility: none;">
+    <div class="modal-dialog">
+      <div class="modal-content blanco">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <p class="titulo flex"><i class="material-icons">event_busy</i> Registro de acciones</p>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-xs-12">
+              <span>Fecha</span>
+              <input class="datetimepicker" id="input-LAT">
+            </div>
+            <div class="col-xs-12">
+              <span>LAT</span>
+              <input id="input-LAT">
+            </div>
+            <div class="col-xs-12">
+              <span>PET</span>
+              <input id="input-LAT">
+            </div>
+            <div class="col-xs-12">
+              <span>Puntos</span>
+              <input id="input-puntos">
+            </div>
+            <button class="btn btn-primary">Registrar</button>
+            <button class="btn btn-primary">Cancelar</button>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-entendido" id="btn-entendido" data-dismiss="modal">
+            <i class="material-icons">check</i> Guardar
+          </button>
+          <button type="button" class="btn" id="btn-rechazar">
+            <i class="material-icons">clear</i> Cancelar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

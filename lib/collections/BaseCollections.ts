@@ -51,3 +51,18 @@ Notificaciones.allow({
     return false;
   }
 });
+
+export const Acciones = new Meteor.Collection("acciones");
+Acciones.allow({
+  insert() {
+    return false;
+  },
+  update() {
+    return false;
+  },
+  remove() {
+    return false;
+  }
+});
+
+
