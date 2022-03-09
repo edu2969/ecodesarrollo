@@ -22,6 +22,16 @@ export const Actualizar = new ValidatedMethod({
     nombre: {
       type: String
     },
+    direccion: {
+      type: String
+    },
+    comuna: {
+      type: String
+    },
+    encargadoId: {
+      type: String
+      optional: true
+    },
     tipo: {
       type: String
     },

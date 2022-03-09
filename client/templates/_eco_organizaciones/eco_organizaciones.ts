@@ -1,11 +1,16 @@
 import { Meteor } from 'meteor/meteor'
+import { Blaze } from 'meteor/blaze'
 import { Template } from 'meteor/templating'
 import { Tracker } from 'meteor/tracker'
 import { ReactiveVar } from 'meteor/reactive-var'
-import { UIUtils, FormUtils } from '../../utils/utils'
+import { Session } from 'meteor/session'
+import { UIUtils, FormUtils, IsEmpty } from '../../utils/utils'
 import { Images } from '../../../lib/collections/FilesCollections'
-import { ECOOrganizaciones } from '../../../lib/collections/ECODimensionesCollections'
+import { ECOAcciones, ECOOrganizaciones } from '../../../lib/collections/ECODimensionesCollections'
 import { EstadoType } from '../../../lib/types/EstadoType'
+const { ECO_ACCIONES } = require('../../../lib/constantes')
+const { Images } = require('../../../lib/collections/FilesCollections')
+const { Comunas } = require('../../../lib/collections/BaseCollections')
 
 Template.eco_organizaciones.onCreated(function () {
 	this.currentUpload = new ReactiveVar();
@@ -20,7 +25,11 @@ Template.eco_organizaciones.rendered = () => {
 		Meteor.subscribe('eco_organizaciones');
 		Meteor.subscribe('eco_organizaciones.imagenes');
 		Meteor.subscribe('eco_organizaciones.participantes')
-	})
+	});
+		Meteor.subscribe('lugares.comunas')
+		Meteor.subscribe('usuarios.coordinadores')
+		Meteor.subscribe('eco_organizaciones')
+		Meteor.subscribe('eco_organizaciones.imagenes');
 }
 
 Template.eco_organizaciones.helpers({
@@ -46,12 +55,31 @@ Template.eco_organizaciones.helpers({
 			ecoOrganizacion.avatar = img ? img.link() : '/img/no_image_available.jpg';
 			ecoOrganizacion.cantidadIntegrantes = 1 + (ecoOrganizacion.integrantes ? ecoOrganizacion.integrantes.length : 0);
 			ecoOrganizacion.puntos = 0
+
+			if (ecoOrganizacion.encargadoId) {
+			const encargado = Meteor.users.findOne({ _id: ecoOrganizacion.encargadoId })
+
+			const nombre = encargado.profile.nombre
+
+			ecoOrganizacion.nombreEncargado = nombre
+			const imgEncargado = Images.findOne({ userId: ecoOrganizacion.encargadoId, meta: {} })
+			if (imgEncargado) {
+				ecoOrganizacion.imagenEncargado = imgEncargado.link()
+			} else {
+				const separado = nombre.split(" ")
+				const iniciales = separado[0].charAt(0) + (separado.length > 1 ? separado[1].charAt(0) : "")
+				delete ecoOrganizacion.imagenEncargado
+				ecoOrganizacion.inicialesEncargado = iniciales
+			}
+		}
+
 			if (ecoOrganizacion.estado === EstadoType.Pendiente) {
 				ecoOrganizacion.estaPendiente = true
 			}
 			return ecoOrganizacion;
 		});
 	},
+
 	ecoOrganizacion() {
 		const template = Template.instance();
 		var ref = template.ecoOrganizacionSeleccionada.get()
@@ -119,6 +147,39 @@ Template.eco_organizaciones.helpers({
 	},
 	enLogin() {
 		return Meteor.userId()
+	},
+	settingsComunas() {
+		return {
+			position: "bottom",
+			limit: 5,
+			rules: [
+				{
+					collection: Comunas,
+					field: "nombre",
+					matchAll: false,
+					template: Template.itemComuna,
+					noMatchTemplate: Template.noComuna,
+				}
+			]
+		};
+	},
+	settingsEncargado() {
+		return {
+			position: "bottom",
+			limit: 5,
+			rules: [
+				{
+					collection: Meteor.users,
+					field: "profile.nombre",
+					matchAll: false,
+					template: Template.avatar,
+					noMatchTemplate: Template.noComuna,
+				}
+			]
+		};
+	},
+	materias() {
+		return LISTADO_MATERIALES
 	}
 });
 
@@ -163,6 +224,7 @@ Template.eco_organizaciones.events({
 				template.editando.set(false);
 				template.enListado.set(true);
 			} else {
+
 				console.error(err)
 			}
 		})
@@ -170,6 +232,11 @@ Template.eco_organizaciones.events({
 	"click #btn-editar, click #btn-cancelar"(e: any, template: Blaze.TemplateInstance) {
 		const editando = template.editando.get();
 		template.editando.set(!editando);
+	},
+	"autocompleteselect #input-encargado"(event: any, template: Blaze.TemplateInstance, doc: any) {
+		var ecoOrganizacion = template.ecoOrganizacionSeleccionada.get()
+		ecoOrganizacion.encargadoId = doc._id
+		template.ecoOrganizacionSeleccionada.set(ecoOrganizacion)
 	},
 	"click .navegacion-atras"(e, template) {
 		UIUtils.toggle("carrousel", "modo-listado");
@@ -179,6 +246,11 @@ Template.eco_organizaciones.events({
 		template.editando.set(false);
 		template.enListado.set(true);
 		$(".detalle").scrollTop(0);
+	},
+	"click #reasignar-encargado"(event: any, template: Blaze.TemplateInstance) {
+		var ecoOrganizacion = template.ecoOrganizacionSeleccionada.get()
+		delete ecoOrganizacion.encargadoId
+		template.ecoOrganizacionSeleccionada.set(ecoOrganizacion)
 	},
 	"dragover .marco-upload": function (e: any, t: Blaze.TemplateInstance) {
 		e.stopPropagation();

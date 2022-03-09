@@ -67,6 +67,40 @@
 					<input class="campo" id="input-nombre" type="text" placeholder="e.j: Corazones service" required="true"
 						aria-label="Nombre" value="{{ecoOrganizacion.nombre}}">
 				</div>
+				<div class="entrada{{#if errores.direccion}} is-invalid{{/if}}">
+					<span>Dirección</span>
+					{{#if errores.direccion}}<span class="mensaje"> (*{{errores.direccion}})</span>{{/if}}
+					<input type="text" class="campo" id="input-direccion" placeholder="Dirección" value="{{ecoOrganizacion.direccion}}"
+						required="true" aria-label="Dirección">
+				</div>
+				<div class="entrada{{#if errores.comuna}} is-invalid{{/if}}" style="position: relative;">
+					<span>Comuna</span>
+					{{#if errores.comuna}}<span class="mensaje"> (*{{errores.comuna}})</span>{{/if}}
+					{{> inputAutocomplete settings=settingsComunas id="input-comuna"
+					class="campo" placeholder="Comuna..." required="true" aria-label="Comuna"
+					autocomplete="off" value=ecoOrganizacion.comuna}}
+				</div>
+				<div class="entrada usuario-picker{{#if errores.encargado}} is-invalid{{/if}}">
+					<div class="campo-entrada" style="position: relative;">
+						<span>Encargado</span>
+						{{#unless ecoOrganizacion.encargadoId}}
+						{{#if errores.encargado}}<span class="mensaje"> (*{{errores.encargado}})</span>{{/if}}
+						{{> inputAutocomplete settings=settingsEncargado id="input-encargado" class="campo"
+						placeholder="Nombre..." autocomplete="off" required="true" aria-label="El encargado"}}
+						{{else}}
+						<input id="input-encargadoId" class="campo" style="display: none" value="{{ecoOrganizacion.encargadoId}}">
+						<div class="avatar" required="true" aria-label="Encargado">
+							{{#if ecoOrganizacion.imagenEncargado}}
+							<img src="{{ecoOrganizacion.imagenEncargado}}">
+							{{else}}
+							<div class="no-imagen">{{ecoOrganizacion.inicialesEncargado}}</div>
+							{{/if}}
+							<p>{{ecoOrganizacion.nombreEncargado}}</p>
+							<i id="reasignar-encargado" class="material-icons">clear</i>
+						</div>
+						{{/unless}}
+					</div>
+				</div>
 				<div class="flex">
 					<div class="entrada{{#if errores.tipo}} is-invalid{{/if}}">
 						<span>Tipo</span>
