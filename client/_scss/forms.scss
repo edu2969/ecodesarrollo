@@ -3,6 +3,7 @@
     .mensaje {
       color: orangered;
     }
+
     .campo {
       border: 2px solid orangered;
     }
@@ -48,6 +49,7 @@
 
   .entrada {
     border-radius: 10px;
+
     &.disabled {
       color: grey;
     }
@@ -91,6 +93,7 @@
           border: 2px solid orangered;
         }
       }
+
       .marco-upload {
         display: block;
         position: relative;
@@ -188,59 +191,6 @@
           position: absolute;
           left: 80px;
           top: 30px;
-          background-color: salmon;
-          color: white;
-          border-radius: 50%;
-          cursor: pointer;
-        }
-      }
-    }
-
-    &.cuadrilla-picker {
-      display: inline-flex;
-      width: 100%;
-
-      .campo-entrada {
-        width: 50%;
-      }
-
-      .avatar {
-        width: 120px;
-        padding-top: 10px;
-        padding-left: 20px;
-
-        p {
-          width: 100%;
-          display: inline-block;
-          white-space: nowrap;
-          overflow: hidden !important;
-          text-overflow: ellipsis;
-          text-align: center;
-        }
-
-        img {
-          width: 80px;
-          height: 80px;
-          border-radius: 50%;
-        }
-
-        .no-imagen {
-          display: block;
-          width: 80px;
-          height: 80px;
-          border-radius: 50%;
-          background-color: purple;
-          color: white;
-          font-size: 36px;
-          font-weight: bolder;
-          padding-top: 16px;
-          text-align: center;
-        }
-
-        .material-icons {
-          position: relative;
-          left: 50px;
-          top: -120px;
           background-color: salmon;
           color: white;
           border-radius: 50%;
@@ -415,6 +365,7 @@
           }
         }
       }
+
       .imagenes {
         display: flex;
         flex-wrap: wrap;
@@ -442,9 +393,11 @@
               padding: 2px;
               margin-left: -3px;
               cursor: pointer;
+
               .material-icons {
                 font-size: 10px;
               }
+
               span {
                 position: relative;
                 top: -1px;
@@ -462,6 +415,7 @@
     &.selector-radio {
       justify-content: center;
       font-size: 18px;
+
       input[type="radio"] {
         margin: 5px 5px 0 20px;
         padding-right: 10px;
@@ -502,6 +456,7 @@
 
     .selectores-presentacion {
       display: flex;
+
       .marco-agente-seleccionable {
         display: block;
         width: 175px;
@@ -529,41 +484,48 @@
           width: 153px;
           height: 254px;
           background-repeat: no-repeat;
+
           &.cuerpo {
             background-image: url(/img/corazon/corazon_verde.png);
             background-size: 124px 105px;
             z-index: 5;
           }
+
           &.piernas {
             background-image: url(/img/corazon/corazon_verde_piernas.png);
             background-size: 111px 129px;
             background-position: 7px 80px;
             z-index: 1;
           }
+
           &.brazo-izq {
             background-image: url(/img/corazon/corazon_verde_brazo_izq.png);
             background-size: 44px 89px;
             background-position: 83px 50px;
             z-index: 6;
           }
+
           &.brazo-der {
             background-image: url(/img/corazon/corazon_verde_brazo_der.png);
             background-size: 29px 67px;
             background-position: 7px 60px;
             z-index: 2;
           }
+
           &.cara-a {
             background-image: url(/img/corazon/corazon_verde_cara_01.png);
             background-size: 64px 50px;
             background-position: 26px 27px;
             z-index: 6;
           }
+
           &.cara-b {
             background-image: url(/img/corazon/corazon_verde_cara_b01.png);
             background-size: 40px 46px;
             background-position: 32px 27px;
             z-index: 6;
           }
+
           &.rosa {
             background-image: url(/img/corazon/corazon_verde_rosa.png);
             background-size: 39px 42px;
@@ -597,9 +559,11 @@
 
     &.busqueda {
       position: relative;
+
       input {
         padding-left: 48px;
       }
+
       .material-icons {
         position: relative;
         top: -50px;
