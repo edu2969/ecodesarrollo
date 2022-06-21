@@ -10,7 +10,7 @@ import { EstadoType } from '../../../lib/types/EstadoType'
 const { Comunas } = require('../../../lib/collections/BaseCollections')
 const { Images } = require('../../../lib/collections/FilesCollections')
 const { ECO_ACCIONES } = require('../../../lib/constantes')
-const { PERIODICIDAD_ACCIONES, LISTADO_MATERIALES } = require('../../../lib/constantes')
+const { PERIODICIDAD_ACCIONES, MATERIALES } = require('../../../lib/constantes')
 const iniciarTimePickers = () => {
 	setTimeout(function () {
 		$("#input-fechaRetiro").datetimepicker({
@@ -71,8 +71,8 @@ Template.eco_acciones.helpers({
 			}
 			ecoAccion.fondo = ecoAccion.tipo == "RM" ? '/img/revalorizacion.jpg' : '/img/donaciones.jpg';
 			const fr = moment(ecoAccion.fechaRetiro);
-      const dif = moment().diff(fr, ecoAccion.periodicidad == "M" ? "month" : "week") + 1;
-      const proxima = moment(fr).add(dif, ecoAccion.periodicidad == "M" ? "month" : "week");
+			const dif = moment().diff(fr, ecoAccion.periodicidad == "M" ? "month" : "week") + 1;
+			const proxima = moment(fr).add(dif, ecoAccion.periodicidad == "M" ? "month" : "week");
 			ecoAccion.fechaProximoRetiro = proxima;
 			ecoAccion.materialesARetirar = ecoAccion.materiales?.split(",");
 			return ecoAccion;
@@ -87,9 +87,9 @@ Template.eco_acciones.helpers({
 			ecoAccion.esPropia = true;
 		}
 		ecoAccion.ultimaActividad = ecoAccion.ultimaActualizacion
-		ecoAccion.integrantes = 1 + ( ecoAccion.participantes ? ecoAccion.participantes.length : 0 );
+		ecoAccion.integrantes = 1 + (ecoAccion.participantes ? ecoAccion.participantes.length : 0);
 		ecoAccion.puntos = 0;
-		if(!ecoAccion.tipo) ecoAccion.tipo = 'RM';
+		if (!ecoAccion.tipo) ecoAccion.tipo = 'RM';
 
 		if (ecoAccion.cuadrillasId) {
 			const cuadrillasId = ecoAccion.cuadrillasId.split(",")
@@ -106,43 +106,45 @@ Template.eco_acciones.helpers({
 				}
 			})
 		}
-		
-		ecoAccion.celula = ecoAccion.celula && 
-		ecoAccion.celula.map((integranteId)=>{
-			var resultado = {};
-			const participante = Meteor.users.findOne({ _id: integranteId })
-			const nombre = participante.profile.nombre
-			resultado.nombre = nombre
-			const imgParticipante = Images.findOne({ userId: integranteId, meta: {} });
-			if (imgParticipante) {
-				resultado.imagen = imgParticipante.link()
-			} else {
-				const separado = nombre.split(" ")
-				const iniciales = separado[0].charAt(0) + (separado.length > 1 ? separado[1].charAt(0) : "")
-				resultado.iniciales = iniciales
-			}
-			resultado.integranteId = integranteId;
-			const participacion = Participaciones.findOne({
-				ecoAccionId: ecoAccion._id,
-				integranteId: integranteId,
+
+		ecoAccion.celula = ecoAccion.celula &&
+			ecoAccion.celula.map((integranteId) => {
+				var resultado = {};
+				const participante = Meteor.users.findOne({ _id: integranteId })
+				const nombre = participante.profile.nombre
+				resultado.nombre = nombre
+				const imgParticipante = Images.findOne({ userId: integranteId, meta: {} });
+				if (imgParticipante) {
+					resultado.imagen = imgParticipante.link()
+				} else {
+					const separado = nombre.split(" ")
+					const iniciales = separado[0].charAt(0) + (separado.length > 1 ? separado[1].charAt(0) : "")
+					resultado.iniciales = iniciales
+				}
+				resultado.integranteId = integranteId;
+				const participacion = Participaciones.findOne({
+					ecoAccionId: ecoAccion._id,
+					integranteId: integranteId,
+				});
+				if (!participacion) {
+					resultado.sinRegistro = true;
+				} else if (participacion.participa) {
+					resultado.siParticipa = true;
+				} else {
+					resultado.noParticipa = true;
+				}
+				return resultado;
 			});
-			if(!participacion) {
-				resultado.sinRegistro = true;
-			} else if(participacion.participa) {
-				resultado.siParticipa = true;
-			} else {
-				resultado.noParticipa = true;
+
+		ecoAccion.materiales = Object.keys(MATERIALES).map((key) => {
+			return {
+				id: key,
+				checked: ecoAccion.materiales?.indexOf(key) != -1,
+				etiqueta: MATERIALES[key].etiqueta
 			}
-			return resultado;
 		});
 
-		ecoAccion.materiales = LISTADO_MATERIALES.map((item)=>{
-			return {
-				id: item.id,
-				checked: ecoAccion.materiales?.indexOf(item.id) != -1,
-				etiqueta: item.etiqueta
-			}
-		});
+		console.log(ecoAccion);
 
 		return ecoAccion
 	},
@@ -166,9 +168,6 @@ Template.eco_acciones.helpers({
 				etiqueta: PERIODICIDAD_ACCIONES.TIPOS[key]
 			}
 		});
-	},
-	materias() {
-		return LISTADO_MATERIALES
 	},
 	settingsComunas() {
 		return {
@@ -206,15 +205,15 @@ Template.eco_acciones.helpers({
 	enLogin() {
 		return Meteor.userId()
 	},
-  currentUpload() {
-    return Template.instance().currentUpload.get();
-  },
-  comprobante() {
-    const img = Images.findOne({
-      "meta.tipo": "donacion"
-    }, { sort: { fecha: -1 } });
-    return img ? img.link() : false;
-  },
+	currentUpload() {
+		return Template.instance().currentUpload.get();
+	},
+	comprobante() {
+		const img = Images.findOne({
+			"meta.tipo": "donacion"
+		}, { sort: { fecha: -1 } });
+		return img ? img.link() : false;
+	},
 })
 
 Template.eco_acciones.events({
@@ -257,7 +256,7 @@ Template.eco_acciones.events({
 
 		let invalido = FormUtils.invalid()
 		const doc = FormUtils.getFields();
-	
+
 		const ecoAccion = template.ecoAccionSeleccionada.get();
 
 		if (ecoAccion._id) {
@@ -280,7 +279,7 @@ Template.eco_acciones.events({
 		}
 
 		Meteor.call("ECOAcciones.Actualizar", doc, function (err: Meteor.error, resp: boolean) {
-	
+
 			if (!err) {
 				UIUtils.toggle("carrousel", "modo-listado");
 				UIUtils.toggle("carrousel", "detalle");
@@ -333,7 +332,7 @@ Template.eco_acciones.events({
 		cuadrillasId.splice(indice, 1)
 		//
 
-		
+
 		ecoAccion.cuadrillasId = cuadrillasId.join()
 		delete ecoAccion.cuadrillasId
 		template.ecoCuadrillaSeleccionada.set(ecoCampana)
@@ -346,80 +345,80 @@ Template.eco_acciones.events({
 	},
 
 	"click input[name='tipo']"(e) {
-    const value = e.currentTarget.value;
-    $(".sector-tipo-comprobate .entrada").hide();
-    $("#tipo-" + value).show();
-  },
+		const value = e.currentTarget.value;
+		$(".sector-tipo-comprobate .entrada").hide();
+		$("#tipo-" + value).show();
+	},
 
 
-  "dragover .camara .marco-upload": function (e, t) {
-    e.stopPropagation();
-    e.preventDefault();
-    t.$(".camara .marco-drop").addClass("activo");
-  },
-  "dragleave .camara .marco-upload": function (e, t) {
-    e.stopPropagation();
-    e.preventDefault();
-    t.$(".camara .marco-drop").removeClass("activo");
-  },
-  "dragenter .camara .marco-upload": function (e, t) {
-    e.preventDefault();
-    e.stopPropagation();
-  },
-  "drop .camara .marco-upload": function (e, template) {
-    e.stopPropagation();
-    e.preventDefault();
-    if (e.originalEvent.dataTransfer.files && e.originalEvent.dataTransfer.files[0]) {
-      const upload = Images.insert({
-        file: e.originalEvent.dataTransfer.files[0],
-        meta: {
-          tipo: "donacion"
-        }
-      }, false);
+	"dragover .camara .marco-upload": function (e, t) {
+		e.stopPropagation();
+		e.preventDefault();
+		t.$(".camara .marco-drop").addClass("activo");
+	},
+	"dragleave .camara .marco-upload": function (e, t) {
+		e.stopPropagation();
+		e.preventDefault();
+		t.$(".camara .marco-drop").removeClass("activo");
+	},
+	"dragenter .camara .marco-upload": function (e, t) {
+		e.preventDefault();
+		e.stopPropagation();
+	},
+	"drop .camara .marco-upload": function (e, template) {
+		e.stopPropagation();
+		e.preventDefault();
+		if (e.originalEvent.dataTransfer.files && e.originalEvent.dataTransfer.files[0]) {
+			const upload = Images.insert({
+				file: e.originalEvent.dataTransfer.files[0],
+				meta: {
+					tipo: "donacion"
+				}
+			}, false);
 
-      upload.on('start', function () {
-        template.currentUpload.set(this);
-      });
+			upload.on('start', function () {
+				template.currentUpload.set(this);
+			});
 
-      upload.on('end', function (error, fileObj) {
-        if (error) {
-          alert('Error during upload: ' + error);
-        } else {
-          //console.log("FileImage", fileObj);
-        }
-        template.currentUpload.set(false);
-        template.$(".camara .marco-drop").removeClass("activo");
-      });
-      upload.start();
-    }
-  },
-  "click #reasignar-coordinador"(event: any, template: Blaze.TemplateInstance) {
+			upload.on('end', function (error, fileObj) {
+				if (error) {
+					alert('Error during upload: ' + error);
+				} else {
+					//console.log("FileImage", fileObj);
+				}
+				template.currentUpload.set(false);
+				template.$(".camara .marco-drop").removeClass("activo");
+			});
+			upload.start();
+		}
+	},
+	"click #reasignar-coordinador"(event: any, template: Blaze.TemplateInstance) {
 		var ecoCampana = template.ecoCampanaSeleccionada.get()
 		delete ecoCampana.coordinadorId
 		template.ecoCampanaSeleccionada.set(ecoCampana)
 	},
-  "click .camara .marco-upload"(e) {
-    $("#upload-image").click();
-  },
-  "change #upload-image"(e, template) {
-    if (e.currentTarget.files && e.currentTarget.files[0]) {
-      const upload = Images.insert({
-        file: e.currentTarget.files[0],
-        meta: {
-          tipo: "donacion"
-        }
-      }, false);
+	"click .camara .marco-upload"(e) {
+		$("#upload-image").click();
+	},
+	"change #upload-image"(e, template) {
+		if (e.currentTarget.files && e.currentTarget.files[0]) {
+			const upload = Images.insert({
+				file: e.currentTarget.files[0],
+				meta: {
+					tipo: "donacion"
+				}
+			}, false);
 
-      upload.on('start', function () {
-        template.currentUpload.set(this);
-      });
+			upload.on('start', function () {
+				template.currentUpload.set(this);
+			});
 
-      upload.on('end', function (error, fileObj) {
-        template.currentUpload.set(false);
-        template.$(".camara .marco-drop").removeClass("activo");
-      });
+			upload.on('end', function (error, fileObj) {
+				template.currentUpload.set(false);
+				template.$(".camara .marco-drop").removeClass("activo");
+			});
 
-      upload.start();
-    }
-  },
+			upload.start();
+		}
+	},
 })

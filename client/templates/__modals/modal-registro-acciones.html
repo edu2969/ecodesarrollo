@@ -8,33 +8,32 @@
           <p class="titulo flex"><i class="material-icons">event_busy</i> Registro de acciones</p>
         </div>
         <div class="modal-body">
-          <div class="row">
-            <div class="col-xs-12">
-              <span>Fecha</span>
-              <input class="datetimepicker" id="input-LAT">
+          <div class="formulario">
+            <div class="entrada{{#if errores.fechaInicio}} is-invalid{{/if}} col-xs-4" style="position: relative">
+              <span>Fecha de inicio</span>
+              {{#if errores.fechaInicio}}<span class="mensaje"> (*{{errores.fechaInicio}})</span>{{/if}}
+              <input type="text" class="campo datetime-componente" id="input-fecha"
+                value="{{formatoFecha ecoCampana.fechaInicio 'DD/MM/YYYY'}}" autocomplete="off" required="true"
+                aria-label="Fecha de inicio">
             </div>
-            <div class="col-xs-12">
-              <span>LAT</span>
-              <input id="input-LAT">
+            {{#each materiales}}
+            <div class="entrada col-xs-4">
+              <span>{{siglas}}<small>({{unidad}})</small></span>
+              <input type="text" class="campo" id="input-{{siglas}}" value="{{valor}}">
             </div>
-            <div class="col-xs-12">
-              <span>PET</span>
-              <input id="input-LAT">
-            </div>
-            <div class="col-xs-12">
+            {{/each}}
+            <div class="entrada col-xs-4">
               <span>Puntos</span>
-              <input id="input-puntos">
+              <input type="number" class="campo" id="input-puntos" value="{{puntos}}">
             </div>
-            <button class="btn btn-primary">Registrar</button>
-            <button class="btn btn-primary">Cancelar</button>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-entendido" id="btn-entendido" data-dismiss="modal">
-            <i class="material-icons">check</i> Guardar
+          <button class="boton redondo" id="btn-guardar">
+            <i class="material-icons">check</i>
           </button>
-          <button type="button" class="btn" id="btn-rechazar">
-            <i class="material-icons">clear</i> Cancelar
+          <button class="boton redondo" data-dismiss="modal">
+            <i class="material-icons">clear</i>
           </button>
         </div>
       </div>

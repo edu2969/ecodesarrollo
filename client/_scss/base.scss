@@ -50,6 +50,7 @@ body {
 input[type="password"],
 input[type="text"],
 input[type="email"],
+input[type="number"],
 textarea {
   border: 2px solid #ccc;
   border-radius: 2em;
@@ -146,6 +147,7 @@ h4 {
     transform: rotate(360deg);
   }
 }
+
 @keyframes rotateAnimation {
   100% {
     transform: rotate(360deg);

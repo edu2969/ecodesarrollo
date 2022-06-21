@@ -3,24 +3,24 @@
 	width: 200%;
 	display: inline-flex;
 	transition: all 0.5s ease;
-	
+
 	&.modo-listado {
 		left: 0%;
 	}
-	
+
 	&.detalle {
 		left: calc(-100% - 0px);
 	}
-	
+
 	.grilla {
 		position: relative;
 		padding-top: 14px;
 		left: 0%;
 		width: 50%;
-		height: calc(100vh - 112px);
+		height: calc(100vh - 120px);
 		overflow-y: scroll;
 		overflow-x: hidden;
-		
+
 		.contenedor-entidades {
 			display: flex;
 			justify-content: center;
@@ -60,19 +60,19 @@
 					color: white;
 				}
 			}
-		}	
+		}
 	}
-	
+
 	.detalle {
 		position: relative;
 		display: block;
 		width: 50%;
-		height: calc(100vh - 112px);
+		height: calc(100vh - 120px);
 		padding-left: 20px;
 		padding-right: 20px;
 		overflow-x: hidden;
 		overflow-y: scroll;
-	}	
+	}
 }
 
 .no-content {
@@ -82,11 +82,12 @@
 	text-align: center;
 	width: 100%;
 	margin-top: 10%;
+
 	.material-icons {
 		font-size: 92px;
 	}
+
 	p {
 		font-size: 24px;
 	}
 }
-
