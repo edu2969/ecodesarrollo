@@ -5,10 +5,13 @@
       <div class="modal-content blanco">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <p class="titulo flex"><i class="material-icons">event_busy</i> Registro de acciones</p>
+          <div class="titulo flex">
+            <i class="material-icons">event_busy</i>
+            <span>Registro de acciones</span>
+          </div>
         </div>
         <div class="modal-body">
-          <div class="formulario">
+          <div class="row formulario">
             <div class="entrada{{#if errores.fechaInicio}} is-invalid{{/if}} col-xs-4" style="position: relative">
               <span>Fecha de inicio</span>
               {{#if errores.fechaInicio}}<span class="mensaje"> (*{{errores.fechaInicio}})</span>{{/if}}
@@ -29,10 +32,10 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button class="boton redondo" id="btn-guardar">
+          <button class="neuromorph boton redondo blanco" id="btn-guardar">
             <i class="material-icons">check</i>
           </button>
-          <button class="boton redondo" data-dismiss="modal">
+          <button class="neuromorph boton redondo blanco" data-dismiss="modal">
             <i class="material-icons">clear</i>
           </button>
         </div>

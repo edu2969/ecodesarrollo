@@ -214,6 +214,7 @@ Template.acciones.events({
     $(".detalle").scrollTop(0);
   },
   "click #btn-registrar-accion"(e, template) {
+    Session.set("AccionSeleccionada", template.accionSeleccionada.get());
     $("#modalregistroacciones").modal("show");
   }
 

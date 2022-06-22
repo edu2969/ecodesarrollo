@@ -72,6 +72,17 @@
   }
 }
 
+.modal-dialog .modal-content .modal-header {
+  .material-icons {
+    font-size: 30px;
+  }
+
+  span {
+    position: relative;
+    top: -9px;
+  }
+}
+
 .modal-body .formulario {
   padding: 0em 2em;
 }

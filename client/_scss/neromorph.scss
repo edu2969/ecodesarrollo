@@ -3,34 +3,40 @@
 		background-color: linear-gradient(145deg, #84da79, #6fb866);
 		cursor: pointer;
 	}
-	
+
 	&.verde {
 		background: #7bcc71;
-		box-shadow:  5px 5px 10px #5c9955,
-			 -5px -5px 10px #9aff8d;
+		box-shadow: 5px 5px 10px #5c9955,
+			-5px -5px 10px #9aff8d;
 	}
-	
+
 	&.purpura {
 		background: #51419f;
 		box-shadow: 5px 5px 10px #453787,
-             -5px -5px 10px #5d4bb7;
+			-5px -5px 10px #5d4bb7;
 	}
-	
+
 	&.azul {
 		background: #2848a9;
 		box-shadow: 5px 5px 10px #223d90,
-             -5px -5px 10px #2e53c2;
+			-5px -5px 10px #2e53c2;
 	}
-	
+
 	&.amarillo {
 		background: #f8d12f;
-		box-shadow:  5px 5px 10px #d3b228,
-             -5px -5px 10px #fff036;
+		box-shadow: 5px 5px 10px #d3b228,
+			-5px -5px 10px #fff036;
 	}
-	
+
 	&.rojo {
 		background: #f8512c;
 		box-shadow: 5px 5px 10px #d34525,
-             -5px -5px 10px #ff5d33;
+			-5px -5px 10px #ff5d33;
+	}
+
+	&.blanco {
+		background-color: white;
+		box-shadow: 5px 5px 10px #d9d9d9,
+			-5px -5px 10px #ffffff;
 	}
 }

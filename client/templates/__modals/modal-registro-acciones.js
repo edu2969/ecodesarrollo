@@ -1,3 +1,7 @@
+import { ECOAcciones } from "../../../lib/collections/ECODimensionesCollections";
+import { MATERIALES } from "../../../lib/constantes";
+import { FormUtils, IsEmpty } from "../../utils/utils";
+
 const iniciarTimePickers = () => {
   setTimeout(function () {
     $("#input-fecha").datetimepicker({
@@ -14,21 +18,51 @@ Template.modalregistroacciones.rendered = function () {
 
 Template.modalregistroacciones.helpers({
   materiales() {
-    return [{
-      siglas: 'LAT',
-      unidad: 'Tons',
-    }, {
-      siglas: 'LAT',
-      unidad: 'Tons',
-    }, {
-      siglas: 'LAT',
-      unidad: 'Tons',
-    },]
+    const accion = Session.get("AccionSeleccionada");
+    console.log("EVALUANDO", accion);
+    if (!accion || !accion.materiales) return false;
+    return accion.materiales.split(',').map((material) => {
+      return {
+        siglas: material,
+        unidad: MATERIALES[material].unidad,
+      }
+    });
   }
 });
 
 Template.modalregistroacciones.events({
   "click #btn-guardar"(e, template) {
+    const customValidation = (invalido) => {
+      const f = $("#input-fecha").val()
+      if (IsEmpty(f)) {
+        return invalido;
+      }
+      return invalido
+    }
 
+    let invalido = FormUtils.invalid()
+    const doc = FormUtils.getFields();
+
+    const accion = Session.get("AccionSeleccionada");
+
+    if (accion._id) {
+      doc._id = accion._id
+    }
+
+    invalido = customValidation(invalido)
+
+    if (invalido) {
+      template.errores.set(invalido)
+      return false
+    }
+
+    Meteor.call("ECOAcciones.RegistrarAccion", doc, function (err, resp) {
+      if (!err) {
+        delete Session.keys.AccionSeleccionada;
+        $("#modalregistroacciones").modal("hide");
+      } else {
+        console.error(err)
+      }
+    })
   }
 })

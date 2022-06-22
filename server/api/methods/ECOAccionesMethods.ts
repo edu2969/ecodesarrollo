@@ -178,3 +178,23 @@ export const RechazarNuevaAccion = new ValidatedMethod({
     return true
   }
 })
+
+export const RegistrarAccion = new ValidatedMethod({
+  name: 'ECOAcciones.RegistrarAccion',
+  validate: new SimpleSchema({
+    fecha: {
+      type: Date
+    },
+    valores: {
+      type: Array,
+    },
+    'valores.$': {
+      type: Number,
+    }
+  }).validator({
+    clean: true
+  }),
+  run(doc) {
+    console.log("VIENE LA DATA", doc);
+  }
+})

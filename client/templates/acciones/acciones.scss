@@ -8,16 +8,19 @@
     .lista-resultado {
       width: 100%;
       margin: 0px;
+
       ul {
         width: 100%;
         margin: 0px;
         display: flex;
         padding-left: 0px;
+
         li {
           width: 100%;
           list-style: none;
           text-align: center;
         }
+
         &:first-child {
           font-size: medium;
           background-color: white;
@@ -25,15 +28,18 @@
           border-top-left-radius: 4px;
           border-top-right-radius: 4px;
         }
+
         &:not(:first-child):not(:last-child) {
           border: 1px solid white;
           border-bottom: 0px;
         }
+
         &:last-child {
           border: 1px solid white;
           border-bottom-left-radius: 4px;
           border-bottom-right-radius: 4px;
         }
+
         &:not(:first-child):hover {
           cursor: pointer;
           background-color: rgba(255, 255, 255, 0.8);
@@ -48,11 +54,13 @@
   .resumen {
     .fila {
       display: flex;
+
       .nombre-cuadrilla {
         font-size: 32px;
         margin-top: 45px;
         margin-left: 0.5em;
       }
+
       .imagen-avatar {
         img {
           width: 120px;
@@ -61,23 +69,28 @@
           border-radius: 50%;
         }
       }
+
       .etiqueta {
         width: 120px;
         font-weight: bolder;
       }
+
       .valor::before {
         content: ": ";
       }
     }
   }
+
   .materiales {
     display: flex;
+
     .material {
       margin: 0.5em;
       border: 2px solid white;
       border-radius: 6px;
       width: 110px;
       text-align: center;
+
       .material-icons {
         font-size: 48px;
       }
