@@ -1,12 +1,12 @@
-import { Meteor } from 'meteor/meteor'
 import SimpleSchema from 'simpl-schema'
 import { ValidatedMethod } from 'meteor/mdg:validated-method'
 import { Images } from '/lib/collections/FilesCollections'
 import { EstadoType } from '../../../lib/types/EstadoType'
-import { NotificacionType } from '/lib/types/NotificacionType'
+import { Acciones, Notificaciones } from '../../../lib/collections/BaseCollections';
+
 const { ECOAcciones } = require('/lib/collections/ECODimensionesCollections');
+const { RegistroMaterialSchema } = require('../schemas/ECODimensionesSchemas');
 const NoficacionesServices = require('../services/NotificacionesServices');
-import { Notificaciones } from '../../../lib/collections/BaseCollections';
 
 export const Actualizar = new ValidatedMethod({
   name: 'ECOAcciones.Actualizar',
@@ -182,13 +182,21 @@ export const RechazarNuevaAccion = new ValidatedMethod({
 export const RegistrarAccion = new ValidatedMethod({
   name: 'ECOAcciones.RegistrarAccion',
   validate: new SimpleSchema({
+    accionId: {
+      type: String,
+    },
     fecha: {
       type: Date
     },
     valores: {
       type: Array,
+      optional: true,
     },
     'valores.$': {
+      type: RegistroMaterialSchema,
+      optional: true,
+    },
+    puntos: {
       type: Number,
     }
   }).validator({
@@ -196,5 +204,19 @@ export const RegistrarAccion = new ValidatedMethod({
   }),
   run(doc) {
     console.log("VIENE LA DATA", doc);
+    const accion = ECOAcciones.findOne(doc.accionId);
+    const materiales = accion.materiales.split(",");
+    let registro = {
+      ecoAccionId: doc.accionId,
+      fecha: doc.fecha,
+      puntos: doc.puntos,
+      created_at: new Date(),
+      valores: {},
+    }
+    doc.valores.forEach((valor, index) => {
+      registro.valores[materiales[index]] = valor.valor;
+    });
+
+    Acciones.insert(registro);
   }
 })

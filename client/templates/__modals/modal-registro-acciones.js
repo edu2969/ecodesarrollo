@@ -1,3 +1,4 @@
+import { Acciones } from "../../../lib/collections/BaseCollections";
 import { ECOAcciones } from "../../../lib/collections/ECODimensionesCollections";
 import { MATERIALES } from "../../../lib/constantes";
 import { FormUtils, IsEmpty } from "../../utils/utils";
@@ -19,7 +20,6 @@ Template.modalregistroacciones.rendered = function () {
 Template.modalregistroacciones.helpers({
   materiales() {
     const accion = Session.get("AccionSeleccionada");
-    console.log("EVALUANDO", accion);
     if (!accion || !accion.materiales) return false;
     return accion.materiales.split(',').map((material) => {
       return {
@@ -40,8 +40,8 @@ Template.modalregistroacciones.events({
       return invalido
     }
 
-    let invalido = FormUtils.invalid()
-    const doc = FormUtils.getFields();
+    let invalido = FormUtils.invalid("#modalregistroacciones")
+    const doc = FormUtils.getFields("#modalregistroacciones");
 
     const accion = Session.get("AccionSeleccionada");
 
@@ -56,9 +56,30 @@ Template.modalregistroacciones.events({
       return false
     }
 
-    Meteor.call("ECOAcciones.RegistrarAccion", doc, function (err, resp) {
+    let registro = {
+      accionId: doc._id,
+      fecha: doc.fecha,
+      puntos: doc.puntos,
+      valores: [],
+    };
+
+    delete doc._id;
+    delete doc.fecha;
+    delete doc.puntos;
+
+    Object.keys(doc).forEach((key) => {
+      registro.valores.push({
+        material: key,
+        valor: doc[key],
+      });
+    });
+
+    console.log("CLIENTE DATA", registro);
+
+    Meteor.call("ECOAcciones.RegistrarAccion", registro, function (err, resp) {
       if (!err) {
-        delete Session.keys.AccionSeleccionada;
+        Meteor.subscribe('eco_acciones.acciones', registro.ecoAccionId);
+        Session.set("AccionSeleccionada", false);
         $("#modalregistroacciones").modal("hide");
       } else {
         console.error(err)

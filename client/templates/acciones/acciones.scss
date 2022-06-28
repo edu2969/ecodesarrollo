@@ -96,4 +96,97 @@
       }
     }
   }
+
+  .bitacora-registros {
+    .registro-retiro {
+      border-radius: 8px;
+
+      .fecha {
+        position: relative;
+        background-color: rgba(255, 255, 255, 0.5);
+        color: black;
+        padding-left: 1em;
+        border-top-left-radius: 8px;
+        width: 220px;
+        margin-bottom: 6px;
+
+        &::after {
+          content: '';
+          position: absolute;
+          top: 0px;
+          left: 220px;
+          border-top: 20px solid rgba(255, 255, 255, 0.5);
+          border-right: 20px solid transparent;
+          width: 20px;
+        }
+      }
+
+      .retiros {
+        display: flex;
+        padding-left: 10px;
+        padding-right: 10px;
+
+        .retiro {
+          border-radius: 4px;
+          display: block;
+          width: 68px;
+          text-align: center;
+          margin-right: 10px;
+
+          .valor {
+            font-size: 24px;
+
+            small {
+              margin-left: -4px;
+            }
+          }
+
+          .material {
+            .glosa {
+              font-size: 9px;
+            }
+
+            .icono img {
+              width: 24px;
+            }
+          }
+        }
+      }
+
+      .barra-puntos {
+        display: flex;
+        height: 40px;
+
+        .espacio {
+          width: 100%;
+          background-color: transparent;
+        }
+
+        .puntos {
+          position: relative;
+          background-color: rgba(255, 255, 255, 0.5);
+          color: black;
+          font-size: 24px;
+          font-weight: bolder;
+          padding-left: 1em;
+          padding-right: 0.5em;
+          margin-top: 8px;
+          border-bottom-right-radius: 8px;
+          text-align: right;
+          width: 140px;
+
+          &::before {
+            content: '';
+            position: absolute;
+            top: 0px;
+            left: -15px;
+            border-right: 32px solid rgba(255, 255, 255, 0.5);
+            border-top: 32px solid transparent;
+            width: 32px;
+            margin-left: calc(100% - 140px);
+          }
+        }
+      }
+    }
+  }
 }

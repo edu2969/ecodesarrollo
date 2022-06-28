@@ -1,39 +1,60 @@
+import { Acciones } from '../../../lib/collections/BaseCollections';
 import { ECOAcciones, ECOOrganizaciones } from '../../../lib/collections/ECODimensionesCollections';
 import { Images } from '../../../lib/collections/FilesCollections';
 import { MATERIALES } from '../../../lib/constantes';
 import { UIUtils, FormUtils, IsEmpty } from '../../utils/utils';
 import d3 from '/client/utils/d3';
 
-const initChart = () => {
+const initChart = (ecoAccionId) => {
   const margin = ({ top: 20, right: 30, bottom: 30, left: 40 })
 
   const height = 240
   const width = 500
 
+  d3.select("#historical-wraper *").remove();
+
   const svg = d3.select("#historical-wraper").append("svg")
     .attr("viewBox", [0, 0, width, height]);
 
-  const lineC = d3.line()
-    .defined(d => !isNaN(d.compost))
-    .x(d => x(d.date))
-    .y(d => y(d.compost));
+  const acciones = Acciones.find({ ecoAccionId: ecoAccionId });
+  let maximo = -9999999;
+  const data = [];
 
-  const lineP = d3.line()
-    .defined(d => !isNaN(d.plastico))
-    .x(d => x(d.date))
-    .y(d => y(d.plastico));
+  acciones.forEach((accion) => {
+    let valores = accion.valores;
+    Object.keys(valores).forEach(key => {
+      if (valores[key] > maximo) {
+        maximo = valores[key];
+      }
+    })
+    data.push({
+      ...valores,
+      date: accion.fecha,
+    });
+  });
 
-  const lineO = d3.line()
-    .defined(d => !isNaN(d.otros))
-    .x(d => x(d.date))
-    .y(d => y(d.otros));
+  const paleta = ["yellow", "steelblue", "red", "white", "green", "purple", "skyblue", "black"];
+
+  const lines = [];
+
+  const unaAccion = Acciones.findOne({ ecoAccionId });
+  Object.keys(unaAccion.valores).forEach((key) => {
+    lines.push(d3.line()
+      .defined(d => !isNaN(d[key]))
+      .x(d => x(d.date))
+      .y(d => y(d[key])));
+  })
+  console.log("LINES", lines);
+  console.log("DATA", data);
+  console.log("MAX", maximo);
+
 
   const x = d3.scaleUtc()
     .domain(d3.extent(data, d => d.date))
     .range([margin.left, width - margin.right])
 
   const y = d3.scaleLinear()
-    .domain([0, d3.max(data, d => d.compost)]).nice()
+    .domain([0, maximo]).nice()
     .range([height - margin.bottom, margin.top])
 
   const xAxis = g => g
@@ -56,32 +77,16 @@ const initChart = () => {
   svg.append("g")
     .call(yAxis);
 
-  svg.append("path")
-    .datum(data)
-    .attr("fill", "none")
-    .attr("stroke", "steelblue")
-    .attr("stroke-width", 2.5)
-    .attr("stroke-linejoin", "round")
-    .attr("stroke-linecap", "round")
-    .attr("d", lineC);
-
-  svg.append("path")
-    .datum(data)
-    .attr("fill", "none")
-    .attr("stroke", "yellow")
-    .attr("stroke-width", 2.5)
-    .attr("stroke-linejoin", "round")
-    .attr("stroke-linecap", "round")
-    .attr("d", lineP);
-
-  svg.append("path")
-    .datum(data)
-    .attr("fill", "none")
-    .attr("stroke", "limegreen")
-    .attr("stroke-width", 2.5)
-    .attr("stroke-linejoin", "round")
-    .attr("stroke-linecap", "round")
-    .attr("d", lineO);
+  for (let indice = 0; indice < lines.length; indice++) {
+    svg.append("path")
+      .datum(data)
+      .attr("fill", "none")
+      .attr("stroke", paleta[indice])
+      .attr("stroke-width", 2.5)
+      .attr("stroke-linejoin", "round")
+      .attr("stroke-linecap", "round")
+      .attr("d", lines[indice]);
+  }
 }
 
 Template.acciones.onCreated(function () {
@@ -100,7 +105,6 @@ Template.acciones.onCreated(function () {
 })
 
 Template.acciones.rendered = function () {
-  initChart();
 }
 
 Template.acciones.helpers({
@@ -183,9 +187,34 @@ Template.acciones.helpers({
         avatar: img ? img.link() : false,
         iniciales: iniciales
       }
-    })
-    console.log(accion);
+    });
     return accion;
+  },
+  reloj() {
+    const accion = Session.get("AccionSeleccionada");
+    if (!accion) return false;
+    console.log(Acciones.find({
+      ecoAccionId: accion._id,
+    }).map((accion) => {
+      accion.detalle = Object.keys(accion.valores).map((key) => {
+        return {
+          material: key,
+          valor: accion.valores[key],
+        }
+      });
+      return accion;
+    }));
+    return Acciones.find({
+      ecoAccionId: accion._id,
+    }).map((accion) => {
+      accion.detalle = Object.keys(accion.valores).map((key) => {
+        return {
+          material: key,
+          valor: accion.valores[key],
+        }
+      })
+      return accion;
+    });
   }
 });
 
@@ -199,7 +228,9 @@ Template.acciones.events({
     if (!id) return;
     const entidad = ECOAcciones.findOne({ _id: id });
     template.enListado.set(false);
-    template.accionSeleccionada.set(entidad)
+    Meteor.subscribe('eco_acciones.acciones', id);
+    template.accionSeleccionada.set(entidad);
+    Session.set("AccionSeleccionada", entidad);
     UIUtils.toggle("carrousel", "grilla");
     UIUtils.toggle("carrousel", "detalle");
     UIUtils.toggle("navegacion-atras", "activo");
@@ -216,80 +247,9 @@ Template.acciones.events({
   "click #btn-registrar-accion"(e, template) {
     Session.set("AccionSeleccionada", template.accionSeleccionada.get());
     $("#modalregistroacciones").modal("show");
+  },
+  "click #tab-grafico"() {
+    const ecoAccionId = Session.get("AccionSeleccionada")._id;
+    initChart(ecoAccionId);
   }
-
-  /*
-  @TODO
-
-  Al registra la accion, registra
-  fecha: fecha que selecciono
-  arreglo de par material-cantidad revalorizada, ej: { material: "LAT", cantidad: 2 }
-  puntos: cantidad de puntos que arbitrariamente asigna el corazon semilla o encargado ( no se)
-  obs: Al llamar al metodo que guarda la accion, tiene que registrar tambien la fecha created_at, que es la fecha de creacion
-
-  Meteor.call("Acciones.RegistrarAccion", parametros, callback (oculta el modal))
-  */
 })
-
-
-const data = [{
-  "date": new Date("2019-07-01T00:00:00.000Z"),
-  "compost": 13.24,
-  "plastico": 25.10,
-  "otros": 22.90,
-}, {
-  "date": new Date("2019-08-01T00:00:00.000Z"),
-  "compost": 33.24,
-  "plastico": 45.10,
-  "otros": 12.90,
-}, {
-  "date": new Date("2019-09-01T00:00:00.000Z"),
-  "compost": 33.24,
-  "plastico": 35.10,
-  "otros": 22.90,
-}, {
-  "date": new Date("2019-10-01T00:00:00.000Z"),
-  "compost": 43.24,
-  "plastico": 15.10,
-  "otros": 2.90,
-}, {
-  "date": new Date("2019-11-01T00:00:00.000Z"),
-  "compost": 32.9,
-  "plastico": 15.10,
-  "otros": 26.90,
-}, {
-  "date": new Date("2019-12-01T00:00:00.000Z"),
-  "compost": 93.24,
-  "plastico": 35.10,
-  "otros": 22.90,
-}, {
-  "date": new Date("2019-13-01T00:00:00.000Z"),
-  "compost": 23.24,
-  "plastico": 75.10,
-  "otros": 37.90,
-}, {
-  "date": new Date("2019-14-01T00:00:00.000Z"),
-  "compost": 66.24,
-  "plastico": 65.10,
-  "otros": 55.90,
-}, {
-  "date": new Date("2019-15-01T00:00:00.000Z"),
-  "compost": 13.24,
-  "plastico": 25.10,
-  "otros": 92.90,
-}, {
-  "date": new Date("2019-16-01T00:00:00.000Z"),
-  "compost": 110.24,
-  "plastico": 4.10,
-  "otros": 17.90,
-}, {
-  "date": new Date("2019-17-01T00:00:00.000Z"),
-  "compost": 23.24,
-  "plastico": 35.10,
-  "otros": 42.90,
-}, {
-  "date": new Date("2019-18-01T00:00:00.000Z"),
-  "compost": 13.24,
-  "plastico": 25.10,
-  "otros": 3.90,
-}]

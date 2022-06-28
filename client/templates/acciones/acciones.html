@@ -52,114 +52,47 @@
         <div class="nav-tab">
           <div class="tab active" id="tab-plan">Plan de accion</div>
           <div class="tab" id="tab-reloj">Reloj</div>
-          <div class="tab" id="tab-garfico">Grafico</div>
+          <div class="tab" id="tab-grafico">Grafico</div>
           <div class="space"></div>
         </div>
         <div class="nav-content-container">
           <div class="tab-container" id="content-reloj">
             <div class="bitacora-registros">
-              <div class="registro-retiro">
-                <div class="fecha">02 may'21</div>
-                <div class="retiros">
-                  <div class="retiro">
-                    <div class="valor">15 kg</div>
-                    <div class="material">
-                      <div class="glosa">PET</div>
-                      <div class="icono">
-                        <i class="material-icons">reciclying</i>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="retiro">
-                    <div class="valor">15 kg</div>
-                    <div class="material">
-                      <div class="glosa">PET</div>
-                      <div class="icono">
-                        <i class="material-icons">reciclying</i>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="retiro">
-                    <div class="valor">15 kg</div>
-                    <div class="material">
-                      <div class="glosa">PET</div>
-                      <div class="icono">
-                        <i class="material-icons">reciclying</i>
-                      </div>
-                    </div>
-                  </div>
+              {{#each reloj}}
+              <div class="registro-retiro neuromorph rojo">
+                <div>
+                  <div class="fecha">{{formatoFecha fecha 'dddd DD/MMMM/\'YY'}}</div>
                 </div>
-                <div class="puntos">15</div>
-              </div>
-              <div class="registro-retiro">
-                <div class="fecha">02 may'21</div>
                 <div class="retiros">
-                  <div class="retiro">
-                    <div class="valor">15 kg</div>
+                  {{#each detalle}}
+                  <div class="retiro neuromorph rojo">
+                    <div class="valor">{{valor}} <small>kg</small></div>
                     <div class="material">
-                      <div class="glosa">PET</div>
+                      <div class="glosa">{{material}}</div>
                       <div class="icono">
-                        <i class="material-icons">reciclying</i>
+                        {{#if sonIguales material 'PET1'}}<i class="material-icons">recycling</i>{{/if}}
+                        {{#if sonIguales material 'VID'}}<i class="material-icons">liquor</i>{{/if}}
+                        {{#if sonIguales material 'ORG'}}<i class="material-icons">compost</i>{{/if}}
+                        {{#if sonIguales material 'CAR'}}<i class="material-icons">receipt_long</i>{{/if}}
+                        {{#if sonIguales material 'LAT'}}<img src="/img/lata.png" style="filter: invert(100%);"
+                          width="54">{{/if}}
+                        {{#if sonIguales material 'Pead2'}}<i class="material-icons">recycling</i>2{{/if}}
+                        {{#if sonIguales material 'Tetra'}}<img src="/img/tetrapack.png" style="filter: invert(100%);"
+                          width="54">{{/if}}
                       </div>
                     </div>
                   </div>
-                  <div class="retiro">
-                    <div class="valor">15 kg</div>
-                    <div class="material">
-                      <div class="glosa">PET</div>
-                      <div class="icono">
-                        <i class="material-icons">reciclying</i>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="retiro">
-                    <div class="valor">15 kg</div>
-                    <div class="material">
-                      <div class="glosa">PET</div>
-                      <div class="icono">
-                        <i class="material-icons">reciclying</i>
-                      </div>
-                    </div>
-                  </div>
+                  {{/each}}
                 </div>
-                <div class="puntos">15</div>
-              </div>
-              <div class="registro-retiro">
-                <div class="fecha">02 may'21</div>
-                <div class="retiros">
-                  <div class="retiro">
-                    <div class="valor">15 kg</div>
-                    <div class="material">
-                      <div class="glosa">PET</div>
-                      <div class="icono">
-                        <i class="material-icons">reciclying</i>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="retiro">
-                    <div class="valor">15 kg</div>
-                    <div class="material">
-                      <div class="glosa">PET</div>
-                      <div class="icono">
-                        <i class="material-icons">reciclying</i>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="retiro">
-                    <div class="valor">15 kg</div>
-                    <div class="material">
-                      <div class="glosa">PET</div>
-                      <div class="icono">
-                        <i class="material-icons">reciclying</i>
-                      </div>
-                    </div>
-                  </div>
+                <div class="barra-puntos">
+                  <div class="espacio"></div>
+                  <div class="puntos">{{puntos}}<small>pts.</small></div>
                 </div>
-                <div class="puntos">15</div>
               </div>
+              {{/each}}
             </div>
           </div>
-          <div class="tab-container" id="content-garfico">
+          <div class="tab-container" id="content-grafico">
             <div id="historical-wraper"></div>
           </div>
           <div class="tab-container" id="content-plan" style="display: block;">
@@ -207,6 +140,9 @@
                       {{#if sonIguales id 'ORG'}}<i class="material-icons">compost</i>{{/if}}
                       {{#if sonIguales id 'CAR'}}<i class="material-icons">receipt_long</i>{{/if}}
                       {{#if sonIguales id 'LAT'}}<img src="/img/lata.png" style="filter: invert(100%);"
+                        width="54">{{/if}}
+                      {{#if sonIguales id 'Pead2'}}<i class="material-icons">recycling</i>2{{/if}}
+                      {{#if sonIguales id 'Tetra'}}<img src="/img/tetrapack.png" style="filter: invert(100%);"
                         width="54">{{/if}}
                       <br />{{etiqueta}}
                     </div>

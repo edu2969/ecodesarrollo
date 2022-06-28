@@ -1,4 +1,7 @@
 import { Meteor } from 'meteor/meteor'
+import { EstadoType } from '../../lib/types/EstadoType'
+import { Acciones, Comunas } from '../../lib/collections/BaseCollections'
+import { Participaciones } from '../../lib/collections/ECODimensionesCollections'
 const { Images, Documents } = require('../../lib/collections/FilesCollections')
 const {
 	ECOOrganizaciones,
@@ -7,9 +10,6 @@ const {
 	ECOSos,
 	ECOAcciones,
 } = require('../../lib/collections/ECODimensionesCollections')
-import { EstadoType } from '../../lib/types/EstadoType'
-import { Comunas } from '../../lib/collections/BaseCollections'
-import { Participaciones } from '../../lib/collections/ECODimensionesCollections'
 
 Meteor.publish('eco_organizaciones', function () {
 	return ECOOrganizaciones.find({
@@ -73,7 +73,7 @@ Meteor.publishComposite('eco_campanas.participantes', function () {
 	let participantes = []
 	ECOCampanas.find().forEach((ecocampana: any) => {
 		const participantes = ecocampana.participantes || [];
-		participantes.forEach((participanteId)=>{
+		participantes.forEach((participanteId) => {
 			if (participantes.indexOf(participanteId) == -1) {
 				participantes.push(participanteId);
 			}
@@ -91,7 +91,7 @@ Meteor.publishComposite('eco_campanas.participantes', function () {
 	}
 });
 
-Meteor.publish('eco_campanas.participaciones', function() {
+Meteor.publish('eco_campanas.participaciones', function () {
 	return Participaciones.find();
 })
 
@@ -162,12 +162,16 @@ Meteor.publish('eco_desarrollos.documentos', function () {
 Meteor.publish('eco_acciones', function () {
 	const user = Meteor.user();
 	var query = {};
-	if(user.profile.rol != 255) {
+	if (user.profile.rol != 255) {
 		query = {
 			usuarioId: user._id
 		}
 	}
 	return ECOAcciones.find(query);
+});
+
+Meteor.publish('eco_acciones.acciones', (ecoAccionId) => {
+	return Acciones.find({ ecoAccionId });
 });
 
 Meteor.publish('eco_acciones.donaciones', function () {

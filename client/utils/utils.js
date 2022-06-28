@@ -38,15 +38,21 @@ export const UIUtils = {
 }
 // este ulilitario recibe y recorre el formulario ,luego  lo deja en un arreglo Json doc.
 export const FormUtils = {
-  getFields: () => {
+  getFields: (selectorPrincipal) => {
     let doc = {};
-    $(".formulario .campo").each((indice, campo) => {
+    $((selectorPrincipal ? selectorPrincipal + " " : "") + ".formulario .campo").each((indice, campo) => {
       const id = campo.id
-      const nombreCampo = id.split("-")[1]
+      const nombreCampo = id.split("-")[1];
+      const tipo = campo.attributes["type"].value;
+      console.log(campo, campo.attributes, campo.attributeList, tipo);
       const clases = campo.classList.value
       if (clases && clases.indexOf('datetime-componente') != -1) {
         doc[nombreCampo] = moment(campo.value, 'DD/MM/YYYY').toDate()
-      } else doc[nombreCampo] = campo.value
+      } else if (tipo == 'number') {
+        doc[nombreCampo] = Number(campo.value);
+      } else {
+        doc[nombreCampo] = campo.value;
+      }
     })
     $(".formulario .caluga").each((indice, campo) => {
       const seleccionado = campo.classList.value.indexOf('seleccionado') != -1
@@ -67,9 +73,9 @@ export const FormUtils = {
     console.log(doc);
     return doc;
   },
-  invalid() {
+  invalid(selectorPrincipal) {
     let doc = {}
-    $(".formulario .campo").each((indice, campo) => {
+    $((selectorPrincipal ? selectorPrincipal + " " : "") + ".formulario .campo").each((indice, campo) => {
       const id = campo.id
       const required = campo.attributes["required"]
       if (required) {
